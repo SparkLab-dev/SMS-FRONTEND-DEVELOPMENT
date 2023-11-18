@@ -10,13 +10,14 @@ import OutletPage from "Components/Outletpage/Outletpage.component";
 import ResetPassword from "Pages/Authentication/ResetPassword/ResetPassword.component";
 import ForgotPassword from "Pages/Authentication/ForgotPassword/ForgotPassword.component";
 
+
 const App: FC<{}> = () => {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="" element={<OutletPage />}>
-            <Route path="/" element={<Login />} />
+          <Route path="/" element={<OutletPage />}>
+            <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/newpassword" element={<NewPassword />} />
             <Route path="/resetpassword" element={<ResetPassword />} />

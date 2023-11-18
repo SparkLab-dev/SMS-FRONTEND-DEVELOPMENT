@@ -47,9 +47,9 @@ const Login: FC<{}> = () => {
         </InputsHolder>
         <GenericButton name="Submit" />
         <DontHaveAccountHold>
-          <Paragraph>Don't have an account?</Paragraph>
+          <Paragraph>Create an account? </Paragraph>
           <LinkTo to="/register">
-            <Paragraph>Register!</Paragraph>
+            <Paragraph> Click here!</Paragraph>
           </LinkTo>
         </DontHaveAccountHold>
       </StyledForm>

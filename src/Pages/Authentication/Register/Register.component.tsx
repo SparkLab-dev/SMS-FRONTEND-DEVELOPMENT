@@ -53,26 +53,14 @@ const Register: FC<{}> = () => {
           </InputContainer>
           <InputContainer>
             <GenericInput
-              placeholder="Phone number"
-              input_label="Phone Number"
+              placeholder="Username"
+              input_label="Username"
               required={true}
               type="number"
             />
           </InputContainer>
         </InputsHolder>
-        <InputsHolder>
-          <InputContainer>
-            <GenericInput input_label="Birthday" required={true} type="date" />
-          </InputContainer>
-          <InputContainer>
-            <GenericInput
-              placeholder="Location"
-              input_label="Location"
-              required={true}
-              type="text"
-            />
-          </InputContainer>
-        </InputsHolder>
+
         <InputContainer>
           <LabelDescriptionContainer>Role</LabelDescriptionContainer>
           <StyledSelect />
@@ -80,7 +68,7 @@ const Register: FC<{}> = () => {
         <GenericButton name="Submit" />
         <RegisterDontHaveAccountHold>
           <RegParagraph>Already have an account?</RegParagraph>
-          <LinkTo to="/">
+          <LinkTo to="/login">
             <RegParagraph>Login!</RegParagraph>
           </LinkTo>
         </RegisterDontHaveAccountHold>
