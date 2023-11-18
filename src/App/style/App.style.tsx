@@ -289,3 +289,8 @@ export const LinkTo = styled(Link)`
   font-size: 15px;
   font-family: "Poopins";
 `;
+export const ButtonHolder = styled.div`
+  width: 100%;
+  max-width: 300px;
+  margin: auto;
+`;

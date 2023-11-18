@@ -3,6 +3,7 @@ import { FC, useState } from "react";
 //style
 import {
   Button,
+  ButtonHolder,
   FormName,
   Input,
   InputGroup,
@@ -15,7 +16,6 @@ import {
 import {
   DontHaveAccountHold,
   InputsHolder,
-  LoginButtonHolder,
   Paragraph,
 } from "./style/Login.style";
 
@@ -31,7 +31,7 @@ const Login: FC<{}> = () => {
   return (
     <>
       <StyledForm>
-        <FormName>Log in </FormName>
+        <FormName>Log in</FormName>
         <InputsHolder>
           <LabelDescriptionContainer>Email</LabelDescriptionContainer>
           <Input placeholder="Email" type="email" />
@@ -46,9 +46,9 @@ const Login: FC<{}> = () => {
             </ToggleButton>
           </InputGroup>
         </InputsHolder>
-        <LoginButtonHolder>
+        <ButtonHolder>
           <Button>Login</Button>
-        </LoginButtonHolder>
+        </ButtonHolder>
         <DontHaveAccountHold>
           <Paragraph>Don't have an account?</Paragraph>
           <LinkTo to="/register">
