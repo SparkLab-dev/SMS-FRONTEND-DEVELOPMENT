@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 
 //style
-import { NewPassInputsHolder } from "./style/NewPassword.style";
+import { ResetPassInputsHolder } from "./style/ResetPassword.style";
 import { FormName, StyledForm } from "App/style/App.style";
 
 //mui-icons
@@ -12,7 +12,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import GenericButton from "Components/GenericButton/GenericButton.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 
-const NewPassword: FC<{}> = () => {
+const ResetPassword: FC<{}> = () => {
   const [newPassword, setNewPassword] = useState(true);
   const [confirmNewPassword, setConfirmNewPassword] = useState(true);
   const changeIcon = () => {
@@ -24,8 +24,8 @@ const NewPassword: FC<{}> = () => {
   return (
     <>
       <StyledForm>
-        <FormName>New Password</FormName>
-        <NewPassInputsHolder>
+        <FormName>Reset Password</FormName>
+        <ResetPassInputsHolder>
           <GenericInput
             placeholder="New Password"
             input_label="New Password"
@@ -38,8 +38,8 @@ const NewPassword: FC<{}> = () => {
             }
           />
           <GenericInput
-            placeholder="Confirm Password"
-            input_label="Confirm Password"
+            placeholder="New Password Confirmation"
+            input_label="New Password Confirmation"
             required={true}
             type={confirmNewPassword ? "password" : "text"}
             onClickIcon={changeConfirmNewPasswordIcon}
@@ -48,11 +48,11 @@ const NewPassword: FC<{}> = () => {
               confirmNewPassword ? <VisibilityOffIcon /> : <VisibilityIcon />
             }
           />
-        </NewPassInputsHolder>
+        </ResetPassInputsHolder>
         <GenericButton name="Submit" />
       </StyledForm>
     </>
   );
 };
 
-export default NewPassword;
+export default ResetPassword;

@@ -1,9 +1,8 @@
 import { FC } from "react";
+
 //style
 import {
-  Button,
   FormName,
-  Input,
   LabelDescriptionContainer,
   LinkTo,
   StyledForm,
@@ -13,9 +12,12 @@ import {
   InputContainer,
   InputsHolder,
   RegParagraph,
-  RegisterButtonHolder,
   RegisterDontHaveAccountHold,
 } from "./style/Register.style";
+
+//components
+import GenericInput from "Components/GenericInput/GenericInput.component";
+import GenericButton from "Components/GenericButton/GenericButton.component";
 
 const Register: FC<{}> = () => {
   return (
@@ -24,39 +26,58 @@ const Register: FC<{}> = () => {
         <FormName>Register</FormName>
         <InputsHolder>
           <InputContainer>
-            <LabelDescriptionContainer>FirstName</LabelDescriptionContainer>
-            <Input placeholder="Firstname" type="text" />
+            <GenericInput
+              placeholder="Firstname"
+              input_label="FirstName"
+              required={true}
+              type="text"
+            />
           </InputContainer>
           <InputContainer>
-            <LabelDescriptionContainer>LastName</LabelDescriptionContainer>
-            <Input placeholder="Lastname" type="text" />
+            <GenericInput
+              placeholder="Lastname"
+              input_label="LastName"
+              required={true}
+              type="text"
+            />
           </InputContainer>
         </InputsHolder>
         <InputsHolder>
           <InputContainer>
-            <LabelDescriptionContainer>Email</LabelDescriptionContainer>
-            <Input placeholder="Email" type="email" />
+            <GenericInput
+              placeholder="Email"
+              input_label="Email"
+              required={true}
+              type="text"
+            />
           </InputContainer>
           <InputContainer>
-            <LabelDescriptionContainer>Phone Number</LabelDescriptionContainer>
-            <Input placeholder="Phone number" type="number" />
+            <GenericInput
+              placeholder="Phone number"
+              input_label="Phone Number"
+              required={true}
+              type="number"
+            />
           </InputContainer>
         </InputsHolder>
         <InputsHolder>
           <InputContainer>
-            <LabelDescriptionContainer>Birthday</LabelDescriptionContainer>
-            <Input placeholder="Birthday" type="date" />
+            <GenericInput input_label="Birthday" required={true} type="date" />
           </InputContainer>
           <InputContainer>
-            <LabelDescriptionContainer>Location</LabelDescriptionContainer>
-            <Input placeholder="Location" type="text" />
+            <GenericInput
+              placeholder="Location"
+              input_label="Location"
+              required={true}
+              type="text"
+            />
           </InputContainer>
         </InputsHolder>
-        <LabelDescriptionContainer>Role</LabelDescriptionContainer>
-        <StyledSelect />
-        <RegisterButtonHolder>
-          <Button>Register</Button>
-        </RegisterButtonHolder>
+        <InputContainer>
+          <LabelDescriptionContainer>Role</LabelDescriptionContainer>
+          <StyledSelect />
+        </InputContainer>
+        <GenericButton name="Submit" />
         <RegisterDontHaveAccountHold>
           <RegParagraph>Already have an account?</RegParagraph>
           <LinkTo to="/">

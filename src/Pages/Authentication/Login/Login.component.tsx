@@ -1,18 +1,7 @@
 import { FC, useState } from "react";
 
 //style
-import {
-  Button,
-  ButtonHolder,
-  FormName,
-  Input,
-  InputGroup,
-  LabelDescriptionContainer,
-  LinkTo,
-  PasswordInput,
-  StyledForm,
-  ToggleButton,
-} from "App/style/App.style";
+import { FormName, LinkTo, StyledForm } from "App/style/App.style";
 import {
   DontHaveAccountHold,
   InputsHolder,
@@ -23,32 +12,40 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
+//components
+import GenericInput from "Components/GenericInput/GenericInput.component";
+import GenericButton from "Components/GenericButton/GenericButton.component";
+
 const Login: FC<{}> = () => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const [typePassword, setTypePassword] = useState(true);
+
+  const changeIcon = () => {
+    setTypePassword(!typePassword);
   };
   return (
     <>
       <StyledForm>
         <FormName>Log in</FormName>
         <InputsHolder>
-          <LabelDescriptionContainer>Email</LabelDescriptionContainer>
-          <Input placeholder="Email" type="email" />
-          <LabelDescriptionContainer>Password</LabelDescriptionContainer>
-          <InputGroup>
-            <PasswordInput
-              placeholder="Password"
-              type={showPassword ? "text" : "password"}
-            />
-            <ToggleButton type="button" onClick={togglePasswordVisibility}>
-              {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-            </ToggleButton>
-          </InputGroup>
+          <GenericInput
+            placeholder="Email"
+            input_label="Email"
+            required={true}
+            type="text"
+          />
+          <GenericInput
+            placeholder="Password"
+            input_label="Password"
+            required={true}
+            type={typePassword ? "password" : "text"}
+            onClickIcon={changeIcon}
+            isPassword={true}
+            passwordIcon={
+              typePassword ? <VisibilityOffIcon /> : <VisibilityIcon />
+            }
+          />
         </InputsHolder>
-        <ButtonHolder>
-          <Button>Login</Button>
-        </ButtonHolder>
+        <GenericButton name="Submit" />
         <DontHaveAccountHold>
           <Paragraph>Don't have an account?</Paragraph>
           <LinkTo to="/register">

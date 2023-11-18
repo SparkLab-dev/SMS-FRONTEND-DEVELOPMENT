@@ -6,15 +6,22 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "Pages/Authentication/Login/Login.component";
 import Register from "Pages/Authentication/Register/Register.component";
 import NewPassword from "Pages/Authentication/NewPassword/NewPassword.component";
+import OutletPage from "Components/Outletpage/Outletpage.component";
+import ResetPassword from "Pages/Authentication/ResetPassword/ResetPassword.component";
+import ForgotPassword from "Pages/Authentication/ForgotPassword/ForgotPassword.component";
 
 const App: FC<{}> = () => {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/newpassword" element={<NewPassword />} />
+          <Route path="" element={<OutletPage />}>
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/newpassword" element={<NewPassword />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

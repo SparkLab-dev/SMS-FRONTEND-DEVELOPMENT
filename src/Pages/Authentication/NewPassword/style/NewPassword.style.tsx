@@ -5,7 +5,7 @@ export const AllPage = styled.div`
   display: flex;
   justify-content: center;
 `;
-export const NewPaswordForm = styled.div`
+export const NewPasswordForm = styled.div`
   width: 50%;
   height: 65%;
   min-height: 600px;
@@ -17,3 +17,4 @@ export const NewPaswordForm = styled.div`
   margin-top: auto;
   margin-bottom: auto;
 `;
+export const NewPassInputsHolder=styled.div``

@@ -17,6 +17,9 @@ export const RegParagraph = styled.p`
 export const InputsHolder = styled.div`
   display: flex;
   width: 100%;
+  @media (max-width: 768px) {
+    display: block;
+  }
 `;
 export const InputContainer = styled.div`
   flex: 1;
