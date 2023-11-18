@@ -1,27 +1,37 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 // style
-import { Input } from "./style/App.style";
 
+import GenericInput from "GenericInput/GenericInput.component";
+//mui-icons
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import Button from "Button/Button.component";
 const App: FC<{}> = () => {
+  const [typePassword, setTypePassword] = useState(true);
+
+  const changeIcon = () => {
+    setTypePassword(!typePassword);
+  };
   return (
     <>
-      <Input
-        placeholder="Firstname"
-        type="text"
-        fontSize="12px"
-        borderbottomrightradius="20px"
-        bordertoprightradius="20px"
-        border="none"
-        width="100%"
-        height="45px"
-        backgroundcolor="#FFFFFF"
-        borderradius="10px"
-        paddingleft="5px"
-        padding="0 10px"
-        margin=" 5px 0 15px 0px"
+      <h1>Login</h1>
+      <GenericInput
+        placeholder="Email"
+        input_label="Email"
         required={true}
+        type="text"
       />
+      <GenericInput
+        placeholder="Password"
+        input_label="Password"
+        required={true}
+        type={typePassword ? "password" : "text"}
+        onClickIcon={changeIcon}
+        isPassword={true}
+        passwordIcon={typePassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+      />
+      <Button name="Submit" />
     </>
   );
 };
