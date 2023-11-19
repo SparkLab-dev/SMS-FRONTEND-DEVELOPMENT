@@ -7,7 +7,7 @@ interface ButtonProps {
   name?: string;
   type?: "button" | "reset" | "submit";
   disabled?: boolean;
-  onClick?: (value?: string) => void;
+  onClick?: any;
   value?: string;
 }
 const GenericButton: FC<ButtonProps> = (props) => {
