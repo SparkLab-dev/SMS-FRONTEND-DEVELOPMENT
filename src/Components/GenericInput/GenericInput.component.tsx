@@ -20,6 +20,8 @@ interface InputProps {
   name?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   handleFocus?: (e: FocusEvent<HTMLInputElement>) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
   label?: string;
   placeholder?: string;
   value?: any;
@@ -57,6 +59,7 @@ const GenericInput: FC<InputProps> = (props) => {
             name={props.name}
             onChange={props.onChange}
             onBlur={props.handleFocus}
+            onFocus={props.onFocus}
             placeholder={props.placeholder}
             value={props.value}
             pattern={props.pattern}

@@ -45,6 +45,7 @@ const Login: FC<{}> = () => {
             }
           />
         </InputsHolder>
+
         <GenericButton name="Submit" />
         <DontHaveAccountHold>
           <Paragraph>Create an account? </Paragraph>
