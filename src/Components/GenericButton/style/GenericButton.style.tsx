@@ -28,4 +28,8 @@ export const ButtonCont = styled.button`
     color: #0e53c5;
     border: 0;
   }
+  &:disabled {
+    opacity: 0.6;
+    filter: saturate(60%);
+  }
 `;

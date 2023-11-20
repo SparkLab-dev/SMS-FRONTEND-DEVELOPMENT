@@ -11,16 +11,16 @@ interface ButtonProps {
   value?: string;
 }
 const GenericButton: FC<ButtonProps> = (props) => {
-  const handleClick = () => {
-    if (props.onClick) {
-      props.onClick(props.value);
-    }
-  };
+  // const handleClick = () => {
+  //   if (props.onClick) {
+  //     props.onClick(props.value);
+  //   }
+  // };
   return (
     <>
       <ButtonHolder>
         <ButtonCont
-          onClick={handleClick}
+          onClick={props.onClick}
           type={props.type}
           disabled={props.disabled}
         >
