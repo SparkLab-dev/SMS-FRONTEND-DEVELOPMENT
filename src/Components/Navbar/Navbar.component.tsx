@@ -12,10 +12,24 @@ import {
   NavbarLogo,
   UnorderedList,
 } from "./style/Navbar.style";
+import { useNavigate } from "react-router";
 
 const Navbar: FC<{}> = () => {
+  const navigate=useNavigate()
   const [menu, setMenu] = useState("shop");
   const Shop = require("./assets/shop.png") as string;
+
+  //logout call
+  const logout = (): void => {
+    try {
+      localStorage.clear();
+      navigate("/login")
+      // window.location.reload();
+      console.log("localStorage cleared successfully.");
+    } catch (error) {
+      console.error("Error clearing localStorage:", error);
+    }
+  };
   return (
     <Header>
       <NavbarLogo>
@@ -29,13 +43,13 @@ const Navbar: FC<{}> = () => {
         <NavLink to="/register" onClick={() => setMenu("bicycle")}>
           <ListItem>Register{menu === "bicycle" ? <HR /> : <></>}</ListItem>
         </NavLink>
-        <NavLink to="/newpassword" onClick={() => setMenu("cellphone")}>
+        <NavLink to="/resetpassword" onClick={() => setMenu("cellphone")}>
           <ListItem>
-            New Password{menu === "cellphone" ? <HR /> : <></>}
+            Reset Password{menu === "cellphone" ? <HR /> : <></>}
           </ListItem>
         </NavLink>
       </UnorderedList>
-      <LogoutButton>Log out</LogoutButton>
+      <LogoutButton onClick={logout}>Log out</LogoutButton>
     </Header>
   );
 };

@@ -7,20 +7,20 @@ interface ButtonProps {
   name?: string;
   type?: "button" | "reset" | "submit";
   disabled?: boolean;
-  onClick?: (value?: string) => void;
+  onClick?: any;
   value?: string;
 }
 const GenericButton: FC<ButtonProps> = (props) => {
-  const handleClick = () => {
-    if (props.onClick) {
-      props.onClick(props.value);
-    }
-  };
+  // const handleClick = () => {
+  //   if (props.onClick) {
+  //     props.onClick(props.value);
+  //   }
+  // };
   return (
     <>
       <ButtonHolder>
         <ButtonCont
-          onClick={handleClick}
+          onClick={props.onClick}
           type={props.type}
           disabled={props.disabled}
         >

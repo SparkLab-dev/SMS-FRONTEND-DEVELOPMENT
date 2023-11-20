@@ -109,6 +109,15 @@ export const ButtonHolder = styled.div`
   max-width: 300px;
   margin: auto;
 `;
+
+export const Warning = styled.p`
+  color: red;
+  font-family: "Poppins";
+  font-size: 11px;
+  text-align: left;
+  margin: 0;
+  font-weight: 600;
+`;
 //generic input
 // interface InputProps {
 //   label?: string;

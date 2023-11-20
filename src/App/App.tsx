@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// style
 
 //components
 import Login from "Pages/Authentication/Login/Login.component";
@@ -10,7 +9,6 @@ import OutletPage from "Components/Outletpage/Outletpage.component";
 import ResetPassword from "Pages/Authentication/ResetPassword/ResetPassword.component";
 import ForgotPassword from "Pages/Authentication/ForgotPassword/ForgotPassword.component";
 
-
 const App: FC<{}> = () => {
   return (
     <>
@@ -19,8 +17,14 @@ const App: FC<{}> = () => {
           <Route path="/" element={<OutletPage />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/newpassword" element={<NewPassword />} />
-            <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route
+              path="auth/sms/registration/:token"
+              element={<NewPassword />}
+            />
+            <Route
+              path="/SMS/resetPassword/:token"
+              element={<ResetPassword />}
+            />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
           </Route>
         </Routes>

@@ -1,8 +1,9 @@
 import { FC, useState } from "react";
+// import { useNavigate } from "react-router";
 
 //style
 import { ResetPassInputsHolder } from "./style/ResetPassword.style";
-import { FormName, StyledForm } from "App/style/App.style";
+import { FormName, StyledForm, Warning } from "App/style/App.style";
 
 //mui-icons
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -12,14 +13,51 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import GenericButton from "Components/GenericButton/GenericButton.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 
+//redux
+import { AppDispatch } from "redux/store";
+import { useDispatch } from "react-redux";
+import { resetPassword } from "redux/Authentication/ResetPassword/ResetPasswordSlice";
+
 const ResetPassword: FC<{}> = () => {
-  const [newPassword, setNewPassword] = useState(true);
-  const [confirmNewPassword, setConfirmNewPassword] = useState(true);
+  // const navigate = useNavigate();
+  const [resetPasswordState, setResetPasswordState] = useState<string>("");
+  const [confirmResetPassword, setConfirmResetPassword] = useState<string>("");
+  const [showNewPassword, setShowNewPassword] = useState(true);
+  const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(true);
+  const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
+
+  const dispatch: AppDispatch = useDispatch();
+
+  //api call
+  const handleResetPassClick = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    if (resetPasswordState !== confirmResetPassword) {
+      setPasswordsMatch(false);
+      return;
+    }
+    setPasswordsMatch(true);
+
+    const password = {
+      password: resetPasswordState,
+    };
+    try {
+      const response = await dispatch(resetPassword(password));
+      if (resetPassword.fulfilled.match(response)) {
+        console.log(response);
+        // navigate("/login");
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   const changeIcon = () => {
-    setNewPassword(!newPassword);
+    setShowNewPassword(!showNewPassword);
   };
   const changeConfirmNewPasswordIcon = () => {
-    setConfirmNewPassword(!confirmNewPassword);
+    setShowConfirmNewPassword(!showConfirmNewPassword);
   };
   return (
     <>
@@ -30,26 +68,41 @@ const ResetPassword: FC<{}> = () => {
             placeholder="New Password"
             input_label="New Password"
             required={true}
-            type={newPassword ? "password" : "text"}
+            type={showNewPassword ? "password" : "text"}
             onClickIcon={changeIcon}
             isPassword={true}
             passwordIcon={
-              newPassword ? <VisibilityOffIcon /> : <VisibilityIcon />
+              showNewPassword ? <VisibilityOffIcon /> : <VisibilityIcon />
+            }
+            value={resetPasswordState}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setResetPasswordState(e.target.value)
             }
           />
           <GenericInput
             placeholder="New Password Confirmation"
             input_label="New Password Confirmation"
             required={true}
-            type={confirmNewPassword ? "password" : "text"}
+            type={showConfirmNewPassword ? "password" : "text"}
             onClickIcon={changeConfirmNewPasswordIcon}
             isPassword={true}
             passwordIcon={
-              confirmNewPassword ? <VisibilityOffIcon /> : <VisibilityIcon />
+              showConfirmNewPassword ? (
+                <VisibilityOffIcon />
+              ) : (
+                <VisibilityIcon />
+              )
+            }
+            value={confirmResetPassword}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setConfirmResetPassword(e.target.value)
             }
           />
         </ResetPassInputsHolder>
-        <GenericButton name="Submit" />
+        {!passwordsMatch && (
+          <Warning>Passwords do not match. Please try again!</Warning>
+        )}
+        <GenericButton name="Submit" onClick={handleResetPassClick} />
       </StyledForm>
     </>
   );
