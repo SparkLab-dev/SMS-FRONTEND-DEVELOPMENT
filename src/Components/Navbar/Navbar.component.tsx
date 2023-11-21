@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useNavigate } from "react-router";
 
 //style
 import {
@@ -7,15 +8,17 @@ import {
   ListItem,
   LogoName,
   LogoutButton,
+  NavCartCount,
   NavImage,
   NavLink,
+  NavLoginCart,
   NavbarLogo,
+  ShoppingCart,
   UnorderedList,
 } from "./style/Navbar.style";
-import { useNavigate } from "react-router";
 
 const Navbar: FC<{}> = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const [menu, setMenu] = useState("shop");
   const Shop = require("./assets/shop.png") as string;
 
@@ -23,7 +26,7 @@ const Navbar: FC<{}> = () => {
   const logout = (): void => {
     try {
       localStorage.clear();
-      navigate("/login")
+      navigate("/login");
       // window.location.reload();
       console.log("localStorage cleared successfully.");
     } catch (error) {
@@ -37,19 +40,26 @@ const Navbar: FC<{}> = () => {
         <LogoName>SMS</LogoName>
       </NavbarLogo>
       <UnorderedList>
-        <NavLink to="/login" onClick={() => setMenu("shop")}>
-          <ListItem>Login{menu === "shop" ? <HR /> : <></>}</ListItem>
+        <NavLink to="/home" onClick={() => setMenu("shop")}>
+          <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
         </NavLink>
+        {/* <NavLink to="/login" onClick={() => setMenu("shop")}>
+          <ListItem>Login{menu === "shop" ? <HR /> : <></>}</ListItem>
+        </NavLink> */}
         <NavLink to="/register" onClick={() => setMenu("bicycle")}>
           <ListItem>Register{menu === "bicycle" ? <HR /> : <></>}</ListItem>
         </NavLink>
-        <NavLink to="/resetpassword" onClick={() => setMenu("cellphone")}>
+        {/* <NavLink to="/resetpassword" onClick={() => setMenu("cellphone")}>
           <ListItem>
             Reset Password{menu === "cellphone" ? <HR /> : <></>}
           </ListItem>
-        </NavLink>
+        </NavLink> */}
       </UnorderedList>
-      <LogoutButton onClick={logout}>Log out</LogoutButton>
+      <NavLoginCart>
+        <LogoutButton onClick={logout}>Log out</LogoutButton>
+        <ShoppingCart style={{ fontSize: "30px" }} />
+        <NavCartCount>0</NavCartCount>
+      </NavLoginCart>
     </Header>
   );
 };
