@@ -13,18 +13,39 @@ import { RegPasswordState } from "redux/Authentication/NewPassword/NewPasswordSl
 import newPasswordSlice from "redux/Authentication/NewPassword/NewPasswordSlice";
 import { ResetPasswordState } from "redux/Authentication/ResetPassword/ResetPasswordSlice";
 import resetPasswordSlice from "redux/Authentication/ResetPassword/ResetPasswordSlice";
+import productCategorySlice from "redux/Pages/ProductCategory/ProductCategorySlice";
+import { ProductsPropsState } from "redux/Pages/ProductCategory/ProductCategorySlice";
+import { ShopProductPropsState } from "redux/Pages/ShopCategory/ShopCategorySlice";
+import shopProductSlice from "redux/Pages/ShopCategory/ShopCategorySlice";
+import { ProductImageState } from "redux/Pages/ImageCategory/ImageCategorySlice";
+import imageCategorySlice from "redux/Pages/ImageCategory/ImageCategorySlice";
+import { ProductState } from "redux/Pages/Product/ProductSlice";
+import productSlice from "redux/Pages/Product/ProductSlice";
 
 type RootState = {
   login: LoginState;
   register: AuthRegState;
   newPassword: RegPasswordState;
   resetPassword: ResetPasswordState;
+  products: ProductsPropsState;
+  shopProducts: ShopProductPropsState;
+  imageCategory: ProductImageState;
+  product: ProductState;
 };
 const persistConfig = {
   key: "root",
   storage: storage,
   stateReconciler: autoMergeLevel2,
-  whitelist: ["login", "register", "newPassword", "resetPassword"],
+  whitelist: [
+    "login",
+    "register",
+    "newPassword",
+    "resetPassword",
+    "products",
+    "shopProducts",
+    "imageCategory",
+    "product",
+  ],
 };
 
 const rootReducer = combineReducers({
@@ -32,6 +53,10 @@ const rootReducer = combineReducers({
   register: registerSlice,
   newPassword: newPasswordSlice,
   resetPassword: resetPasswordSlice,
+  products: productCategorySlice,
+  shopProducts: shopProductSlice,
+  imageCategory: imageCategorySlice,
+  product: productSlice,
 });
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 const store = configureStore({
@@ -44,6 +69,10 @@ const store = configureStore({
           "user/registerUser/fulfilled",
           "user/newPassword/fulfilled",
           "user/resetPassword/fulfilled",
+          "user/productCategory/fulfilled",
+          "user/shopProductCategory/fulfilled",
+          "user/imageCategory/fulfilled",
+          "user/productProp/fulfilled",
           "persist/PERSIST",
         ],
       },

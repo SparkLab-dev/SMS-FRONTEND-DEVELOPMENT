@@ -3,7 +3,15 @@ import styled from "styled-components";
 //react-router-dom
 import { Link } from "react-router-dom";
 
+//mui-icons
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+
 export const Header = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
   display: flex;
   justify-content: space-around;
   padding: 16px;
@@ -68,12 +76,16 @@ export const NavLink = styled(Link)`
   font-family: "Poppins";
   cursor: pointer;
 `;
-
+export const NavLoginCart = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 45px;
+`;
 export const LogoutButton = styled.button`
   /* background-color: #ffff; */
-  background-color: #0e53c5;
+  /* background-color: #0e53c5; */
   /* color: black; */
-  color: #ffff;
+  /* color: #ffff;
   border: 1px solid;
   border-color: #ffff;
   padding: 8px 26px;
@@ -84,8 +96,37 @@ export const LogoutButton = styled.button`
   font-weight: 400;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 10px; */
+
+  width: 110px;
+  height: 45px;
+  outline: none;
+  border: 1px solid #7a7a7a;
+  border-radius: 75px;
+  color: #515151;
+  font-size: 18px;
+  font-weight: 500;
+  background-color: white;
+  cursor: pointer;
   &:hover {
-    background-color: #cfdeff;
+    background-color: #f3f3f3;
   }
+`;
+
+export const ShoppingCart = styled(ShoppingCartIcon)`
+  font-size: large;
+`;
+export const NavCartCount = styled.div`
+  width: 16px;
+  height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 12px;
+  margin-top: -25px;
+  margin-left: -52px;
+  border-radius: 14px;
+  background-color: red;
+  color: white;
 `;
