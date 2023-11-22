@@ -11,6 +11,7 @@ import ForgotPassword from "Pages/Authentication/ForgotPassword/ForgotPassword.c
 import Home from "Pages/Home/Home.component";
 import ShopCategory from "Pages/ShopCategory/ShopCategory.component";
 import Product from "Pages/Product/Product.component";
+import ProductForm from "Containers/ProductForm/ProductForm.component";
 
 const App: FC<{}> = () => {
   return (
@@ -32,6 +33,7 @@ const App: FC<{}> = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/shopcategory/:id" element={<ShopCategory />} />
             <Route path="/product/:id" element={<Product />} />
+            <Route path="/productForm" element={<ProductForm />} />
           </Route>
         </Routes>
       </BrowserRouter>

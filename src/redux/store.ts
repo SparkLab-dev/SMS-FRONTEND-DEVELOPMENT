@@ -21,7 +21,8 @@ import { ProductImageState } from "redux/Pages/ImageCategory/ImageCategorySlice"
 import imageCategorySlice from "redux/Pages/ImageCategory/ImageCategorySlice";
 import { ProductState } from "redux/Pages/Product/ProductSlice";
 import productSlice from "redux/Pages/Product/ProductSlice";
-
+import { ProductFormState } from "redux/Containers/ProductForm/ProductFormSlice";
+import productFormSlice from "redux/Containers/ProductForm/ProductFormSlice";
 type RootState = {
   login: LoginState;
   register: AuthRegState;
@@ -31,6 +32,7 @@ type RootState = {
   shopProducts: ShopProductPropsState;
   imageCategory: ProductImageState;
   product: ProductState;
+  productForm: ProductFormState;
 };
 const persistConfig = {
   key: "root",
@@ -45,6 +47,7 @@ const persistConfig = {
     "shopProducts",
     "imageCategory",
     "product",
+    "productForm",
   ],
 };
 
@@ -57,6 +60,7 @@ const rootReducer = combineReducers({
   shopProducts: shopProductSlice,
   imageCategory: imageCategorySlice,
   product: productSlice,
+  productForm: productFormSlice,
 });
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 const store = configureStore({
@@ -73,6 +77,7 @@ const store = configureStore({
           "user/shopProductCategory/fulfilled",
           "user/imageCategory/fulfilled",
           "user/productProp/fulfilled",
+          "user/productForm/fulfilled",
           "persist/PERSIST",
         ],
       },
