@@ -2,7 +2,10 @@ import { FC, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 //style
-import { ShopCategoryProducts } from "./style/ShopCategory.style";
+import {
+  ItemContainer,
+  ShopCategoryProducts,
+} from "./style/ShopCategory.style";
 
 //components
 import Item from "Components/Item/Item.component";
@@ -62,14 +65,14 @@ const ShopCategory: FC<{}> = () => {
       <ShopCategoryProducts>
         {shopCategory.map((item: any, index: any) => {
           return (
-            <div key={index} onClick={() => handleProductClick(item)}>
+            <ItemContainer key={index} onClick={() => handleProductClick(item)}>
               <Item
                 id={item.id}
                 image={item.primaryImage}
                 price={item.price}
                 description={item.description}
               />
-            </div>
+            </ItemContainer>
           );
         })}
       </ShopCategoryProducts>

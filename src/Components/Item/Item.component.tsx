@@ -1,12 +1,7 @@
 import { FC } from "react";
 
 //style
-import {
-  Image,
-  ItemPriceNew,
-  ItemPriceOld,
-  ItemPrices,
-} from "./style/Item.style";
+import { Image, ItemPriceNew, ItemPrices } from "./style/Item.style";
 
 interface ItemProps {
   id?: number;
@@ -31,7 +26,6 @@ const Item: FC<ItemProps> = (props) => {
       <p>{props.description}</p>
       <ItemPrices>
         {props.price && <ItemPriceNew>{props.price} $</ItemPriceNew>}
-        {/* <ItemPriceOld>{props.description}</ItemPriceOld> */}
       </ItemPrices>
     </div>
   );
