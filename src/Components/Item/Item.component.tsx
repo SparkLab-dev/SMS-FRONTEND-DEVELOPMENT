@@ -30,8 +30,8 @@ const Item: FC<ItemProps> = (props) => {
       )}
       <p>{props.description}</p>
       <ItemPrices>
-        <ItemPriceNew>{props.price}</ItemPriceNew>
-        <ItemPriceOld>{props.description}</ItemPriceOld>
+        {props.price && <ItemPriceNew>{props.price} $</ItemPriceNew>}
+        {/* <ItemPriceOld>{props.description}</ItemPriceOld> */}
       </ItemPrices>
     </div>
   );

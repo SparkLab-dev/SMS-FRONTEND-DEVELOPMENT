@@ -13,12 +13,15 @@ import { RegPasswordState } from "redux/Authentication/NewPassword/NewPasswordSl
 import newPasswordSlice from "redux/Authentication/NewPassword/NewPasswordSlice";
 import { ResetPasswordState } from "redux/Authentication/ResetPassword/ResetPasswordSlice";
 import resetPasswordSlice from "redux/Authentication/ResetPassword/ResetPasswordSlice";
-import productSlice from "redux/Pages/ProductCategory/ProductCategorySlice";
+import productCategorySlice from "redux/Pages/ProductCategory/ProductCategorySlice";
 import { ProductsPropsState } from "redux/Pages/ProductCategory/ProductCategorySlice";
 import { ShopProductPropsState } from "redux/Pages/ShopCategory/ShopCategorySlice";
 import shopProductSlice from "redux/Pages/ShopCategory/ShopCategorySlice";
 import { ProductImageState } from "redux/Pages/ImageCategory/ImageCategorySlice";
 import imageCategorySlice from "redux/Pages/ImageCategory/ImageCategorySlice";
+import { ProductState } from "redux/Pages/Product/ProductSlice";
+import productSlice from "redux/Pages/Product/ProductSlice";
+
 type RootState = {
   login: LoginState;
   register: AuthRegState;
@@ -27,6 +30,7 @@ type RootState = {
   products: ProductsPropsState;
   shopProducts: ShopProductPropsState;
   imageCategory: ProductImageState;
+  product: ProductState;
 };
 const persistConfig = {
   key: "root",
@@ -40,6 +44,7 @@ const persistConfig = {
     "products",
     "shopProducts",
     "imageCategory",
+    "product",
   ],
 };
 
@@ -48,9 +53,10 @@ const rootReducer = combineReducers({
   register: registerSlice,
   newPassword: newPasswordSlice,
   resetPassword: resetPasswordSlice,
-  products: productSlice,
+  products: productCategorySlice,
   shopProducts: shopProductSlice,
   imageCategory: imageCategorySlice,
+  product: productSlice,
 });
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 const store = configureStore({
@@ -66,6 +72,7 @@ const store = configureStore({
           "user/productCategory/fulfilled",
           "user/shopProductCategory/fulfilled",
           "user/imageCategory/fulfilled",
+          "user/productProp/fulfilled",
           "persist/PERSIST",
         ],
       },

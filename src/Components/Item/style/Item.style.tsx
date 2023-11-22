@@ -26,5 +26,4 @@ export const ItemPriceOld = styled.div`
   color: #8c8c8c;
   font-size: 18px;
   font-weight: 500;
-  text-decoration: line-through;
 `;

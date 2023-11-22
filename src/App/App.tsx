@@ -10,6 +10,7 @@ import ResetPassword from "Pages/Authentication/ResetPassword/ResetPassword.comp
 import ForgotPassword from "Pages/Authentication/ForgotPassword/ForgotPassword.component";
 import Home from "Pages/Home/Home.component";
 import ShopCategory from "Pages/ShopCategory/ShopCategory.component";
+import Product from "Pages/Product/Product.component";
 
 const App: FC<{}> = () => {
   return (
@@ -30,6 +31,7 @@ const App: FC<{}> = () => {
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/home" element={<Home />} />
             <Route path="/shopcategory/:id" element={<ShopCategory />} />
+            <Route path="/product/:id" element={<Product />} />
           </Route>
         </Routes>
       </BrowserRouter>

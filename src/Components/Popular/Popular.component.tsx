@@ -32,17 +32,17 @@ const Popular: FC<{}> = () => {
         if (fetchProductsCategory.fulfilled.match(result)) {
           setProductCategory(result.payload);
         } else {
-          console.error("Apartment details not found.");
+          console.error("Product details not found.");
         }
       })
       .catch((error: any) => {
-        console.error("Error fetching apartment details:", error);
+        console.error("Error fetching Product details:", error);
       });
   }, [dispatch]);
 
   console.log("productCategory", productCategory);
 
-  const handleApartmentClick = (item: ProductProps) => {
+  const handleProductCategoryClick = (item: ProductProps) => {
     console.log(item.id);
     navigate(`/shopcategory/${item.id}`);
   };
@@ -55,7 +55,7 @@ const Popular: FC<{}> = () => {
         <PopularItem>
           {productCategory.map((item: any, index: any) => {
             return (
-              <div key={index} onClick={() => handleApartmentClick(item)}>
+              <div key={index} onClick={() => handleProductCategoryClick(item)}>
                 <Item id={item.id} name={item.name} image={item.image} />
               </div>
             );

@@ -37,7 +37,7 @@ export const fetchProductsCategory = createAsyncThunk<ProductProps[]>(
     }
   }
 );
-const productSlice = createSlice({
+const productCategorySlice = createSlice({
   name: "products",
   initialState,
   reducers: {},
@@ -55,4 +55,4 @@ const productSlice = createSlice({
   },
 });
 
-export default productSlice.reducer;
+export default productCategorySlice.reducer;
