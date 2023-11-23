@@ -1,1 +1,45 @@
 import styled from "styled-components";
+export const UploadLogoHolder = styled.div`
+  max-width: 100%;
+  border-radius: 10px;
+  outline: none;
+  box-sizing: border-box;
+  width: 100%;
+  height: 56px;
+  background-color: white;
+  border: 1.5px solid #cfdeff;
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 16px;
+  padding-left: 15px;
+`;
+export const AddButton = styled.button`
+  float: right;
+  height: 100%;
+  border-radius: 10px;
+  border: 1.5px solid #cfdeff;
+  color: #ffffff;
+  background-color: #0e53c5;
+  width: 15%;
+  min-width: 60px;
+  cursor: pointer;
+  font-family: "Poppins";
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 600;
+`;
+export const LogoTitle = styled.div`
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  color: #828ea0;
+  text-align: left;
+  margin-top: 16px;
+  width: 50%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`;

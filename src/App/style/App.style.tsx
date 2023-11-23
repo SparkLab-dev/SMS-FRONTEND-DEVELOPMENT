@@ -6,9 +6,11 @@ import { ChangeEvent, RefObject } from "react";
 
 //outlet
 export const Page = styled.div`
+  width: 100%;
   height: 100vh;
+  padding: 30px;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   align-items: center;
   justify-content: center;
   background: "#FFFF";
@@ -207,8 +209,6 @@ export const Warning = styled.p`
 //   user-select: none;
 // `;
 
-
-
 //generic button
 // interface ButtonProps {
 //   h?: string;
@@ -322,4 +322,3 @@ export const Warning = styled.p`
 //   font-weight: bold;
 //   font-family: "Poppins";
 // `;
-

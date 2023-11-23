@@ -45,12 +45,12 @@ export const productForm = createAsyncThunk(
       console.log("", responseRegData);
 
       if (response.status !== 200) {
-        return rejectWithValue(responseRegData.error.message);
+        return rejectWithValue(responseRegData.error);
       }
 
       return responseRegData;
     } catch (error: any) {
-      console.log("Error in register product:", error.response);
+      console.log("Error in register product:", error);
 
       return rejectWithValue("Product register failed");
     }

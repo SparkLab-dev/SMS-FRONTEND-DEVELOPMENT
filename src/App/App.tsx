@@ -14,6 +14,14 @@ import Product from "Pages/Product/Product.component";
 import ProductForm from "Containers/ProductForm/ProductForm.component";
 
 const App: FC<{}> = () => {
+  const logoProps = {
+    profilePhoto: "example_photo_url",
+    profilePhotoType: "example_type",
+    reload: true,
+    sendPhoto: (file: File) => {
+      // handle sending photo logic
+    },
+  };
   return (
     <>
       <BrowserRouter>
@@ -33,7 +41,10 @@ const App: FC<{}> = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/shopcategory/:id" element={<ShopCategory />} />
             <Route path="/product/:id" element={<Product />} />
-            <Route path="/productForm" element={<ProductForm />} />
+            <Route
+              path="/productForm"
+              element={<ProductForm {...logoProps} />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
