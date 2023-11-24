@@ -5,7 +5,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export interface ProductDetails {
-  id: number;
+  id?: number;
   name: string;
   barcode: string | null;
   barcodeimage: string | null;

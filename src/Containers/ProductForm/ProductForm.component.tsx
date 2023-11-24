@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 //mui
 import { Box } from "@mui/system";
@@ -39,6 +40,7 @@ interface LogoProps {
 }
 
 const ProductForm: FC<LogoProps> = () => {
+  const navigate = useNavigate();
   const [productName, setProductName] = useState<string>("");
   const [barCode, setBarCode] = useState<string>("");
   const [productAttributes, setProductAttributes] = useState<
@@ -65,8 +67,8 @@ const ProductForm: FC<LogoProps> = () => {
 
     const updatedAttributes = [...productAttributes, newAttribute];
     setProductAttributes(updatedAttributes);
-    setNewAttributeName("");
-    setNewAttributeValue("");
+    // setNewAttributeName("");
+    // setNewAttributeValue("");
   };
   console.log("productAttributes", productAttributes);
 
@@ -101,12 +103,9 @@ const ProductForm: FC<LogoProps> = () => {
     formData.append("productCategory", String(selectedCategory));
 
     productAttributes.forEach((attr, index) => {
+      formData.append(`attributes[${index}].attributeName`, attr.attributeName);
       formData.append(
-        `attributes[${index}].[attributeName]`,
-        attr.attributeName
-      );
-      formData.append(
-        `attributes[${index}].[attributeValue]`,
+        `attributes[${index}].attributeValue`,
         attr.attributeValue
       );
     });
@@ -120,6 +119,7 @@ const ProductForm: FC<LogoProps> = () => {
       );
 
       if (productForm.fulfilled.match(response)) {
+        navigate("/productForm");
         console.log("fulfilled");
       }
     } catch (error) {
@@ -177,49 +177,27 @@ const ProductForm: FC<LogoProps> = () => {
       width: "80%",
     },
   };
-  // const formData = new FormData();
-  // if (productName === "") {
-  //   console.log("Select productName");
-  // } else {
-  //   formData.append("name", productName);
-  // }
-  // if (barCode === "") {
-  //   console.log("Select barCode");
-  // } else {
-  //   formData.append("barCode", barCode);
-  // }
-  // if (newAttributeName === "") {
-  //   console.log("Select newAttributeName");
-  // } else {
-  //   formData.append("newAttributeName", newAttributeName);
-  // }
-  // if (newAttributeValue === "") {
-  //   console.log("Select newAttributeValue");
-  // } else {
-  //   formData.append("newAttributeValue", newAttributeValue);
-  // }
-  // if (logo.name !== undefined) {
-  //   formData.append("logo", logo);
-  // }
-  // try {
-  //   const response = await dispatch(
-  //     productForm({ formData })
-  //   );
 
-  //   if (productForm.fulfilled.match(response)) {
-  //     console.log("fulfilled");
-  //   }
-  // } catch (error) {
-  //   console.log("Error in handleProductClick:", error);
-  // }
   return (
     <>
-      <div>
+      <div
+        style={{
+          width: "100%",
+          height: "fit-content",
+          margin: "0",
+          padding: "0",
+        }}
+      >
         {openModal ? (
           <Modal open={openModal} onClose={() => setOpenModal(false)}>
             <Box sx={styleForAddLogoModalBox}>
               <div>
-                <h1 className="title">Upload Logo</h1>
+                <h1
+                  className="title"
+                  style={{ textAlign: "center", fontFamily: "Poppins" }}
+                >
+                  Upload Logo
+                </h1>
                 <UploadPhoto
                   profilePhoto={logoSelected[1]}
                   profilePhotoType={logoSelected[0]}
@@ -253,113 +231,111 @@ const ProductForm: FC<LogoProps> = () => {
           </Modal>
         ) : null}
         <StyledForm>
-          <FormName>Product Category </FormName>
-          <div style={{ display: "grid" }}>
-            <div style={{ display: "flex" }}>
-              <div style={{ flex: "1", margin: "5px " }}>
-                <GenericInput
-                  placeholder="Name"
-                  input_label="Name"
-                  required={true}
-                  type="text"
-                  value={productName}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setProductName(e.target.value)
-                  }
-                />
-              </div>
-              <div style={{ flex: "1", margin: "5px " }}>
-                <GenericInput
-                  placeholder="Barcode"
-                  input_label="Barcode"
-                  required={true}
-                  type="text"
-                  value={barCode}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setBarCode(e.target.value)
-                  }
-                />
-              </div>
-            </div>
-            <div style={{ display: "flex" }}>
-              <div style={{ flex: "1", margin: "5px " }}>
-                <GenericInput
-                  placeholder="New Attribute Name"
-                  input_label="New Attribute Name"
-                  type="text"
-                  value={newAttributeName}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setNewAttributeName(e.target.value)
-                  }
-                />
-              </div>
-              <div style={{ flex: "1", margin: "5px " }}>
-                <GenericInput
-                  placeholder="New Attribute Value"
-                  input_label="New Attribute Value"
-                  type="text"
-                  value={newAttributeValue}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setNewAttributeValue(e.target.value)
-                  }
-                />
-              </div>
-            </div>
-            <div>
-              <GenericButton
-                name="Add new attributes"
-                onClick={(e: any) => handleAttributeAddition(e)}
+          <FormName>Product</FormName>
+          {/* <div style={{ display: "grid" }}> */}
+          <div style={{ display: "flex" }}>
+            <div style={{ flex: "1", margin: "5px " }}>
+              <GenericInput
+                placeholder="Name"
+                input_label="Name"
+                required={true}
+                type="text"
+                value={productName || ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setProductName(e.target.value)
+                }
               />
             </div>
-
-            <div>
-              <h3>Attributes for {productName}</h3>
-              <ul>
-                {productAttributes.map((attr, index) => (
-                  <li key={index}>
-                    {attr.attributeName}: {attr.attributeValue}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div style={{ display: "flex" }}>
-              <div style={{ flex: "1", margin: "5px" }}>
-                <LabelDescriptionContainer>Category</LabelDescriptionContainer>
-                <StyledSelect
-                  value={
-                    selectedCategory !== null ? selectedCategory.toString() : ""
-                  }
-                  onChange={(e: any) =>
-                    setSelectedCategory(Number(e.target.value))
-                  }
-                >
-                  <option defaultValue="none">Select an Option</option>
-                  {productCategory.map((role) => (
-                    <option key={role.id} value={role.id}>
-                      {role.name}
-                    </option>
-                  ))}
-                </StyledSelect>
-              </div>
-              <div style={{ flex: "1", margin: "5px" }}>
-                <LabelDescriptionContainer>
-                  Upload Logo
-                </LabelDescriptionContainer>
-                <UploadLogoHolder>
-                  <AddButton
-                    name="Upload"
-                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                      e.preventDefault();
-                      setOpenModal(true);
-                    }}
-                  >
-                    Upload
-                  </AddButton>
-                  {logo && <LogoTitle>{logo.name}</LogoTitle>}
-                </UploadLogoHolder>
-              </div>
+            <div style={{ flex: "1", margin: "5px " }}>
+              <GenericInput
+                placeholder="Barcode"
+                input_label="Barcode"
+                required={true}
+                type="text"
+                value={barCode || ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setBarCode(e.target.value)
+                }
+              />
             </div>
           </div>
+          <div style={{ display: "flex" }}>
+            <div style={{ flex: "1", margin: "5px " }}>
+              <GenericInput
+                placeholder="New Attribute Name"
+                input_label="New Attribute Name"
+                type="text"
+                value={newAttributeName || ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setNewAttributeName(e.target.value)
+                }
+              />
+            </div>
+            <div style={{ flex: "1", margin: "5px " }}>
+              <GenericInput
+                placeholder="New Attribute Value"
+                input_label="New Attribute Value"
+                type="text"
+                value={newAttributeValue || ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setNewAttributeValue(e.target.value)
+                }
+              />
+            </div>
+          </div>
+          <div>
+            <GenericButton
+              name="Add new attributes"
+              onClick={(e: any) => handleAttributeAddition(e)}
+            />
+          </div>
+
+          {/* <div>
+            <h3>Attributes for {productName}</h3>
+            <ul>
+              {productAttributes.map((attr, index) => (
+                <li key={index}>
+                  {attr.attributeName}: {attr.attributeValue}
+                </li>
+              ))}
+            </ul>
+          </div> */}
+          <div style={{ display: "flex" }}>
+            <div style={{ flex: "1", margin: "5px" }}>
+              <LabelDescriptionContainer>Category</LabelDescriptionContainer>
+              <StyledSelect
+                value={
+                  selectedCategory !== null ? selectedCategory.toString() : ""
+                }
+                onChange={(e: any) =>
+                  setSelectedCategory(Number(e.target.value))
+                }
+              >
+                <option defaultValue="none">Select an Option</option>
+                {productCategory.map((role) => (
+                  <option key={role.id} value={role.id}>
+                    {role.name}
+                  </option>
+                ))}
+              </StyledSelect>
+            </div>
+            <div style={{ flex: "1", margin: "15px 5px 5px" }}>
+              <LabelDescriptionContainer>Upload Logo</LabelDescriptionContainer>
+              <UploadLogoHolder>
+                <AddButton
+                  name="Upload"
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                    e.preventDefault();
+                    setOpenModal(true);
+                  }}
+                >
+                  Upload
+                </AddButton>
+                {logo && <LogoTitle>{logo.name}</LogoTitle>}
+              </UploadLogoHolder>
+            </div>
+          </div>
+          {/* </div> */}
           <GenericButton name="Create Product" onClick={handleSubmit} />
           {/* <button onClick={handleSubmit}>Create Product</button> */}
         </StyledForm>

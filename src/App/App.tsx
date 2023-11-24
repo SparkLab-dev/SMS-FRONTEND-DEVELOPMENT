@@ -12,6 +12,7 @@ import Home from "Pages/Home/Home.component";
 import ShopCategory from "Pages/ShopCategory/ShopCategory.component";
 import Product from "Pages/Product/Product.component";
 import ProductForm from "Containers/ProductForm/ProductForm.component";
+import ProductsTable from "Components/ProductsTable/ProductsTable.component";
 
 const App: FC<{}> = () => {
   const logoProps = {
@@ -45,6 +46,7 @@ const App: FC<{}> = () => {
               path="/productForm"
               element={<ProductForm {...logoProps} />}
             />
+            <Route path="/table" element={<ProductsTable />} />
           </Route>
         </Routes>
       </BrowserRouter>

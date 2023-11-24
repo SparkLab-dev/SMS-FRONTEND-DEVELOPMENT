@@ -3,9 +3,6 @@ import { useNavigate } from "react-router";
 
 //style
 import {
-  AddNewProductButton,
-  AddProductNameContainerPlusIcon,
-  ButtonName,
   ItemContainer,
   ShopCategoryProducts,
 } from "./style/ShopCategory.style";
@@ -20,10 +17,6 @@ import {
 } from "redux/Pages/ShopCategory/ShopCategorySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "redux/store";
-import GenericButton from "Components/GenericButton/GenericButton.component";
-
-//mui icons
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const ShopCategory: FC<{}> = () => {
   const navigate = useNavigate();
@@ -67,20 +60,9 @@ const ShopCategory: FC<{}> = () => {
     console.log(item.id);
     navigate(`/product/${item.id}`);
   };
-  const buttonName = (
-    <AddProductNameContainerPlusIcon>
-      <AddCircleOutlineIcon />
-      <ButtonName>Add new project</ButtonName>
-    </AddProductNameContainerPlusIcon>
-  );
+
   return (
     <div>
-      <AddNewProductButton>
-        <GenericButton
-          name={buttonName}
-          onClick={() => navigate("/productForm")}
-        />
-      </AddNewProductButton>
       <ShopCategoryProducts>
         {shopCategory.map((item: any, index: any) => {
           return (

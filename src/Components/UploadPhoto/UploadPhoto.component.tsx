@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, useRef } from "react";
+import { FC, useState, useEffect, ChangeEvent, useRef } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   EditPhotoContainer,
@@ -16,7 +16,7 @@ interface LogoProps {
   sendPhoto: (file: File) => void;
 }
 
-function UploadPhoto(props: LogoProps) {
+const UploadPhoto: FC<LogoProps> = (props) => {
   const [editLogoURL, setEditLogoURL] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -72,5 +72,5 @@ function UploadPhoto(props: LogoProps) {
       </PhotoPreview>
     </EditPhotoContainer>
   );
-}
+};
 export default UploadPhoto;

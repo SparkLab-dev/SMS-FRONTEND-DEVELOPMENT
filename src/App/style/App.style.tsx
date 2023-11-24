@@ -8,7 +8,7 @@ import { ChangeEvent, RefObject } from "react";
 export const Page = styled.div`
   width: 100%;
   height: 100vh;
-  padding: 30px;
+  /* padding: 30px; */
   display: flex;
   /* flex-direction: column; */
   align-items: center;
@@ -91,7 +91,7 @@ export const FormName = styled.h1`
   text-align: center;
   font-style: normal;
   font-weight: 600;
-  font-size: 55px;
+  font-size: 50px;
   line-height: 70px;
   color: #43546f;
 `;
