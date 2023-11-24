@@ -7,6 +7,7 @@ import {
   AddProductNameContainerPlusIcon,
   ButtonName,
   EditButton,
+  H2,
   IconLink,
   Table,
   TableAndDatepickerHolder,
@@ -36,6 +37,8 @@ import {
 
 //components
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import Popup from "Components/Popup/Popup.component";
+import GenericInput from "Components/GenericInput/GenericInput.component";
 
 const ProductsTable: FC<{}> = () => {
   const navigate = useNavigate();
@@ -46,6 +49,8 @@ const ProductsTable: FC<{}> = () => {
     []
   );
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedItem, setSelectedItem] = useState<any>(null);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -101,6 +106,17 @@ const ProductsTable: FC<{}> = () => {
       <ButtonName>Add product</ButtonName>
     </AddProductNameContainerPlusIcon>
   );
+
+  //edit button click
+  const handleEdit = (rental: any) => {
+    console.log(rental);
+    setIsModalOpen(true);
+    setSelectedItem(rental);
+  };
+
+  const handleSave = async () => {
+    console.error("User is not authenticated or no item is selected");
+  };
 
   return (
     <div
@@ -178,7 +194,9 @@ const ProductsTable: FC<{}> = () => {
                     ))}
                   </TableCell> */}
                   <TableCell>
-                    <EditButton>Edit</EditButton>
+                    <EditButton onClick={() => handleEdit(rental)}>
+                      Edit
+                    </EditButton>
                     <IconLink to="">
                       <DeleteIcon />
                     </IconLink>
@@ -189,6 +207,100 @@ const ProductsTable: FC<{}> = () => {
           </Table>
         </TableContainer>
       </TableAndDatepickerHolder>
+      <Popup
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedItem(null);
+        }}
+        headerContent={<H2>Edit Item</H2>}
+        bodyContent={
+          <>
+            {selectedItem && (
+              <>
+                <div style={{ display: "flex" }}>
+                  <GenericInput
+                    input_label="Name"
+                    value={selectedItem?.name || ""}
+                    onChange={(e: any) => {
+                      setSelectedItem({
+                        ...selectedItem,
+                        name: parseFloat(e.target.value),
+                      });
+                    }}
+                  />
+                  <GenericInput
+                    input_label="Barcode"
+                    value={selectedItem?.barcode || ""}
+                    onChange={(e: any) => {
+                      setSelectedItem({
+                        ...selectedItem,
+                        barcode: parseFloat(e.target.value),
+                      });
+                    }}
+                  />
+                </div>
+                <div style={{ display: "flex" }}>
+                  <GenericInput
+                    input_label="Stock Quantity "
+                    value={selectedItem?.stockQuantity || ""}
+                    onChange={(e: any) => {
+                      setSelectedItem({
+                        ...selectedItem,
+                        stockQuantity: parseFloat(e.target.value),
+                      });
+                    }}
+                  />
+                  <GenericInput
+                    input_label="ThresHold "
+                    value={selectedItem?.threshold || ""}
+                    onChange={(e: any) => {
+                      setSelectedItem({
+                        ...selectedItem,
+                        threshold: parseFloat(e.target.value),
+                      });
+                    }}
+                  />
+                </div>
+                <div style={{ display: "flex" }}>
+                  <GenericInput
+                    input_label="Product Category "
+                    value={selectedItem?.productCategory.name || ""}
+                    onChange={(e: any) => {
+                      setSelectedItem({
+                        ...selectedItem,
+                        productCategory: parseFloat(e.target.value),
+                      });
+                    }}
+                  />
+                  <GenericInput
+                    input_label="Price"
+                    type="number"
+                    value={selectedItem?.price || ""}
+                    onChange={(e: any) => {
+                      setSelectedItem({
+                        ...selectedItem,
+                        price: parseFloat(e.target.value),
+                      });
+                    }}
+                  />
+                </div>
+              </>
+            )}
+            <div style={{ display: "flex" }}>
+              <GenericInput
+                input_label="Attribute Name"
+                value={selectedItem?.attributes[0].attributeName || ""}
+              />
+              <GenericInput
+                input_label="Attribute Value"
+                value={selectedItem?.attributes[0].attributeValue || ""}
+              />
+            </div>
+          </>
+        }
+        footerContent={<GenericButton onClick={handleSave} name="Submit" />}
+      />
     </div>
   );
 };
