@@ -17,8 +17,15 @@ import { AppDispatch } from "redux/store";
 //style
 import {
   AddButton,
+  FormAndModalHolder,
+  GenericInputHold,
+  InputsTableFormContainer,
+  LogoDescAndNameHolder,
   LogoTitle,
+  ModalButtonHolder,
+  Option,
   UploadLogoHolder,
+  UploadPhotoText,
 } from "./style/ProductForm.style";
 import {
   FormName,
@@ -43,6 +50,9 @@ const ProductForm: FC<LogoProps> = () => {
   const navigate = useNavigate();
   const [productName, setProductName] = useState<string>("");
   const [barCode, setBarCode] = useState<string>("");
+  const [price, setPrice] = useState<string>("");
+  const [threshold, setThreshold] = useState<string>("");
+  const [stockQuantity, setStockQuantity] = useState<string>("");
   const [productAttributes, setProductAttributes] = useState<
     { attributeName: string; attributeValue: string }[]
   >([]);
@@ -72,34 +82,15 @@ const ProductForm: FC<LogoProps> = () => {
   };
   console.log("productAttributes", productAttributes);
 
-  // const handleSubmit = async (e: any) => {
-  //   e.preventDefault();
-  //   const productData = {
-  //     name: productName,
-  //     barcode: barCode,
-  //     attributes: productAttributes,
-  //     productCategory: {
-  //       id: selectedCategory || 0,
-  //     },
-  //   };
-  //   try {
-  //     const response = await dispatch(
-  //       productForm({ userCredentials: productData })
-  //     );
-
-  //     if (productForm.fulfilled.match(response)) {
-  //       console.log("fulfilled");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error in handleProductClick:", error);
-  //   }
-  // };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData();
     formData.append("name", productName);
     formData.append("barcode", barCode);
+    formData.append("stockQuantity", stockQuantity);
+    formData.append("price", price);
+    formData.append("threshold", threshold);
     formData.append("productCategory", String(selectedCategory));
 
     productAttributes.forEach((attr, index) => {
@@ -180,24 +171,12 @@ const ProductForm: FC<LogoProps> = () => {
 
   return (
     <>
-      <div
-        style={{
-          width: "100%",
-          height: "fit-content",
-          margin: "0",
-          padding: "0",
-        }}
-      >
+      <FormAndModalHolder>
         {openModal ? (
           <Modal open={openModal} onClose={() => setOpenModal(false)}>
             <Box sx={styleForAddLogoModalBox}>
-              <div>
-                <h1
-                  className="title"
-                  style={{ textAlign: "center", fontFamily: "Poppins" }}
-                >
-                  Upload Logo
-                </h1>
+              <UploadLogoHolder>
+                <UploadPhotoText>Upload Logo</UploadPhotoText>
                 <UploadPhoto
                   profilePhoto={logoSelected[1]}
                   profilePhotoType={logoSelected[0]}
@@ -205,36 +184,32 @@ const ProductForm: FC<LogoProps> = () => {
                   sendPhoto={setLogo}
                 />
 
-                <div className="button">
-                  <button
-                    className="modal-button"
+                <ModalButtonHolder>
+                  <GenericButton
+                    name="Cancel"
                     onClick={() => {
                       setOpenModal(false);
                       setLogoSelected(["", ""]);
                       setLogo(null);
                     }}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="modal-button"
+                  />
+                  <GenericButton
+                    name="Save"
                     onClick={() => {
                       setOpenModal(false);
                       handleImageChange();
                     }}
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
+                  />
+                </ModalButtonHolder>
+              </UploadLogoHolder>
             </Box>
           </Modal>
         ) : null}
         <StyledForm>
           <FormName>Product</FormName>
           {/* <div style={{ display: "grid" }}> */}
-          <div style={{ display: "flex" }}>
-            <div style={{ flex: "1", margin: "5px " }}>
+          <InputsTableFormContainer>
+            <GenericInputHold>
               <GenericInput
                 placeholder="Name"
                 input_label="Name"
@@ -245,8 +220,8 @@ const ProductForm: FC<LogoProps> = () => {
                   setProductName(e.target.value)
                 }
               />
-            </div>
-            <div style={{ flex: "1", margin: "5px " }}>
+            </GenericInputHold>
+            <GenericInputHold>
               <GenericInput
                 placeholder="Barcode"
                 input_label="Barcode"
@@ -256,11 +231,51 @@ const ProductForm: FC<LogoProps> = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setBarCode(e.target.value)
                 }
+              />{" "}
+            </GenericInputHold>
+          </InputsTableFormContainer>
+          <InputsTableFormContainer>
+            <GenericInputHold>
+              <GenericInput
+                placeholder="Stock Quantity"
+                input_label="Stock Quantity"
+                required={true}
+                type="number"
+                value={stockQuantity || ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setStockQuantity(e.target.value)
+                }
               />
-            </div>
-          </div>
-          <div style={{ display: "flex" }}>
-            <div style={{ flex: "1", margin: "5px " }}>
+            </GenericInputHold>
+          </InputsTableFormContainer>
+          <InputsTableFormContainer>
+            <GenericInputHold>
+              <GenericInput
+                placeholder="Price"
+                input_label="Price"
+                required={true}
+                type="number"
+                value={price || ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setPrice(e.target.value)
+                }
+              />
+            </GenericInputHold>
+            <GenericInputHold>
+              <GenericInput
+                placeholder="ThresHold"
+                input_label="ThresHold"
+                required={true}
+                type="number"
+                value={threshold || ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setThreshold(e.target.value)
+                }
+              />
+            </GenericInputHold>
+          </InputsTableFormContainer>
+          <InputsTableFormContainer>
+            <GenericInputHold>
               <GenericInput
                 placeholder="New Attribute Name"
                 input_label="New Attribute Name"
@@ -270,8 +285,8 @@ const ProductForm: FC<LogoProps> = () => {
                   setNewAttributeName(e.target.value)
                 }
               />
-            </div>
-            <div style={{ flex: "1", margin: "5px " }}>
+            </GenericInputHold>
+            <GenericInputHold>
               <GenericInput
                 placeholder="New Attribute Value"
                 input_label="New Attribute Value"
@@ -281,15 +296,12 @@ const ProductForm: FC<LogoProps> = () => {
                   setNewAttributeValue(e.target.value)
                 }
               />
-            </div>
-          </div>
-          <div>
-            <GenericButton
-              name="Add new attributes"
-              onClick={(e: any) => handleAttributeAddition(e)}
-            />
-          </div>
-
+            </GenericInputHold>
+          </InputsTableFormContainer>
+          <GenericButton
+            name="Add new attributes"
+            onClick={(e: any) => handleAttributeAddition(e)}
+          />
           {/* <div>
             <h3>Attributes for {productName}</h3>
             <ul>
@@ -300,8 +312,8 @@ const ProductForm: FC<LogoProps> = () => {
               ))}
             </ul>
           </div> */}
-          <div style={{ display: "flex" }}>
-            <div style={{ flex: "1", margin: "5px" }}>
+          <InputsTableFormContainer>
+            <GenericInputHold>
               <LabelDescriptionContainer>Category</LabelDescriptionContainer>
               <StyledSelect
                 value={
@@ -311,15 +323,15 @@ const ProductForm: FC<LogoProps> = () => {
                   setSelectedCategory(Number(e.target.value))
                 }
               >
-                <option defaultValue="none">Select an Option</option>
+                <Option defaultValue="none">Select an Option</Option>
                 {productCategory.map((role) => (
-                  <option key={role.id} value={role.id}>
+                  <Option key={role.id} value={role.id}>
                     {role.name}
-                  </option>
+                  </Option>
                 ))}
               </StyledSelect>
-            </div>
-            <div style={{ flex: "1", margin: "15px 5px 5px" }}>
+            </GenericInputHold>
+            <LogoDescAndNameHolder>
               <LabelDescriptionContainer>Upload Logo</LabelDescriptionContainer>
               <UploadLogoHolder>
                 <AddButton
@@ -333,13 +345,13 @@ const ProductForm: FC<LogoProps> = () => {
                 </AddButton>
                 {logo && <LogoTitle>{logo.name}</LogoTitle>}
               </UploadLogoHolder>
-            </div>
-          </div>
+            </LogoDescAndNameHolder>
+          </InputsTableFormContainer>
           {/* </div> */}
           <GenericButton name="Create Product" onClick={handleSubmit} />
           {/* <button onClick={handleSubmit}>Create Product</button> */}
         </StyledForm>
-      </div>
+      </FormAndModalHolder>
     </>
   );
 };

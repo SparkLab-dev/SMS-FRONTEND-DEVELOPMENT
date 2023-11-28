@@ -38,11 +38,11 @@ const UploadPhoto: FC<LogoProps> = (props) => {
     props.sendPhoto(file);
   };
 
-  console.log(
-    document.querySelector<HTMLInputElement>("#imageUpload")
-      ? document.querySelector<HTMLInputElement>("#imageUpload")?.files
-      : ""
-  );
+  // console.log(
+  //   document.querySelector<HTMLInputElement>("#imageUpload")
+  //     ? document.querySelector<HTMLInputElement>("#imageUpload")?.files
+  //     : ""
+  // );
 
   return (
     <EditPhotoContainer>

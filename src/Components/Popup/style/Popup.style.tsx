@@ -18,7 +18,7 @@ export const Modal = styled.div`
   align-items: center;
   padding: 0px;
   position: fixed;
-  background-color: #483751d4;
+  background-color: #ffff;
   color: #ffffff;
   box-shadow: 0px 4px 20px rgba(25, 29, 58, 0.1);
   border-radius: 10px;
@@ -28,9 +28,8 @@ export const Modal = styled.div`
 export const ModalHeader = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: #483751d4;
-  align-items: flex-start;
-  padding: 14px 16px;
+  background-color: #ffff;
+  /* padding: 0px 30px; */
   border-radius: 10px 10px 0px 0px;
   font-family: "Poppins";
   font-style: normal;
@@ -39,19 +38,20 @@ export const ModalHeader = styled.div`
   line-height: 23px;
   flex: none;
   order: 0;
-  align-self: stretch;
+  /* align-self: stretch; */
   flex-grow: 0;
+  text-align: center;
 `;
 export const ModalBody = styled.div`
   flex: 1;
-  padding: 20px 25px;
+  padding: 10px 25px;
   background-color: white;
 `;
 
 export const ModalFooter = styled.div`
   display: flex;
   width: 300px;
-  height: 40px;
+  /* height: 40px; */
   align-items: center;
   justify-content: center;
   padding: 5px 0px 25px 0px;

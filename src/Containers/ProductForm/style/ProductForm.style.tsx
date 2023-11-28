@@ -1,4 +1,22 @@
 import styled from "styled-components";
+export const FormAndModalHolder = styled.div`
+  width: 100%;
+  height: 100%;
+  max-height: 800px;
+  margin: 0;
+  padding: 0;
+`;
+
+export const UploaLogoHolder = styled.div``;
+export const UploadPhotoText = styled.h1`
+  text-align: center;
+  font-family: "Poppins";
+`;
+export const ModalButtonHolder = styled.div`
+  text-align: center;
+  display: flex;
+  margin: 5px;
+`;
 export const UploadLogoHolder = styled.div`
   max-width: 100%;
   border-radius: 10px;
@@ -14,6 +32,18 @@ export const UploadLogoHolder = styled.div`
   font-size: 15px;
   line-height: 16px;
   padding-left: 15px;
+`;
+export const InputsTableFormContainer = styled.div`
+  display: flex;
+`;
+export const GenericInputHold = styled.div`
+  flex: 1;
+  margin: 5px;
+`;
+export const Option = styled.option``;
+export const LogoDescAndNameHolder = styled.div`
+  flex: 1;
+  margin: 15px 5px 5px;
 `;
 export const AddButton = styled.button`
   float: right;

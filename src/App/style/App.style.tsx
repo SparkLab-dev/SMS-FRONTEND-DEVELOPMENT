@@ -91,7 +91,7 @@ export const FormName = styled.h1`
   text-align: center;
   font-style: normal;
   font-weight: 600;
-  font-size: 50px;
+  font-size: 47px;
   line-height: 70px;
   color: #43546f;
 `;

@@ -61,8 +61,9 @@ export const IconLink = styled(Link)`
   color: black;
 `;
 export const H2 = styled.h2`
-  font-size: 25px;
+  font-size: 30px;
   font-family: "Poppins";
+  color: #0e53c5;
 `;
 export const AddNewProductButton = styled.div`
   height: fit-content;
@@ -73,5 +74,13 @@ export const AddProductNameContainerPlusIcon = styled.div`
   align-items: center;
 `;
 export const ButtonName = styled.p`
+  margin: 5px;
+`;
+
+export const InputsOfProductTable = styled.div`
+  display: "flex";
+`;
+export const ProductInputHold = styled.div`
+  flex: 1;
   margin: 5px;
 `;

@@ -30,7 +30,7 @@ const Popup: FC<popupProps> = ({
         <ModalBody>{bodyContent}</ModalBody>
         <ModalFooter>
           {footerContent}
-          <GenericButton onClick={onClose} name="Close" />
+          <GenericButton onClick={onClose} name="Close"/>
         </ModalFooter>
       </Modal>
     </ModalOverlay>

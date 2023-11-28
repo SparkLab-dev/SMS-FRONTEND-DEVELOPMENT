@@ -9,6 +9,8 @@ import {
   EditButton,
   H2,
   IconLink,
+  InputsOfProductTable,
+  ProductInputHold,
   Table,
   TableAndDatepickerHolder,
   TableCell,
@@ -141,7 +143,7 @@ const ProductsTable: FC<{}> = () => {
             maxWidth: "400px",
             alignItems: "center",
             display: "flex",
-            justifyContent: "cenetr",
+            justifyContent: "center",
           }}
         >
           <StyledSelect
@@ -218,88 +220,133 @@ const ProductsTable: FC<{}> = () => {
           <>
             {selectedItem && (
               <>
-                <div style={{ display: "flex" }}>
-                  <GenericInput
-                    input_label="Name"
-                    value={selectedItem?.name || ""}
-                    onChange={(e: any) => {
-                      setSelectedItem({
-                        ...selectedItem,
-                        name: parseFloat(e.target.value),
-                      });
-                    }}
-                  />
-                  <GenericInput
-                    input_label="Barcode"
-                    value={selectedItem?.barcode || ""}
-                    onChange={(e: any) => {
-                      setSelectedItem({
-                        ...selectedItem,
-                        barcode: parseFloat(e.target.value),
-                      });
-                    }}
-                  />
-                </div>
-                <div style={{ display: "flex" }}>
-                  <GenericInput
-                    input_label="Stock Quantity "
-                    value={selectedItem?.stockQuantity || ""}
-                    onChange={(e: any) => {
-                      setSelectedItem({
-                        ...selectedItem,
-                        stockQuantity: parseFloat(e.target.value),
-                      });
-                    }}
-                  />
-                  <GenericInput
-                    input_label="ThresHold "
-                    value={selectedItem?.threshold || ""}
-                    onChange={(e: any) => {
-                      setSelectedItem({
-                        ...selectedItem,
-                        threshold: parseFloat(e.target.value),
-                      });
-                    }}
-                  />
-                </div>
-                <div style={{ display: "flex" }}>
-                  <GenericInput
-                    input_label="Product Category "
-                    value={selectedItem?.productCategory.name || ""}
-                    onChange={(e: any) => {
-                      setSelectedItem({
-                        ...selectedItem,
-                        productCategory: parseFloat(e.target.value),
-                      });
-                    }}
-                  />
-                  <GenericInput
-                    input_label="Price"
-                    type="number"
-                    value={selectedItem?.price || ""}
-                    onChange={(e: any) => {
-                      setSelectedItem({
-                        ...selectedItem,
-                        price: parseFloat(e.target.value),
-                      });
-                    }}
-                  />
-                </div>
+                <InputsOfProductTable>
+                  <ProductInputHold>
+                    <GenericInput
+                      input_label="Name"
+                      type="text"
+                      value={selectedItem?.name || ""}
+                      onChange={(e: any) => {
+                        setSelectedItem({
+                          ...selectedItem,
+                          name: e.target.value,
+                        });
+                      }}
+                    />
+                  </ProductInputHold>
+                  <ProductInputHold>
+                    <GenericInput
+                      input_label="Barcode"
+                      value={selectedItem?.barcode || ""}
+                      onChange={(e: any) => {
+                        setSelectedItem({
+                          ...selectedItem,
+                          barcode: parseFloat(e.target.value),
+                        });
+                      }}
+                    />
+                  </ProductInputHold>
+                </InputsOfProductTable>
+                <InputsOfProductTable>
+                  <ProductInputHold>
+                    <GenericInput
+                      input_label="Stock Quantity "
+                      value={selectedItem?.stockQuantity || ""}
+                      onChange={(e: any) => {
+                        setSelectedItem({
+                          ...selectedItem,
+                          stockQuantity: parseFloat(e.target.value),
+                        });
+                      }}
+                    />
+                  </ProductInputHold>
+                  <ProductInputHold>
+                    <GenericInput
+                      input_label="ThresHold "
+                      value={selectedItem?.threshold || ""}
+                      onChange={(e: any) => {
+                        setSelectedItem({
+                          ...selectedItem,
+                          threshold: parseFloat(e.target.value),
+                        });
+                      }}
+                    />
+                  </ProductInputHold>
+                </InputsOfProductTable>
+                <InputsOfProductTable>
+                  <ProductInputHold>
+                    <GenericInput
+                      input_label="Product Category "
+                      type="text"
+                      value={selectedItem?.productCategory.name || ""}
+                      onChange={(e) =>
+                        setSelectedItem({
+                          ...selectedItem,
+                          productCategory: {
+                            ...selectedItem.productCategory,
+                            name: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </ProductInputHold>
+                  <ProductInputHold>
+                    <GenericInput
+                      input_label="Price"
+                      type="number"
+                      value={selectedItem?.price || ""}
+                      onChange={(e: any) => {
+                        setSelectedItem({
+                          ...selectedItem,
+                          price: parseFloat(e.target.value),
+                        });
+                      }}
+                    />
+                  </ProductInputHold>
+                </InputsOfProductTable>
               </>
             )}
-            <div style={{ display: "flex" }}>
-              <GenericInput
-                input_label="Attribute Name"
-                value={selectedItem?.attributes[0].attributeName || ""}
-              />
-              <GenericInput
-                input_label="Attribute Value"
-                value={selectedItem?.attributes[0].attributeValue || ""}
-              />
-            </div>
+            <InputsOfProductTable>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Attribute Name"
+                  value={selectedItem?.attributes[0].attributeName || ""}
+                  onChange={(e) =>
+                    setSelectedItem({
+                      ...selectedItem,
+                      attributes: [
+                        {
+                          ...selectedItem.attributes[0],
+                          attributeName: e.target.value,
+                        },
+                        ...selectedItem.attributes.slice(1),
+                      ],
+                    })
+                  }
+                />
+              </ProductInputHold>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Attribute Value"
+                  value={selectedItem?.attributes[0].attributeValue || ""}
+                  onChange={(e) =>
+                    setSelectedItem({
+                      ...selectedItem,
+                      attributes: [
+                        {
+                          ...selectedItem.attributes[0],
+                          attributeValue: e.target.value,
+                        },
+                        ...selectedItem.attributes.slice(1),
+                      ],
+                    })
+                  }
+                />
+              </ProductInputHold>
+            </InputsOfProductTable>
           </>
         }
-        footerContent={<GenericButton onClick={handleSave} name="Submit" />}
+        footerContent={<GenericButton onClick={handleSave} name="Save" />}
       />
     </div>
   );
