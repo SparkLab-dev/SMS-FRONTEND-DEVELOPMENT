@@ -51,9 +51,6 @@ const Navbar: FC<{}> = () => {
             Product table{menu === "bicycle" ? <HR /> : <></>}
           </ListItem>
         </NavLink>
-        <NavLink to="/userProfile" onClick={() => setMenu("userProfile")}>
-          <ListItem>Profile{menu === "userProfile" ? <HR /> : <></>}</ListItem>
-        </NavLink>
         {/* <NavLink to="/resetpassword" onClick={() => setMenu("cellphone")}>
           <ListItem>
             Reset Password{menu === "cellphone" ? <HR /> : <></>}

@@ -1,6 +1,10 @@
-import { FormName, StyledForm } from "App/style/App.style";
-import UploadPhoto from "Components/UploadPhoto/UploadPhoto.component";
 import { FC, useState } from "react";
+
+//style
+import { FormName, StyledForm } from "App/style/App.style";
+
+//components
+import UploadPhoto from "Components/UploadPhoto/UploadPhoto.component";
 import {
   InputContentHolder,
   UserProfileInputsHolder,
@@ -10,12 +14,11 @@ import GenericButton from "Components/GenericButton/GenericButton.component";
 
 const UserProfile: FC<{}> = () => {
   const [firstName, setFirstName] = useState("");
-  const [LastName, setLastName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [profilePicture, setProfilePicture] = useState<any>({});
   const [logoFromApi, setLogoFromApi] = useState<any>([]);
-
   const [reload, setReload] = useState<any>(0);
   return (
     <>
@@ -42,7 +45,7 @@ const UserProfile: FC<{}> = () => {
               type="text"
               input_label="LastName"
               placeholder="LastName"
-              value={LastName || ""}
+              value={lastName || ""}
               onChange={(e: any) => setLastName(e)}
             />
           </InputContentHolder>
