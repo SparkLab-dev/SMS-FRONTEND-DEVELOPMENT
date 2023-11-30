@@ -39,198 +39,6 @@ import {
   fetchOrderDetails,
 } from "redux/Pages/Orders/OrdersSlice";
 
-const data = [
-  {
-    id: 1,
-    orderName: null,
-    orderDateTime: "2023-11-27T10:50:09.093916",
-    totalAmount: 40.0,
-    orderStatus: "Pending",
-    orderNotes: "Order1 is the new order for this week",
-    orderSource: "InStore",
-    shippingAddress: {
-      id: 1,
-      street: "Rrruga e Elbasanit",
-      city: "Tirane",
-      state: "Albania",
-      postalCode: "1001",
-      country: "Albania",
-    },
-    deliveryDate: "2023-12-06",
-    userDTO: {
-      id: 1,
-      firstName: "Blerta",
-      lastName: "Prendi",
-    },
-    orderItem: [
-      {
-        quantity: 4,
-        unitPrice: 50.0,
-        totalPrice: 200.0,
-        order: {
-          id: 1,
-          name: null,
-        },
-        product: {
-          id: 1,
-          productName: "Tulip",
-        },
-      },
-    ],
-  },
-  {
-    id: 2,
-    orderName: null,
-    orderDateTime: "2023-11-27T10:50:12.288273",
-    totalAmount: 40.0,
-    orderStatus: "Pending",
-    orderNotes: "Order1 is the new order for this week",
-    orderSource: "InStore",
-    shippingAddress: {
-      id: 2,
-      street: "Rrruga e Elbasanit",
-      city: "Tirane",
-      state: "Albania",
-      postalCode: "1001",
-      country: "Albania",
-    },
-    deliveryDate: "2023-12-06",
-    userDTO: {
-      id: 1,
-      firstName: "Blerta",
-      lastName: "Prendi",
-    },
-    orderItem: [
-      {
-        quantity: 4,
-        unitPrice: 50.0,
-        totalPrice: 200.0,
-        order: {
-          id: 2,
-          name: null,
-        },
-        product: {
-          id: 1,
-          productName: "Tulip",
-        },
-      },
-    ],
-  },
-  {
-    id: 3,
-    orderName: null,
-    orderDateTime: "2023-11-27T10:50:13.548029",
-    totalAmount: 40.0,
-    orderStatus: "Pending",
-    orderNotes: "Order1 is the new order for this week",
-    orderSource: "InStore",
-    shippingAddress: {
-      id: 3,
-      street: "Rrruga e Elbasanit",
-      city: "Tirane",
-      state: "Albania",
-      postalCode: "1001",
-      country: "Albania",
-    },
-    deliveryDate: "2023-12-06",
-    userDTO: {
-      id: 1,
-      firstName: "Blerta",
-      lastName: "Prendi",
-    },
-    orderItem: [
-      {
-        quantity: 4,
-        unitPrice: 50.0,
-        totalPrice: 200.0,
-        order: {
-          id: 3,
-          name: null,
-        },
-        product: {
-          id: 1,
-          productName: "Tulip",
-        },
-      },
-    ],
-  },
-  {
-    id: 4,
-    orderName: null,
-    orderDateTime: "2023-11-27T10:50:14.326258",
-    totalAmount: 40.0,
-    orderStatus: "Pending",
-    orderNotes: "Order1 is the new order for this week",
-    orderSource: "InStore",
-    shippingAddress: {
-      id: 4,
-      street: "Rrruga e Elbasanit",
-      city: "Tirane",
-      state: "Albania",
-      postalCode: "1001",
-      country: "Albania",
-    },
-    deliveryDate: "2023-12-06",
-    userDTO: {
-      id: 1,
-      firstName: "Blerta",
-      lastName: "Prendi",
-    },
-    orderItem: [
-      {
-        quantity: 4,
-        unitPrice: 50.0,
-        totalPrice: 200.0,
-        order: {
-          id: 4,
-          name: null,
-        },
-        product: {
-          id: 1,
-          productName: "Tulip",
-        },
-      },
-    ],
-  },
-  {
-    id: 5,
-    orderName: null,
-    orderDateTime: "2023-11-27T10:50:15.697724",
-    totalAmount: 40.0,
-    orderStatus: "Pending",
-    orderNotes: "Order1 is the new order for this week",
-    orderSource: "InStore",
-    shippingAddress: {
-      id: 5,
-      street: "Rrruga e Elbasanit",
-      city: "Tirane",
-      state: "Albania",
-      postalCode: "1001",
-      country: "Albania",
-    },
-    deliveryDate: "2023-12-06",
-    userDTO: {
-      id: 1,
-      firstName: "Blerta",
-      lastName: "Prendi",
-    },
-    orderItem: [
-      {
-        quantity: 4,
-        unitPrice: 50.0,
-        totalPrice: 200.0,
-        order: {
-          id: 5,
-          name: null,
-        },
-        product: {
-          id: 1,
-          productName: "Tulip",
-        },
-      },
-    ],
-  },
-];
 const OrdersTable: FC<{}> = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState<OrderDetails[]>([]);
@@ -238,6 +46,7 @@ const OrdersTable: FC<{}> = () => {
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [error, setError] = useState<string>("");
   const dispatch: AppDispatch = useDispatch();
+  console.log(orders);
 
   //get order api
   useEffect(() => {
@@ -245,8 +54,9 @@ const OrdersTable: FC<{}> = () => {
       try {
         const result = await dispatch(fetchOrderDetails());
         if (fetchOrderDetails.fulfilled.match(result)) {
-          const orders = result.payload;
-          setOrders(orders);
+          // const orders = result.payload;
+
+          setOrders(result.payload);
         } else {
           setError("Error fetching orders. Please try again later!");
         }
@@ -258,6 +68,7 @@ const OrdersTable: FC<{}> = () => {
 
     fetchOrderData();
   }, [dispatch]);
+  console.log(orders);
 
   //delete order
   const handleDelete = async (orderId: number) => {
@@ -316,38 +127,47 @@ const OrdersTable: FC<{}> = () => {
                 <th>State</th>
                 <th>Postal Code</th>
                 <th>Quantity</th>
-                <th>Unit Price</th>
+                {/* <th>Unit Price</th> */}
                 <th>Total Price </th>
                 <th>Actions</th>
               </TableRow>
             </TableHead>
             <tbody>
-              {data.map((rental: any, index: any) => (
-                <TableRow key={index}>
-                  <TableCell>{rental.userDTO.firstName}</TableCell>
-                  <TableCell> {rental.userDTO.lastName} </TableCell>
-                  <TableCell>
-                    {rental.orderItem[0]?.product?.productName}
-                  </TableCell>
-                  <TableCell> ${rental.totalAmount} </TableCell>
-                  <TableCell>{rental.orderNotes}</TableCell>
-                  <TableCell> {rental.shippingAddress.street} </TableCell>
-                  <TableCell> {rental.shippingAddress.city} </TableCell>
-                  <TableCell> {rental.shippingAddress.state} </TableCell>
-                  <TableCell> {rental.shippingAddress.postalCode} </TableCell>
-                  <TableCell>{rental.orderItem[0]?.quantity}</TableCell>
-                  <TableCell>${rental.orderItem[0]?.unitPrice}</TableCell>
-                  <TableCell>${rental.orderItem[0]?.totalPrice}</TableCell>
-                  <TableCell>
-                    <EditButton onClick={() => handleEdit(rental)}>
-                      Edit
-                    </EditButton>
-                    <IconLink to="" onClick={() => handleDelete(rental.id)}>
-                      <DeleteIcon />
-                    </IconLink>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {orders.map((orderGroup: any, index: number) =>
+                orderGroup.map(
+                  (order: OrderDetails, subIndex: number) =>
+                    // <React.Fragment key={`${index}-${subIndex}`}>
+                    order?.orderItem?.map((item: any, itemIndex: number) => (
+                      <TableRow key={`${index}-${subIndex}-${itemIndex}`}>
+                        <TableCell>{order?.userDTO?.firstName}</TableCell>
+                        <TableCell>{order?.userDTO?.lastName}</TableCell>
+                        <TableCell>{item?.product?.productName}</TableCell>
+                        <TableCell>${order?.totalAmount}</TableCell>
+                        <TableCell>{order?.orderNotes}</TableCell>
+                        <TableCell>{order?.shippingAddress?.street}</TableCell>
+                        <TableCell>{order?.shippingAddress?.city}</TableCell>
+                        <TableCell>{order?.shippingAddress?.state}</TableCell>
+                        <TableCell>
+                          {order?.shippingAddress?.postalCode}
+                        </TableCell>
+                        <TableCell>{item?.quantity}</TableCell>
+                        <TableCell>${item?.totalPrice}</TableCell>
+                        <TableCell>
+                          <EditButton onClick={() => handleEdit(order)}>
+                            Edit
+                          </EditButton>
+                          <IconLink
+                            to=""
+                            onClick={() => handleDelete(order.id)}
+                          >
+                            <DeleteIcon />
+                          </IconLink>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  // </React.Fragment>
+                )
+              )}
             </tbody>
           </Table>
         </TableContainer>

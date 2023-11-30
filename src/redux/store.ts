@@ -25,6 +25,10 @@ import { ProductFormState } from "redux/Containers/ProductForm/ProductFormSlice"
 import productFormSlice from "redux/Containers/ProductForm/ProductFormSlice";
 import { OrderState } from "redux/Pages/Orders/OrdersSlice";
 import orderSlice from "redux/Pages/Orders/OrdersSlice";
+import { OrderFormState } from "redux/Containers/OrderForm/OrderFormSlice";
+import orderFormSlice from "redux/Containers/OrderForm/OrderFormSlice";
+import { CalculateItem } from "redux/Containers/CalculateItem/CalculateItemSlice";
+import calculateItemSlice from "redux/Containers/CalculateItem/CalculateItemSlice";
 type RootState = {
   login: LoginState;
   register: AuthRegState;
@@ -36,6 +40,8 @@ type RootState = {
   product: ProductState;
   productForm: ProductFormState;
   order: OrderState;
+  orderForm: OrderFormState;
+  calculate: CalculateItem;
 };
 const persistConfig = {
   key: "root",
@@ -52,6 +58,8 @@ const persistConfig = {
     "product",
     "productForm",
     "order",
+    "orderForm",
+    "calculate",
   ],
 };
 
@@ -66,6 +74,8 @@ const rootReducer = combineReducers({
   product: productSlice,
   productForm: productFormSlice,
   order: orderSlice,
+  orderForm: orderFormSlice,
+  calculate: calculateItemSlice,
 });
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 const store = configureStore({
@@ -84,6 +94,7 @@ const store = configureStore({
           "user/productProp/fulfilled",
           "user/productForm/fulfilled",
           "user/orderProp/fulfilled",
+          "user/orderForm/fulfilled",
           "persist/PERSIST",
         ],
       },

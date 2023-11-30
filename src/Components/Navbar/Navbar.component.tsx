@@ -51,6 +51,11 @@ const Navbar: FC<{}> = () => {
             Product table{menu === "bicycle" ? <HR /> : <></>}
           </ListItem>
         </NavLink>
+        <NavLink to="/orderTable" onClick={() => setMenu("orderTable")}>
+          <ListItem>
+            Order Table{menu === "orderTable" ? <HR /> : <></>}
+          </ListItem>
+        </NavLink>
         {/* <NavLink to="/resetpassword" onClick={() => setMenu("cellphone")}>
           <ListItem>
             Reset Password{menu === "cellphone" ? <HR /> : <></>}

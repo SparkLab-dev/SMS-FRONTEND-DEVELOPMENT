@@ -69,7 +69,7 @@ export const LabelDescriptionContainer = styled.div`
   font-size: 14px;
   line-height: 24px;
   color: #43546f;
-  margin: 23px 0 0px 0;
+  margin: 10px 0 0px 0;
   padding-left: 15px;
   text-align: left;
 `;
@@ -91,7 +91,7 @@ export const FormName = styled.h1`
   text-align: center;
   font-style: normal;
   font-weight: 600;
-  font-size: 47px;
+  font-size: 40px;
   line-height: 70px;
   color: #43546f;
 `;

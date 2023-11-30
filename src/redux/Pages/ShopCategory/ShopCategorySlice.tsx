@@ -51,6 +51,7 @@ export const fetchShopProductCategory = createAsyncThunk<
       `http://192.168.10.210:8081/SMS/productcategory/${productId}/products`
     );
     console.log(response);
+    console.log(productId)
     return response.data;
   } catch (error) {
     console.error(error);
