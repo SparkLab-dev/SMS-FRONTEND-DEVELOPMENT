@@ -16,6 +16,7 @@ import {
   ShoppingCart,
   UnorderedList,
 } from "./style/Navbar.style";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const Navbar: FC<{}> = () => {
   const navigate = useNavigate();
@@ -43,9 +44,6 @@ const Navbar: FC<{}> = () => {
         <NavLink to="/home" onClick={() => setMenu("shop")}>
           <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
         </NavLink>
-        {/* <NavLink to="/login" onClick={() => setMenu("shop")}>
-          <ListItem>Login{menu === "shop" ? <HR /> : <></>}</ListItem>
-        </NavLink> */}
         <NavLink to="/table" onClick={() => setMenu("bicycle")}>
           <ListItem>
             Product table{menu === "bicycle" ? <HR /> : <></>}
@@ -56,12 +54,10 @@ const Navbar: FC<{}> = () => {
             Order Table{menu === "orderTable" ? <HR /> : <></>}
           </ListItem>
         </NavLink>
-        {/* <NavLink to="/resetpassword" onClick={() => setMenu("cellphone")}>
-          <ListItem>
-            Reset Password{menu === "cellphone" ? <HR /> : <></>}
-          </ListItem>
-        </NavLink> */}
       </UnorderedList>
+      <div style={{display:"flex"}}>
+        <MenuIcon />
+      </div>
       <NavLoginCart>
         <LogoutButton onClick={logout}>Log out</LogoutButton>
         <ShoppingCart style={{ fontSize: "30px" }} />

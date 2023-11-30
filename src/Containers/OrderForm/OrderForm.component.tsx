@@ -1,7 +1,12 @@
 import { FC, useState, useEffect } from "react";
 
 //style
-import { FormName, StyledForm, StyledSelect } from "App/style/App.style";
+import {
+  FormName,
+  LabelDescriptionContainer,
+  StyledForm,
+  StyledSelect,
+} from "App/style/App.style";
 
 //components
 import GenericInput from "Components/GenericInput/GenericInput.component";
@@ -229,6 +234,7 @@ const OrderForm: FC<{}> = () => {
         </OrderFormInputsHolder>
         <OrderFormInputsHolder>
           <OrderInputContainer>
+            <LabelDescriptionContainer>Products</LabelDescriptionContainer>
             <StyledSelect
               value={
                 selectedCategory !== null ? selectedCategory.toString() : ""

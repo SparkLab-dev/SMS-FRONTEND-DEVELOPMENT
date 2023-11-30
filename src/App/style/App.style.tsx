@@ -10,7 +10,7 @@ export const Page = styled.div`
   height: 100vh;
   /* padding: 30px; */
   display: flex;
-  /* flex-direction: column; */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: "#FFFF";
