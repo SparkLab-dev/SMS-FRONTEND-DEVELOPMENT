@@ -76,6 +76,9 @@ const OrdersTable: FC<{}> = () => {
       const result = await dispatch(deleteOrder(orderId));
       if (deleteOrder.fulfilled.match(result)) {
         console.log("Order deleted successfully!");
+        setOrders((prevState) =>
+          prevState.filter((order) => order.id !== orderId)
+        );
       } else {
         console.error("Failed to delete order");
       }

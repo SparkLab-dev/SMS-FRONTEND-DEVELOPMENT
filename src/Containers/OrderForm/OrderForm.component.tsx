@@ -7,22 +7,31 @@ import {
   StyledForm,
   StyledSelect,
 } from "App/style/App.style";
-
-//components
-import GenericInput from "Components/GenericInput/GenericInput.component";
-import GenericButton from "Components/GenericButton/GenericButton.component";
 import {
   OrderFormInputsHolder,
   OrderInputContainer,
 } from "./style/OrderForm.style";
-import { AppDispatch } from "redux/store";
-import { useDispatch } from "react-redux";
+
+//components
+import GenericInput from "Components/GenericInput/GenericInput.component";
+import GenericButton from "Components/GenericButton/GenericButton.component";
+
+//redux
+import { AppDispatch, RootState } from "redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import { orderForm } from "redux/Containers/OrderForm/OrderFormSlice";
 import { calculateItem } from "redux/Containers/CalculateItem/CalculateItemSlice";
 import {
   ProductDetails,
   fetchAllProducts,
 } from "redux/Pages/Product/ProductSlice";
+import {
+  Table,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "Components/ProductsTable/style/ProductsTable.style";
 
 const OrderForm: FC<{}> = () => {
   const [totalAmount, setTotalAmount] = useState<string>("");
@@ -39,8 +48,33 @@ const OrderForm: FC<{}> = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [addedItems, setAddedItems] = useState<
-    { quantity: string; totalPrice: string }[]
+    {
+      productName: string;
+
+      quantity: string;
+      totalPrice: string;
+      totalAmount: string;
+      unitPrice: string;
+      product: {
+        id: string; // Convert to number if necessary
+      };
+    }[]
   >([]);
+  const [selectedProduct, setSelectedProduct] = useState<ProductDetails | null>(
+    null
+  );
+  const [selectedProductsList, setSelectedProductsList] = useState<
+    {
+      productId: number;
+      quantity: string;
+      unitPrice: string;
+    }[]
+  >([]);
+
+  //get userRole from redux
+  const userId = useSelector((state: RootState) => state.login.user?.id);
+  console.log(userId);
+
   const dispatch: AppDispatch = useDispatch();
 
   //get product api
@@ -48,6 +82,7 @@ const OrderForm: FC<{}> = () => {
     const fetchOrderData = async () => {
       try {
         const result = await dispatch(fetchAllProducts());
+        console.log(result);
         if (fetchAllProducts.fulfilled.match(result)) {
           const orders = result.payload.flat(); // Flatten the array
 
@@ -65,6 +100,83 @@ const OrderForm: FC<{}> = () => {
   }, [dispatch]);
 
   console.log(getAllProducts);
+
+  const handleProductSelect = (productId: number) => {
+    const selectedProduct = getAllProducts.find(
+      (product) => product.id === productId
+    );
+    if (selectedProduct) {
+      setSelectedProduct(selectedProduct);
+      setUnitPrice(selectedProduct.price.toString());
+    }
+  };
+
+  //post calculated item api
+
+  const handleCalculateItemClick = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+
+    try {
+      if (!selectedProduct || selectedProduct.id === undefined) {
+        console.error("No product selected or invalid product ID.");
+        return;
+      }
+
+      const newProductDetails = {
+        productId: selectedProduct.id,
+        quantity: quantity,
+        unitPrice: unitPrice,
+      };
+
+      const updatedSelectedList = [...selectedProductsList, newProductDetails];
+
+      setSelectedProductsList(updatedSelectedList);
+
+      const itemCredentials = {
+        orderItemList: updatedSelectedList.map((product) => ({
+          quantity: product.quantity,
+          unitPrice: product.unitPrice,
+          product: {
+            id: product.productId,
+          },
+        })),
+      };
+
+      const response = await dispatch(calculateItem({ itemCredentials }));
+      console.log(response.payload);
+      if (calculateItem.fulfilled.match(response)) {
+        const { orderItemList, totalPrice: calculatedTotal } = response.payload;
+
+        orderItemList.forEach((item: any) => {
+          const newItem = {
+            productName: item.product.productName,
+            // id: item.product.id,
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+            totalPrice: item.productTotalPrice,
+            totalAmount: response.payload.totalAmount,
+            product: {
+              id: item.product.id.toString(), // Ensure id is a string
+            },
+          };
+
+          setAddedItems([...addedItems, newItem]);
+        });
+
+        const total =
+          addedItems.reduce(
+            (acc, item) => acc + parseFloat(item.totalPrice),
+            0
+          ) + parseFloat(calculatedTotal);
+
+        setTotalPrice(total.toFixed(2));
+      }
+    } catch (error) {
+      console.log("Error in calculate item click:", error);
+    }
+  };
 
   //post request
   const userCredentials = {
@@ -90,8 +202,39 @@ const OrderForm: FC<{}> = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-
     try {
+      const lastAddedItem = addedItems[addedItems.length - 1]; // Get the last added item
+
+      const productsDataForOrder = addedItems.map((item) => ({
+        productName: item.productName,
+
+        quantity: item.quantity,
+        totalPrice: item.totalPrice,
+        totalAmount: item.totalAmount,
+        unitPrice: item.unitPrice,
+        product: {
+          id: parseInt(item.product.id), // Convert to number if necessary
+        },
+      }));
+
+      const userCredentials = {
+        totalAmount: lastAddedItem.totalAmount || "0", // Extract totalAmount from the last item
+        orderNotes: orderNotes,
+        shippingAddress: {
+          street: street,
+          city: city,
+          state: state,
+          postalCode: postalCode,
+          country: country,
+        },
+        orderItemList: productsDataForOrder,
+        orderClient: {
+          id: userId,
+        },
+        createdBy: {
+          id: userId,
+        },
+      };
       const response = await dispatch(orderForm({ userCredentials }));
 
       if (orderForm.fulfilled.match(response)) {
@@ -101,60 +244,11 @@ const OrderForm: FC<{}> = () => {
     }
   };
 
-  //post calculated item api
-  const itemCredentials = {
-    orderItemList: [
-      {
-        quantity: quantity,
-        unitPrice: unitPrice,
-      },
-    ],
-  };
-
-  const handleCalculateItemClick = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-
-    try {
-      const response = await dispatch(calculateItem({ itemCredentials }));
-
-      if (calculateItem.fulfilled.match(response)) {
-        const { totalPrice: calculatedTotal } = response.payload;
-
-        const newItem = { quantity, totalPrice };
-        setAddedItems([...addedItems, newItem]);
-
-        const total =
-          addedItems.reduce(
-            (acc, item) => acc + parseFloat(item.totalPrice),
-            0
-          ) + parseFloat(calculatedTotal);
-
-        setTotalPrice(total.toFixed(2)); // Adjust to your requirements
-      }
-    } catch (error) {
-      console.log("Error in calculate item click:", error);
-    }
-  };
-
   return (
     <>
       <StyledForm>
         <FormName>Order</FormName>
         <OrderFormInputsHolder>
-          {/* <OrderInputContainer>
-            <GenericInput
-              placeholder="Total Amount"
-              input_label="Total Amount"
-              required={true}
-              type="number"
-              value={totalAmount || ""}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setTotalAmount(e.target.value)
-              }
-            />
-          </OrderInputContainer> */}
           <OrderInputContainer>
             <GenericInput
               placeholder="Order Notes"
@@ -239,7 +333,11 @@ const OrderForm: FC<{}> = () => {
               value={
                 selectedCategory !== null ? selectedCategory.toString() : ""
               }
-              onChange={(e: any) => setSelectedCategory(Number(e.target.value))}
+              onChange={(e: any) => {
+                const selectedProductId = Number(e.target.value);
+                setSelectedCategory(selectedProductId);
+                handleProductSelect(selectedProductId);
+              }}
             >
               <option defaultValue="none">Select an Option</option>
               {getAllProducts.map((product: any, index: any) => (
@@ -260,12 +358,10 @@ const OrderForm: FC<{}> = () => {
                 setQuantity(e.target.value)
               }
             />
-          </OrderInputContainer>{" "}
+          </OrderInputContainer>
         </OrderFormInputsHolder>
-        <GenericButton name="Add" onClick={handleCalculateItemClick} />
-        {/* <OrderFormInputsHolder></OrderFormInputsHolder> */}
         <OrderFormInputsHolder>
-          {/* <OrderInputContainer>
+          <OrderInputContainer>
             <GenericInput
               placeholder="Unit Price"
               input_label="Unit Price"
@@ -276,20 +372,64 @@ const OrderForm: FC<{}> = () => {
                 setUnitPrice(e.target.value)
               }
             />
-          </OrderInputContainer> */}
+          </OrderInputContainer>
+        </OrderFormInputsHolder>
+        <GenericButton name="Add" onClick={handleCalculateItemClick} />
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <th>Product</th>
+                <th>Id</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+                <th>Total Amount</th>
+              </TableRow>
+            </TableHead>
+            <tbody>
+              {addedItems.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>{item.productName}</TableCell>
+                  <TableCell>{item.product.id}</TableCell>
+                  <TableCell>{item.quantity}</TableCell>
+                  <TableCell>{item.unitPrice}</TableCell>
+                  <TableCell>{item.totalPrice}</TableCell>
+                  <TableCell>{item.totalAmount}</TableCell>
+
+                  {/* <TableCell>{item.totalAmount}</TableCell> */}
+                  {/* Add more cells to display other item details */}
+                </TableRow>
+              ))}
+            </tbody>
+          </Table>
+        </TableContainer>
+        {/* <OrderFormInputsHolder>
           <OrderInputContainer>
             <GenericInput
               placeholder="Total Price"
               input_label="Total Price"
               required={true}
               type="number"
-              value={totalAmount || ""}
+              value={totalPrice || ""}
               // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               //   setTotalPrice(e.target.value)
               // }
             />
           </OrderInputContainer>
-        </OrderFormInputsHolder>
+          <OrderInputContainer>
+            <GenericInput
+              placeholder="Total Amount"
+              input_label="Total Amount"
+              required={true}
+              type="number"
+              value={totalAmount || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setTotalAmount(e.target.value)
+              }
+            />
+          </OrderInputContainer>
+        </OrderFormInputsHolder> */}
         <GenericButton name="Submit" onClick={handleOrderFormClick} />
       </StyledForm>
     </>

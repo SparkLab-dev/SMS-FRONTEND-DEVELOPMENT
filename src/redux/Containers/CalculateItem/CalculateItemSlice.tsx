@@ -31,7 +31,9 @@ const initialState: CalculateItem = {
 export const calculateItem = createAsyncThunk(
   "calculate/calculateItem",
   async (
-    { itemCredentials }: { itemCredentials: object },
+    {
+      itemCredentials
+    }: { itemCredentials: object },
     { rejectWithValue }
   ) => {
     try {

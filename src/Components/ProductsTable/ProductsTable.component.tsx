@@ -34,6 +34,7 @@ import {
 } from "redux/Pages/ProductCategory/ProductCategorySlice";
 import {
   ShopCategoryProductProps,
+  deleteProduct,
   fetchShopProductCategory,
 } from "redux/Pages/ShopCategory/ShopCategorySlice";
 
@@ -56,7 +57,7 @@ const ProductsTable: FC<{}> = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
-  console.log(product);
+  console.log(shopCategory);
 
   //get category
   useEffect(() => {
@@ -101,6 +102,24 @@ const ProductsTable: FC<{}> = () => {
 
     fetchData();
   }, [dispatch, selectedCategory]);
+
+  //delete product api call
+  const handleDeleteProduct = async (productId: number) => {
+    try {
+      const result = await dispatch(deleteProduct(productId));
+      if (deleteProduct.fulfilled.match(result)) {
+        console.log("Product deleted successfully!");
+        // Remove the deleted product from the state
+        setShopCategory((prevState) =>
+          prevState.filter((product) => product.id !== productId)
+        );
+      } else {
+        console.error("Failed to delete product");
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
 
   const buttonName = (
     <AddProductNameContainerPlusIcon>
@@ -168,7 +187,9 @@ const ProductsTable: FC<{}> = () => {
                 <th>Stock Quantity</th>
                 <th>ThresHold</th>
                 <th>Product Category</th>
-                <th>Atrribute Name</th>
+                <th>Price</th>
+                <th>Attribute Name</th>
+                <th>Attribute Value</th>
                 <th>Actions</th>
               </TableRow>
             </TableHead>
@@ -181,7 +202,7 @@ const ProductsTable: FC<{}> = () => {
                   <TableCell> {rental.threshold} </TableCell>
                   <TableCell> {rental.productCategory.name} </TableCell>
                   <TableCell> ${rental.price} </TableCell>
-                  {/* <TableCell>
+                  <TableCell>
                     {rental.attributes.map((attr: any, attrIndex: any) => (
                       <div key={attrIndex}>
                         <p>{attr.attributeName}</p>
@@ -194,12 +215,15 @@ const ProductsTable: FC<{}> = () => {
                         <p>{attr.attributeValue}</p>
                       </div>
                     ))}
-                  </TableCell> */}
+                  </TableCell>
                   <TableCell>
                     <EditButton onClick={() => handleEdit(rental)}>
                       Edit
                     </EditButton>
-                    <IconLink to="">
+                    <IconLink
+                      to=""
+                      onClick={() => handleDeleteProduct(rental.id)}
+                    >
                       <DeleteIcon />
                     </IconLink>
                   </TableCell>

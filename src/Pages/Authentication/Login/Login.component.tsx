@@ -22,7 +22,6 @@ import { AppDispatch, RootState } from "redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { UserLogin } from "redux/Authentication/Login/LoginSlice";
 
-
 const Login: FC<{}> = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
@@ -63,9 +62,15 @@ const Login: FC<{}> = () => {
           const resultAction = await loginAction;
 
           if (UserLogin.fulfilled.match(resultAction)) {
-            // Login successful
+            const userRole = resultAction.payload.role;
+            if (userRole === "ADMIN") {
+              navigate("/home");
+            } else if (userRole === "CUSTOMER") {
+              navigate("/home");
+            } else if (userRole === "EMPLOYEE") {
+              navigate("/orderTable");
+            }
             console.log("Login successful!");
-            navigate("/register");
           } else if (UserLogin.rejected.match(resultAction)) {
             // Login failed
             console.error("Login failed:", resultAction.payload);

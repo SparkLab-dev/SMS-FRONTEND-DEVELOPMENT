@@ -7,9 +7,21 @@ export const TableAndDatepickerHolder = styled.div`
 `;
 export const TableContainer = styled.div`
   width: 100%;
+  /* max-width: 90%; */
   height: 80%;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
   overflow-x: auto;
   position: relative;
+  overflow-y: scroll;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const Table = styled.table`
@@ -78,7 +90,7 @@ export const ButtonName = styled.p`
 `;
 
 export const InputsOfProductTable = styled.div`
-  display: "flex";
+  display: flex;
 `;
 export const ProductInputHold = styled.div`
   flex: 1;

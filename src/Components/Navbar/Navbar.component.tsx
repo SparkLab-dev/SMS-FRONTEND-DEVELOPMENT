@@ -16,13 +16,20 @@ import {
   ShoppingCart,
   UnorderedList,
 } from "./style/Navbar.style";
+
+//mui-icons
 import MenuIcon from "@mui/icons-material/Menu";
+import { useSelector } from "react-redux";
+import { RootState } from "redux/store";
 
 const Navbar: FC<{}> = () => {
   const navigate = useNavigate();
   const [menu, setMenu] = useState("shop");
   const Shop = require("./assets/shop.png") as string;
 
+  //get userRole from redux
+  const userRole = useSelector((state: RootState) => state.login.user?.role);
+  console.log(userRole);
   //logout call
   const logout = (): void => {
     try {
@@ -41,27 +48,39 @@ const Navbar: FC<{}> = () => {
         <LogoName>SMS</LogoName>
       </NavbarLogo>
       <UnorderedList>
-        <NavLink to="/home" onClick={() => setMenu("shop")}>
-          <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
-        </NavLink>
-        <NavLink to="/table" onClick={() => setMenu("bicycle")}>
-          <ListItem>
-            Product table{menu === "bicycle" ? <HR /> : <></>}
-          </ListItem>
-        </NavLink>
-        <NavLink to="/orderTable" onClick={() => setMenu("orderTable")}>
-          <ListItem>
-            Order Table{menu === "orderTable" ? <HR /> : <></>}
-          </ListItem>
-        </NavLink>
+        {userRole === "ADMIN" && (
+          <NavLink to="/home" onClick={() => setMenu("shop")}>
+            <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
+          </NavLink>
+        )}
+
+        {userRole === "EMPLOYEE" && (
+          <>
+            <NavLink to="/orderTable" onClick={() => setMenu("orderTable")}>
+              <ListItem>
+                Order Table{menu === "orderTable" ? <HR /> : <></>}
+              </ListItem>
+            </NavLink>
+            <NavLink to="/table" onClick={() => setMenu("bicycle")}>
+              <ListItem>
+                Product table{menu === "bicycle" ? <HR /> : <></>}
+              </ListItem>
+            </NavLink>
+          </>
+        )}
+        {userRole === "CUSTOMER" && (
+          <NavLink to="/home" onClick={() => setMenu("shop")}>
+            <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
+          </NavLink>
+        )}
       </UnorderedList>
-      <div style={{display:"flex"}}>
+      {/* <div style={{ display: "flex" }}>
         <MenuIcon />
-      </div>
+      </div> */}
       <NavLoginCart>
         <LogoutButton onClick={logout}>Log out</LogoutButton>
-        <ShoppingCart style={{ fontSize: "30px" }} />
-        <NavCartCount>0</NavCartCount>
+        {/* <ShoppingCart style={{ fontSize: "30px" }} />
+        <NavCartCount>0</NavCartCount> */}
       </NavLoginCart>
     </Header>
   );

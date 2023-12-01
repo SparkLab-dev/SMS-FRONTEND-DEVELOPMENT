@@ -26,7 +26,7 @@ export const ButtonCont = styled.button`
     background: #cfdeff;
     border-radius: 10px;
     color: #0e53c5;
-    border: 0;
+    border: 1px solid transparent;
   }
   &:disabled {
     opacity: 0.6;
