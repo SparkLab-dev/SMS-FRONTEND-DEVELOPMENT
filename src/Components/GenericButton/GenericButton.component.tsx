@@ -11,11 +11,7 @@ interface ButtonProps {
   value?: string;
 }
 const GenericButton: FC<ButtonProps> = (props) => {
-  // const handleClick = () => {
-  //   if (props.onClick) {
-  //     props.onClick(props.value);
-  //   }
-  // };
+
   return (
     <>
       <ButtonHolder>

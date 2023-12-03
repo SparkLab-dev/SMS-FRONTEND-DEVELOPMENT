@@ -9,9 +9,7 @@ export const UploadedFiles = styled.div``;
 export const AttachmentInputHolder = styled.div`
   margin-top: 5px;
 `;
-// export const AttachmentInputNone = styled.div`
-//   display: none;
-// `;
+
 export const AttachmentLabel = styled.label``;
 export const AttachmentUploadButton = styled.div`
   display: flex;
@@ -72,4 +70,12 @@ export const UploadedFileName = styled.div`
   white-space: nowrap;
   overflow: hidden;
   width: 200px;
+`;
+export const FileNameAndFileRemoveButtonHolder = styled.div`
+  background-color: #e5f7fc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  font-size: 14px;
 `;

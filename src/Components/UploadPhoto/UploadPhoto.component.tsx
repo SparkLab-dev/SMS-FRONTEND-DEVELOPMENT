@@ -1,4 +1,6 @@
 import { FC, useState, useEffect, ChangeEvent, useRef } from "react";
+
+//mui-icons
 import EditIcon from "@mui/icons-material/Edit";
 import {
   EditPhotoContainer,
@@ -7,6 +9,8 @@ import {
   PhotoPreview,
   Preview,
 } from "./style/UploadPhoto.style";
+
+//style
 import { LabelDescription } from "Components/GenericInput/style/GenericInput.style";
 
 interface LogoProps {
@@ -37,12 +41,6 @@ const UploadPhoto: FC<LogoProps> = (props) => {
   const handlePhotoUpdate = (file: File) => {
     props.sendPhoto(file);
   };
-
-  // console.log(
-  //   document.querySelector<HTMLInputElement>("#imageUpload")
-  //     ? document.querySelector<HTMLInputElement>("#imageUpload")?.files
-  //     : ""
-  // );
 
   return (
     <EditPhotoContainer>

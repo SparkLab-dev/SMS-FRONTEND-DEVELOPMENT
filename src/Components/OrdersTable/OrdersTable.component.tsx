@@ -24,10 +24,12 @@ import {
 import {
   AddNewOrderButton,
   AddOrderNameContainerPlusIcon,
+  InputsOfModalHolder,
   ModalInputHolder,
   OrderButtonName,
   OrderH2,
   OrdersTableContainer,
+  TableBody,
 } from "./style/OrdersTable.style";
 
 //redux
@@ -45,6 +47,7 @@ const OrdersTable: FC<{}> = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [error, setError] = useState<string>("");
+
   const dispatch: AppDispatch = useDispatch();
   console.log(orders);
 
@@ -130,48 +133,41 @@ const OrdersTable: FC<{}> = () => {
                 <th>State</th>
                 <th>Postal Code</th>
                 <th>Quantity</th>
-                {/* <th>Unit Price</th> */}
                 <th>Total Price </th>
                 <th>Actions</th>
               </TableRow>
             </TableHead>
-            <tbody>
+            <TableBody>
               {orders.map((orderGroup: any, index: number) =>
-                orderGroup.map(
-                  (order: OrderDetails, subIndex: number) =>
-                    // <React.Fragment key={`${index}-${subIndex}`}>
-                    order?.orderItem?.map((item: any, itemIndex: number) => (
-                      <TableRow key={`${index}-${subIndex}-${itemIndex}`}>
-                        <TableCell>{order?.userDTO?.firstName}</TableCell>
-                        <TableCell>{order?.userDTO?.lastName}</TableCell>
-                        <TableCell>{item?.product?.productName}</TableCell>
-                        <TableCell>${order?.totalAmount}</TableCell>
-                        <TableCell>{order?.orderNotes}</TableCell>
-                        <TableCell>{order?.shippingAddress?.street}</TableCell>
-                        <TableCell>{order?.shippingAddress?.city}</TableCell>
-                        <TableCell>{order?.shippingAddress?.state}</TableCell>
-                        <TableCell>
-                          {order?.shippingAddress?.postalCode}
-                        </TableCell>
-                        <TableCell>{item?.quantity}</TableCell>
-                        <TableCell>${item?.totalPrice}</TableCell>
-                        <TableCell>
-                          <EditButton onClick={() => handleEdit(order)}>
-                            Edit
-                          </EditButton>
-                          <IconLink
-                            to=""
-                            onClick={() => handleDelete(order.id)}
-                          >
-                            <DeleteIcon />
-                          </IconLink>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  // </React.Fragment>
+                orderGroup.map((order: OrderDetails, subIndex: number) =>
+                  order?.orderItem?.map((item: any, itemIndex: number) => (
+                    <TableRow key={`${index}-${subIndex}-${itemIndex}`}>
+                      <TableCell>{order?.userDTO?.firstName}</TableCell>
+                      <TableCell>{order?.userDTO?.lastName}</TableCell>
+                      <TableCell>{item?.product?.productName}</TableCell>
+                      <TableCell>${order?.totalAmount}</TableCell>
+                      <TableCell>{order?.orderNotes}</TableCell>
+                      <TableCell>{order?.shippingAddress?.street}</TableCell>
+                      <TableCell>{order?.shippingAddress?.city}</TableCell>
+                      <TableCell>{order?.shippingAddress?.state}</TableCell>
+                      <TableCell>
+                        {order?.shippingAddress?.postalCode}
+                      </TableCell>
+                      <TableCell>{item?.quantity}</TableCell>
+                      <TableCell>${item?.totalPrice}</TableCell>
+                      <TableCell>
+                        <EditButton onClick={() => handleEdit(order)}>
+                          Edit
+                        </EditButton>
+                        <IconLink to="" onClick={() => handleDelete(order.id)}>
+                          <DeleteIcon />
+                        </IconLink>
+                      </TableCell>
+                    </TableRow>
+                  ))
                 )
               )}
-            </tbody>
+            </TableBody>
           </Table>
         </TableContainer>
         <Popup
@@ -185,7 +181,7 @@ const OrdersTable: FC<{}> = () => {
             <>
               {selectedItem && (
                 <>
-                  <div style={{ display: "flex" }}>
+                  <InputsOfModalHolder>
                     <ModalInputHolder>
                       <GenericInput
                         input_label="FirstName"
@@ -216,8 +212,8 @@ const OrdersTable: FC<{}> = () => {
                         }}
                       />
                     </ModalInputHolder>
-                  </div>
-                  <div style={{ display: "flex" }}>
+                  </InputsOfModalHolder>
+                  <InputsOfModalHolder>
                     <ModalInputHolder>
                       <GenericInput
                         input_label="Product Name"
@@ -252,8 +248,8 @@ const OrdersTable: FC<{}> = () => {
                         }}
                       />
                     </ModalInputHolder>
-                  </div>
-                  <div style={{ display: "flex" }}>
+                  </InputsOfModalHolder>
+                  <InputsOfModalHolder>
                     <ModalInputHolder>
                       <GenericInput
                         input_label="Order Notes "
@@ -281,8 +277,8 @@ const OrdersTable: FC<{}> = () => {
                         }}
                       />
                     </ModalInputHolder>
-                  </div>
-                  <div style={{ display: "flex" }}>
+                  </InputsOfModalHolder>
+                  <InputsOfModalHolder>
                     <ModalInputHolder>
                       <GenericInput
                         input_label="City "
@@ -313,11 +309,11 @@ const OrdersTable: FC<{}> = () => {
                         }}
                       />
                     </ModalInputHolder>
-                  </div>
-                  <div style={{ display: "flex" }}>
+                  </InputsOfModalHolder>
+                  <InputsOfModalHolder>
                     <ModalInputHolder>
                       <GenericInput
-                        input_label="Postal Code "
+                        input_label="Postal Code"
                         value={selectedItem?.shippingAddress.postalCode || ""}
                         type="number"
                         onChange={(e: any) => {
@@ -350,8 +346,8 @@ const OrdersTable: FC<{}> = () => {
                         }}
                       />
                     </ModalInputHolder>
-                  </div>
-                  <div style={{ display: "flex" }}>
+                  </InputsOfModalHolder>
+                  <InputsOfModalHolder>
                     <ModalInputHolder>
                       <GenericInput
                         input_label="Unit Price"
@@ -390,7 +386,7 @@ const OrdersTable: FC<{}> = () => {
                         }}
                       />
                     </ModalInputHolder>
-                  </div>
+                  </InputsOfModalHolder>
                 </>
               )}
             </>

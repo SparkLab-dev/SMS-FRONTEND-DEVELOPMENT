@@ -6,17 +6,22 @@ import {
   AddNewProductButton,
   AddProductNameContainerPlusIcon,
   ButtonName,
+  DropdownOfProductCategory,
   EditButton,
   H2,
   IconLink,
   InputsOfProductTable,
   ProductInputHold,
+  ProductsTableHolder,
+  SelectOption,
+  TH,
   Table,
   TableAndDatepickerHolder,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Tbody,
 } from "./style/ProductsTable.style";
 import { StyledSelect } from "App/style/App.style";
 
@@ -25,7 +30,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 //redux
-import { ProductDetails } from "redux/Pages/Product/ProductSlice";
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
 import {
@@ -45,7 +49,7 @@ import GenericInput from "Components/GenericInput/GenericInput.component";
 
 const ProductsTable: FC<{}> = () => {
   const navigate = useNavigate();
-  const [product, setProduct] = useState<ProductDetails[]>([]);
+
   const [error, setError] = useState<string | null>(null);
   const [productCategory, setProductCategory] = useState<ProductProps[]>([]);
   const [shopCategory, setShopCategory] = useState<ShopCategoryProductProps[]>(
@@ -57,7 +61,7 @@ const ProductsTable: FC<{}> = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
-  console.log(shopCategory);
+  console.log("shop category", shopCategory);
 
   //get category
   useEffect(() => {
@@ -109,7 +113,6 @@ const ProductsTable: FC<{}> = () => {
       const result = await dispatch(deleteProduct(productId));
       if (deleteProduct.fulfilled.match(result)) {
         console.log("Product deleted successfully!");
-        // Remove the deleted product from the state
         setShopCategory((prevState) =>
           prevState.filter((product) => product.id !== productId)
         );
@@ -140,14 +143,7 @@ const ProductsTable: FC<{}> = () => {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "700px",
-        // display: "flex",
-        // flexDirection: "column",
-      }}
-    >
+    <ProductsTableHolder>
       <AddNewProductButton>
         <GenericButton
           name={buttonName}
@@ -155,45 +151,36 @@ const ProductsTable: FC<{}> = () => {
         />
       </AddNewProductButton>
       <TableAndDatepickerHolder>
-        <div
-          style={{
-            margin: "10px auto",
-            width: "100%",
-            maxWidth: "400px",
-            alignItems: "center",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
+        <DropdownOfProductCategory>
           <StyledSelect
             value={selectedCategory !== null ? selectedCategory.toString() : ""}
             onChange={(e: any) => setSelectedCategory(Number(e.target.value))}
           >
-            <option defaultValue="none">Select an Option</option>
+            <SelectOption defaultValue="none">Select an Option</SelectOption>
             {productCategory.map((role) => (
               <option key={role.id} value={role.id}>
                 {role.name}
               </option>
             ))}
           </StyledSelect>
-        </div>
+        </DropdownOfProductCategory>
 
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
-                <th>Name</th>
-                <th>Barcode</th>
-                <th>Stock Quantity</th>
-                <th>ThresHold</th>
-                <th>Product Category</th>
-                <th>Price</th>
-                <th>Attribute Name</th>
-                <th>Attribute Value</th>
-                <th>Actions</th>
+                <TH>Name</TH>
+                <TH>Barcode</TH>
+                <TH>Stock Quantity</TH>
+                <TH>THresHold</TH>
+                <TH>Product Category</TH>
+                <TH>Price</TH>
+                <TH>Attribute Name</TH>
+                <TH>Attribute Value</TH>
+                <TH>Actions</TH>
               </TableRow>
             </TableHead>
-            <tbody>
+            <Tbody>
               {shopCategory.map((rental: any, index: any) => (
                 <TableRow key={index}>
                   <TableCell>{rental.name}</TableCell>
@@ -229,7 +216,7 @@ const ProductsTable: FC<{}> = () => {
                   </TableCell>
                 </TableRow>
               ))}
-            </tbody>
+            </Tbody>
           </Table>
         </TableContainer>
       </TableAndDatepickerHolder>
@@ -372,7 +359,7 @@ const ProductsTable: FC<{}> = () => {
         }
         footerContent={<GenericButton onClick={handleSave} name="Save" />}
       />
-    </div>
+    </ProductsTableHolder>
   );
 };
 

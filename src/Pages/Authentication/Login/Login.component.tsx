@@ -38,6 +38,7 @@ const Login: FC<{}> = () => {
     const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailPattern.test(email);
   };
+
   const userCredentials = {
     email: email || "",
     password: password || "",
@@ -119,7 +120,13 @@ const Login: FC<{}> = () => {
 
         <GenericButton name="Submit" onClick={handleLoginClick} />
         <DontHaveAccountHold>
-          <Paragraph>Forgot password? </Paragraph>
+          <Paragraph>Dont't have an account?</Paragraph>
+          <LinkTo to="/register">
+            <Paragraph>Click here!</Paragraph>
+          </LinkTo>
+        </DontHaveAccountHold>
+        <DontHaveAccountHold>
+          <Paragraph>Forgot password?</Paragraph>
           <LinkTo to="/forgotpassword">
             <Paragraph>Click here!</Paragraph>
           </LinkTo>

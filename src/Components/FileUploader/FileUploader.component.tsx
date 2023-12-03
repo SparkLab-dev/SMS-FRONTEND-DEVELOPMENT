@@ -11,8 +11,11 @@ import {
   AttachmentLabel,
   AttachmentUploadButton,
   AttachmentUploadButtonImgDiv,
+  FileNameAndFileRemoveButtonHolder,
   FileUploadDoneButton,
   FileUploaderContainer,
+  UploadedFileName,
+  UploadedFileRemoveButton,
   UploadedFiles,
 } from "./style/FileUploader.style";
 
@@ -23,7 +26,6 @@ interface FileUploaderProps {
   setAttachments: React.Dispatch<React.SetStateAction<File[]>>;
   closeFileUploader: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
 
 const FileUploader: FC<FileUploaderProps> = (props) => {
   const [files, setFiles] = useState<File[]>([]);
@@ -47,25 +49,12 @@ const FileUploader: FC<FileUploaderProps> = (props) => {
         }
       };
       return (
-        <div
-          key={index}
-          style={{
-            backgroundColor: "#e5f7fc",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "5px",
-            fontSize: "14px",
-          }}
-        >
-          <div className="uploaded-file-name">{f.name}</div>
-          <div
-            onClick={handleSingleFileDelete}
-            className="uploaded-file-remove-button"
-          >
+        <FileNameAndFileRemoveButtonHolder key={index}>
+          <UploadedFileName>{f.name}</UploadedFileName>
+          <UploadedFileRemoveButton onClick={handleSingleFileDelete}>
             Remove
-          </div>
-        </div>
+          </UploadedFileRemoveButton>
+        </FileNameAndFileRemoveButtonHolder>
       );
     });
   }

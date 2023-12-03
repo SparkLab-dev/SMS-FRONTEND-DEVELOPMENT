@@ -8,17 +8,17 @@ import {
   ListItem,
   LogoName,
   LogoutButton,
-  NavCartCount,
   NavImage,
   NavLink,
   NavLoginCart,
   NavbarLogo,
-  ShoppingCart,
   UnorderedList,
 } from "./style/Navbar.style";
 
 //mui-icons
 import MenuIcon from "@mui/icons-material/Menu";
+
+//redux
 import { useSelector } from "react-redux";
 import { RootState } from "redux/store";
 
@@ -30,17 +30,19 @@ const Navbar: FC<{}> = () => {
   //get userRole from redux
   const userRole = useSelector((state: RootState) => state.login.user?.role);
   console.log(userRole);
+
   //logout call
   const logout = (): void => {
     try {
       localStorage.clear();
       navigate("/login");
       // window.location.reload();
-      console.log("localStorage cleared successfully.");
+      console.log("LocalStorage cleared successfully.");
     } catch (error) {
       console.error("Error clearing localStorage:", error);
     }
   };
+
   return (
     <Header>
       <NavbarLogo>

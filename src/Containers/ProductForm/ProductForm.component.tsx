@@ -60,7 +60,6 @@ const ProductForm: FC<LogoProps> = () => {
   const [newAttributeValue, setNewAttributeValue] = useState<string>("");
   const [productCategory, setProductCategory] = useState<ProductProps[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  // const [category, setCategory] = useState<DropdownItem[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const [logo, setLogo] = useState<File | null>(null);
   const [logoSelected, setLogoSelected] = useState<[string, string]>(["", ""]);
@@ -207,7 +206,6 @@ const ProductForm: FC<LogoProps> = () => {
         ) : null}
         <StyledForm>
           <FormName>Product</FormName>
-          {/* <div style={{ display: "grid" }}> */}
           <InputsTableFormContainer>
             <GenericInputHold>
               <GenericInput
@@ -347,9 +345,7 @@ const ProductForm: FC<LogoProps> = () => {
               </UploadLogoHolder>
             </LogoDescAndNameHolder>
           </InputsTableFormContainer>
-          {/* </div> */}
           <GenericButton name="Create Product" onClick={handleSubmit} />
-          {/* <button onClick={handleSubmit}>Create Product</button> */}
         </StyledForm>
       </FormAndModalHolder>
     </>

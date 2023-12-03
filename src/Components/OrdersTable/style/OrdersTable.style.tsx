@@ -20,7 +20,11 @@ export const AddOrderNameContainerPlusIcon = styled.div`
 export const OrderButtonName = styled.p`
   margin: 5px;
 `;
+export const InputsOfModalHolder = styled.div`
+  display: flex;
+`;
 export const ModalInputHolder = styled.div`
   flex: 1;
   margin: 5px;
 `;
+export const TableBody = styled.tbody``;

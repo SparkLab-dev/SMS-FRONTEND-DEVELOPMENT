@@ -25,3 +25,4 @@ export const PopularItem = styled.div`
   display: flex;
   gap: 30px;
 `;
+export const ItemHandler=styled.div``

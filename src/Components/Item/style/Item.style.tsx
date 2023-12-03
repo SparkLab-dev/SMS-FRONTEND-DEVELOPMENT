@@ -10,6 +10,7 @@ export const Image = styled.img`
   width: 270px;
   height: 270px;
 `;
+export const NoImageAvailable=styled.div``
 export const Paragraph = styled.p`
   margin: 6px 0px;
 `;

@@ -29,7 +29,6 @@ export const ModalHeader = styled.div`
   display: flex;
   flex-direction: row;
   background-color: #ffff;
-  /* padding: 0px 30px; */
   border-radius: 10px 10px 0px 0px;
   font-family: "Poppins";
   font-style: normal;
@@ -38,7 +37,6 @@ export const ModalHeader = styled.div`
   line-height: 23px;
   flex: none;
   order: 0;
-  /* align-self: stretch; */
   flex-grow: 0;
   text-align: center;
 `;

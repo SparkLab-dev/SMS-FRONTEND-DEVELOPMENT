@@ -10,7 +10,16 @@ import {
 import {
   OrderFormInputsHolder,
   OrderInputContainer,
+  ProductsTableBody,
+  ProductsTableHead,
 } from "./style/OrderForm.style";
+import {
+  Table,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "Components/ProductsTable/style/ProductsTable.style";
 
 //components
 import GenericInput from "Components/GenericInput/GenericInput.component";
@@ -25,16 +34,8 @@ import {
   ProductDetails,
   fetchAllProducts,
 } from "redux/Pages/Product/ProductSlice";
-import {
-  Table,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "Components/ProductsTable/style/ProductsTable.style";
 
 const OrderForm: FC<{}> = () => {
-  const [totalAmount, setTotalAmount] = useState<string>("");
   const [orderNotes, setOrderNotes] = useState<string>("");
   const [street, setStreet] = useState<string>("");
   const [city, setCity] = useState<string>("");
@@ -50,13 +51,12 @@ const OrderForm: FC<{}> = () => {
   const [addedItems, setAddedItems] = useState<
     {
       productName: string;
-
       quantity: string;
       totalPrice: string;
       totalAmount: string;
       unitPrice: string;
       product: {
-        id: string; // Convert to number if necessary
+        id: string;
       };
     }[]
   >([]);
@@ -84,7 +84,7 @@ const OrderForm: FC<{}> = () => {
         const result = await dispatch(fetchAllProducts());
         console.log(result);
         if (fetchAllProducts.fulfilled.match(result)) {
-          const orders = result.payload.flat(); // Flatten the array
+          const orders = result.payload.flat();
 
           setGetAllProducts(orders);
         } else {
@@ -112,7 +112,6 @@ const OrderForm: FC<{}> = () => {
   };
 
   //post calculated item api
-
   const handleCalculateItemClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -145,20 +144,19 @@ const OrderForm: FC<{}> = () => {
       };
 
       const response = await dispatch(calculateItem({ itemCredentials }));
-      console.log(response.payload);
+
       if (calculateItem.fulfilled.match(response)) {
         const { orderItemList, totalPrice: calculatedTotal } = response.payload;
 
         orderItemList.forEach((item: any) => {
           const newItem = {
             productName: item.product.productName,
-            // id: item.product.id,
             quantity: item.quantity,
             unitPrice: item.unitPrice,
             totalPrice: item.productTotalPrice,
             totalAmount: response.payload.totalAmount,
             product: {
-              id: item.product.id.toString(), // Ensure id is a string
+              id: item.product.id.toString(),
             },
           };
 
@@ -179,46 +177,26 @@ const OrderForm: FC<{}> = () => {
   };
 
   //post request
-  const userCredentials = {
-    totalAmount: totalAmount,
-    orderNotes: orderNotes,
-    shippingAddress: {
-      street: street,
-      city: city,
-      state: state,
-      postalCode: postalCode,
-      country: country,
-    },
-    orderItemList: [
-      {
-        quantity: quantity,
-        unitPrice: unitPrice,
-        totalPrice: totalPrice,
-      },
-    ],
-  };
-
   const handleOrderFormClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     try {
-      const lastAddedItem = addedItems[addedItems.length - 1]; // Get the last added item
+      const lastAddedItem = addedItems[addedItems.length - 1];
 
       const productsDataForOrder = addedItems.map((item) => ({
         productName: item.productName,
-
         quantity: item.quantity,
         totalPrice: item.totalPrice,
         totalAmount: item.totalAmount,
         unitPrice: item.unitPrice,
         product: {
-          id: parseInt(item.product.id), // Convert to number if necessary
+          id: parseInt(item.product.id),
         },
       }));
 
       const userCredentials = {
-        totalAmount: lastAddedItem.totalAmount || "0", // Extract totalAmount from the last item
+        totalAmount: lastAddedItem.totalAmount || "0",
         orderNotes: orderNotes,
         shippingAddress: {
           street: street,
@@ -238,6 +216,7 @@ const OrderForm: FC<{}> = () => {
       const response = await dispatch(orderForm({ userCredentials }));
 
       if (orderForm.fulfilled.match(response)) {
+        console.log("Order added!");
       }
     } catch (error) {
       console.log("Error in handleOrderClick:", error);
@@ -379,15 +358,15 @@ const OrderForm: FC<{}> = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <th>Product</th>
-                <th>Id</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Total Price</th>
-                <th>Total Amount</th>
+                <ProductsTableHead>Product</ProductsTableHead>
+                <ProductsTableHead>Id</ProductsTableHead>
+                <ProductsTableHead>Quantity</ProductsTableHead>
+                <ProductsTableHead>Unit Price</ProductsTableHead>
+                <ProductsTableHead>Total Price</ProductsTableHead>
+                <ProductsTableHead>Total Amount</ProductsTableHead>
               </TableRow>
             </TableHead>
-            <tbody>
+            <ProductsTableBody>
               {addedItems.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>{item.productName}</TableCell>
@@ -396,40 +375,11 @@ const OrderForm: FC<{}> = () => {
                   <TableCell>{item.unitPrice}</TableCell>
                   <TableCell>{item.totalPrice}</TableCell>
                   <TableCell>{item.totalAmount}</TableCell>
-
-                  {/* <TableCell>{item.totalAmount}</TableCell> */}
-                  {/* Add more cells to display other item details */}
                 </TableRow>
               ))}
-            </tbody>
+            </ProductsTableBody>
           </Table>
         </TableContainer>
-        {/* <OrderFormInputsHolder>
-          <OrderInputContainer>
-            <GenericInput
-              placeholder="Total Price"
-              input_label="Total Price"
-              required={true}
-              type="number"
-              value={totalPrice || ""}
-              // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              //   setTotalPrice(e.target.value)
-              // }
-            />
-          </OrderInputContainer>
-          <OrderInputContainer>
-            <GenericInput
-              placeholder="Total Amount"
-              input_label="Total Amount"
-              required={true}
-              type="number"
-              value={totalAmount || ""}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setTotalAmount(e.target.value)
-              }
-            />
-          </OrderInputContainer>
-        </OrderFormInputsHolder> */}
         <GenericButton name="Submit" onClick={handleOrderFormClick} />
       </StyledForm>
     </>

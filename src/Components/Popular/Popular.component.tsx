@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 //style
 import {
   Hr,
+  ItemHandler,
   PopularDiv,
   PopularItem,
   PopularText,
@@ -55,9 +56,9 @@ const Popular: FC<{}> = () => {
         <PopularItem>
           {productCategory.map((item: any, index: any) => {
             return (
-              <div key={index} onClick={() => handleProductCategoryClick(item)}>
+              <ItemHandler key={index} onClick={() => handleProductCategoryClick(item)}>
                 <Item id={item.id} name={item.name} image={item.image} />
-              </div>
+              </ItemHandler>
             );
           })}
         </PopularItem>

@@ -8,6 +8,10 @@ import {
   fetchImageCategory,
 } from "redux/Pages/ImageCategory/ImageCategorySlice";
 import { AppDispatch } from "redux/store";
+import {
+  ProductDetails,
+  fetchProductDetails,
+} from "redux/Pages/Product/ProductSlice";
 
 //style
 import {
@@ -20,12 +24,6 @@ import {
   ProductDetailsHolder,
   ProductName,
 } from "./style/Product.style";
-
-//redux
-import {
-  ProductDetails,
-  fetchProductDetails,
-} from "redux/Pages/Product/ProductSlice";
 
 const Product: FC<{}> = () => {
   const [image, setImage] = useState<ProductImage[]>([]);

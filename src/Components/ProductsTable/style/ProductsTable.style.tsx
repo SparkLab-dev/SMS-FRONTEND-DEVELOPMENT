@@ -1,13 +1,28 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+interface OptionProps {
+  defaultValue?: string;
+}
+export const ProductsTableHolder = styled.div`
+  width: 100%;
+  height: 700px;
+`;
+export const DropdownOfProductCategory = styled.div`
+  margin: 10px auto;
+  width: 100%;
+  max-width: 400px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+`;
+export const SelectOption = styled.option<OptionProps>``;
 export const TableAndDatepickerHolder = styled.div`
   width: 100%;
   height: 80%;
 `;
 export const TableContainer = styled.div`
   width: 100%;
-  /* max-width: 90%; */
   height: 80%;
   justify-content: center;
   align-items: center;
@@ -15,7 +30,6 @@ export const TableContainer = styled.div`
   overflow-x: auto;
   position: relative;
   overflow-y: scroll;
-
   scrollbar-width: none;
   -ms-overflow-style: none;
 
@@ -44,6 +58,8 @@ export const TableRow = styled.tr`
   }
 `;
 
+export const TH=styled.th``
+export const Tbody=styled.tbody``
 export const TableCell = styled.td`
   border: 1px solid #3746673b;
   text-align: center;
