@@ -8,6 +8,10 @@ import {
   fetchImageCategory,
 } from "redux/Pages/ImageCategory/ImageCategorySlice";
 import { AppDispatch } from "redux/store";
+import {
+  ProductDetails,
+  fetchProductDetails,
+} from "redux/Pages/Product/ProductSlice";
 
 //style
 import {
@@ -20,15 +24,20 @@ import {
   ProductDetailsHolder,
   ProductName,
 } from "./style/Product.style";
-import {
-  ProductDetails,
-  fetchProductDetails,
-} from "redux/Pages/Product/ProductSlice";
 
 const Product: FC<{}> = () => {
   const [image, setImage] = useState<ProductImage[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [product, setProduct] = useState<ProductDetails[]>([]);
+
+  // const [uploadCommentFile, setUploadCommentFile] = useState(false);
+  // const [uploadFile, setUploadFile] = useState(false);
+  // const [files, setFiles] = useState<File[]>([]);
+  // const [showButtons, setShowButtons] = useState(false);
+
+  // const handleCommentFileChange = (e: any) => {
+  //   setUploadCommentFile(!uploadFile);
+  // };
 
   const dispatch: AppDispatch = useDispatch();
   const { id } = useParams();
@@ -113,6 +122,16 @@ const Product: FC<{}> = () => {
           );
         })}{" "}
       </ProductDetailsHolder>
+      {/* <GenericButton
+        onClick={() => setUploadCommentFile(!uploadCommentFile)}
+        name="Toggle File Uploader"
+      ></GenericButton>
+      {uploadCommentFile ? (
+        <FileUploader
+          setAttachments={setFiles}
+          closeFileUploader={setUploadCommentFile}
+        />
+      ) : null} */}
     </Holder>
   );
 };

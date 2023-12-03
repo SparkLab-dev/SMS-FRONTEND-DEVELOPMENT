@@ -1,30 +1,19 @@
 import styled from "styled-components";
 export const Holder = styled.div`
   display: flex;
-  /* width: 100%; */
   height: 100%;
   margin: auto;
   justify-content: center;
   align-items: center;
 `;
 export const ProductContainer = styled.div`
-  /* display: grid; */
-  overflow-y: scroll; /* Enable vertical scrolling */
-  /* Hide the scrollbar */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer/Edge */
-  /* WebKit-based browsers like Chrome and Safari */
+  overflow-y: scroll;
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
   &::-webkit-scrollbar {
     display: none;
   }
-  /* width: 400px; */
   height: 360px;
-
-  /* max-width: 932px; */
-  /* width: 100%; */
-  /* height: 100%; */
-  /* margin: 0 auto; */
-  /* grid-column-gap: 64px; */
 `;
 export const ImageContainer = styled.div`
   flex: 1;

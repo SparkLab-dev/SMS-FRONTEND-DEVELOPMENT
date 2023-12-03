@@ -21,7 +21,14 @@ import { ProductImageState } from "redux/Pages/ImageCategory/ImageCategorySlice"
 import imageCategorySlice from "redux/Pages/ImageCategory/ImageCategorySlice";
 import { ProductState } from "redux/Pages/Product/ProductSlice";
 import productSlice from "redux/Pages/Product/ProductSlice";
-
+import { ProductFormState } from "redux/Containers/ProductForm/ProductFormSlice";
+import productFormSlice from "redux/Containers/ProductForm/ProductFormSlice";
+import { OrderState } from "redux/Pages/Orders/OrdersSlice";
+import orderSlice from "redux/Pages/Orders/OrdersSlice";
+import { OrderFormState } from "redux/Containers/OrderForm/OrderFormSlice";
+import orderFormSlice from "redux/Containers/OrderForm/OrderFormSlice";
+import { CalculateItem } from "redux/Containers/CalculateItem/CalculateItemSlice";
+import calculateItemSlice from "redux/Containers/CalculateItem/CalculateItemSlice";
 type RootState = {
   login: LoginState;
   register: AuthRegState;
@@ -31,6 +38,10 @@ type RootState = {
   shopProducts: ShopProductPropsState;
   imageCategory: ProductImageState;
   product: ProductState;
+  productForm: ProductFormState;
+  order: OrderState;
+  orderForm: OrderFormState;
+  calculate: CalculateItem;
 };
 const persistConfig = {
   key: "root",
@@ -45,6 +56,10 @@ const persistConfig = {
     "shopProducts",
     "imageCategory",
     "product",
+    "productForm",
+    "order",
+    "orderForm",
+    "calculate",
   ],
 };
 
@@ -57,6 +72,10 @@ const rootReducer = combineReducers({
   shopProducts: shopProductSlice,
   imageCategory: imageCategorySlice,
   product: productSlice,
+  productForm: productFormSlice,
+  order: orderSlice,
+  orderForm: orderFormSlice,
+  calculate: calculateItemSlice,
 });
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 const store = configureStore({
@@ -73,6 +92,9 @@ const store = configureStore({
           "user/shopProductCategory/fulfilled",
           "user/imageCategory/fulfilled",
           "user/productProp/fulfilled",
+          "user/productForm/fulfilled",
+          "user/orderProp/fulfilled",
+          "user/orderForm/fulfilled",
           "persist/PERSIST",
         ],
       },

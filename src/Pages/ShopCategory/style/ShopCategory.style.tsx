@@ -7,3 +7,8 @@ export const ShopCategoryProducts = styled.div`
 export const ItemContainer = styled.div`
   margin: 5px;
 `;
+export const ItemContainerHolder = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+`;

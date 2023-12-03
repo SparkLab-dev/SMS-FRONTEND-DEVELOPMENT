@@ -8,19 +8,28 @@ import {
   ListItem,
   LogoName,
   LogoutButton,
-  NavCartCount,
   NavImage,
   NavLink,
   NavLoginCart,
   NavbarLogo,
-  ShoppingCart,
   UnorderedList,
 } from "./style/Navbar.style";
+
+//mui-icons
+import MenuIcon from "@mui/icons-material/Menu";
+
+//redux
+import { useSelector } from "react-redux";
+import { RootState } from "redux/store";
 
 const Navbar: FC<{}> = () => {
   const navigate = useNavigate();
   const [menu, setMenu] = useState("shop");
   const Shop = require("./assets/shop.png") as string;
+
+  //get userRole from redux
+  const userRole = useSelector((state: RootState) => state.login.user?.role);
+  console.log(userRole);
 
   //logout call
   const logout = (): void => {
@@ -28,11 +37,12 @@ const Navbar: FC<{}> = () => {
       localStorage.clear();
       navigate("/login");
       // window.location.reload();
-      console.log("localStorage cleared successfully.");
+      console.log("LocalStorage cleared successfully.");
     } catch (error) {
       console.error("Error clearing localStorage:", error);
     }
   };
+
   return (
     <Header>
       <NavbarLogo>
@@ -40,25 +50,39 @@ const Navbar: FC<{}> = () => {
         <LogoName>SMS</LogoName>
       </NavbarLogo>
       <UnorderedList>
-        <NavLink to="/home" onClick={() => setMenu("shop")}>
-          <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
-        </NavLink>
-        {/* <NavLink to="/login" onClick={() => setMenu("shop")}>
-          <ListItem>Login{menu === "shop" ? <HR /> : <></>}</ListItem>
-        </NavLink> */}
-        <NavLink to="/register" onClick={() => setMenu("bicycle")}>
-          <ListItem>Register{menu === "bicycle" ? <HR /> : <></>}</ListItem>
-        </NavLink>
-        {/* <NavLink to="/resetpassword" onClick={() => setMenu("cellphone")}>
-          <ListItem>
-            Reset Password{menu === "cellphone" ? <HR /> : <></>}
-          </ListItem>
-        </NavLink> */}
+        {userRole === "ADMIN" && (
+          <NavLink to="/home" onClick={() => setMenu("shop")}>
+            <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
+          </NavLink>
+        )}
+
+        {userRole === "EMPLOYEE" && (
+          <>
+            <NavLink to="/orderTable" onClick={() => setMenu("orderTable")}>
+              <ListItem>
+                Order Table{menu === "orderTable" ? <HR /> : <></>}
+              </ListItem>
+            </NavLink>
+            <NavLink to="/table" onClick={() => setMenu("bicycle")}>
+              <ListItem>
+                Product table{menu === "bicycle" ? <HR /> : <></>}
+              </ListItem>
+            </NavLink>
+          </>
+        )}
+        {userRole === "CUSTOMER" && (
+          <NavLink to="/home" onClick={() => setMenu("shop")}>
+            <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
+          </NavLink>
+        )}
       </UnorderedList>
+      {/* <div style={{ display: "flex" }}>
+        <MenuIcon />
+      </div> */}
       <NavLoginCart>
         <LogoutButton onClick={logout}>Log out</LogoutButton>
-        <ShoppingCart style={{ fontSize: "30px" }} />
-        <NavCartCount>0</NavCartCount>
+        {/* <ShoppingCart style={{ fontSize: "30px" }} />
+        <NavCartCount>0</NavCartCount> */}
       </NavLoginCart>
     </Header>
   );

@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 //style
-import { Image, ItemPriceNew, ItemPrices } from "./style/Item.style";
+import { Image, ItemDiv, ItemPriceNew, ItemPrices, NoImageAvailable, Paragraph } from "./style/Item.style";
 
 interface ItemProps {
   id?: number;
@@ -14,20 +14,20 @@ interface ItemProps {
 
 const Item: FC<ItemProps> = (props) => {
   return (
-    <div>
+    <ItemDiv>
       {props.image ? (
         <Image
           src={`data:image/jpeg;base64,${props.image}`}
           alt={props.name || ""}
         />
       ) : (
-        <div>No Image Available</div>
+        <NoImageAvailable>No Image Available</NoImageAvailable>
       )}
-      <p>{props.description}</p>
+      <Paragraph>{props.description}</Paragraph>
       <ItemPrices>
         {props.price && <ItemPriceNew>{props.price} $</ItemPriceNew>}
       </ItemPrices>
-    </div>
+    </ItemDiv>
   );
 };
 

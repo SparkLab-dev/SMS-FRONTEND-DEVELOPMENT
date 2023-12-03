@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 //style
 import {
   ItemContainer,
+  ItemContainerHolder,
   ShopCategoryProducts,
 } from "./style/ShopCategory.style";
 
@@ -61,22 +62,27 @@ const ShopCategory: FC<{}> = () => {
   };
 
   return (
-    <>
+    <div>
       <ShopCategoryProducts>
         {shopCategory.map((item: any, index: any) => {
           return (
-            <ItemContainer key={index} onClick={() => handleProductClick(item)}>
-              <Item
-                id={item.id}
-                image={item.primaryImage}
-                price={item.price}
-                description={item.description}
-              />
-            </ItemContainer>
+            <ItemContainerHolder>
+              <ItemContainer
+                key={index}
+                onClick={() => handleProductClick(item)}
+              >
+                <Item
+                  id={item.id}
+                  image={item.primaryImage}
+                  price={item.price}
+                  description={item.description}
+                />
+              </ItemContainer>
+            </ItemContainerHolder>
           );
         })}
       </ShopCategoryProducts>
-    </>
+    </div>
   );
 };
 

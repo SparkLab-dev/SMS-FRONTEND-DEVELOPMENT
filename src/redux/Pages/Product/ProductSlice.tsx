@@ -5,7 +5,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export interface ProductDetails {
-  id: number;
+  id?: number;
   name: string;
   barcode: string | null;
   barcodeimage: string | null;
@@ -56,6 +56,22 @@ export const fetchProductDetails = createAsyncThunk<ProductDetails[], number>(
   }
 );
 
+//get all products
+export const fetchAllProducts = createAsyncThunk<ProductDetails[]>(
+  "allProduct/fetchAllProducts",
+  async () => {
+    try {
+      const response = await axios.get(
+        "http://192.168.10.210:8081/SMS/product"
+      );
+      console.log(response);
+      return [response.data];
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
 const productSlice = createSlice({
   name: "product",
   initialState,
@@ -67,6 +83,15 @@ const productSlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(fetchProductDetails.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.product = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(fetchAllProducts.fulfilled, (state, action) => {
+        state.product = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(fetchAllProducts.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.product = null;
         state.error = action.payload as string | null;

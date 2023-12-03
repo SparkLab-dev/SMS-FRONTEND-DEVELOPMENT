@@ -1,21 +1,17 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
 //style
 import { ButtonCont, ButtonHolder } from "./style/GenericButton.style";
 
 interface ButtonProps {
-  name?: string;
+  name?: string | ReactNode;
   type?: "button" | "reset" | "submit";
   disabled?: boolean;
   onClick?: any;
   value?: string;
 }
 const GenericButton: FC<ButtonProps> = (props) => {
-  // const handleClick = () => {
-  //   if (props.onClick) {
-  //     props.onClick(props.value);
-  //   }
-  // };
+
   return (
     <>
       <ButtonHolder>

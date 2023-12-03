@@ -22,7 +22,6 @@ import { AppDispatch, RootState } from "redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { UserLogin } from "redux/Authentication/Login/LoginSlice";
 
-
 const Login: FC<{}> = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
@@ -39,6 +38,7 @@ const Login: FC<{}> = () => {
     const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailPattern.test(email);
   };
+
   const userCredentials = {
     email: email || "",
     password: password || "",
@@ -63,9 +63,15 @@ const Login: FC<{}> = () => {
           const resultAction = await loginAction;
 
           if (UserLogin.fulfilled.match(resultAction)) {
-            // Login successful
+            const userRole = resultAction.payload.role;
+            if (userRole === "ADMIN") {
+              navigate("/home");
+            } else if (userRole === "CUSTOMER") {
+              navigate("/home");
+            } else if (userRole === "EMPLOYEE") {
+              navigate("/orderTable");
+            }
             console.log("Login successful!");
-            navigate("/register");
           } else if (UserLogin.rejected.match(resultAction)) {
             // Login failed
             console.error("Login failed:", resultAction.payload);
@@ -114,7 +120,13 @@ const Login: FC<{}> = () => {
 
         <GenericButton name="Submit" onClick={handleLoginClick} />
         <DontHaveAccountHold>
-          <Paragraph>Forgot password? </Paragraph>
+          <Paragraph>Dont't have an account?</Paragraph>
+          <LinkTo to="/register">
+            <Paragraph>Click here!</Paragraph>
+          </LinkTo>
+        </DontHaveAccountHold>
+        <DontHaveAccountHold>
+          <Paragraph>Forgot password?</Paragraph>
           <LinkTo to="/forgotpassword">
             <Paragraph>Click here!</Paragraph>
           </LinkTo>

@@ -46,7 +46,6 @@ const ResetPassword: FC<{}> = () => {
       const response = await dispatch(resetPassword(password));
       if (resetPassword.fulfilled.match(response)) {
         console.log(response);
-        // navigate("/login");
       }
     } catch (error) {
       console.log("error", error);
