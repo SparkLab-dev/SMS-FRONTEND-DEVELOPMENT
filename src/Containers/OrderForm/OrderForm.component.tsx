@@ -9,6 +9,7 @@ import {
 } from "App/style/App.style";
 import {
   OrderFormInputsHolder,
+  OrderFormTableContainer,
   OrderInputContainer,
   ProductsTableBody,
   ProductsTableHead,
@@ -354,7 +355,7 @@ const OrderForm: FC<{}> = () => {
           </OrderInputContainer>
         </OrderFormInputsHolder>
         <GenericButton name="Add" onClick={handleCalculateItemClick} />
-        <TableContainer>
+        <OrderFormTableContainer>
           <Table>
             <TableHead>
               <TableRow>
@@ -379,7 +380,7 @@ const OrderForm: FC<{}> = () => {
               ))}
             </ProductsTableBody>
           </Table>
-        </TableContainer>
+        </OrderFormTableContainer>
         <GenericButton name="Submit" onClick={handleOrderFormClick} />
       </StyledForm>
     </>

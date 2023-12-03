@@ -8,10 +8,12 @@ import {
   ListItem,
   LogoName,
   LogoutButton,
+  NavCartCount,
   NavImage,
   NavLink,
   NavLoginCart,
   NavbarLogo,
+  ShoppingCart,
   UnorderedList,
 } from "./style/Navbar.style";
 
@@ -30,9 +32,10 @@ const Navbar: FC<{}> = () => {
   //get userRole from redux
   const userRole = useSelector((state: RootState) => state.login.user?.role);
   console.log(userRole);
+  const isLoggedIn = !!userRole;
 
   //logout call
-  const logout = (): void => {
+  const handleLogout = (): void => {
     try {
       localStorage.clear();
       navigate("/login");
@@ -43,12 +46,17 @@ const Navbar: FC<{}> = () => {
     }
   };
 
+  const handleLogin = () => {
+    navigate("/login");
+  };
   return (
     <Header>
-      <NavbarLogo>
-        <NavImage src={Shop} alt="shop-photo" />
-        <LogoName>SMS</LogoName>
-      </NavbarLogo>
+      <NavLink to="/">
+        <NavbarLogo>
+          <NavImage src={Shop} alt="shop-photo" />
+          <LogoName>SMS</LogoName>
+        </NavbarLogo>
+      </NavLink>
       <UnorderedList>
         {userRole === "ADMIN" && (
           <NavLink to="/home" onClick={() => setMenu("shop")}>
@@ -80,9 +88,13 @@ const Navbar: FC<{}> = () => {
         <MenuIcon />
       </div> */}
       <NavLoginCart>
-        <LogoutButton onClick={logout}>Log out</LogoutButton>
-        {/* <ShoppingCart style={{ fontSize: "30px" }} />
-        <NavCartCount>0</NavCartCount> */}
+        {isLoggedIn ? (
+          <LogoutButton onClick={handleLogout}>Log out</LogoutButton>
+        ) : (
+          <LogoutButton onClick={handleLogin}>Log in</LogoutButton>
+        )}
+        <ShoppingCart style={{ fontSize: "30px" }} />
+        <NavCartCount>0</NavCartCount>
       </NavLoginCart>
     </Header>
   );
