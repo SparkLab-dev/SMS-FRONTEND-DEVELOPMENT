@@ -15,14 +15,24 @@ import {
 
 //style
 import {
+  AddToCartButton,
+  AddToCartHolder,
+  AttributeText,
+  AttributeValue,
+  AttributesHolder,
+  AvailabilityInStore,
+  AvailabilityInStoreContainer,
   DetailContainer,
   Holder,
   Image,
   ImageContainer,
+  PriceDiv,
   PriceParag,
+  PriceText,
   ProductContainer,
   ProductDetailsHolder,
   ProductName,
+  StockQuantity,
 } from "./style/Product.style";
 
 const Product: FC<{}> = () => {
@@ -115,12 +125,30 @@ const Product: FC<{}> = () => {
             <DetailContainer key={i}>
               <ProductName>{prod.name}</ProductName>
               <PriceParag>{prod.description}</PriceParag>
-              <PriceParag>{prod.price} $</PriceParag>
-              <PriceParag>{prod.stockQuantity}</PriceParag>
-              <PriceParag>{prod.productCategory?.name}</PriceParag>
+
+              <AvailabilityInStoreContainer>
+                <AvailabilityInStore>
+                  Availability in store:
+                </AvailabilityInStore>
+                <StockQuantity>{prod.stockQuantity}</StockQuantity>
+              </AvailabilityInStoreContainer>
+              {prod.attributes.map((attr: any, attrIndex: number) => (
+                <AttributesHolder key={attrIndex}>
+                  <AttributeText>{attr.attributeName}:</AttributeText>
+                  <AttributeValue>{attr.attributeValue}</AttributeValue>
+                </AttributesHolder>
+              ))}
+              <PriceDiv>
+                <PriceText>Price:</PriceText>
+                <PriceParag>{prod.price} $</PriceParag>
+              </PriceDiv>
             </DetailContainer>
           );
-        })}{" "}
+        })}
+
+        <AddToCartHolder>
+          <AddToCartButton>Add to cart</AddToCartButton>
+        </AddToCartHolder>
       </ProductDetailsHolder>
       {/* <GenericButton
         onClick={() => setUploadCommentFile(!uploadCommentFile)}

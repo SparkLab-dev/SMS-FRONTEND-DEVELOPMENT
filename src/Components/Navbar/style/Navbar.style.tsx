@@ -69,7 +69,7 @@ export const ListItem = styled.li`
 export const NavLink = styled(Link)`
   text-decoration: none;
   color: black;
-  padding: 8px 12px;
+  /* padding: 8px 12px; */
   border-radius: 4px;
   gap: 3px;
   font-weight: 400;
@@ -82,22 +82,6 @@ export const NavLoginCart = styled.div`
   gap: 45px;
 `;
 export const LogoutButton = styled.button`
-  /* background-color: #ffff; */
-  /* background-color: #0e53c5; */
-  /* color: black; */
-  /* color: #ffff;
-  border: 1px solid;
-  border-color: #ffff;
-  padding: 8px 26px;
-  margin-right: 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 400;
-  display: flex;
-  align-items: center;
-  gap: 10px; */
-
   width: 110px;
   height: 45px;
   outline: none;

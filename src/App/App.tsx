@@ -23,7 +23,6 @@ const App: FC<{}> = () => {
     profilePhotoType: "example_type",
     reload: true,
     sendPhoto: (file: File) => {
-      // handle sending photo logic
     },
   };
   return (
@@ -43,7 +42,7 @@ const App: FC<{}> = () => {
             />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/shopcategory/:id" element={<ShopCategory />} />
+            <Route path="/shopcategory/:categoryId" element={<ShopCategory />} />
             <Route path="/product/:id" element={<Product />} />
             <Route
               path="/productForm"

@@ -10,9 +10,12 @@ export const Image = styled.img`
   width: 270px;
   height: 270px;
 `;
-export const NoImageAvailable=styled.div``
+export const NoImageAvailable = styled.div``;
 export const Paragraph = styled.p`
   margin: 6px 0px;
+  font-family: "Poppins";
+  font-weight: 500;
+  font-style: oblique;
 `;
 export const ItemPrices = styled.div`
   display: flex;

@@ -82,8 +82,9 @@ interface FormProps {
 }
 export const StyledForm = styled.form<FormProps>`
   width: 100%;
-  max-width: 800px;
+  max-width: 650px;
   margin: auto;
+  /* height: 80vh; */
 `;
 
 export const FormName = styled.h1`

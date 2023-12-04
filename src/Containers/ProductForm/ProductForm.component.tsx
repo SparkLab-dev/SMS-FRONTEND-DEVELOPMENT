@@ -17,7 +17,7 @@ import { AppDispatch } from "redux/store";
 //style
 import {
   AddButton,
-  FormAndModalHolder,
+  ButtonHold,
   GenericInputHold,
   InputsTableFormContainer,
   LogoDescAndNameHolder,
@@ -170,137 +170,141 @@ const ProductForm: FC<LogoProps> = () => {
 
   return (
     <>
-      <FormAndModalHolder>
-        {openModal ? (
-          <Modal open={openModal} onClose={() => setOpenModal(false)}>
-            <Box sx={styleForAddLogoModalBox}>
-              <UploadLogoHolder>
-                <UploadPhotoText>Upload Logo</UploadPhotoText>
-                <UploadPhoto
-                  profilePhoto={logoSelected[1]}
-                  profilePhotoType={logoSelected[0]}
-                  reload={true}
-                  sendPhoto={setLogo}
-                />
+      {/* <FormAndModalHolder> */}
+      {openModal ? (
+        <Modal open={openModal} onClose={() => setOpenModal(false)}>
+          <Box sx={styleForAddLogoModalBox}>
+            {/* <UploadLogoHolder> */}
+            <UploadPhotoText>Upload Logo</UploadPhotoText>
+            <UploadPhoto
+              profilePhoto={logoSelected[1]}
+              profilePhotoType={logoSelected[0]}
+              reload={true}
+              sendPhoto={setLogo}
+            />
 
-                <ModalButtonHolder>
-                  <GenericButton
-                    name="Cancel"
-                    onClick={() => {
-                      setOpenModal(false);
-                      setLogoSelected(["", ""]);
-                      setLogo(null);
-                    }}
-                  />
-                  <GenericButton
-                    name="Save"
-                    onClick={() => {
-                      setOpenModal(false);
-                      handleImageChange();
-                    }}
-                  />
-                </ModalButtonHolder>
-              </UploadLogoHolder>
-            </Box>
-          </Modal>
-        ) : null}
-        <StyledForm>
-          <FormName>Product</FormName>
-          <InputsTableFormContainer>
-            <GenericInputHold>
-              <GenericInput
-                placeholder="Name"
-                input_label="Name"
-                required={true}
-                type="text"
-                value={productName || ""}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setProductName(e.target.value)
-                }
-              />
-            </GenericInputHold>
-            <GenericInputHold>
-              <GenericInput
-                placeholder="Barcode"
-                input_label="Barcode"
-                required={true}
-                type="text"
-                value={barCode || ""}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setBarCode(e.target.value)
-                }
-              />{" "}
-            </GenericInputHold>
-          </InputsTableFormContainer>
-          <InputsTableFormContainer>
-            <GenericInputHold>
-              <GenericInput
-                placeholder="Stock Quantity"
-                input_label="Stock Quantity"
-                required={true}
-                type="number"
-                value={stockQuantity || ""}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setStockQuantity(e.target.value)
-                }
-              />
-            </GenericInputHold>
-          </InputsTableFormContainer>
-          <InputsTableFormContainer>
-            <GenericInputHold>
-              <GenericInput
-                placeholder="Price"
-                input_label="Price"
-                required={true}
-                type="number"
-                value={price || ""}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setPrice(e.target.value)
-                }
-              />
-            </GenericInputHold>
-            <GenericInputHold>
-              <GenericInput
-                placeholder="ThresHold"
-                input_label="ThresHold"
-                required={true}
-                type="number"
-                value={threshold || ""}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setThreshold(e.target.value)
-                }
-              />
-            </GenericInputHold>
-          </InputsTableFormContainer>
-          <InputsTableFormContainer>
-            <GenericInputHold>
-              <GenericInput
-                placeholder="New Attribute Name"
-                input_label="New Attribute Name"
-                type="text"
-                value={newAttributeName || ""}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setNewAttributeName(e.target.value)
-                }
-              />
-            </GenericInputHold>
-            <GenericInputHold>
-              <GenericInput
-                placeholder="New Attribute Value"
-                input_label="New Attribute Value"
-                type="text"
-                value={newAttributeValue || ""}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setNewAttributeValue(e.target.value)
-                }
-              />
-            </GenericInputHold>
-          </InputsTableFormContainer>
-          <GenericButton
-            name="Add new attributes"
-            onClick={(e: any) => handleAttributeAddition(e)}
-          />
-          {/* <div>
+            <ModalButtonHolder>
+              <ButtonHold>
+                <GenericButton
+                  name="Cancel"
+                  onClick={() => {
+                    setOpenModal(false);
+                    setLogoSelected(["", ""]);
+                    setLogo(null);
+                  }}
+                />
+              </ButtonHold>
+              <ButtonHold>
+                <GenericButton
+                  name="Save"
+                  onClick={() => {
+                    setOpenModal(false);
+                    handleImageChange();
+                  }}
+                />
+              </ButtonHold>
+            </ModalButtonHolder>
+            {/* </UploadLogoHolder> */}
+          </Box>
+        </Modal>
+      ) : null}
+      <StyledForm>
+        <FormName>Product</FormName>
+        <InputsTableFormContainer>
+          <GenericInputHold>
+            <GenericInput
+              placeholder="Name"
+              input_label="Name"
+              required={true}
+              type="text"
+              value={productName || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setProductName(e.target.value)
+              }
+            />
+          </GenericInputHold>
+          <GenericInputHold>
+            <GenericInput
+              placeholder="Barcode"
+              input_label="Barcode"
+              required={true}
+              type="text"
+              value={barCode || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setBarCode(e.target.value)
+              }
+            />{" "}
+          </GenericInputHold>
+        </InputsTableFormContainer>
+        <InputsTableFormContainer>
+          <GenericInputHold>
+            <GenericInput
+              placeholder="Stock Quantity"
+              input_label="Stock Quantity"
+              required={true}
+              type="number"
+              value={stockQuantity || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setStockQuantity(e.target.value)
+              }
+            />
+          </GenericInputHold>
+        </InputsTableFormContainer>
+        <InputsTableFormContainer>
+          <GenericInputHold>
+            <GenericInput
+              placeholder="Price"
+              input_label="Price"
+              required={true}
+              type="number"
+              value={price || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPrice(e.target.value)
+              }
+            />
+          </GenericInputHold>
+          <GenericInputHold>
+            <GenericInput
+              placeholder="ThresHold"
+              input_label="ThresHold"
+              required={true}
+              type="number"
+              value={threshold || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setThreshold(e.target.value)
+              }
+            />
+          </GenericInputHold>
+        </InputsTableFormContainer>
+        <InputsTableFormContainer>
+          <GenericInputHold>
+            <GenericInput
+              placeholder="New Attribute Name"
+              input_label="New Attribute Name"
+              type="text"
+              value={newAttributeName || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setNewAttributeName(e.target.value)
+              }
+            />
+          </GenericInputHold>
+          <GenericInputHold>
+            <GenericInput
+              placeholder="New Attribute Value"
+              input_label="New Attribute Value"
+              type="text"
+              value={newAttributeValue || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setNewAttributeValue(e.target.value)
+              }
+            />
+          </GenericInputHold>
+        </InputsTableFormContainer>
+        <GenericButton
+          name="Add new attributes"
+          onClick={(e: any) => handleAttributeAddition(e)}
+        />
+        {/* <div>
             <h3>Attributes for {productName}</h3>
             <ul>
               {productAttributes.map((attr, index) => (
@@ -310,44 +314,42 @@ const ProductForm: FC<LogoProps> = () => {
               ))}
             </ul>
           </div> */}
-          <InputsTableFormContainer>
-            <GenericInputHold>
-              <LabelDescriptionContainer>Category</LabelDescriptionContainer>
-              <StyledSelect
-                value={
-                  selectedCategory !== null ? selectedCategory.toString() : ""
-                }
-                onChange={(e: any) =>
-                  setSelectedCategory(Number(e.target.value))
-                }
+        <InputsTableFormContainer>
+          <GenericInputHold>
+            <LabelDescriptionContainer>Category</LabelDescriptionContainer>
+            <StyledSelect
+              value={
+                selectedCategory !== null ? selectedCategory.toString() : ""
+              }
+              onChange={(e: any) => setSelectedCategory(Number(e.target.value))}
+            >
+              <Option defaultValue="none">Select an Option</Option>
+              {productCategory.map((role) => (
+                <Option key={role.id} value={role.id}>
+                  {role.name}
+                </Option>
+              ))}
+            </StyledSelect>
+          </GenericInputHold>
+          <LogoDescAndNameHolder>
+            <LabelDescriptionContainer>Upload Logo</LabelDescriptionContainer>
+            <UploadLogoHolder>
+              <AddButton
+                name="Upload"
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                  e.preventDefault();
+                  setOpenModal(true);
+                }}
               >
-                <Option defaultValue="none">Select an Option</Option>
-                {productCategory.map((role) => (
-                  <Option key={role.id} value={role.id}>
-                    {role.name}
-                  </Option>
-                ))}
-              </StyledSelect>
-            </GenericInputHold>
-            <LogoDescAndNameHolder>
-              <LabelDescriptionContainer>Upload Logo</LabelDescriptionContainer>
-              <UploadLogoHolder>
-                <AddButton
-                  name="Upload"
-                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                    e.preventDefault();
-                    setOpenModal(true);
-                  }}
-                >
-                  Upload
-                </AddButton>
-                {logo && <LogoTitle>{logo.name}</LogoTitle>}
-              </UploadLogoHolder>
-            </LogoDescAndNameHolder>
-          </InputsTableFormContainer>
-          <GenericButton name="Create Product" onClick={handleSubmit} />
-        </StyledForm>
-      </FormAndModalHolder>
+                Upload
+              </AddButton>
+              {logo && <LogoTitle>{logo.name}</LogoTitle>}
+            </UploadLogoHolder>
+          </LogoDescAndNameHolder>
+        </InputsTableFormContainer>
+        <GenericButton name="Create Product" onClick={handleSubmit} />
+      </StyledForm>
+      {/* </FormAndModalHolder> */}
     </>
   );
 };
