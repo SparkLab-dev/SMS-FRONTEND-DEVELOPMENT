@@ -27,7 +27,7 @@ import { RootState } from "redux/store";
 const Navbar: FC<{}> = () => {
   const navigate = useNavigate();
   const [menu, setMenu] = useState("shop");
-  const Shop = require("./assets/shop.png") as string;
+  const Shop = require("./assets/Account-Icon.png") as string;
 
   //get userRole from redux
   const userRole = useSelector((state: RootState) => state.login.user?.role);

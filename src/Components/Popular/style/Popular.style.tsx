@@ -5,7 +5,6 @@ export const PopularDiv = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  /* height: 90vh; */
   margin: auto;
 `;
 export const PopularText = styled.h1`
@@ -23,6 +22,17 @@ export const Hr = styled.hr`
 export const PopularItem = styled.div`
   margin-top: 50px;
   display: flex;
+  flex-wrap: wrap;
+  width: 800px;
   gap: 30px;
+  justify-content: center;
 `;
-export const ItemHandler=styled.div``
+export const ItemHandler = styled.div`
+  flex: 1 0 calc(25% - 30px); /* Four items per row with a gap of 30px */
+  margin-bottom: 30px;
+`;
+export const CategoryName = styled.p`
+  font-size: 17px;
+  font-family: "Poppins";
+  font-weight: 600;
+`;

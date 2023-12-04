@@ -14,7 +14,7 @@ export const OpeningPageLeft = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 20px;
-  padding-left: 180px;
+  padding-left: 85px;
   line-height: 1.1;
 `;
 export const Heading = styled.h2`
@@ -30,7 +30,7 @@ export const HandIcon = styled.div`
 `;
 export const ParagNew = styled.p`
   color: #171717;
-  font-size: 100px;
+  font-size: 90px;
   font-weight: 700;
 `;
 export const ImageHolder = styled.img`
@@ -39,14 +39,15 @@ export const ImageHolder = styled.img`
   max-width: 500px;
   max-height: 440px;
   border-radius: 60px;
+  display: none;
 `;
 export const OpeningPageLatest = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
-  width: 310px;
-  height: 70px;
+  width: 292px;
+  height: 67px;
   border-radius: 75px;
   margin-top: 30px;
   background-color: #ff4141;

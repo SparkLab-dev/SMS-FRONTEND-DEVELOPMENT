@@ -17,6 +17,12 @@ export const ModalButtonHolder = styled.div`
   display: flex;
   margin: 5px;
 `;
+export const ButtonHold=styled.div`
+  width: 100%;
+  max-width: 300px;
+  margin: auto;
+  margin: 5px;
+`;
 export const UploadLogoHolder = styled.div`
   max-width: 100%;
   border-radius: 10px;

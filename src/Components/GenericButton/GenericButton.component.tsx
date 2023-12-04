@@ -9,9 +9,10 @@ interface ButtonProps {
   disabled?: boolean;
   onClick?: any;
   value?: string;
+  marginLeft?: string;
+  marginRight?: string;
 }
 const GenericButton: FC<ButtonProps> = (props) => {
-
   return (
     <>
       <ButtonHolder>
