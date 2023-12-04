@@ -26,6 +26,7 @@ import {
   AddOrderNameContainerPlusIcon,
   InputsOfModalHolder,
   ModalInputHolder,
+  ModalSaveButtonHolder,
   OrderButtonName,
   OrderH2,
   OrdersTableContainer,
@@ -126,14 +127,13 @@ const OrdersTable: FC<{}> = () => {
                 <th>FirstName</th>
                 <th>LastName</th>
                 <th>Product Name</th>
-                <th>Total Amount</th>
                 <th>Order Notes</th>
                 <th>Street</th>
                 <th>City</th>
                 <th>State</th>
+                <th>Country</th>
                 <th>Postal Code</th>
-                <th>Quantity</th>
-                <th>Total Price </th>
+                <th>Total Amount</th>
                 <th>Actions</th>
               </TableRow>
             </TableHead>
@@ -145,16 +145,15 @@ const OrdersTable: FC<{}> = () => {
                       <TableCell>{order?.userDTO?.firstName}</TableCell>
                       <TableCell>{order?.userDTO?.lastName}</TableCell>
                       <TableCell>{item?.product?.productName}</TableCell>
-                      <TableCell>${order?.totalAmount}</TableCell>
                       <TableCell>{order?.orderNotes}</TableCell>
                       <TableCell>{order?.shippingAddress?.street}</TableCell>
                       <TableCell>{order?.shippingAddress?.city}</TableCell>
                       <TableCell>{order?.shippingAddress?.state}</TableCell>
+                      <TableCell>{order?.shippingAddress?.country}</TableCell>
                       <TableCell>
                         {order?.shippingAddress?.postalCode}
                       </TableCell>
-                      <TableCell>{item?.quantity}</TableCell>
-                      <TableCell>${item?.totalPrice}</TableCell>
+                      <TableCell>${order?.totalAmount}</TableCell>
                       <TableCell>
                         <EditButton onClick={() => handleEdit(order)}>
                           Edit
@@ -391,7 +390,11 @@ const OrdersTable: FC<{}> = () => {
               )}
             </>
           }
-          footerContent={<GenericButton name="Save" />}
+          footerContent={
+            <ModalSaveButtonHolder>
+              <GenericButton name="Save" />
+            </ModalSaveButtonHolder>
+          }
         />
       </TableAndDatepickerHolder>
     </OrdersTableContainer>

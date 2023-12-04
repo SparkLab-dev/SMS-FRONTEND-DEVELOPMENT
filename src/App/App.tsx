@@ -16,14 +16,14 @@ import ProductsTable from "Components/ProductsTable/ProductsTable.component";
 import OrdersTable from "Components/OrdersTable/OrdersTable.component";
 import OrderForm from "Containers/OrderForm/OrderForm.component";
 import UserProfile from "Pages/UserProfile/UserProfile.component";
+import CreateCategory from "Pages/CreateCategory/CreateCategory.component";
 
 const App: FC<{}> = () => {
   const logoProps = {
     profilePhoto: "example_photo_url",
     profilePhotoType: "example_type",
     reload: true,
-    sendPhoto: (file: File) => {
-    },
+    sendPhoto: (file: File) => {},
   };
   return (
     <>
@@ -42,7 +42,10 @@ const App: FC<{}> = () => {
             />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/shopcategory/:categoryId" element={<ShopCategory />} />
+            <Route
+              path="/shopcategory/:categoryId"
+              element={<ShopCategory />}
+            />
             <Route path="/product/:id" element={<Product />} />
             <Route
               path="/productForm"
@@ -52,6 +55,7 @@ const App: FC<{}> = () => {
             <Route path="/orderTable" element={<OrdersTable />} />
             <Route path="/orderForm" element={<OrderForm />} />
             <Route path="/userProfile" element={<UserProfile />} />
+            <Route path="/createCategory" element={<CreateCategory />} />
           </Route>
         </Routes>
       </BrowserRouter>

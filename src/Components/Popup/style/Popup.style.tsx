@@ -16,7 +16,7 @@ export const Modal = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0px;
+  padding: 20px 0px 3px 0px;
   position: fixed;
   background-color: #ffff;
   color: #ffffff;
@@ -53,4 +53,8 @@ export const ModalFooter = styled.div`
   align-items: center;
   justify-content: center;
   padding: 5px 0px 25px 0px;
+`;
+export const PopupCloseButton = styled.div`
+  width: 100%;
+  margin-left: 5px;
 `;

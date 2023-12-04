@@ -28,3 +28,8 @@ export const ModalInputHolder = styled.div`
   margin: 5px;
 `;
 export const TableBody = styled.tbody``;
+export const ModalSaveButtonHolder = styled.div`
+  display: flex;
+  width: 100%;
+  margin-right: 5px;
+`;
