@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 //style
 import {
@@ -30,10 +31,12 @@ import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
 
 const CreateCategory: FC<{}> = () => {
+  const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const [logo, setLogo] = useState<File | null>(null);
   const [logoSelected, setLogoSelected] = useState<[string, string]>(["", ""]);
   const [name, setName] = useState<string>("");
+
   const handleImageChange = () => {
     if (logo instanceof Blob) {
       const reader = new FileReader();
@@ -85,10 +88,9 @@ const CreateCategory: FC<{}> = () => {
       const response = await dispatch(
         createCategory({ categoryCredentials: formData })
       );
-
+      console.log(response);
       if (createCategory.fulfilled.match(response)) {
-        setName("");
-        // navigate("/productForm");
+        navigate("/getCategory");
         console.log("fulfilled");
       }
     } catch (error) {
@@ -134,7 +136,7 @@ const CreateCategory: FC<{}> = () => {
           </Modal>
         ) : null}
         <StyledForm>
-          <FormName>NewCategory</FormName>
+          <FormName>New Category</FormName>
           <UploadLogoLabel>Upload Logo</UploadLogoLabel>
           <UploadLogoHolder>
             <AddButton
@@ -159,7 +161,7 @@ const CreateCategory: FC<{}> = () => {
               setName(e.target.value)
             }
           />
-          <GenericButton name="Submit" onClick={handleCategoryClick} />
+          <GenericButton name="Add" onClick={handleCategoryClick} />
         </StyledForm>
       </CreateCategoryHolder>
     </>

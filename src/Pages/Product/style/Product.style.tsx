@@ -20,13 +20,6 @@ export const ImageContainer = styled.div`
   cursor: pointer;
   margin: 0 20px;
   padding: 0;
-  /* position: sticky; */
-  /* align-self: flex-start; */
-  /* top: 36px; */
-  /* justify-content: end; */
-  /* overflow: hidden; */
-  /* width: 400px; */
-  /* height: 400px; */
 `;
 export const Image = styled.img`
   width: 350px;
@@ -37,7 +30,6 @@ export const ProductDetailsHolder = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   width: 100%;
   max-width: 850px;
   height: 360px;

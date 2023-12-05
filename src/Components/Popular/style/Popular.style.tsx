@@ -6,6 +6,16 @@ export const PopularDiv = styled.div`
   align-items: center;
   gap: 10px;
   margin: auto;
+  /* padding-top: 50px;  */
+  height: calc(100vh - 281px);
+  width: 100%;
+  overflow-y: auto;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const PopularText = styled.h1`
   color: #171717;
@@ -28,8 +38,17 @@ export const PopularItem = styled.div`
   justify-content: center;
 `;
 export const ItemHandler = styled.div`
-  flex: 1 0 calc(25% - 30px); /* Four items per row with a gap of 30px */
+  flex: 0 0 calc(25% - 20px); /* Four items per row with a gap of 20px */
   margin-bottom: 30px;
+  @media (max-width: 1100px) {
+    flex: 0 0 calc(33.33% - 20px); /* Three items per row for medium screens */
+  }
+  @media (max-width: 800px) {
+    flex: 0 0 calc(50% - 20px); /* Two items per row for smaller screens */
+  }
+  @media (max-width: 600px) {
+    flex: 0 0 calc(100% - 20px); /* One item per row for mobile */
+  }
 `;
 export const CategoryName = styled.p`
   font-size: 17px;

@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-interface Category {
+export interface Category {
   name: string;
   image: string;
 }
 
 export type CreateCategoryState = {
-  category: Category | null;
+  category: Category[] | null;
   isAuthenticated: boolean;
   error: string | null;
 };
@@ -33,9 +33,9 @@ export const createCategory = createAsyncThunk(
       const responseRegData = response.data;
       console.log("", responseRegData);
 
-      if (response.status !== 200) {
-        return rejectWithValue(responseRegData.error);
-      }
+      // if (response.status !== 200) {
+      //   return rejectWithValue(responseRegData.error);
+      // }
 
       return responseRegData;
     } catch (error: any) {
@@ -46,11 +46,28 @@ export const createCategory = createAsyncThunk(
   }
 );
 
+//get category call
+export const fetchCategories = createAsyncThunk<Category[]>(
+  "getCategories/getAllCategories",
+  async () => {
+    try {
+      const response = await axios.get(
+        "http://192.168.10.210:8081/SMS/productcategory"
+      );
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
 const createCategorySlice = createSlice({
   name: "createCategory",
   initialState,
   reducers: {
-    setCreateCategory: (state, action: PayloadAction<Category>) => {
+    setCreateCategory: (state, action: PayloadAction<Category[]>) => {
       state.category = action.payload;
       state.isAuthenticated = true;
     },
@@ -62,6 +79,15 @@ const createCategorySlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(createCategory.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.category = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(fetchCategories.fulfilled, (state, action) => {
+        state.category = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(fetchCategories.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.category = null;
         state.error = action.payload as string | null;

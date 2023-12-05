@@ -22,7 +22,7 @@ export const ItemPrices = styled.div`
   gap: 20px;
 `;
 export const ItemPriceNew = styled.div`
-  color: #374151;
+  color: #ce1515;
   font-size: 18px;
   font-weight: 600;
 `;
