@@ -29,6 +29,8 @@ import { OrderFormState } from "redux/Containers/OrderForm/OrderFormSlice";
 import orderFormSlice from "redux/Containers/OrderForm/OrderFormSlice";
 import { CalculateItem } from "redux/Containers/CalculateItem/CalculateItemSlice";
 import calculateItemSlice from "redux/Containers/CalculateItem/CalculateItemSlice";
+import { NotificationPropsState } from "redux/Pages/AdminNotification/AdminNotificationSlice";
+import adminNotificationSlice from "redux/Pages/AdminNotification/AdminNotificationSlice";
 type RootState = {
   login: LoginState;
   register: AuthRegState;
@@ -42,6 +44,7 @@ type RootState = {
   order: OrderState;
   orderForm: OrderFormState;
   calculate: CalculateItem;
+  notifications: NotificationPropsState;
 };
 const persistConfig = {
   key: "root",
@@ -60,6 +63,7 @@ const persistConfig = {
     "order",
     "orderForm",
     "calculate",
+    "notifications",
   ],
 };
 
@@ -76,6 +80,7 @@ const rootReducer = combineReducers({
   order: orderSlice,
   orderForm: orderFormSlice,
   calculate: calculateItemSlice,
+  notifications: adminNotificationSlice,
 });
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 const store = configureStore({
@@ -95,6 +100,7 @@ const store = configureStore({
           "user/productForm/fulfilled",
           "user/orderProp/fulfilled",
           "user/orderForm/fulfilled",
+          "user/adminNotification/fulfilled",
           "persist/PERSIST",
         ],
       },

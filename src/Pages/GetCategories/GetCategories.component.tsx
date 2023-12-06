@@ -31,15 +31,13 @@ import {
 } from "Components/ProductsTable/style/ProductsTable.style";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 
-const GetCategories: FC<{}> = () => {
+const GetCategories: FC<{}> = (props) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [error, setError] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<any>(null);
-//   const [editLogo, setEditLogo] = useState({});
-//   const [editLogoURL, setEditLogoURL] = useState(
-//     `data:${projectDetails.logoType};base64,${props.projectDetails.logoByte}`
-//   );
+  const [editLogo, setEditLogo] = useState({});
+  const [editLogoURL, setEditLogoURL] = useState();
   const dispatch: AppDispatch = useDispatch();
 
   //get category api
@@ -109,7 +107,7 @@ const GetCategories: FC<{}> = () => {
             {selectedItem && (
               <>
                 <InputsOfProductTable>
-                {/* <div className="edit-project-logo">
+                  {/* <div className="edit-project-logo">
             <div className="logo-edit">
               <input
                 type="file"

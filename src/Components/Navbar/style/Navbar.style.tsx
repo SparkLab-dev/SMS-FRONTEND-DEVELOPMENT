@@ -16,7 +16,7 @@ export const Header = styled.header`
   justify-content: space-around;
   padding: 16px;
   align-items: center;
-  /* background-color: #0e53c5; */
+  background-color: #fff;
   color: #000000;
   width: 100%;
   height: 55px;

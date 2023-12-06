@@ -59,9 +59,16 @@ const Navbar: FC<{}> = () => {
       </NavLink>
       <UnorderedList>
         {userRole === "ADMIN" && (
-          <NavLink to="/home" onClick={() => setMenu("shop")}>
-            <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
-          </NavLink>
+          <>
+            <NavLink to="/home" onClick={() => setMenu("shop")}>
+              <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
+            </NavLink>
+            <NavLink to="/adminNotification" onClick={() => setMenu("notification")}>
+              <ListItem>
+                Notification{menu === "notification" ? <HR /> : <></>}
+              </ListItem>
+            </NavLink>
+          </>
         )}
 
         {userRole === "EMPLOYEE" && (
