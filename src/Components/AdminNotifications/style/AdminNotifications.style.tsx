@@ -12,7 +12,7 @@ export const AdminNotifyContainer = styled.div`
 export const AdminNotificationsContentHolder = styled.div`
   width: 100%;
   height: 100%;
-  padding: 15px 0;
+  padding: 1px 0;
   background-color: #ffff;
   overflow-y: scroll;
   scrollbar-width: none;
@@ -43,13 +43,18 @@ export const DivCardContentHolder = styled.div<CardProps>`
   background-color: ${({ $isread }) =>
     $isread === "false" ? "#f0f0f0" : "white"};
 `;
-export const CancelIconHolder = styled.div`
+export const CancelIconHolder = styled(Link)`
   flex: 0.2;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-decoration: none;
+  color: black;
 `;
-
+export const CancelIconLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`;
 export const CancelImage = styled.img`
   width: 20px;
   height: 20px;
@@ -143,7 +148,7 @@ export const PriorityLevel = styled.p<PriorityProps>`
   font-weight: 400;
 `;
 export const HrAdmin = styled.hr`
-  width: 98%;
+  width: 100%;
   margin: auto;
   background-color: #808080c2;
 `;
@@ -151,4 +156,5 @@ export const Linked = styled(Link)`
   text-decoration: none;
   color: black;
   flex: 1;
+  margin-left: 20px;
 `;

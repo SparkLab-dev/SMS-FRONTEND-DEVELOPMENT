@@ -63,10 +63,16 @@ const Navbar: FC<{}> = () => {
             <NavLink to="/home" onClick={() => setMenu("shop")}>
               <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
             </NavLink>
-            <NavLink to="/adminNotification" onClick={() => setMenu("notification")}>
+            <NavLink
+              to="/adminNotification"
+              onClick={() => setMenu("notification")}
+            >
               <ListItem>
                 Notification{menu === "notification" ? <HR /> : <></>}
               </ListItem>
+            </NavLink>
+            <NavLink to="/vendor" onClick={() => setMenu("vendor")}>
+              <ListItem>Vendor{menu === "vendor" ? <HR /> : <></>}</ListItem>
             </NavLink>
           </>
         )}

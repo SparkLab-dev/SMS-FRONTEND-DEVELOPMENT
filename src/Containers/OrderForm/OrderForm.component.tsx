@@ -14,6 +14,7 @@ import {
   OrderTableForm,
   ProductsTableBody,
   ProductsTableHead,
+  OrderTable,
 } from "./style/OrderForm.style";
 import {
   Table,
@@ -226,7 +227,7 @@ const OrderForm: FC<{}> = () => {
   };
 
   return (
-    <div style={{ display: "flex", width: "100%" }}>
+    <OrderTable>
       <OrderTableForm>
         <FormName>Order</FormName>
         <OrderFormInputsHolder>
@@ -384,7 +385,7 @@ const OrderForm: FC<{}> = () => {
           </ProductsTableBody>
         </Table>
       </OrderFormTableContainer>
-    </div>
+    </OrderTable>
   );
 };
 
