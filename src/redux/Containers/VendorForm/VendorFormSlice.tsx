@@ -2,24 +2,29 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export interface Vendor {
-    companyName: string;
-    email: string;
-    phoneNumber: string;
-    contactPersonName: string;
-    notes: string;
-    paymentTerms: string;
-    bankName: string;
-    createdBy: {
-        id: number;
-    };
-    modifiedBy: {
-        id: number;
-    };
+  id?: number;
+  companyName: string;
+  email: string;
+  phoneNumber: string;
+  contactPersonName: string;
+  notes: string;
+  paymentTerms: string;
+  bankName: string;
+  createdDate: string;
+  createdBy: {
+    id: number;
+    firstName: string;
+    lastName: string;
+  };
+  modifiedBy: {
+    id: number;
+    firstName: string;
+    lastName: string;
+  };
 }
 
-
 export type VendorFormState = {
-  vendor: Vendor | null;
+  vendor: Vendor[] | null;
   isAuthenticated: boolean;
   error: string | null;
 };
@@ -45,9 +50,9 @@ export const vendorForm = createAsyncThunk(
       const responseRegData = response.data;
       console.log("", responseRegData);
 
-      if (response.status !== 200) {
-        return rejectWithValue(responseRegData.error);
-      }
+      //   if (response.status !== 200) {
+      //     return rejectWithValue(responseRegData.error);
+      //   }
 
       return responseRegData;
     } catch (error: any) {
@@ -58,11 +63,44 @@ export const vendorForm = createAsyncThunk(
   }
 );
 
+//get vendors api
+export const fetchVendors = createAsyncThunk<Vendor[]>(
+  "vendors/getVendors",
+  async () => {
+    try {
+      const response = await axios.get("http://192.168.10.210:8081/SMS/vendor");
+      console.log("vendors", response);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
+//delete vendor
+export const deleteVendor = createAsyncThunk<Vendor[], number>(
+  "delete/deleteVendor",
+  async (vendorId: number) => {
+    try {
+      const response = await axios.delete(
+        `http://192.168.10.210:8081/SMS/vendor/${vendorId}`
+      );
+      console.log(response);
+      console.log(vendorId);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
 const vendorFormSlice = createSlice({
   name: "vendorForm",
   initialState,
   reducers: {
-    setVendorForm: (state, action: PayloadAction<Vendor>) => {
+    setVendorForm: (state, action: PayloadAction<Vendor[]>) => {
       state.vendor = action.payload;
       state.isAuthenticated = true;
     },
@@ -74,6 +112,24 @@ const vendorFormSlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(vendorForm.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.vendor = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(fetchVendors.fulfilled, (state, action) => {
+        state.vendor = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(fetchVendors.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.vendor = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(deleteVendor.fulfilled, (state, action) => {
+        state.vendor = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(deleteVendor.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.vendor = null;
         state.error = action.payload as string | null;
