@@ -27,10 +27,21 @@ export const NotificationText = styled.p`
   font-weight: 600;
   margin: 5px 0 15px 0;
 `;
-export const NotificationCard = styled.div`
+
+interface CardProps {
+  $isread?: string;
+}
+export const NotificationCard = styled.div<CardProps>`
   display: flex;
   flex-direction: row;
-  margin: 20px 0;
+  padding: 20px 0;
+`;
+interface CardProps {
+  $isread?: string;
+}
+export const DivCardContentHolder = styled.div<CardProps>`
+  background-color: ${({ $isread }) =>
+    $isread === "false" ? "#f0f0f0" : "white"};
 `;
 export const CancelIconHolder = styled.div`
   flex: 0.2;
@@ -50,13 +61,13 @@ export const NotificationInfo = styled.div`
 `;
 
 interface Type {
-  notificationtype?: string;
+  $notificationtype?: string;
 }
 export const NotificationType = styled.h2<Type>`
-  background-color: ${({ notificationtype }) =>
-    notificationtype === "Alert"
+  background-color: ${({ $notificationtype }) =>
+    $notificationtype === "Alert"
       ? "#fb8500"
-      : notificationtype === "Informational"
+      : $notificationtype === "Informational"
       ? "#4caf50"
       : "#ffffff"};
   color: #ffff;
@@ -111,15 +122,15 @@ export const NotificationDateAndTime = styled.p`
 `;
 
 interface PriorityProps {
-  prioritylevel?: string;
+  $prioritylevel?: string;
 }
 export const PriorityLevel = styled.p<PriorityProps>`
-  background-color: ${({ prioritylevel }) =>
-    prioritylevel === "Alert"
+  background-color: ${({ $prioritylevel }) =>
+    $prioritylevel === "Alert"
       ? "#fb8500"
-      : prioritylevel === "Informational"
+      : $prioritylevel === "Informational"
       ? "#4caf50"
-      : prioritylevel === "Urgent"
+      : $prioritylevel === "Urgent"
       ? "#d90429"
       : "#ffff"};
   color: #ffff;

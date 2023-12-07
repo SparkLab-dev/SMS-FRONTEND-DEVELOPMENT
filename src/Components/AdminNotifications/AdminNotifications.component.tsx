@@ -9,6 +9,7 @@ import {
   CancelImage,
   DateAndPriorityContainer,
   DateTimeHolder,
+  DivCardContentHolder,
   HrAdmin,
   Linked,
   NotificationCard,
@@ -29,6 +30,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "redux/store";
 import {
   Notification,
+  NotificationRead,
   deleteNotification,
   fetchAdminNotification,
 } from "redux/Pages/AdminNotification/AdminNotificationSlice";
@@ -78,6 +80,28 @@ const AdminNotifications: FC<{}> = () => {
     }
   };
 
+  //read or unread api call
+  const handleReadStatusChange = async (notificationId: number) => {
+    try {
+      const result = await dispatch(NotificationRead(notificationId));
+      if (NotificationRead.fulfilled.match(result)) {
+        setNotifications((prevNotifications) =>
+          prevNotifications.map((notification) => {
+            if (notification.id === notificationId) {
+              return { ...notification, notificationRead: true };
+            }
+            return notification;
+          })
+        );
+        console.log("Notification status updated successfully!");
+      } else {
+        console.error("Failed to update notification status");
+      }
+    } catch (error) {
+      console.error("Error updating notification status:", error);
+    }
+  };
+
   return (
     <AdminNotifyContainer>
       <NotificationText>NOTIFICATIONS</NotificationText>
@@ -85,7 +109,12 @@ const AdminNotifications: FC<{}> = () => {
         {notifications.map((nestedArray: any, index: any) => (
           <div key={index}>
             {nestedArray.map((notification: any, subIndex: any) => (
-              <div key={subIndex}>
+              <DivCardContentHolder
+                key={subIndex}
+                $isread={notification.notificationRead.toString()}
+                onClick={() => handleReadStatusChange(notification.id)}
+              >
+                {notification.notificationRead}
                 <NotificationCard>
                   <CancelIconHolder>
                     <CancelIcon
@@ -97,7 +126,7 @@ const AdminNotifications: FC<{}> = () => {
                   <Linked to={`/adminMessage/${notification.id}`}>
                     <NotificationInfo>
                       <NotificationType
-                        notificationtype={notification.notificationType}
+                        $notificationtype={notification.notificationType}
                       >
                         {notification.notificationType}
                       </NotificationType>
@@ -125,14 +154,14 @@ const AdminNotifications: FC<{}> = () => {
                         ).toLocaleString()}
                       </NotificationDateAndTime>
                     </DateTimeHolder>
-                    <PriorityLevel prioritylevel={notification.priorityLevel}>
+                    <PriorityLevel $prioritylevel={notification.priorityLevel}>
                       {notification.priorityLevel}
                     </PriorityLevel>
                   </DateAndPriorityContainer>
                 </NotificationCard>
 
                 <HrAdmin />
-              </div>
+              </DivCardContentHolder>
             ))}
           </div>
         ))}
