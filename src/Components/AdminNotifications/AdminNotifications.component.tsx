@@ -28,10 +28,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "redux/store";
 import {
+  Notification,
   deleteNotification,
   fetchAdminNotification,
 } from "redux/Pages/AdminNotification/AdminNotificationSlice";
-import { Link } from "react-router-dom";
 
 const AdminNotifications: FC<{}> = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -64,14 +64,12 @@ const AdminNotifications: FC<{}> = () => {
     try {
       const result = await dispatch(deleteNotification(notificationId));
       if (deleteNotification.fulfilled.match(result)) {
-        console.log("Notification deleted successfully!");
-
-        // Update the state by removing the notification with the matching ID
         setNotifications((prevNotifications) =>
           prevNotifications.filter(
-            (notification) => notification.id !== notificationId
+            (notification) => notification?.id !== notificationId
           )
         );
+        console.log("Notification deleted successfully!");
       } else {
         console.error("Failed to delete notification");
       }
@@ -99,7 +97,7 @@ const AdminNotifications: FC<{}> = () => {
                   <Linked to={`/adminMessage/${notification.id}`}>
                     <NotificationInfo>
                       <NotificationType
-                        notificationType={notification.notificationType}
+                        notificationtype={notification.notificationType}
                       >
                         {notification.notificationType}
                       </NotificationType>
@@ -114,7 +112,7 @@ const AdminNotifications: FC<{}> = () => {
                           {notification.user.lastName}
                         </UserLastName>
                       </UserInfoHolder>
-                    </NotificationInfo>{" "}
+                    </NotificationInfo>
                   </Linked>
                   <DateAndPriorityContainer>
                     <DateTimeHolder>
@@ -127,7 +125,7 @@ const AdminNotifications: FC<{}> = () => {
                         ).toLocaleString()}
                       </NotificationDateAndTime>
                     </DateTimeHolder>
-                    <PriorityLevel priorityLevel={notification.priorityLevel}>
+                    <PriorityLevel prioritylevel={notification.priorityLevel}>
                       {notification.priorityLevel}
                     </PriorityLevel>
                   </DateAndPriorityContainer>

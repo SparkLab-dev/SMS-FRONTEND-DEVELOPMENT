@@ -50,13 +50,13 @@ export const NotificationInfo = styled.div`
 `;
 
 interface Type {
-  notificationType?: string;
+  notificationtype?: string;
 }
 export const NotificationType = styled.h2<Type>`
-  background-color: ${({ notificationType }) =>
-    notificationType === "Alert"
+  background-color: ${({ notificationtype }) =>
+    notificationtype === "Alert"
       ? "#fb8500"
-      : notificationType === "Informational"
+      : notificationtype === "Informational"
       ? "#4caf50"
       : "#ffffff"};
   color: #ffff;
@@ -111,15 +111,15 @@ export const NotificationDateAndTime = styled.p`
 `;
 
 interface PriorityProps {
-  priorityLevel?: string;
+  prioritylevel?: string;
 }
 export const PriorityLevel = styled.p<PriorityProps>`
-  background-color: ${({ priorityLevel }) =>
-    priorityLevel === "Alert"
+  background-color: ${({ prioritylevel }) =>
+    prioritylevel === "Alert"
       ? "#fb8500"
-      : priorityLevel === "Informational"
+      : prioritylevel === "Informational"
       ? "#4caf50"
-      : priorityLevel === "Urgent"
+      : prioritylevel === "Urgent"
       ? "#d90429"
       : "#ffff"};
   color: #ffff;

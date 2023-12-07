@@ -23,6 +23,7 @@ export interface Notification {
   priorityLevel: string;
   product: Product;
   user: User;
+  
 }
 export type NotificationPropsState = {
   notification: Notification[] | null;
@@ -82,6 +83,15 @@ const adminNotificationSlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(fetchAdminNotification.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.notification = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(deleteNotification.fulfilled, (state, action) => {
+        state.notification = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(deleteNotification.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.notification = null;
         state.error = action.payload as string | null;
