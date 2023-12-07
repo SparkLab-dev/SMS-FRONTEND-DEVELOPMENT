@@ -1,2 +1,1 @@
-# SMS-FRONTEND-DEVELOPMENT
-Store  Management System
+# SMS-FRONTEND-DEV
