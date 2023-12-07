@@ -116,13 +116,6 @@ const AdminNotifications: FC<{}> = () => {
               >
                 {notification.notificationRead}
                 <NotificationCard>
-                  <CancelIconHolder>
-                    <CancelIcon
-                      style={{ color: "#808080c2", cursor: "pointer" }}
-                      onClick={() => handleDeleteNotification(notification.id)}
-                    />
-                    {/* <CancelImage src={Cancel} alt="cancel" /> */}
-                  </CancelIconHolder>
                   <Linked to={`/adminMessage/${notification.id}`}>
                     <NotificationInfo>
                       <NotificationType
@@ -158,6 +151,15 @@ const AdminNotifications: FC<{}> = () => {
                       {notification.priorityLevel}
                     </PriorityLevel>
                   </DateAndPriorityContainer>
+                  <CancelIconHolder
+                    to=""
+                    onClick={() => handleDeleteNotification(notification.id)}
+                  >
+                    <CancelIcon
+                      style={{ color: "#808080c2", cursor: "pointer" }}
+                    />
+                    {/* <CancelImage src={Cancel} alt="cancel" /> */}
+                  </CancelIconHolder>
                 </NotificationCard>
 
                 <HrAdmin />

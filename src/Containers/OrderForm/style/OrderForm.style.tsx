@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+export const OrderTable = styled.div`
+  width: 100%;
+  display: flex;
+`;
 export const OrderTableForm = styled.div`
   width: 100%;
   max-width: 650px;

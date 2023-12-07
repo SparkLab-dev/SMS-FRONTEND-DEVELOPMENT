@@ -20,6 +20,7 @@ import CreateCategory from "Pages/CreateCategory/CreateCategory.component";
 import GetCategories from "Pages/GetCategories/GetCategories.component";
 import AdminNotifications from "Components/AdminNotifications/AdminNotifications.component";
 import AdminMessageNotification from "Components/AdminMessageNotification/AdminMessageNotification.component";
+import Vendor from "Components/Vendor/Vendor.component";
 
 const App: FC<{}> = () => {
   const logoProps = {
@@ -61,7 +62,11 @@ const App: FC<{}> = () => {
             <Route path="/createCategory" element={<CreateCategory />} />
             <Route path="/getCategory" element={<GetCategories />} />
             <Route path="/adminNotification" element={<AdminNotifications />} />
-            <Route path="/adminMessage/:id" element={<AdminMessageNotification />} />
+            <Route
+              path="/adminMessage/:id"
+              element={<AdminMessageNotification />}
+            />
+            <Route path="/vendor" element={<Vendor />} />
           </Route>
         </Routes>
       </BrowserRouter>
