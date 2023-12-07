@@ -23,7 +23,6 @@ export interface Notification {
   priorityLevel: string;
   product: Product;
   user: User;
-  
 }
 export type NotificationPropsState = {
   notification: Notification[] | null;
@@ -72,6 +71,24 @@ export const deleteNotification = createAsyncThunk<Notification[], number>(
   }
 );
 
+//read or unread api 
+export const NotificationRead = createAsyncThunk<Notification[], number>(
+  "read/readNotification",
+  async (notificationId: number) => {
+    try {
+      const response = await axios.put(
+        `http://192.168.10.210:8081/SMS/notification/readNotification/${notificationId}`
+      );
+      console.log(response);
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
 const adminNotificationSlice = createSlice({
   name: "notifications",
   initialState,
@@ -92,6 +109,15 @@ const adminNotificationSlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(deleteNotification.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.notification = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(NotificationRead.fulfilled, (state, action) => {
+        state.notification = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(NotificationRead.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.notification = null;
         state.error = action.payload as string | null;
