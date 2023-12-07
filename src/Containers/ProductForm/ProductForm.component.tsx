@@ -24,13 +24,13 @@ import {
   LogoTitle,
   ModalButtonHolder,
   Option,
+  ProductTableForm,
   UploadLogoHolder,
   UploadPhotoText,
 } from "./style/ProductForm.style";
 import {
   FormName,
   LabelDescriptionContainer,
-  StyledForm,
   StyledSelect,
 } from "App/style/App.style";
 
@@ -208,7 +208,7 @@ const ProductForm: FC<LogoProps> = () => {
           </Box>
         </Modal>
       ) : null}
-      <StyledForm>
+      <ProductTableForm>
         <FormName>Product</FormName>
         <InputsTableFormContainer>
           <GenericInputHold>
@@ -233,7 +233,7 @@ const ProductForm: FC<LogoProps> = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setBarCode(e.target.value)
               }
-            />{" "}
+            />
           </GenericInputHold>
         </InputsTableFormContainer>
         <InputsTableFormContainer>
@@ -348,7 +348,7 @@ const ProductForm: FC<LogoProps> = () => {
           </LogoDescAndNameHolder>
         </InputsTableFormContainer>
         <GenericButton name="Create Product" onClick={handleSubmit} />
-      </StyledForm>
+      </ProductTableForm>
       {/* </FormAndModalHolder> */}
     </>
   );

@@ -13,7 +13,7 @@ export const Page = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: "#FFFF";
+  background: #e5e5e5;
 `;
 
 //generic dropdown
@@ -53,7 +53,7 @@ export const StyledSelect = styled.select<dropdownProps>`
   box-sizing: border-box;
   border: ${(props: any) => props.border || "1.5px solid #cfdeff"};
   width: ${(props: any) => props.width || "100%"};
-  height: ${(props: any) => props.height || "55px"};
+  height: ${(props: any) => props.height || "53px"};
   background: ${(props: any) => props.backgroundcolor || "#FFFFFF"};
   border-radius: ${(props: any) => props.borderradius || "10px"};
   font-size: ${(props: any) => props.fontSize || "12px"};

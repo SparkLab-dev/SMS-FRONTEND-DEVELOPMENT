@@ -4,20 +4,20 @@ import { FC, useState, useEffect } from "react";
 import {
   FormName,
   LabelDescriptionContainer,
-  StyledForm,
   StyledSelect,
 } from "App/style/App.style";
 import {
+  OrderFormButtonsContentHolder,
   OrderFormInputsHolder,
   OrderFormTableContainer,
   OrderInputContainer,
+  OrderTableForm,
   ProductsTableBody,
   ProductsTableHead,
 } from "./style/OrderForm.style";
 import {
   Table,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
 } from "Components/ProductsTable/style/ProductsTable.style";
@@ -74,7 +74,6 @@ const OrderForm: FC<{}> = () => {
 
   //get userRole from redux
   const userId = useSelector((state: RootState) => state.login.user?.id);
-  console.log(userId);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -148,6 +147,8 @@ const OrderForm: FC<{}> = () => {
 
       if (calculateItem.fulfilled.match(response)) {
         const { orderItemList, totalPrice: calculatedTotal } = response.payload;
+        setQuantity("");
+        setUnitPrice("");
 
         orderItemList.forEach((item: any) => {
           const newItem = {
@@ -225,8 +226,8 @@ const OrderForm: FC<{}> = () => {
   };
 
   return (
-    <>
-      <StyledForm>
+    <div style={{ display: "flex", width: "100%" }}>
+      <OrderTableForm>
         <FormName>Order</FormName>
         <OrderFormInputsHolder>
           <OrderInputContainer>
@@ -354,36 +355,36 @@ const OrderForm: FC<{}> = () => {
             />
           </OrderInputContainer>
         </OrderFormInputsHolder>
-        <GenericButton name="Add" onClick={handleCalculateItemClick} />
-        <OrderFormTableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <ProductsTableHead>Product</ProductsTableHead>
-                <ProductsTableHead>Id</ProductsTableHead>
-                <ProductsTableHead>Quantity</ProductsTableHead>
-                <ProductsTableHead>Unit Price</ProductsTableHead>
-                <ProductsTableHead>Total Price</ProductsTableHead>
-                <ProductsTableHead>Total Amount</ProductsTableHead>
+        <OrderFormButtonsContentHolder>
+          <GenericButton name="Add" onClick={handleCalculateItemClick} />
+          <GenericButton name="Submit" onClick={handleOrderFormClick} />
+        </OrderFormButtonsContentHolder>
+      </OrderTableForm>
+      <OrderFormTableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <ProductsTableHead>Product</ProductsTableHead>
+              <ProductsTableHead>Quantity</ProductsTableHead>
+              <ProductsTableHead>Unit Price</ProductsTableHead>
+              <ProductsTableHead>Total Price</ProductsTableHead>
+              <ProductsTableHead>Total Amount</ProductsTableHead>
+            </TableRow>
+          </TableHead>
+          <ProductsTableBody>
+            {addedItems.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell>{item.productName}</TableCell>
+                <TableCell>{item.quantity}</TableCell>
+                <TableCell>{item.unitPrice}</TableCell>
+                <TableCell>{item.totalPrice}</TableCell>
+                <TableCell>{item.totalAmount}</TableCell>
               </TableRow>
-            </TableHead>
-            <ProductsTableBody>
-              {addedItems.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell>{item.productName}</TableCell>
-                  <TableCell>{item.product.id}</TableCell>
-                  <TableCell>{item.quantity}</TableCell>
-                  <TableCell>{item.unitPrice}</TableCell>
-                  <TableCell>{item.totalPrice}</TableCell>
-                  <TableCell>{item.totalAmount}</TableCell>
-                </TableRow>
-              ))}
-            </ProductsTableBody>
-          </Table>
-        </OrderFormTableContainer>
-        <GenericButton name="Submit" onClick={handleOrderFormClick} />
-      </StyledForm>
-    </>
+            ))}
+          </ProductsTableBody>
+        </Table>
+      </OrderFormTableContainer>
+    </div>
   );
 };
 

@@ -1,5 +1,12 @@
 import styled from "styled-components";
 
+export const OrderTableForm = styled.div`
+  width: 100%;
+  max-width: 650px;
+  margin: auto;
+  height: 80vh;
+  flex: 1;
+`;
 export const OrderFormInputsHolder = styled.div`
   display: flex;
 `;
@@ -20,8 +27,11 @@ export const OrderFormTableContainer = styled.div`
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
-
+  flex: 1;
   &::-webkit-scrollbar {
     display: none;
   }
+`;
+export const OrderFormButtonsContentHolder = styled.div`
+  display: flex;
 `;

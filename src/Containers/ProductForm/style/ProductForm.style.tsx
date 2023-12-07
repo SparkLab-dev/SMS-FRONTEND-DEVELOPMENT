@@ -1,4 +1,11 @@
 import styled from "styled-components";
+
+export const ProductTableForm = styled.div`
+  width: 100%;
+  max-width: 650px;
+  margin: auto;
+  height: 80vh;
+`;
 export const FormAndModalHolder = styled.div`
   width: 100%;
   height: 100%;
@@ -17,7 +24,7 @@ export const ModalButtonHolder = styled.div`
   display: flex;
   margin: 5px;
 `;
-export const ButtonHold=styled.div`
+export const ButtonHold = styled.div`
   width: 100%;
   max-width: 300px;
   margin: auto;
@@ -29,7 +36,7 @@ export const UploadLogoHolder = styled.div`
   outline: none;
   box-sizing: border-box;
   width: 100%;
-  height: 56px;
+  height: 53px;
   background-color: white;
   border: 1.5px solid #cfdeff;
   font-family: "Poppins", sans-serif;

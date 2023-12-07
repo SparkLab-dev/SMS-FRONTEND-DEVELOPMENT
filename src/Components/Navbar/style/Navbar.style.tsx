@@ -16,7 +16,7 @@ export const Header = styled.header`
   justify-content: space-around;
   padding: 16px;
   align-items: center;
-  /* background-color: #0e53c5; */
+  background-color: #fff;
   color: #000000;
   width: 100%;
   height: 55px;
@@ -69,7 +69,7 @@ export const ListItem = styled.li`
 export const NavLink = styled(Link)`
   text-decoration: none;
   color: black;
-  /* padding: 8px 12px; */
+  padding: 8px 12px;
   border-radius: 4px;
   gap: 3px;
   font-weight: 400;

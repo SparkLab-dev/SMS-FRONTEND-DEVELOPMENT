@@ -27,7 +27,7 @@ import { RootState } from "redux/store";
 const Navbar: FC<{}> = () => {
   const navigate = useNavigate();
   const [menu, setMenu] = useState("shop");
-  const Shop = require("./assets/Account-Icon.png") as string;
+  const Shop = require("./assets/AccountIcon.png") as string;
 
   //get userRole from redux
   const userRole = useSelector((state: RootState) => state.login.user?.role);
@@ -59,9 +59,16 @@ const Navbar: FC<{}> = () => {
       </NavLink>
       <UnorderedList>
         {userRole === "ADMIN" && (
-          <NavLink to="/home" onClick={() => setMenu("shop")}>
-            <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
-          </NavLink>
+          <>
+            <NavLink to="/home" onClick={() => setMenu("shop")}>
+              <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
+            </NavLink>
+            <NavLink to="/adminNotification" onClick={() => setMenu("notification")}>
+              <ListItem>
+                Notification{menu === "notification" ? <HR /> : <></>}
+              </ListItem>
+            </NavLink>
+          </>
         )}
 
         {userRole === "EMPLOYEE" && (
@@ -74,6 +81,11 @@ const Navbar: FC<{}> = () => {
             <NavLink to="/table" onClick={() => setMenu("bicycle")}>
               <ListItem>
                 Product table{menu === "bicycle" ? <HR /> : <></>}
+              </ListItem>
+            </NavLink>
+            <NavLink to="/createCategory" onClick={() => setMenu("category")}>
+              <ListItem>
+                Category{menu === "category" ? <HR /> : <></>}
               </ListItem>
             </NavLink>
           </>

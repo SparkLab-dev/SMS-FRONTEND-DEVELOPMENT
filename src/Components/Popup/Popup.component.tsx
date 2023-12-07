@@ -5,6 +5,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  PopupCloseButton,
 } from "./style/Popup.style";
 
 import GenericButton from "Components/GenericButton/GenericButton.component";
@@ -30,7 +31,9 @@ const Popup: FC<popupProps> = ({
         <ModalBody>{bodyContent}</ModalBody>
         <ModalFooter>
           {footerContent}
-          <GenericButton onClick={onClose} name="Close"/>
+          <PopupCloseButton>
+            <GenericButton onClick={onClose} name="Close" />
+          </PopupCloseButton>
         </ModalFooter>
       </Modal>
     </ModalOverlay>
