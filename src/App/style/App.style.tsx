@@ -12,7 +12,7 @@ export const Page = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* background: #e5e5e5; */
+  background: #e5e5e5;
 `;
 
 //generic dropdown

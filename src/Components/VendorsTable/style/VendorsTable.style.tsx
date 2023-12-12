@@ -47,7 +47,9 @@ export const VendorTableRow = styled.tr`
   }
 `;
 
-export const VendorTH = styled.th``;
+export const VendorTH = styled.th`
+
+`;
 export const VedorTableBody = styled.tbody``;
 export const VendorTableCell = styled.td`
   border: 1px solid #3746673b;

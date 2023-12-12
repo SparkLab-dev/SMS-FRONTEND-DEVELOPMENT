@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export interface Vendor {
-  id?: number;
+  id?: number | string;
   companyName: string;
   email: string;
   phoneNumber: string;
@@ -78,6 +78,24 @@ export const fetchVendors = createAsyncThunk<Vendor[]>(
   }
 );
 
+//get vendor by id
+export const fetchVendorsById = createAsyncThunk<
+  Vendor[],
+  { vendorId: number },
+  { rejectValue: string }
+>("vendorById/getVendorById", async ({ vendorId }) => {
+  try {
+    const response = await axios.get(
+      `http://192.168.10.210:8081/SMS/vendor/${vendorId}`
+    );
+    console.log("vendors by id", response);
+    return [response.data];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+});
+
 //delete vendor
 export const deleteVendor = createAsyncThunk<Vendor[], number>(
   "delete/deleteVendor",
@@ -130,6 +148,15 @@ const vendorFormSlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(deleteVendor.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.vendor = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(fetchVendorsById.fulfilled, (state, action) => {
+        state.vendor = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(fetchVendorsById.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.vendor = null;
         state.error = action.payload as string | null;

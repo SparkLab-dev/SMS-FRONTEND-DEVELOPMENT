@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 //mui icons
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import ForwardIcon from "@mui/icons-material/Forward";
 
 //style
 import {
@@ -11,7 +12,6 @@ import {
   VedorTableBody,
   VendorAddProductNameContainerPlusIcon,
   VendorButtonName,
-  VendorEditButton,
   VendorIconLink,
   VendorTH,
   VendorTable,
@@ -37,6 +37,8 @@ import {
 const VendorsTable: FC<{}> = () => {
   const navigate = useNavigate();
   const [vendors, setVendors] = useState<Vendor[]>([]);
+  console.log(vendors);
+
   const dispatch: AppDispatch = useDispatch();
 
   //get all vendors api call
@@ -76,6 +78,10 @@ const VendorsTable: FC<{}> = () => {
       <VendorButtonName>New Vendor</VendorButtonName>
     </VendorAddProductNameContainerPlusIcon>
   );
+  const handleGoToLinkClick = (vendor: Vendor) => {
+    console.log(vendor);
+    navigate(`/vendorDetails/${vendor.id}`);
+  };
 
   return (
     <VendorTableHolder>
@@ -110,13 +116,18 @@ const VendorsTable: FC<{}> = () => {
                 <VendorTableCell>{vendor.paymentTerms}</VendorTableCell>
                 <VendorTableCell>{vendor.bankName}</VendorTableCell>
                 <VendorTableCell>
-                  <VendorEditButton>Edit</VendorEditButton>
                   <VendorIconLink
                     to=""
                     onClick={() => handleDeleteVendor(vendor.id)}
                   >
-                    <DeleteIcon />
-                  </VendorIconLink>
+                    <DeleteIcon color="primary" style={{ fontSize: "30px" }} />
+                  </VendorIconLink>{" "}
+                  <ForwardIcon
+                    color="primary"
+                    fontSize="large"
+                    onClick={() => handleGoToLinkClick(vendor)}
+                    style={{ cursor: "pointer" }}
+                  />
                 </VendorTableCell>
               </VendorTableRow>
             ))}
