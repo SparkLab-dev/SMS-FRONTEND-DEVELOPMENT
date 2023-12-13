@@ -3,8 +3,14 @@ import styled from "styled-components";
 //mui icons
 import EditIcon from "@mui/icons-material/Edit";
 
+export const VendorDetailsComponent = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 export const VendorDetailsList = styled.div`
-  box-shadow: 3px 3px 15px 5px rgba(0, 0, 0, 0.04);
+  box-shadow: 3px 3px 15px 5px rgb(0 0 0 / 15%);
   background-color: #fff;
   border-radius: 10px;
   width: 100%;

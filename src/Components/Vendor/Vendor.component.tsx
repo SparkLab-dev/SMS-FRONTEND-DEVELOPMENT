@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 //style
 import { VendorInput, VendorInputsHolder } from "./style/Vendor.style";
@@ -7,11 +8,14 @@ import { FormName, StyledForm } from "App/style/App.style";
 //components
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+
+//redux
 import { AppDispatch, RootState } from "redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { vendorForm } from "redux/Containers/VendorForm/VendorFormSlice";
 
 const Vendor: FC<{}> = () => {
+  const navigate = useNavigate();
   const [companyName, setCompanyName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -57,7 +61,10 @@ const Vendor: FC<{}> = () => {
       console.log("Invalid email format!");
     } else {
       try {
-        await dispatch(vendorForm({ vendorCredentials }));
+        const response = await dispatch(vendorForm({ vendorCredentials }));
+        if (vendorForm.fulfilled.match(response)) {
+          navigate("/vendorTable");
+        }
         setCompanyName("");
         setEmail("");
         setName("");

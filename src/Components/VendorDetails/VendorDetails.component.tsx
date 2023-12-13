@@ -1,5 +1,7 @@
 import { FC, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+
+//style
 import {
   DisplayVendorsHolder,
   EditButton,
@@ -17,6 +19,7 @@ import {
   PopupInputsContainer,
   InputOfPopupHolder,
   PopupName,
+  VendorDetailsComponent,
 } from "./style/VendorDetails.style";
 
 //redux
@@ -27,6 +30,8 @@ import {
 } from "redux/Containers/VendorForm/VendorFormSlice";
 import { AppDispatch, RootState } from "redux/store";
 import { useDispatch, useSelector } from "react-redux";
+
+//components
 import Popup from "Components/Popup/Popup.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
@@ -42,7 +47,7 @@ const VendorDetails: FC<{}> = () => {
   const [notes, setNotes] = useState<string>("");
   const [paymentTerms, setPaymentTerms] = useState<string>("");
   const [bankName, setBankName] = useState<string>("");
-  console.log(email);
+  console.log(contactName);
   const dispatch: AppDispatch = useDispatch();
 
   const { id } = useParams();
@@ -76,36 +81,38 @@ const VendorDetails: FC<{}> = () => {
     setSelectedItem(vendor);
   };
 
-  const vendorCredentials = {
-    id: vendorId,
-    companyName: companyName,
-    email: email,
-    phoneNumber: phoneNumber,
-    contactPersonName: contactName,
-    notes: notes,
-    paymentTerms: paymentTerms,
-    bankName: bankName,
-    modifiedBy: {
-      id: userId,
-    },
-  };
   const handleSave = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
 
     try {
-      await dispatch(vendorForm({ vendorCredentials }));
+      const updatedItem = {
+        id: vendorId,
+        companyName: companyName || selectedItem[0]?.companyName,
+        email: email || selectedItem[0]?.email,
+        phoneNumber: phoneNumber || selectedItem[0]?.phoneNumber,
+        contactPersonName: contactName || selectedItem[0]?.contactPersonName,
+        notes: notes || selectedItem[0]?.notes,
+        paymentTerms: paymentTerms || selectedItem[0]?.paymentTerms,
+        bankName: bankName || selectedItem[0]?.bankName,
+        modifiedBy: {
+          id: userId,
+        },
+      };
+
+      await dispatch(vendorForm({ vendorCredentials: updatedItem }));
+
       const updatedVendorsId = vendorsId.map((vendor: any) => {
         if (vendor.id === selectedItem[0]?.id) {
-          // Assuming the vendor ID is present in the selectedItem
-          return { ...selectedItem[0] };
+          return updatedItem; 
         }
         return vendor;
       });
 
       setVendorsId(updatedVendorsId);
       localStorage.setItem("vendorsData", JSON.stringify(updatedVendorsId));
+
       setCompanyName("");
       setEmail("");
       setContactName("");
@@ -113,32 +120,102 @@ const VendorDetails: FC<{}> = () => {
       setPaymentTerms("");
       setPhoneNumber("");
       setBankName("");
-      // Close the modal
       setIsModalOpen(false);
     } catch (error) {
-      console.error("Register failed!", error);
+      console.error("Vendor edit failed!", error);
     }
   };
 
-  const handleInput = (field: string, value: any) => {
+  const handleCompanyNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setCompanyName(event.target.value);
+
     if (selectedItem && selectedItem.length > 0) {
-      const updatedItem = { ...selectedItem[0], [field]: value };
+      const updatedItem = {
+        ...selectedItem[0],
+        companyName: event.target.value,
+      };
       setSelectedItem([updatedItem]);
     }
   };
-  const handleInputChange = (event: any) => {
-    // Updating state with the new input value
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
+
+    if (selectedItem && selectedItem.length > 0) {
+      const updatedItem = { ...selectedItem[0], email: event.target.value };
+      setSelectedItem([updatedItem]);
+    }
+  };
+
+  const handlePhoneNumberChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPhoneNumber(event.target.value);
+
+    if (selectedItem && selectedItem.length > 0) {
+      const updatedItem = {
+        ...selectedItem[0],
+        phoneNumber: event.target.value,
+      };
+      setSelectedItem([updatedItem]);
+    }
+  };
+
+  const handlePersonNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setContactName(event.target.value);
+
+    if (selectedItem && selectedItem.length > 0) {
+      const updatedItem = {
+        ...selectedItem[0],
+        contactPersonName: event.target.value,
+      };
+      setSelectedItem([updatedItem]);
+    }
+  };
+
+  const handleNotesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNotes(event.target.value);
+
+    if (selectedItem && selectedItem.length > 0) {
+      const updatedItem = {
+        ...selectedItem[0],
+        notes: event.target.value,
+      };
+      setSelectedItem([updatedItem]);
+    }
+  };
+
+  const handlePaymentTermsChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPaymentTerms(event.target.value);
+
+    if (selectedItem && selectedItem.length > 0) {
+      const updatedItem = {
+        ...selectedItem[0],
+        paymentTerms: event.target.value,
+      };
+      setSelectedItem([updatedItem]);
+    }
+  };
+
+  const handleBankNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBankName(event.target.value);
+
+    if (selectedItem && selectedItem.length > 0) {
+      const updatedItem = {
+        ...selectedItem[0],
+        bankName: event.target.value,
+      };
+      setSelectedItem([updatedItem]);
+    }
   };
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <VendorDetailsComponent>
       {vendorsId && (
         <VendorDetailsList>
           <EditButtonHolder>
@@ -218,14 +295,14 @@ const VendorDetails: FC<{}> = () => {
                         input_label="Company Name"
                         type="text"
                         value={selectedItem[0]?.companyName || ""}
-                        onChange={(e: any) => setCompanyName(e.target.value)}
+                        onChange={handleCompanyNameChange}
                       />
                     </InputOfPopupHolder>
                     <InputOfPopupHolder>
                       <GenericInput
                         input_label="Email"
                         value={selectedItem[0]?.email || ""}
-                        onChange={handleInputChange}
+                        onChange={handleEmailChange}
                       />
                     </InputOfPopupHolder>
                   </PopupInputsContainer>
@@ -234,18 +311,14 @@ const VendorDetails: FC<{}> = () => {
                       <GenericInput
                         input_label="Phone Number"
                         value={selectedItem[0]?.phoneNumber || ""}
-                        onChange={(e: any) =>
-                          handleInput("phoneNumber", e.target.value)
-                        }
+                        onChange={handlePhoneNumberChange}
                       />
                     </InputOfPopupHolder>
                     <InputOfPopupHolder>
                       <GenericInput
                         input_label="Contact Name"
                         value={selectedItem[0]?.contactPersonName || ""}
-                        onChange={(e: any) =>
-                          handleInput("contactPersonName", e.target.value)
-                        }
+                        onChange={handlePersonNameChange}
                       />
                     </InputOfPopupHolder>
                   </PopupInputsContainer>
@@ -255,9 +328,7 @@ const VendorDetails: FC<{}> = () => {
                         input_label="Notes"
                         type="text"
                         value={selectedItem[0]?.notes || ""}
-                        onChange={(e: any) =>
-                          handleInput("notes", e.target.value)
-                        }
+                        onChange={handleNotesChange}
                       />
                     </InputOfPopupHolder>
                     <InputOfPopupHolder>
@@ -265,9 +336,7 @@ const VendorDetails: FC<{}> = () => {
                         input_label="Payment Terms"
                         type="text"
                         value={selectedItem[0]?.paymentTerms || ""}
-                        onChange={(e: any) =>
-                          handleInput("paymentTerms", e.target.value)
-                        }
+                        onChange={handlePaymentTermsChange}
                       />
                     </InputOfPopupHolder>
                   </PopupInputsContainer>
@@ -278,9 +347,7 @@ const VendorDetails: FC<{}> = () => {
                   <GenericInput
                     input_label="Bank Name"
                     value={selectedItem[0]?.bankName || ""}
-                    onChange={(e: any) =>
-                      handleInput("bankName", e.target.value)
-                    }
+                    onChange={handleBankNameChange}
                   />
                 </InputOfPopupHolder>
               </PopupInputsContainer>
@@ -289,7 +356,7 @@ const VendorDetails: FC<{}> = () => {
           footerContent={<GenericButton onClick={handleSave} name="Save" />}
         />
       )}
-    </div>
+    </VendorDetailsComponent>
   );
 };
 
