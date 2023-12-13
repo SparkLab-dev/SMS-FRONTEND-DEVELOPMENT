@@ -21,6 +21,8 @@ import GetCategories from "Pages/GetCategories/GetCategories.component";
 import AdminNotifications from "Components/AdminNotifications/AdminNotifications.component";
 import AdminMessageNotification from "Components/AdminMessageNotification/AdminMessageNotification.component";
 import Vendor from "Components/Vendor/Vendor.component";
+import VendorsTable from "Components/VendorsTable/VendorsTable.component";
+import VendorDetails from "Components/VendorDetails/VendorDetails.component";
 
 const App: FC<{}> = () => {
   const logoProps = {
@@ -67,6 +69,8 @@ const App: FC<{}> = () => {
               element={<AdminMessageNotification />}
             />
             <Route path="/vendor" element={<Vendor />} />
+            <Route path="/vendorTable" element={<VendorsTable />} />
+            <Route path="/vendorDetails/:id" element={<VendorDetails />} />
           </Route>
         </Routes>
       </BrowserRouter>

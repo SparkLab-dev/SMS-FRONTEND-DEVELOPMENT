@@ -71,7 +71,7 @@ const Navbar: FC<{}> = () => {
                 Notification{menu === "notification" ? <HR /> : <></>}
               </ListItem>
             </NavLink>
-            <NavLink to="/vendor" onClick={() => setMenu("vendor")}>
+            <NavLink to="/vendorTable" onClick={() => setMenu("vendor")}>
               <ListItem>Vendor{menu === "vendor" ? <HR /> : <></>}</ListItem>
             </NavLink>
           </>

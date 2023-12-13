@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 //style
 import { VendorInput, VendorInputsHolder } from "./style/Vendor.style";
@@ -8,7 +9,13 @@ import { FormName, StyledForm } from "App/style/App.style";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
 
+//redux
+import { AppDispatch, RootState } from "redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { vendorForm } from "redux/Containers/VendorForm/VendorFormSlice";
+
 const Vendor: FC<{}> = () => {
+  const navigate = useNavigate();
   const [companyName, setCompanyName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -16,6 +23,60 @@ const Vendor: FC<{}> = () => {
   const [notes, setNotes] = useState<string>("");
   const [paymentTerms, setPaymentTerms] = useState<string>("");
   const [bankName, setBankName] = useState<string>("");
+
+  //email validation
+  const validateEmail = (email: string): boolean => {
+    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailPattern.test(email);
+  };
+
+  //get userId from redux
+  const userId = useSelector((state: RootState) => state.login.user?.id);
+
+  const dispatch: AppDispatch = useDispatch();
+
+  const vendorCredentials = {
+    companyName: companyName,
+    email: email,
+    phoneNumber: phoneNumber,
+    contactPersonName: name,
+    notes: notes,
+    paymentTerms: paymentTerms,
+    bankName: bankName,
+    createdBy: {
+      id: userId,
+    },
+    modifiedBy: {
+      id: userId,
+    },
+  };
+  const handleVendorClick = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+
+    if (email === null || name === "" || phoneNumber === "") {
+      console.log("Missing required information!");
+    } else if (!validateEmail(email)) {
+      console.log("Invalid email format!");
+    } else {
+      try {
+        const response = await dispatch(vendorForm({ vendorCredentials }));
+        if (vendorForm.fulfilled.match(response)) {
+          navigate("/vendorTable");
+        }
+        setCompanyName("");
+        setEmail("");
+        setName("");
+        setNotes("");
+        setPaymentTerms("");
+        setPhoneNumber("");
+        setBankName("");
+      } catch (error) {
+        console.error("Register failed!", error);
+      }
+    }
+  };
   return (
     <>
       <StyledForm>
@@ -26,9 +87,10 @@ const Vendor: FC<{}> = () => {
               input_label="Company Name"
               placeholder="Company Name"
               type="text"
-              required={true}
               value={companyName || ""}
-              onChange={(e: any) => setCompanyName(e)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setCompanyName(e.target.value)
+              }
             />
           </VendorInput>
           <VendorInput>
@@ -38,7 +100,9 @@ const Vendor: FC<{}> = () => {
               type="email"
               required={true}
               value={email || ""}
-              onChange={(e: any) => setEmail(e)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setEmail(e.target.value)
+              }
             />
           </VendorInput>
         </VendorInputsHolder>
@@ -50,7 +114,9 @@ const Vendor: FC<{}> = () => {
               type="cel"
               required={true}
               value={phoneNumber || ""}
-              onChange={(e: any) => setPhoneNumber(e)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPhoneNumber(e.target.value)
+              }
             />
           </VendorInput>
           <VendorInput>
@@ -60,7 +126,9 @@ const Vendor: FC<{}> = () => {
               type="text"
               required={true}
               value={name || ""}
-              onChange={(e: any) => setName(e)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setName(e.target.value)
+              }
             />
           </VendorInput>
         </VendorInputsHolder>
@@ -70,9 +138,10 @@ const Vendor: FC<{}> = () => {
               input_label="Notes"
               placeholder="Notes"
               type="text"
-              required={true}
               value={notes || ""}
-              onChange={(e: any) => setNotes(e)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setNotes(e.target.value)
+              }
             />
           </VendorInput>
           <VendorInput>
@@ -80,9 +149,10 @@ const Vendor: FC<{}> = () => {
               input_label="Payment Terms"
               placeholder="Payment Terms"
               type="text"
-              required={true}
               value={paymentTerms || ""}
-              onChange={(e: any) => setPaymentTerms(e)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPaymentTerms(e.target.value)
+              }
             />
           </VendorInput>
         </VendorInputsHolder>
@@ -92,13 +162,14 @@ const Vendor: FC<{}> = () => {
               input_label="Bank name"
               placeholder="Bank name"
               type="text"
-              required={true}
               value={bankName || ""}
-              onChange={(e: any) => setBankName(e)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setBankName(e.target.value)
+              }
             />
           </VendorInput>
         </VendorInputsHolder>
-        <GenericButton name="Submit" />
+        <GenericButton name="Submit" onClick={handleVendorClick} />
       </StyledForm>
     </>
   );
