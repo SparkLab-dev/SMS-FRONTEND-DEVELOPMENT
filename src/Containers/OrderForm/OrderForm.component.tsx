@@ -33,7 +33,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { orderForm } from "redux/Containers/OrderForm/OrderFormSlice";
 import { calculateItem } from "redux/Containers/CalculateItem/CalculateItemSlice";
 import {
-  ProductDetails,
+  ProductDetailss,
   fetchAllProducts,
 } from "redux/Pages/Product/ProductSlice";
 
@@ -47,7 +47,7 @@ const OrderForm: FC<{}> = () => {
   const [quantity, setQuantity] = useState<string>("");
   const [unitPrice, setUnitPrice] = useState<string>("");
   const [totalPrice, setTotalPrice] = useState<string>("");
-  const [getAllProducts, setGetAllProducts] = useState<ProductDetails[]>([]);
+  const [getAllProducts, setGetAllProducts] = useState<ProductDetailss[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [addedItems, setAddedItems] = useState<
@@ -62,7 +62,7 @@ const OrderForm: FC<{}> = () => {
       };
     }[]
   >([]);
-  const [selectedProduct, setSelectedProduct] = useState<ProductDetails | null>(
+  const [selectedProduct, setSelectedProduct] = useState<ProductDetailss | null>(
     null
   );
   const [selectedProductsList, setSelectedProductsList] = useState<

@@ -41,7 +41,7 @@ const initialState: ShopProductPropsState = {
   error: null,
 };
 
-//get product details
+//get product category
 export const fetchShopProductCategory = createAsyncThunk<
   ShopCategoryProductProps[],
   number

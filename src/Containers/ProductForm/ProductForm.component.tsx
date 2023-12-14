@@ -109,7 +109,7 @@ const ProductForm: FC<LogoProps> = () => {
       );
 
       if (productForm.fulfilled.match(response)) {
-        navigate("/productForm");
+        navigate("/table");
         console.log("fulfilled");
       }
     } catch (error) {

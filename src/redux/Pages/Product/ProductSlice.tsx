@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 //axios
 import axios from "axios";
 
-export interface ProductDetails {
+export interface ProductDetailss {
   id?: number;
   name: string;
   barcode: string | null;
@@ -28,7 +28,7 @@ export interface ProductDetails {
 }
 
 export type ProductState = {
-  product: ProductDetails[] | null;
+  product: ProductDetailss[] | null;
   isAuthenticated: boolean;
   error: string | null;
 };
@@ -40,7 +40,7 @@ const initialState: ProductState = {
 };
 
 //get product details
-export const fetchProductDetails = createAsyncThunk<ProductDetails[], number>(
+export const fetchProductDetails = createAsyncThunk<ProductDetailss[], number>(
   "product/productProp",
   async (productId: number) => {
     try {
@@ -56,8 +56,10 @@ export const fetchProductDetails = createAsyncThunk<ProductDetails[], number>(
   }
 );
 
+
+
 //get all products
-export const fetchAllProducts = createAsyncThunk<ProductDetails[]>(
+export const fetchAllProducts = createAsyncThunk<ProductDetailss[]>(
   "allProduct/fetchAllProducts",
   async () => {
     try {

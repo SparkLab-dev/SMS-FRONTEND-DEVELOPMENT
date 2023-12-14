@@ -11,6 +11,7 @@ import {
   H2,
   IconLink,
   InputsOfProductTable,
+  ProductImage,
   ProductInputHold,
   ProductsTableHolder,
   SelectOption,
@@ -28,6 +29,7 @@ import { StyledSelect } from "App/style/App.style";
 //mui icons
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import ForwardIcon from "@mui/icons-material/Forward";
 
 //redux
 import { AppDispatch } from "redux/store";
@@ -46,6 +48,8 @@ import {
 import GenericButton from "Components/GenericButton/GenericButton.component";
 import Popup from "Components/Popup/Popup.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
+import { productForm } from "redux/Containers/ProductForm/ProductFormSlice";
+import UploadPhoto from "Components/UploadPhoto/UploadPhoto.component";
 
 const ProductsTable: FC<{}> = () => {
   const navigate = useNavigate();
@@ -58,6 +62,19 @@ const ProductsTable: FC<{}> = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [productName, setProductName] = useState<string>("");
+  const [barCode, setBarCode] = useState<string>("");
+  const [price, setPrice] = useState<string>("");
+  const [threshold, setThreshold] = useState<string>("");
+  const [stockQuantity, setStockQuantity] = useState<string>("");
+  const [productAttributes, setProductAttributes] = useState<
+    { attributeName: string; attributeValue: string }[]
+  >([]);
+  const [logo, setLogo] = useState<File | null>(null);
+  const [editedItem, setEditedItem] = useState<any>(null);
+  const [profilePicture, setProfilePicture] = useState<any>({});
+  const [logoFromApi, setLogoFromApi] = useState<any>([]);
+  const [reload, setReload] = useState<any>(0);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -107,22 +124,26 @@ const ProductsTable: FC<{}> = () => {
     fetchData();
   }, [dispatch, selectedCategory]);
 
-  //delete product api call
-  const handleDeleteProduct = async (productId: number) => {
-    try {
-      const result = await dispatch(deleteProduct(productId));
-      if (deleteProduct.fulfilled.match(result)) {
-        console.log("Product deleted successfully!");
-        setShopCategory((prevState) =>
-          prevState.filter((product) => product.id !== productId)
-        );
-      } else {
-        console.error("Failed to delete product");
-      }
-    } catch (error) {
-      console.error("Error deleting product:", error);
-    }
+  const handleGoToLinkClick = (product: ShopCategoryProductProps) => {
+    console.log(product);
+    navigate(`/productDetails/${product.id}`);
   };
+  //delete product api call
+  // const handleDeleteProduct = async (productId: number) => {
+  //   try {
+  //     const result = await dispatch(deleteProduct(productId));
+  //     if (deleteProduct.fulfilled.match(result)) {
+  //       console.log("Product deleted successfully!");
+  //       setShopCategory((prevState) =>
+  //         prevState.filter((product) => product.id !== productId)
+  //       );
+  //     } else {
+  //       console.error("Failed to delete product");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error deleting product:", error);
+  //   }
+  // };
 
   const buttonName = (
     <AddProductNameContainerPlusIcon>
@@ -132,15 +153,55 @@ const ProductsTable: FC<{}> = () => {
   );
 
   //edit button click
-  const handleEdit = (rental: any) => {
-    console.log(rental);
-    setIsModalOpen(true);
-    setSelectedItem(rental);
-  };
+  // const handleEdit = (rental: any) => {
+  //   setIsModalOpen(true);
+  //   setEditedItem(rental);
+  //   setSelectedItem(rental); // Set the selectedItem state to the data being edited
+  // };
 
-  const handleSave = async () => {
-    console.error("User is not authenticated or no item is selected");
-  };
+  // const handleSaveProduct = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+
+  //   const formData = new FormData();
+  //   formData.append("name", editedItem.name || "");
+  //   formData.append("barcode", editedItem.barcode || "");
+  //   formData.append("stockQuantity", editedItem.stockQuantity || "");
+  //   formData.append("price", editedItem.price || "");
+  //   formData.append("threshold", editedItem.threshold || "");
+
+  //   formData.append("productCategory", String(selectedCategory || ""));
+
+  //   editedItem.attributes.forEach((attr: any, index: number) => {
+  //     formData.append(`attributes[${index}].attributeName`, attr.attributeName);
+  //     formData.append(
+  //       `attributes[${index}].attributeValue`,
+  //       attr.attributeValue
+  //     );
+  //   });
+  //   formData.append("description", editedItem.description || "");
+  //   formData.append("id", editedItem.id || "");
+  //   // Include logic to append the logo if available in editedItem
+  //   // formData.append("productImages[0].Image", logo);
+
+  //   try {
+  //     await dispatch(productForm({ userCredentials: formData }));
+  //     // Update the original shopCategory with the editedItem values
+  //     const updatedShopCategory = shopCategory.map((item: any) =>
+  //       item.id === editedItem.id ? editedItem : item
+  //     );
+  //     setShopCategory(updatedShopCategory);
+
+  //     setIsModalOpen(false);
+  //   } catch (error) {
+  //     console.log("Error in handleSaveProduct:", error);
+  //   }
+  // };
+  // const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEditedItem({
+  //     ...editedItem,
+  //     name: event.target.value,
+  //   });
+  // };
 
   return (
     <ProductsTableHolder>
@@ -169,6 +230,7 @@ const ProductsTable: FC<{}> = () => {
           <Table>
             <TableHead>
               <TableRow>
+                <TH>Product Image</TH>
                 <TH>Name</TH>
                 <TH>Barcode</TH>
                 <TH>Stock Quantity</TH>
@@ -177,12 +239,19 @@ const ProductsTable: FC<{}> = () => {
                 <TH>Price</TH>
                 <TH>Attribute Name</TH>
                 <TH>Attribute Value</TH>
-                <TH>Actions</TH>
+                <TH>Product Details</TH>
               </TableRow>
             </TableHead>
             <Tbody>
               {shopCategory.map((rental: any, index: any) => (
                 <TableRow key={index}>
+                  <TableCell>
+                    {rental.primaryImage && (
+                      <ProductImage
+                        src={`data:image/jpeg;base64,${rental.primaryImage}`}
+                      />
+                    )}
+                  </TableCell>
                   <TableCell>{rental.name}</TableCell>
                   <TableCell>{rental.barcode}</TableCell>
                   <TableCell> {rental.stockQuantity} </TableCell>
@@ -204,15 +273,21 @@ const ProductsTable: FC<{}> = () => {
                     ))}
                   </TableCell>
                   <TableCell>
-                    <EditButton onClick={() => handleEdit(rental)}>
+                    {/* <EditButton onClick={() => handleEdit(rental)}>
                       Edit
-                    </EditButton>
-                    <IconLink
+                    </EditButton> */}
+                    <ForwardIcon
+                      color="primary"
+                      fontSize="large"
+                      onClick={() => handleGoToLinkClick(rental)}
+                      style={{ cursor: "pointer" }}
+                    />
+                    {/* <IconLink
                       to=""
                       onClick={() => handleDeleteProduct(rental.id)}
                     >
-                      <DeleteIcon />
-                    </IconLink>
+                      <DeleteIcon color="primary" fontSize="large" />
+                    </IconLink> */}
                   </TableCell>
                 </TableRow>
               ))}
@@ -220,7 +295,7 @@ const ProductsTable: FC<{}> = () => {
           </Table>
         </TableContainer>
       </TableAndDatepickerHolder>
-      <Popup
+      {/* <Popup
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);
@@ -229,20 +304,22 @@ const ProductsTable: FC<{}> = () => {
         headerContent={<H2>Edit Item</H2>}
         bodyContent={
           <>
-            {selectedItem && (
-              <>
+            {editedItem && (
+              <div>
+                <UploadPhoto
+                  sendPhoto={setProfilePicture}
+                  reload={reload}
+                  profilePhoto={editedItem.primaryImage || ""}
+                  profilePhotoType={logoFromApi[0]}
+                />
+
                 <InputsOfProductTable>
                   <ProductInputHold>
                     <GenericInput
                       input_label="Name"
                       type="text"
                       value={selectedItem?.name || ""}
-                      onChange={(e: any) => {
-                        setSelectedItem({
-                          ...selectedItem,
-                          name: e.target.value,
-                        });
-                      }}
+                      onChange={handleNameChange}
                     />
                   </ProductInputHold>
                   <ProductInputHold>
@@ -315,7 +392,7 @@ const ProductsTable: FC<{}> = () => {
                     />
                   </ProductInputHold>
                 </InputsOfProductTable>
-              </>
+              </div>
             )}
             <InputsOfProductTable>
               <ProductInputHold>
@@ -357,8 +434,10 @@ const ProductsTable: FC<{}> = () => {
             </InputsOfProductTable>
           </>
         }
-        footerContent={<GenericButton onClick={handleSave} name="Save" />}
-      />
+        footerContent={
+          <GenericButton onClick={handleSaveProduct} name="Save" />
+        }
+      /> */}
     </ProductsTableHolder>
   );
 };

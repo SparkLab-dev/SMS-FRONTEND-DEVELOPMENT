@@ -41,6 +41,49 @@ export const fetchImageCategory = createAsyncThunk<ProductImage[], number>(
   }
 );
 
+//upload image
+export const uploadImage = createAsyncThunk(
+  "image/uploadImage",
+  async (
+    { userCredentials }: { userCredentials: object },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await axios.post(
+        "http://192.168.10.210:8081/SMS/productimage",
+        userCredentials
+      );
+
+      const responseRegData = response.data;
+      console.log("", responseRegData);
+
+      return responseRegData;
+    } catch (error: any) {
+      console.log("Error in register image:", error);
+
+      return rejectWithValue("Image register failed");
+    }
+  }
+);
+
+//delete product image
+export const deleteProductImage = createAsyncThunk<ProductImage[], number>(
+  "delete/deleteProductImage",
+  async (productId: number) => {
+    try {
+      const response = await axios.delete(
+        `http://192.168.10.210:8081/SMS/product/${productId}`
+      );
+      console.log(response);
+      console.log(productId);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
 const imageCategorySlice = createSlice({
   name: "imageCategory",
   initialState,
@@ -52,6 +95,15 @@ const imageCategorySlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(fetchImageCategory.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.image = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(uploadImage.fulfilled, (state, action) => {
+        state.image = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(uploadImage.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.image = null;
         state.error = action.payload as string | null;

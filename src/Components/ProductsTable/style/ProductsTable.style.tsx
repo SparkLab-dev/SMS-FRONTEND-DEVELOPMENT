@@ -58,8 +58,8 @@ export const TableRow = styled.tr`
   }
 `;
 
-export const TH=styled.th``
-export const Tbody=styled.tbody``
+export const TH = styled.th``;
+export const Tbody = styled.tbody``;
 export const TableCell = styled.td`
   border: 1px solid #3746673b;
   text-align: center;
@@ -111,4 +111,8 @@ export const InputsOfProductTable = styled.div`
 export const ProductInputHold = styled.div`
   flex: 1;
   margin: 5px;
+`;
+export const ProductImage = styled.img`
+  width: 75px;
+  height: 75px;
 `;

@@ -121,7 +121,7 @@ const VendorsTable: FC<{}> = () => {
                     onClick={() => handleDeleteVendor(vendor.id)}
                   >
                     <DeleteIcon color="primary" style={{ fontSize: "30px" }} />
-                  </VendorIconLink>{" "}
+                  </VendorIconLink>
                   <ForwardIcon
                     color="primary"
                     fontSize="large"

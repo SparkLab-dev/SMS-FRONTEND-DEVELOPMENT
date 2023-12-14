@@ -9,7 +9,7 @@ import {
 } from "redux/Pages/ImageCategory/ImageCategorySlice";
 import { AppDispatch } from "redux/store";
 import {
-  ProductDetails,
+  ProductDetailss,
   fetchProductDetails,
 } from "redux/Pages/Product/ProductSlice";
 
@@ -38,7 +38,7 @@ import {
 const Product: FC<{}> = () => {
   const [image, setImage] = useState<ProductImage[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [product, setProduct] = useState<ProductDetails[]>([]);
+  const [product, setProduct] = useState<ProductDetailss[]>([]);
 
   // const [uploadCommentFile, setUploadCommentFile] = useState(false);
   // const [uploadFile, setUploadFile] = useState(false);
