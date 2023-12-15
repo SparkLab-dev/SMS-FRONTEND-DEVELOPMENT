@@ -69,21 +69,7 @@ export const TableCell = styled.td`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-export const EditButton = styled.button`
-  background-color: #3746673b;
-  border-radius: 5px;
-  color: Black;
-  border: none;
-  font-weight: 500;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  font-family: "Poppins";
-  display: inline-block;
-  font-size: 15px;
-  margin: 4px 2px;
-  cursor: pointer;
-`;
+
 export const IconLink = styled(Link)`
   text-decoration: none;
   color: black;

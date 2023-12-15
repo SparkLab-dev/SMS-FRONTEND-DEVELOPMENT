@@ -7,7 +7,7 @@ import {
   AddProductNameContainerPlusIcon,
   ButtonName,
   DropdownOfProductCategory,
-  EditButton,
+
   H2,
   IconLink,
   InputsOfProductTable,

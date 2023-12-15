@@ -92,7 +92,7 @@ const ProductImages: FC<{}> = () => {
       if (fetchImageCategory.fulfilled.match(updatedImages)) {
         setImage(updatedImages.payload);
       }
-      setOpenModal(false); // Close the modal after successful upload
+      setOpenModal(false);
       setLogoSelected(["", ""]);
       setLogo(null);
     } catch (error) {
@@ -116,6 +116,7 @@ const ProductImages: FC<{}> = () => {
       console.error("Error deleting image:", error);
     }
   };
+
   const handleImageChange = () => {
     if (logo instanceof Blob) {
       const reader = new FileReader();
@@ -191,7 +192,6 @@ const ProductImages: FC<{}> = () => {
       ) : null}
       <ProductImageContentHolder>
         <ImagesHolder>
-          {/* <GenericButton name="Create Product" onClick={handleSaveImage} /> */}
           <EditProductButtonHolder>
             <EditProductButton>
               <EditProductDetailsButtonNameContainer>
@@ -208,8 +208,10 @@ const ProductImages: FC<{}> = () => {
           </EditProductButtonHolder>
           <ImagesTable>
             <ProductImagesTableHead>
-              <ImagesHead>Image Photo</ImagesHead>
-              <ImagesHead>Action</ImagesHead>
+              <ImageTableRow>
+                <ImagesHead>Image Photo</ImagesHead>
+                <ImagesHead>Action</ImagesHead>
+              </ImageTableRow>
             </ProductImagesTableHead>
             <ImageTableBody>
               {image.map((image: any, index: any) => (

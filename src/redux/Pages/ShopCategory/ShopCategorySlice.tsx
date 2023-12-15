@@ -16,6 +16,7 @@ interface ProductCategory {
 }
 
 export interface ShopCategoryProductProps {
+  attributeId: number;
   id: number;
   name: string;
   barcode: string | null;
@@ -77,6 +78,49 @@ export const deleteProduct = createAsyncThunk<
   }
 });
 
+//edit product attribute
+export const editAttribute = createAsyncThunk(
+  "edit/editAttribute",
+  async (
+    { attributeValues }: { attributeValues: object },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await axios.post(
+        "http://192.168.10.210:8081/SMS/productAttribute",
+        attributeValues
+      );
+
+      const responseRegData = response.data;
+      console.log("", responseRegData);
+
+      return responseRegData;
+    } catch (error: any) {
+      console.log("Error in register attribute values:", error);
+
+      return rejectWithValue("Attribute register failed");
+    }
+  }
+);
+
+//delete attribute
+export const deleteAttribute = createAsyncThunk<
+  ShopCategoryProductProps[],
+  number
+>("deleteAttribute/deleteProductAttribute", async (attributeId: number) => {
+  try {
+    const response = await axios.delete(
+      `http://192.168.10.210:8081/SMS/productAttribute/${attributeId}`
+    );
+    console.log(response);
+    console.log(attributeId);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+});
+
 const shopProductSlice = createSlice({
   name: "shopProducts",
   initialState,
@@ -97,6 +141,24 @@ const shopProductSlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(deleteProduct.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.user = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(editAttribute.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(editAttribute.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.user = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(deleteAttribute.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(deleteAttribute.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.user = null;
         state.error = action.payload as string | null;

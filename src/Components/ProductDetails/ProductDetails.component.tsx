@@ -16,6 +16,7 @@ import {
   ProdTextHolders,
   ProductDetailsComponent,
   ProductDetailsContainer,
+  ProductDetailsContentHolder,
   ProductList,
 } from "./style/ProductDetails.style";
 
@@ -27,11 +28,9 @@ import {
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
 
-//mui icons
-import DeleteIcon from "@mui/icons-material/Delete";
-
 //components
 import ProductImages from "Components/ProductImages/ProductImages.component";
+import ProductAttributes from "Components/ProductAttributes/ProductAttributes.component";
 
 const ProductDetails: FC<{}> = () => {
   const [productDetails, setProductDetails] = useState<ProductDetailss[]>([]);
@@ -64,13 +63,7 @@ const ProductDetails: FC<{}> = () => {
 
   return (
     <>
-      <div
-        style={{
-          width: "100%",
-          height: "82%",
-          display: "flex",
-          flexDirection: "column",
-        }}
+      <ProductDetailsContentHolder
       >
         <ProductDetailsComponent>
           <ProductList>
@@ -129,20 +122,6 @@ const ProductDetails: FC<{}> = () => {
                         {product.price}
                       </InformationOfProduct>
                       <HorizontalLine />
-                      {/* {product.attributes.map(
-                      (attribute: any, attrIndex: any) => (
-                        <div key={attrIndex}>
-                          <InformationOfProduct>
-                            {attribute.attributeName}
-                          </InformationOfProduct>
-                          <HorizontalLine />
-                          <InformationOfProduct>
-                            {attribute.attributeValue}
-                          </InformationOfProduct>
-                          <HorizontalLine />
-                        </div>
-                      )
-                    )} */}
                     </ProdTextHolders>
                   ))}
                 </ProdDetailsHolder>
@@ -150,118 +129,9 @@ const ProductDetails: FC<{}> = () => {
             </DisplayProductsHolder>
           </ProductList>
         </ProductDetailsComponent>
-
-        {productDetails.map((product: any, index: any) => (
-          <div
-            key={index}
-            style={{
-              flex: "1",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-              margin: "10px 0 17px 0",
-            }}
-          >
-            <div
-              style={{
-                width: "100%",
-                maxWidth: "750px",
-                boxShadow: "3px 3px 15px 5px rgb(0 0 0 / 15%)",
-                borderRadius: "10px",
-                background: "#ffff",
-                height: "fit-content",
-              }}
-            >
-              <EditProductButtonHolder>
-                <EditProductButton>
-                  <EditProductDetailsButtonNameContainer>
-                    <EditIconHold />
-                    <EditProductText>Edit</EditProductText>
-                  </EditProductDetailsButtonNameContainer>
-                </EditProductButton>
-              </EditProductButtonHolder>
-              <table
-                style={{
-                  width: "100%",
-                  borderCollapse: "collapse",
-                  marginTop: "20px",
-                }}
-              >
-                <thead style={{ textAlign: "left" }}>
-                  <th
-                    style={{
-                      borderBottom: "1px solid #ccc",
-                      padding: "8px",
-                    }}
-                  >
-                    Attribute Name
-                  </th>
-                  <th
-                    style={{
-                      borderBottom: "1px solid #ccc",
-                      padding: "8px",
-                    }}
-                  >
-                    Attribute Value
-                  </th>
-                  <th
-                    style={{
-                      borderBottom: "1px solid #ccc",
-                      padding: "8px",
-                    }}
-                  >
-                    Actions
-                  </th>
-                </thead>
-                <tbody style={{ textAlign: "left" }}>
-                  {product.attributes.map((attribute: any, attrIndex: any) => (
-                    <tr key={attrIndex}>
-                      <td
-                        style={{
-                          borderBottom: "1px solid #ccc",
-                          padding: "8px",
-                        }}
-                      >
-                        {attribute.attributeName}
-                      </td>
-                      <td
-                        style={{
-                          borderBottom: "1px solid #ccc",
-                          padding: "8px",
-                        }}
-                      >
-                        {attribute.attributeValue}
-                      </td>
-                      <td
-                        style={{
-                          borderBottom: "1px solid #ccc",
-                          padding: "8px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            fontSize: "30px",
-                            textAlign: "left",
-                          }}
-                        >
-                          <DeleteIcon
-                            color="primary"
-                            style={{
-                              fontSize: "30px",
-                            }}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ))}
+        <ProductAttributes />
         <ProductImages />
-      </div>
+      </ProductDetailsContentHolder>
     </>
   );
 };

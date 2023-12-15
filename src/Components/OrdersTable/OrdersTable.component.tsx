@@ -12,7 +12,6 @@ import GenericButton from "Components/GenericButton/GenericButton.component";
 
 //style
 import {
-  EditButton,
   IconLink,
   Table,
   TableAndDatepickerHolder,
@@ -24,6 +23,7 @@ import {
 import {
   AddNewOrderButton,
   AddOrderNameContainerPlusIcon,
+  EditOrderButton,
   InputsOfModalHolder,
   ModalInputHolder,
   ModalSaveButtonHolder,
@@ -155,9 +155,9 @@ const OrdersTable: FC<{}> = () => {
                       </TableCell>
                       <TableCell>${order?.totalAmount}</TableCell>
                       <TableCell>
-                        <EditButton onClick={() => handleEdit(order)}>
+                        <EditOrderButton onClick={() => handleEdit(order)}>
                           Edit
-                        </EditButton>
+                        </EditOrderButton>
                         <IconLink to="" onClick={() => handleDelete(order.id)}>
                           <DeleteIcon />
                         </IconLink>

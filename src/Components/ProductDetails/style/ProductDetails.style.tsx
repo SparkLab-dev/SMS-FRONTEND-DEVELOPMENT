@@ -3,6 +3,12 @@ import styled from "styled-components";
 //mui icons
 import EditIcon from "@mui/icons-material/Edit";
 
+export const ProductDetailsContentHolder = styled.div`
+  width: 100%;
+  height: 82%;
+  display: flex;
+  flex-direction: column;
+`;
 export const ProductDetailsComponent = styled.div`
   width: 100%;
   display: flex;
@@ -19,7 +25,7 @@ export const ProductList = styled.div`
   height: fit-content;
   max-width: 750px;
 `;
-export const EditProductButton = styled.button`
+export const EditProductButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -32,10 +38,10 @@ export const EditProductButton = styled.button`
   font-size: 16px;
   line-height: 24px;
   color: #ffffff;
-  height: 48px;
+  height: 45px;
   gap: 5px;
   position: relative;
-  width: 25%;
+  width: 22%;
   border-bottom-right-radius: 0px;
   border-bottom-left-radius: 0;
 `;
@@ -49,6 +55,9 @@ export const EditProductButtonHolder = styled.div`
   height: fit-content;
   display: flex;
   justify-content: flex-end;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 `;
 export const EditIconHold = styled(EditIcon)``;
 export const EditProductText = styled.p`
