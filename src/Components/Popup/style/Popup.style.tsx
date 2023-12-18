@@ -24,8 +24,8 @@ export const Modal = styled.div`
   border-radius: 10px;
   width: 100%;
   max-width: 380px;
-  height: 100%;
-  max-height: 824px;
+  height: fit-content;
+  /* max-height: 824px; */
 `;
 export const ModalHeader = styled.div`
   display: flex;

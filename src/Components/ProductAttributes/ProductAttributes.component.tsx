@@ -11,40 +11,42 @@ import {
 import { useParams } from "react-router-dom";
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
+import {
+  deleteAttribute,
+  editAttribute,
+} from "redux/Pages/ShopCategory/ShopCategorySlice";
 
 //style
 import {
+  ActionsTableData,
   AttributesHead,
   AttributesTableData,
   AttributesTableHead,
   AttributesTableRow,
   DeleteIconInAttributesHold,
-  EditButton,
+  EditAttributeTableName,
+  EditIconMui,
   ProductAttributesContentHolder,
   ProductAttributesHolder,
   ProductAttributesTable,
   ProductAttributesTableBody,
 } from "./style/ProductAttributes.style";
 import {
-  deleteAttribute,
-  editAttribute,
-} from "redux/Pages/ShopCategory/ShopCategorySlice";
-import Popup from "Components/Popup/Popup.component";
-import GenericButton from "Components/GenericButton/GenericButton.component";
-
-import GenericInput from "Components/GenericInput/GenericInput.component";
-import {
   InputsOfModalHolder,
   ModalInputHolder,
   ModalSaveButtonHolder,
 } from "Components/OrdersTable/style/OrdersTable.style";
 import {
-  EditIconHold,
   EditProductButton,
   EditProductButtonHolder,
   EditProductDetailsButtonNameContainer,
   EditProductText,
 } from "Components/ProductDetails/style/ProductDetails.style";
+
+//components
+import Popup from "Components/Popup/Popup.component";
+import GenericButton from "Components/GenericButton/GenericButton.component";
+import GenericInput from "Components/GenericInput/GenericInput.component";
 
 const ProductAttributes: FC<{}> = () => {
   const [attributeName, setAttributeName] = useState<string>("");
@@ -103,6 +105,7 @@ const ProductAttributes: FC<{}> = () => {
       console.error("Error deleting attribute:", error);
     }
   };
+
   //edit button click
   const handleUpload = () => {
     setIsModalOpen(true);
@@ -179,7 +182,6 @@ const ProductAttributes: FC<{}> = () => {
             <EditProductButtonHolder>
               <EditProductButton>
                 <EditProductDetailsButtonNameContainer>
-                  <EditIconHold />
                   <EditProductText onClick={handleUpload}>
                     Upload
                   </EditProductText>
@@ -203,10 +205,8 @@ const ProductAttributes: FC<{}> = () => {
                     <AttributesTableData>
                       {attribute.attributeValue}
                     </AttributesTableData>
-                    <AttributesTableData>
-                      <EditButton onClick={() => handleEdit(attribute)}>
-                        Edit
-                      </EditButton>
+                    <ActionsTableData>
+                      <EditIconMui onClick={() => handleEdit(attribute)} />
                       <DeleteIconInAttributesHold
                         onClick={() =>
                           handleDeleteProductAttribute(attribute.id)
@@ -219,7 +219,7 @@ const ProductAttributes: FC<{}> = () => {
                           }}
                         />
                       </DeleteIconInAttributesHold>
-                    </AttributesTableData>
+                    </ActionsTableData>
                   </AttributesTableRow>
                 ))}
               </ProductAttributesTableBody>
@@ -233,7 +233,12 @@ const ProductAttributes: FC<{}> = () => {
         onClose={() => {
           setIsModalOpen(false);
         }}
-        headerContent={<p>Edit Order</p>}
+        headerContent={
+          <EditAttributeTableName>
+            {" "}
+            {selectedItem ? "Edit Attribute" : "Add New Attribute"}
+          </EditAttributeTableName>
+        }
         bodyContent={
           <>
             <>

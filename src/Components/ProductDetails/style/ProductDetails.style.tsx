@@ -8,6 +8,7 @@ export const ProductDetailsContentHolder = styled.div`
   height: 82%;
   display: flex;
   flex-direction: column;
+  flex: 1;
 `;
 export const ProductDetailsComponent = styled.div`
   width: 100%;
@@ -99,7 +100,6 @@ export const ProdTextHolders = styled.div`
 export const ProdDetailsHeaderText = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
   margin: 10px;
   margin-top: 20px;
   font-size: 16px;
@@ -134,4 +134,9 @@ export const InputOfPopupHolder = styled.div`
 export const ProductImageHolder = styled.img`
   width: 75px;
   height: 75px;
+`;
+export const EditProductTableName = styled.p`
+  font-family: "Poppins";
+  color: #0e53c5;
+  font-size: 30px;
 `;

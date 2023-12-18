@@ -7,12 +7,7 @@ import {
   AddProductNameContainerPlusIcon,
   ButtonName,
   DropdownOfProductCategory,
-
-  H2,
-  IconLink,
-  InputsOfProductTable,
   ProductImage,
-  ProductInputHold,
   ProductsTableHolder,
   SelectOption,
   TH,
@@ -46,10 +41,7 @@ import {
 
 //components
 import GenericButton from "Components/GenericButton/GenericButton.component";
-import Popup from "Components/Popup/Popup.component";
-import GenericInput from "Components/GenericInput/GenericInput.component";
-import { productForm } from "redux/Containers/ProductForm/ProductFormSlice";
-import UploadPhoto from "Components/UploadPhoto/UploadPhoto.component";
+
 
 const ProductsTable: FC<{}> = () => {
   const navigate = useNavigate();
@@ -60,21 +52,7 @@ const ProductsTable: FC<{}> = () => {
     []
   );
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<any>(null);
-  const [productName, setProductName] = useState<string>("");
-  const [barCode, setBarCode] = useState<string>("");
-  const [price, setPrice] = useState<string>("");
-  const [threshold, setThreshold] = useState<string>("");
-  const [stockQuantity, setStockQuantity] = useState<string>("");
-  const [productAttributes, setProductAttributes] = useState<
-    { attributeName: string; attributeValue: string }[]
-  >([]);
-  const [logo, setLogo] = useState<File | null>(null);
-  const [editedItem, setEditedItem] = useState<any>(null);
-  const [profilePicture, setProfilePicture] = useState<any>({});
-  const [logoFromApi, setLogoFromApi] = useState<any>([]);
-  const [reload, setReload] = useState<any>(0);
+
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -128,22 +106,7 @@ const ProductsTable: FC<{}> = () => {
     console.log(product);
     navigate(`/productDetails/${product.id}`);
   };
-  //delete product api call
-  // const handleDeleteProduct = async (productId: number) => {
-  //   try {
-  //     const result = await dispatch(deleteProduct(productId));
-  //     if (deleteProduct.fulfilled.match(result)) {
-  //       console.log("Product deleted successfully!");
-  //       setShopCategory((prevState) =>
-  //         prevState.filter((product) => product.id !== productId)
-  //       );
-  //     } else {
-  //       console.error("Failed to delete product");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error deleting product:", error);
-  //   }
-  // };
+
 
   const buttonName = (
     <AddProductNameContainerPlusIcon>
@@ -151,57 +114,6 @@ const ProductsTable: FC<{}> = () => {
       <ButtonName>Add product</ButtonName>
     </AddProductNameContainerPlusIcon>
   );
-
-  //edit button click
-  // const handleEdit = (rental: any) => {
-  //   setIsModalOpen(true);
-  //   setEditedItem(rental);
-  //   setSelectedItem(rental); // Set the selectedItem state to the data being edited
-  // };
-
-  // const handleSaveProduct = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-
-  //   const formData = new FormData();
-  //   formData.append("name", editedItem.name || "");
-  //   formData.append("barcode", editedItem.barcode || "");
-  //   formData.append("stockQuantity", editedItem.stockQuantity || "");
-  //   formData.append("price", editedItem.price || "");
-  //   formData.append("threshold", editedItem.threshold || "");
-
-  //   formData.append("productCategory", String(selectedCategory || ""));
-
-  //   editedItem.attributes.forEach((attr: any, index: number) => {
-  //     formData.append(`attributes[${index}].attributeName`, attr.attributeName);
-  //     formData.append(
-  //       `attributes[${index}].attributeValue`,
-  //       attr.attributeValue
-  //     );
-  //   });
-  //   formData.append("description", editedItem.description || "");
-  //   formData.append("id", editedItem.id || "");
-  //   // Include logic to append the logo if available in editedItem
-  //   // formData.append("productImages[0].Image", logo);
-
-  //   try {
-  //     await dispatch(productForm({ userCredentials: formData }));
-  //     // Update the original shopCategory with the editedItem values
-  //     const updatedShopCategory = shopCategory.map((item: any) =>
-  //       item.id === editedItem.id ? editedItem : item
-  //     );
-  //     setShopCategory(updatedShopCategory);
-
-  //     setIsModalOpen(false);
-  //   } catch (error) {
-  //     console.log("Error in handleSaveProduct:", error);
-  //   }
-  // };
-  // const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setEditedItem({
-  //     ...editedItem,
-  //     name: event.target.value,
-  //   });
-  // };
 
   return (
     <ProductsTableHolder>
@@ -295,149 +207,7 @@ const ProductsTable: FC<{}> = () => {
           </Table>
         </TableContainer>
       </TableAndDatepickerHolder>
-      {/* <Popup
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setSelectedItem(null);
-        }}
-        headerContent={<H2>Edit Item</H2>}
-        bodyContent={
-          <>
-            {editedItem && (
-              <div>
-                <UploadPhoto
-                  sendPhoto={setProfilePicture}
-                  reload={reload}
-                  profilePhoto={editedItem.primaryImage || ""}
-                  profilePhotoType={logoFromApi[0]}
-                />
-
-                <InputsOfProductTable>
-                  <ProductInputHold>
-                    <GenericInput
-                      input_label="Name"
-                      type="text"
-                      value={selectedItem?.name || ""}
-                      onChange={handleNameChange}
-                    />
-                  </ProductInputHold>
-                  <ProductInputHold>
-                    <GenericInput
-                      input_label="Barcode"
-                      value={selectedItem?.barcode || ""}
-                      onChange={(e: any) => {
-                        setSelectedItem({
-                          ...selectedItem,
-                          barcode: parseFloat(e.target.value),
-                        });
-                      }}
-                    />
-                  </ProductInputHold>
-                </InputsOfProductTable>
-                <InputsOfProductTable>
-                  <ProductInputHold>
-                    <GenericInput
-                      input_label="Stock Quantity "
-                      value={selectedItem?.stockQuantity || ""}
-                      onChange={(e: any) => {
-                        setSelectedItem({
-                          ...selectedItem,
-                          stockQuantity: parseFloat(e.target.value),
-                        });
-                      }}
-                    />
-                  </ProductInputHold>
-                  <ProductInputHold>
-                    <GenericInput
-                      input_label="ThresHold "
-                      value={selectedItem?.threshold || ""}
-                      onChange={(e: any) => {
-                        setSelectedItem({
-                          ...selectedItem,
-                          threshold: parseFloat(e.target.value),
-                        });
-                      }}
-                    />
-                  </ProductInputHold>
-                </InputsOfProductTable>
-                <InputsOfProductTable>
-                  <ProductInputHold>
-                    <GenericInput
-                      input_label="Product Category "
-                      type="text"
-                      value={selectedItem?.productCategory.name || ""}
-                      onChange={(e) =>
-                        setSelectedItem({
-                          ...selectedItem,
-                          productCategory: {
-                            ...selectedItem.productCategory,
-                            name: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                  </ProductInputHold>
-                  <ProductInputHold>
-                    <GenericInput
-                      input_label="Price"
-                      type="number"
-                      value={selectedItem?.price || ""}
-                      onChange={(e: any) => {
-                        setSelectedItem({
-                          ...selectedItem,
-                          price: parseFloat(e.target.value),
-                        });
-                      }}
-                    />
-                  </ProductInputHold>
-                </InputsOfProductTable>
-              </div>
-            )}
-            <InputsOfProductTable>
-              <ProductInputHold>
-                <GenericInput
-                  input_label="Attribute Name"
-                  value={selectedItem?.attributes[0].attributeName || ""}
-                  onChange={(e) =>
-                    setSelectedItem({
-                      ...selectedItem,
-                      attributes: [
-                        {
-                          ...selectedItem.attributes[0],
-                          attributeName: e.target.value,
-                        },
-                        ...selectedItem.attributes.slice(1),
-                      ],
-                    })
-                  }
-                />
-              </ProductInputHold>
-              <ProductInputHold>
-                <GenericInput
-                  input_label="Attribute Value"
-                  value={selectedItem?.attributes[0].attributeValue || ""}
-                  onChange={(e) =>
-                    setSelectedItem({
-                      ...selectedItem,
-                      attributes: [
-                        {
-                          ...selectedItem.attributes[0],
-                          attributeValue: e.target.value,
-                        },
-                        ...selectedItem.attributes.slice(1),
-                      ],
-                    })
-                  }
-                />
-              </ProductInputHold>
-            </InputsOfProductTable>
-          </>
-        }
-        footerContent={
-          <GenericButton onClick={handleSaveProduct} name="Save" />
-        }
-      /> */}
+    
     </ProductsTableHolder>
   );
 };

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const ProductAttributesContentHolder = styled.div`
   flex: 1;
@@ -16,7 +17,7 @@ export const ProductAttributesHolder = styled.div`
   border-radius: 10px;
   background-color: #ffff;
   overflow: scroll;
-  height: 219px;
+  height: 200px;
   overflow-x: auto;
   position: relative;
   overflow-y: scroll;
@@ -47,6 +48,11 @@ export const AttributesTableData = styled.td`
   border-bottom: 1px solid #ccc;
   padding: 8px;
 `;
+export const ActionsTableData = styled.td`
+  border-bottom: 1px solid #ccc;
+  padding: 8px;
+  display: flex;
+`;
 export const DeleteIconInAttributesHold = styled.div`
   font-size: 30px;
   text-align: left;
@@ -66,4 +72,15 @@ export const EditButton = styled.button`
   font-size: 15px;
   margin: 4px 2px;
   cursor: pointer;
+`;
+export const EditIconMui = styled(EditIcon)`
+  cursor: pointer;
+  padding: 4px;
+  color: #1976d2;
+`;
+export const EditAttributeTableName = styled.p`
+  font-family: "Poppins";
+  color: #0e53c5;
+  font-size: 27px;
+  margin: 10px 0;
 `;

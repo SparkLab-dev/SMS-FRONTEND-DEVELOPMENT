@@ -69,13 +69,13 @@ export const uploadImage = createAsyncThunk(
 //delete product image
 export const deleteProductImage = createAsyncThunk<ProductImage[], number>(
   "delete/deleteProductImage",
-  async (productId: number) => {
+  async (imageId: number) => {
     try {
       const response = await axios.delete(
-        `http://192.168.10.210:8081/SMS/product/${productId}`
+        `http://192.168.10.210:8081/SMS/productimage/${imageId}`
       );
       console.log(response);
-      console.log(productId);
+      console.log(imageId);
       return response.data;
     } catch (error) {
       console.error(error);

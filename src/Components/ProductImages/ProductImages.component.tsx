@@ -101,13 +101,13 @@ const ProductImages: FC<{}> = () => {
   };
 
   //delete product image api call
-  const handleDeleteProductImage = async (productId: number) => {
+  const handleDeleteProductImage = async (imageId: number) => {
     try {
-      const result = await dispatch(deleteProductImage(productId));
+      const result = await dispatch(deleteProductImage(imageId));
       if (deleteProductImage.fulfilled.match(result)) {
         console.log("Product deleted successfully!");
         setImage((prevState) =>
-          prevState.filter((product) => product.id !== productId)
+          prevState.filter((image) => image.id !== imageId)
         );
       } else {
         console.error("Failed to delete image");
