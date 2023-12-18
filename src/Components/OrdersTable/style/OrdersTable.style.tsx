@@ -33,3 +33,18 @@ export const ModalSaveButtonHolder = styled.div`
   width: 100%;
   margin-right: 5px;
 `;
+export const EditOrderButton = styled.button`
+  background-color: #3746673b;
+  border-radius: 5px;
+  color: Black;
+  border: none;
+  font-weight: 500;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  font-family: "Poppins";
+  display: inline-block;
+  font-size: 15px;
+  margin: 4px 2px;
+  cursor: pointer;
+`;
