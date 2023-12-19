@@ -14,7 +14,7 @@ export const ImagesHolder = styled.div`
   border-radius: 10px;
   background-color: #ffff;
   overflow: scroll;
-  height: 200px;
+  height: 220px;
   overflow-x: auto;
   position: relative;
   overflow-y: scroll;

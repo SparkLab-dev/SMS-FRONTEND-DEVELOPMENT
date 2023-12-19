@@ -45,6 +45,7 @@ interface dropdownProps {
   borderradius?: string;
   padding?: string;
   margin?: string;
+  marginTop?: string;
 }
 export const StyledSelect = styled.select<dropdownProps>`
   font-family: ${(props: any) => props.fontFamily || "Poppins"};
@@ -59,8 +60,8 @@ export const StyledSelect = styled.select<dropdownProps>`
   font-size: ${(props: any) => props.fontSize || "12px"};
   padding-left: ${(props: any) => props.paddingleft};
   padding: ${(props: any) => props.padding || "10px"};
-  margin-top: 12px;
   margin: ${(props: any) => props.margin};
+  margin-top: ${(props: any) => props.marginTop || "12px"};
 `;
 export const LabelDescriptionContainer = styled.div`
   font-family: "Poppins";

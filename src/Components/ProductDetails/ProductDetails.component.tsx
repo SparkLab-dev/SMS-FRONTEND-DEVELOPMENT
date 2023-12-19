@@ -3,13 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 
 //style
 import {
+  ButtonsHolder,
+  CategoryLabel,
   DisplayProductsHolder,
-  EditIconHold,
-  EditProductButton,
-  EditProductButtonHolder,
-  EditProductDetailsButtonNameContainer,
+  EditButtonContainer,
   EditProductTableName,
-  EditProductText,
   HorizontalLine,
   InformationOfProduct,
   ProdDetailsHeaderText,
@@ -19,11 +17,15 @@ import {
   ProductDetailsContainer,
   ProductDetailsContentHolder,
   ProductList,
+  Productdetails,
 } from "./style/ProductDetails.style";
 import {
+  DropdownOfProductCategory,
   InputsOfProductTable,
   ProductInputHold,
+  SelectOption,
 } from "Components/ProductsTable/style/ProductsTable.style";
+import { StyledSelect } from "App/style/App.style";
 
 //redux
 import {
@@ -33,6 +35,14 @@ import {
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
 import { productForm } from "redux/Containers/ProductForm/ProductFormSlice";
+import {
+  ShopCategoryProductProps,
+  deleteProduct,
+} from "redux/Pages/ShopCategory/ShopCategorySlice";
+import {
+  ProductProps,
+  fetchProductsCategory,
+} from "redux/Pages/ProductCategory/ProductCategorySlice";
 
 //components
 import ProductImages from "Components/ProductImages/ProductImages.component";
@@ -43,18 +53,19 @@ import GenericButton from "Components/GenericButton/GenericButton.component";
 
 //mui icons
 import DeleteIcon from "@mui/icons-material/Delete";
-import {
-  ShopCategoryProductProps,
-  deleteProduct,
-} from "redux/Pages/ShopCategory/ShopCategorySlice";
+
 const ProductDetails: FC<{}> = () => {
   const navigate = useNavigate();
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [productDetails, setProductDetails] = useState<ProductDetailss[]>([]);
   const [shopCategory, setShopCategory] = useState<ShopCategoryProductProps[]>(
     []
   );
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [productCategory, setProductCategory] = useState<ProductProps[]>([]);
+
   const { id } = useParams();
   const productId = id ? parseInt(id) : 0;
 
@@ -81,6 +92,27 @@ const ProductDetails: FC<{}> = () => {
     fetchProduct();
   }, [dispatch, productId]);
 
+  //get category
+  useEffect(() => {
+    dispatch(fetchProductsCategory())
+      .then((result: any) => {
+        if (fetchProductsCategory.fulfilled.match(result)) {
+          const categories = result.payload;
+          setProductCategory(categories);
+          if (categories.length > 0) {
+            // Set the selected category to the first category ID
+            setSelectedCategory(categories[0].id);
+          }
+        } else {
+          console.error("Product categories not found.");
+        }
+      })
+      .catch((error: any) => {
+        console.error("Error fetching product categories:", error);
+      });
+  }, [dispatch]);
+  console.log("productCategory", productCategory);
+
   //edit button click
   const handleEdit = (product: any) => {
     console.log("producct", product);
@@ -102,10 +134,8 @@ const ProductDetails: FC<{}> = () => {
     formData.append("stockQuantity", String(selectedItem.stockQuantity) || "");
     formData.append("price", String(selectedItem.price) || "");
     formData.append("threshold", String(selectedItem.threshold) || "");
-    formData.append(
-      "productCategory.id",
-      String(selectedItem.productCategory?.id) || ""
-    );
+    formData.append("productCategory.id", String(selectedCategory) || "");
+
     formData.append("description", selectedItem.description || "");
     formData.append("id", String(selectedItem.id) || "");
 
@@ -144,15 +174,7 @@ const ProductDetails: FC<{}> = () => {
     }
   };
   return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-
-        flexDirection: "column",
-        height: "82%",
-      }}
-    >
+    <Productdetails>
       <ProductDetailsContentHolder>
         <ProductDetailsComponent>
           <ProductList>
@@ -205,35 +227,24 @@ const ProductDetails: FC<{}> = () => {
                         </InformationOfProduct>
                         <HorizontalLine />
                       </ProdTextHolders>
-                      <EditProductButtonHolder>
-                        <EditProductButton>
-                          <EditProductDetailsButtonNameContainer
-                            onClick={() => handleEdit(product)}
-                          >
-                            <EditIconHold />
-                            <EditProductText>Edit</EditProductText>
-                          </EditProductDetailsButtonNameContainer>
-                        </EditProductButton>
-                      </EditProductButtonHolder>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "flex-end",
-                          paddingRight: "50px",
-                          margin: "10px",
-                          background: "gray",
-                          width: "100%",
-                          maxWidth: "25px",
-                          alignItems: "center",
-                          textAlign: "center",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => handleDeleteProduct(product.id)}
-                      >
+
+                      <ButtonsHolder>
+                        <EditButtonContainer
+                          onClick={() => handleEdit(product)}
+                        >
+                          Edit
+                        </EditButtonContainer>
                         <DeleteIcon
-                          style={{ color: "primary", textAlign: "center" }}
+                          style={{
+                            color: "#1976d2",
+                            textAlign: "center",
+                            fontSize: "30px",
+                            marginTop: "10px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => handleDeleteProduct(product.id)}
                         />
-                      </div>
+                      </ButtonsHolder>
                     </>
                   ))}
                 </ProdDetailsHolder>
@@ -309,24 +320,29 @@ const ProductDetails: FC<{}> = () => {
               </InputsOfProductTable>
               <InputsOfProductTable>
                 <ProductInputHold>
-                  <GenericInput
-                    input_label="Product Category"
-                    type="text"
-                    value={
-                      selectedItem && selectedItem.productCategory
-                        ? selectedItem.productCategory.name
-                        : ""
-                    }
-                    onChange={(e) =>
-                      setSelectedItem({
-                        ...selectedItem,
-                        productCategory: {
-                          ...selectedItem.productCategory,
-                          name: e.target.value,
-                        },
-                      })
-                    }
-                  />
+                  <CategoryLabel>Category</CategoryLabel>
+                  <DropdownOfProductCategory>
+                    <StyledSelect
+                      value={
+                        selectedCategory !== null
+                          ? selectedCategory.toString()
+                          : ""
+                      }
+                      onChange={(e: any) =>
+                        setSelectedCategory(Number(e.target.value))
+                      }
+                      marginTop="0px"
+                    >
+                      <SelectOption defaultValue="none">
+                        Select an Option
+                      </SelectOption>
+                      {productCategory.map((role) => (
+                        <option key={role.id} value={role.id}>
+                          {role.name}
+                        </option>
+                      ))}
+                    </StyledSelect>
+                  </DropdownOfProductCategory>
                 </ProductInputHold>
                 <ProductInputHold>
                   <GenericInput
@@ -349,7 +365,7 @@ const ProductDetails: FC<{}> = () => {
           <GenericButton onClick={handleSaveProduct} name="Save" />
         }
       />
-    </div>
+    </Productdetails>
   );
 };
 
