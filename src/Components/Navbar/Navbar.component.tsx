@@ -89,7 +89,7 @@ const Navbar: FC<{}> = () => {
                 Product table{menu === "bicycle" ? <HR /> : <></>}
               </ListItem>
             </NavLink>
-            <NavLink to="/createCategory" onClick={() => setMenu("category")}>
+            <NavLink to="/getCategory" onClick={() => setMenu("category")}>
               <ListItem>
                 Category{menu === "category" ? <HR /> : <></>}
               </ListItem>

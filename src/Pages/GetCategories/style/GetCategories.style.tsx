@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+export const CategoriesTableHolder = styled.div`
+  width: 100%;
+  height: 700px;
+`;
 export const CategoryTableAndModalHolder = styled.div`
   width: 100%;
 `;
@@ -40,7 +44,6 @@ export const TableHeadOfCategory = styled.thead`
 
 export const CategoryTableRow = styled.tr`
   &:nth-child(even) {
-    /* background-color: #cfdeffa1; */
   }
 `;
 
@@ -81,4 +84,16 @@ export const CategoryEditButton = styled.button`
 export const Imagecategory = styled.img`
   width: 117px;
   height: 110px;
+`;
+export const AddNewCategoryButton = styled.div`
+  height: fit-content;
+  margin: 10px;
+`;
+export const AddCategoryNameContainerPlusIcon = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+export const CategoryButtonName = styled.p`
+  margin: 5px;
 `;

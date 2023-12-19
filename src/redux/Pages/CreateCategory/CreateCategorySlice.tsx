@@ -4,6 +4,7 @@ import axios from "axios";
 export interface Category {
   name: string;
   image: string;
+  id?: number;
 }
 
 export type CreateCategoryState = {
@@ -63,6 +64,24 @@ export const fetchCategories = createAsyncThunk<Category[]>(
   }
 );
 
+//delete category
+export const deleteCategory = createAsyncThunk<Category[], number>(
+  "delete/deleteCategory",
+  async (categoryId: number) => {
+    try {
+      const response = await axios.delete(
+        `http://192.168.10.210:8081/SMS/productcategory/${categoryId}`
+      );
+      console.log(response);
+      console.log(categoryId);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
 const createCategorySlice = createSlice({
   name: "createCategory",
   initialState,
@@ -88,6 +107,15 @@ const createCategorySlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(fetchCategories.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.category = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(deleteCategory.fulfilled, (state, action) => {
+        state.category = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(deleteCategory.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.category = null;
         state.error = action.payload as string | null;
