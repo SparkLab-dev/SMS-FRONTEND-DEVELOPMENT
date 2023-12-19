@@ -22,7 +22,6 @@ import {
 import { StyledSelect } from "App/style/App.style";
 
 //mui icons
-import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import ForwardIcon from "@mui/icons-material/Forward";
 
@@ -35,7 +34,6 @@ import {
 } from "redux/Pages/ProductCategory/ProductCategorySlice";
 import {
   ShopCategoryProductProps,
-  deleteProduct,
   fetchShopProductCategory,
 } from "redux/Pages/ShopCategory/ShopCategorySlice";
 

@@ -3,6 +3,12 @@ import styled from "styled-components";
 //mui icons
 import EditIcon from "@mui/icons-material/Edit";
 
+export const Productdetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 79%;
+`;
 export const ProductDetailsContentHolder = styled.div`
   width: 100%;
   height: 82%;
@@ -139,4 +145,50 @@ export const EditProductTableName = styled.p`
   font-family: "Poppins";
   color: #0e53c5;
   font-size: 30px;
+`;
+export const ButtonsHolder = styled.div`
+  display: flex;
+  /* flex: 1; */
+`;
+export const EditButtonContainer = styled.div`
+  background: #1976d2;
+  font-size: 16px;
+  font-family: "Poppins";
+  padding: 10px 10px;
+  border-radius: 10px;
+  border: 1px solid #323fb6;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  max-width: 33px;
+  max-height: 16px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.2s;
+  justify-content: center;
+  margin-top: 7px;
+  &:hover {
+    background: #cfdeff;
+    border-radius: 10px;
+    color: #0e53c5;
+    border: 1px solid transparent;
+  }
+  &:disabled {
+    opacity: 0.6;
+    filter: saturate(60%);
+  }
+`;
+export const CategoryLabel = styled.p`
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 24px;
+  color: #43546f;
+  margin: 17px 0 1px 0;
+  padding-left: 15px;
+  text-align: left;
 `;
