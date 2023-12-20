@@ -42,6 +42,13 @@ export interface OrderDetails {
   orderNotes: string;
   orderSource: string;
   shippingAddress: ShippingAddress;
+  accountBasicDTO: {
+    accountName?: string;
+    accountType?: string;
+    firstName?: string;
+    id?: number;
+    lastName?: string;
+  };
   deliveryDate: string;
   userDTO: UserDTO;
   orderItem: OrderItem[];
@@ -107,12 +114,13 @@ const orderSlice = createSlice({
         state.error = action.payload as string | null;
       })
       .addCase(deleteOrder.fulfilled, (state, action) => {
-        // Handle state changes after successful delete if needed
-        console.log("Order deleted successfully");
+        state.product = action.payload;
+        state.isAuthenticated = true;
       })
       .addCase(deleteOrder.rejected, (state, action) => {
-        // Handle state changes after failed delete if needed
-        console.error("Failed to delete order:", action.error);
+        state.isAuthenticated = false;
+        state.product = null;
+        state.error = action.payload as string | null;
       });
   },
 });

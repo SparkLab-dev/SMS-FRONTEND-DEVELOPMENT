@@ -60,9 +60,9 @@ export const orderForm = createAsyncThunk(
       const responseRegData = response.data;
       console.log("", responseRegData);
 
-      if (response.status !== 200) {
-        return rejectWithValue(responseRegData.error);
-      }
+      // if (response.status !== 200) {
+      //   return rejectWithValue(responseRegData.error);
+      // }
 
       return responseRegData;
     } catch (error: any) {

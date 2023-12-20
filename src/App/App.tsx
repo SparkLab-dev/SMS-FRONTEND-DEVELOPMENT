@@ -24,6 +24,7 @@ import Vendor from "Components/Vendor/Vendor.component";
 import VendorsTable from "Components/VendorsTable/VendorsTable.component";
 import VendorDetails from "Components/VendorDetails/VendorDetails.component";
 import ProductDetails from "Components/ProductDetails/ProductDetails.component";
+import OrderDetailsComponent from "Components/OrderDetails/OrderDetails.component";
 
 const App: FC<{}> = () => {
   const logoProps = {
@@ -60,7 +61,9 @@ const App: FC<{}> = () => {
             />
             <Route path="/table" element={<ProductsTable />} />
             <Route path="/orderTable" element={<OrdersTable />} />
+            <Route path="/orderTable" element={<OrdersTable />} />
             <Route path="/orderForm" element={<OrderForm />} />
+            <Route path="/orderDetails/:id" element={<OrderDetailsComponent/>} />
             <Route path="/userProfile" element={<UserProfile />} />
             <Route path="/createCategory" element={<CreateCategory />} />
             <Route path="/getCategory" element={<GetCategories />} />

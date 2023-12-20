@@ -2,7 +2,7 @@ import { FC, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 //mui icons
-import DeleteIcon from "@mui/icons-material/Delete";
+import ForwardIcon from "@mui/icons-material/Forward";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 //components
@@ -91,12 +91,6 @@ const OrdersTable: FC<{}> = () => {
     }
   };
 
-  //edit button click
-  const handleEdit = (rental: any) => {
-    console.log(rental);
-    setIsModalOpen(true);
-    setSelectedItem(rental);
-  };
 
   // const handleSave = async () => {
   //   if (!orderId || !selectedItem) {
@@ -110,6 +104,11 @@ const OrdersTable: FC<{}> = () => {
       <OrderButtonName>Add order</OrderButtonName>
     </AddOrderNameContainerPlusIcon>
   );
+
+  const handleGoToOrderLinkClick = (order: OrderDetails) => {
+    console.log(order);
+    navigate(`/orderDetails/${order.id}`);
+  };
 
   return (
     <OrdersTableContainer>
@@ -126,8 +125,10 @@ const OrdersTable: FC<{}> = () => {
               <TableRow>
                 <th>FirstName</th>
                 <th>LastName</th>
+                <th>Account Name</th>
                 <th>Product Name</th>
                 <th>Order Notes</th>
+                <th>Order Status</th>
                 <th>Street</th>
                 <th>City</th>
                 <th>State</th>
@@ -144,8 +145,12 @@ const OrdersTable: FC<{}> = () => {
                     <TableRow key={`${index}-${subIndex}-${itemIndex}`}>
                       <TableCell>{order?.userDTO?.firstName}</TableCell>
                       <TableCell>{order?.userDTO?.lastName}</TableCell>
+                      <TableCell>
+                        {order?.accountBasicDTO?.accountName}
+                      </TableCell>
                       <TableCell>{item?.product?.productName}</TableCell>
                       <TableCell>{order?.orderNotes}</TableCell>
+                      <TableCell>{order?.orderStatus}</TableCell>
                       <TableCell>{order?.shippingAddress?.street}</TableCell>
                       <TableCell>{order?.shippingAddress?.city}</TableCell>
                       <TableCell>{order?.shippingAddress?.state}</TableCell>
@@ -154,13 +159,21 @@ const OrdersTable: FC<{}> = () => {
                         {order?.shippingAddress?.postalCode}
                       </TableCell>
                       <TableCell>${order?.totalAmount}</TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <EditOrderButton onClick={() => handleEdit(order)}>
                           Edit
                         </EditOrderButton>
                         <IconLink to="" onClick={() => handleDelete(order.id)}>
                           <DeleteIcon />
                         </IconLink>
+                      </TableCell> */}
+                      <TableCell>
+                        <ForwardIcon
+                          color="primary"
+                          fontSize="large"
+                          onClick={() => handleGoToOrderLinkClick(order)}
+                          style={{ cursor: "pointer" }}
+                        />
                       </TableCell>
                     </TableRow>
                   ))
@@ -169,233 +182,7 @@ const OrdersTable: FC<{}> = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <Popup
-          isOpen={isModalOpen}
-          onClose={() => {
-            setIsModalOpen(false);
-            setSelectedItem(null);
-          }}
-          headerContent={<OrderH2>Edit Order</OrderH2>}
-          bodyContent={
-            <>
-              {selectedItem && (
-                <>
-                  <InputsOfModalHolder>
-                    <ModalInputHolder>
-                      <GenericInput
-                        input_label="FirstName"
-                        value={selectedItem?.userDTO.firstName || ""}
-                        onChange={(e: any) => {
-                          setSelectedItem({
-                            ...selectedItem,
-                            userDTO: {
-                              ...selectedItem.userDTO,
-                              firstName: e.target.value,
-                            },
-                          });
-                        }}
-                      />
-                    </ModalInputHolder>
-                    <ModalInputHolder>
-                      <GenericInput
-                        input_label="LastName"
-                        value={selectedItem?.userDTO.lastName || ""}
-                        onChange={(e: any) => {
-                          setSelectedItem({
-                            ...selectedItem,
-                            userDTO: {
-                              ...selectedItem.userDTO,
-                              lastName: e.target.value,
-                            },
-                          });
-                        }}
-                      />
-                    </ModalInputHolder>
-                  </InputsOfModalHolder>
-                  <InputsOfModalHolder>
-                    <ModalInputHolder>
-                      <GenericInput
-                        input_label="Product Name"
-                        value={
-                          selectedItem?.orderItem[0]?.product?.productName || ""
-                        }
-                        onChange={(e) => {
-                          const { orderItem } = selectedItem;
-                          const updatedItem = {
-                            ...orderItem[0],
-                            product: {
-                              ...orderItem[0].product,
-                              productName: e.target.value,
-                            },
-                          };
-                          setSelectedItem({
-                            ...selectedItem,
-                            orderItem: [updatedItem, ...orderItem.slice(1)],
-                          });
-                        }}
-                      />
-                    </ModalInputHolder>
-                    <ModalInputHolder>
-                      <GenericInput
-                        input_label="Total Amount "
-                        value={selectedItem?.totalAmount || ""}
-                        onChange={(e: any) => {
-                          setSelectedItem({
-                            ...selectedItem,
-                            totalAmount: parseFloat(e.target.value),
-                          });
-                        }}
-                      />
-                    </ModalInputHolder>
-                  </InputsOfModalHolder>
-                  <InputsOfModalHolder>
-                    <ModalInputHolder>
-                      <GenericInput
-                        input_label="Order Notes "
-                        value={selectedItem?.orderNotes || ""}
-                        onChange={(e: any) => {
-                          setSelectedItem({
-                            ...selectedItem,
-                            orderNotes: e.target.value,
-                          });
-                        }}
-                      />
-                    </ModalInputHolder>
-                    <ModalInputHolder>
-                      <GenericInput
-                        input_label="Street"
-                        value={selectedItem?.shippingAddress.street || ""}
-                        onChange={(e: any) => {
-                          setSelectedItem({
-                            ...selectedItem,
-                            shippingAddress: {
-                              ...selectedItem.shippingAddress,
-                              street: e.target.value,
-                            },
-                          });
-                        }}
-                      />
-                    </ModalInputHolder>
-                  </InputsOfModalHolder>
-                  <InputsOfModalHolder>
-                    <ModalInputHolder>
-                      <GenericInput
-                        input_label="City "
-                        value={selectedItem?.shippingAddress.city || ""}
-                        onChange={(e: any) => {
-                          setSelectedItem({
-                            ...selectedItem,
-                            shippingAddress: {
-                              ...selectedItem.shippingAddress,
-                              city: e.target.value,
-                            },
-                          });
-                        }}
-                      />
-                    </ModalInputHolder>
-                    <ModalInputHolder>
-                      <GenericInput
-                        input_label="State"
-                        value={selectedItem?.shippingAddress.state || ""}
-                        onChange={(e: any) => {
-                          setSelectedItem({
-                            ...selectedItem,
-                            shippingAddress: {
-                              ...selectedItem.shippingAddress,
-                              state: e.target.value,
-                            },
-                          });
-                        }}
-                      />
-                    </ModalInputHolder>
-                  </InputsOfModalHolder>
-                  <InputsOfModalHolder>
-                    <ModalInputHolder>
-                      <GenericInput
-                        input_label="Postal Code"
-                        value={selectedItem?.shippingAddress.postalCode || ""}
-                        type="number"
-                        onChange={(e: any) => {
-                          setSelectedItem({
-                            ...selectedItem,
-                            shippingAddress: {
-                              ...selectedItem.shippingAddress,
-                              postalCode: e.target.value,
-                            },
-                          });
-                        }}
-                      />
-                    </ModalInputHolder>
-                    <ModalInputHolder>
-                      <GenericInput
-                        input_label="Quantity"
-                        value={selectedItem?.orderItem[0]?.quantity || ""}
-                        type="number"
-                        onChange={(e: any) => {
-                          setSelectedItem({
-                            ...selectedItem,
-                            orderItem: [
-                              {
-                                ...selectedItem.orderItem[0],
-                                quantity: e.target.value,
-                              },
-                              ...selectedItem.orderItem.slice(1),
-                            ],
-                          });
-                        }}
-                      />
-                    </ModalInputHolder>
-                  </InputsOfModalHolder>
-                  <InputsOfModalHolder>
-                    <ModalInputHolder>
-                      <GenericInput
-                        input_label="Unit Price"
-                        value={selectedItem?.orderItem[0]?.unitPrice || ""}
-                        type="number"
-                        onChange={(e: any) => {
-                          setSelectedItem({
-                            ...selectedItem,
-                            orderItem: [
-                              {
-                                ...selectedItem.orderItem[0],
-                                unitPrice: e.target.value,
-                              },
-                              ...selectedItem.orderItem.slice(1),
-                            ],
-                          });
-                        }}
-                      />
-                    </ModalInputHolder>
-                    <ModalInputHolder>
-                      <GenericInput
-                        input_label="Total Price"
-                        value={selectedItem?.orderItem[0]?.totalPrice || ""}
-                        type="number"
-                        onChange={(e: any) => {
-                          setSelectedItem({
-                            ...selectedItem,
-                            orderItem: [
-                              {
-                                ...selectedItem.orderItem[0],
-                                totalPrice: e.target.value,
-                              },
-                              ...selectedItem.orderItem.slice(1),
-                            ],
-                          });
-                        }}
-                      />
-                    </ModalInputHolder>
-                  </InputsOfModalHolder>
-                </>
-              )}
-            </>
-          }
-          footerContent={
-            <ModalSaveButtonHolder>
-              <GenericButton name="Save" />
-            </ModalSaveButtonHolder>
-          }
-        />
+        
       </TableAndDatepickerHolder>
     </OrdersTableContainer>
   );

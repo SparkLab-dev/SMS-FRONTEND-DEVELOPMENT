@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 //style
 import {
@@ -36,8 +37,13 @@ import {
   ProductDetailss,
   fetchAllProducts,
 } from "redux/Pages/Product/ProductSlice";
+import {
+  Account,
+  fetchAccountDetails,
+} from "redux/Containers/Account/AccountSlice";
 
 const OrderForm: FC<{}> = () => {
+  const navigate = useNavigate();
   const [orderNotes, setOrderNotes] = useState<string>("");
   const [street, setStreet] = useState<string>("");
   const [city, setCity] = useState<string>("");
@@ -48,8 +54,10 @@ const OrderForm: FC<{}> = () => {
   const [unitPrice, setUnitPrice] = useState<string>("");
   const [totalPrice, setTotalPrice] = useState<string>("");
   const [getAllProducts, setGetAllProducts] = useState<ProductDetailss[]>([]);
+  const [account, setAccount] = useState<Account[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [selectedAccount, setSelectedAccount] = useState<number | null>(null);
   const [addedItems, setAddedItems] = useState<
     {
       productName: string;
@@ -62,9 +70,8 @@ const OrderForm: FC<{}> = () => {
       };
     }[]
   >([]);
-  const [selectedProduct, setSelectedProduct] = useState<ProductDetailss | null>(
-    null
-  );
+  const [selectedProduct, setSelectedProduct] =
+    useState<ProductDetailss | null>(null);
   const [selectedProductsList, setSelectedProductsList] = useState<
     {
       productId: number;
@@ -179,6 +186,29 @@ const OrderForm: FC<{}> = () => {
     }
   };
 
+  //get account api
+  useEffect(() => {
+    const fetchAccountData = async () => {
+      try {
+        const result = await dispatch(fetchAccountDetails());
+        console.log(result);
+        if (fetchAccountDetails.fulfilled.match(result)) {
+          const accounts = result.payload.flat();
+
+          setAccount(accounts);
+        } else {
+          setError("Error fetching accounts. Please try again later!");
+        }
+      } catch (error) {
+        console.error("Error fetching accounts:", error);
+        setError("Error fetching accounts. Please try again later!");
+      }
+    };
+
+    fetchAccountData();
+  }, [dispatch]);
+  console.log("account", account);
+
   //post request
   const handleOrderFormClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -208,7 +238,11 @@ const OrderForm: FC<{}> = () => {
           postalCode: postalCode,
           country: country,
         },
+        account: {
+          accountId: selectedAccount,
+        },
         orderItemList: productsDataForOrder,
+
         orderClient: {
           id: userId,
         },
@@ -219,13 +253,14 @@ const OrderForm: FC<{}> = () => {
       const response = await dispatch(orderForm({ userCredentials }));
 
       if (orderForm.fulfilled.match(response)) {
+        navigate("/orderTable");
         console.log("Order added!");
       }
     } catch (error) {
       console.log("Error in handleOrderClick:", error);
     }
   };
-
+  console.log(selectedAccount);
   return (
     <OrderTable>
       <OrderTableForm>
@@ -306,6 +341,25 @@ const OrderForm: FC<{}> = () => {
                 setCountry(e.target.value)
               }
             />
+          </OrderInputContainer>
+        </OrderFormInputsHolder>
+        <OrderFormInputsHolder>
+          <OrderInputContainer>
+            <LabelDescriptionContainer>Account</LabelDescriptionContainer>
+            <StyledSelect
+              value={selectedAccount !== null ? selectedAccount.toString() : ""}
+              onChange={(e: any) => {
+                const selectedAccountId = Number(e.target.value);
+                setSelectedAccount(selectedAccountId);
+              }}
+            >
+              <option defaultValue="none">Select an Option</option>
+              {account.map((account: any, index: any) => (
+                <option key={index} value={account.accountId}>
+                  {account.accountName}
+                </option>
+              ))}
+            </StyledSelect>
           </OrderInputContainer>
         </OrderFormInputsHolder>
         <OrderFormInputsHolder>
