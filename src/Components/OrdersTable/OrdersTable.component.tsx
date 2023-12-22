@@ -38,19 +38,16 @@ import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
 import {
   OrderDetails,
-  deleteOrder,
   fetchOrderDetails,
 } from "redux/Pages/Orders/OrdersSlice";
-
+ 
 const OrdersTable: FC<{}> = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState<OrderDetails[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<any>(null);
   const [error, setError] = useState<string>("");
 
   const dispatch: AppDispatch = useDispatch();
-  console.log(orders);
+  console.log("orders", orders);
 
   //get order api
   useEffect(() => {
@@ -72,31 +69,6 @@ const OrdersTable: FC<{}> = () => {
 
     fetchOrderData();
   }, [dispatch]);
-  console.log(orders);
-
-  //delete order
-  const handleDelete = async (orderId: number) => {
-    try {
-      const result = await dispatch(deleteOrder(orderId));
-      if (deleteOrder.fulfilled.match(result)) {
-        console.log("Order deleted successfully!");
-        setOrders((prevState) =>
-          prevState.filter((order) => order.id !== orderId)
-        );
-      } else {
-        console.error("Failed to delete order");
-      }
-    } catch (error) {
-      console.error("Error deleting order:", error);
-    }
-  };
-
-
-  // const handleSave = async () => {
-  //   if (!orderId || !selectedItem) {
-  //     console.error("User is not authenticated or no item is selected");
-  //     return;
-  //   }
 
   const orderButtonName = (
     <AddOrderNameContainerPlusIcon>
@@ -108,6 +80,7 @@ const OrdersTable: FC<{}> = () => {
   const handleGoToOrderLinkClick = (order: OrderDetails) => {
     console.log(order);
     navigate(`/orderDetails/${order.id}`);
+    
   };
 
   return (
@@ -123,8 +96,6 @@ const OrdersTable: FC<{}> = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <th>FirstName</th>
-                <th>LastName</th>
                 <th>Account Name</th>
                 <th>Product Name</th>
                 <th>Order Notes</th>
@@ -140,15 +111,22 @@ const OrdersTable: FC<{}> = () => {
             </TableHead>
             <TableBody>
               {orders.map((orderGroup: any, index: number) =>
-                orderGroup.map((order: OrderDetails, subIndex: number) =>
-                  order?.orderItem?.map((item: any, itemIndex: number) => (
-                    <TableRow key={`${index}-${subIndex}-${itemIndex}`}>
-                      <TableCell>{order?.userDTO?.firstName}</TableCell>
-                      <TableCell>{order?.userDTO?.lastName}</TableCell>
+                orderGroup.map(
+                  (order: any, subIndex: number) => (
+                    // order?.orderItem?.map((item: any, itemIndex: number) => (
+                    <TableRow key={`${index}-${subIndex}`}>
                       <TableCell>
-                        {order?.accountBasicDTO?.accountName}
+                        {order?.accountBasicDTO?.accountType === "B2B"
+                          ? order?.accountBasicDTO?.accountName
+                          : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`}
                       </TableCell>
-                      <TableCell>{item?.product?.productName}</TableCell>
+
+                      <TableCell>
+                        {order.orderItem.map((item: any) => (
+                          <div key={item.id}>{item.product.productName}</div>
+                        ))}
+                      </TableCell>
+
                       <TableCell>{order?.orderNotes}</TableCell>
                       <TableCell>{order?.orderStatus}</TableCell>
                       <TableCell>{order?.shippingAddress?.street}</TableCell>
@@ -159,14 +137,6 @@ const OrdersTable: FC<{}> = () => {
                         {order?.shippingAddress?.postalCode}
                       </TableCell>
                       <TableCell>${order?.totalAmount}</TableCell>
-                      {/* <TableCell>
-                        <EditOrderButton onClick={() => handleEdit(order)}>
-                          Edit
-                        </EditOrderButton>
-                        <IconLink to="" onClick={() => handleDelete(order.id)}>
-                          <DeleteIcon />
-                        </IconLink>
-                      </TableCell> */}
                       <TableCell>
                         <ForwardIcon
                           color="primary"
@@ -176,13 +146,13 @@ const OrdersTable: FC<{}> = () => {
                         />
                       </TableCell>
                     </TableRow>
-                  ))
+                  )
+                  // ))
                 )
               )}
             </TableBody>
           </Table>
         </TableContainer>
-        
       </TableAndDatepickerHolder>
     </OrdersTableContainer>
   );

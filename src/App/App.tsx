@@ -63,7 +63,7 @@ const App: FC<{}> = () => {
             <Route path="/orderTable" element={<OrdersTable />} />
             <Route path="/orderTable" element={<OrdersTable />} />
             <Route path="/orderForm" element={<OrderForm />} />
-            <Route path="/orderDetails/:id" element={<OrderDetailsComponent/>} />
+            <Route path="/orderDetails/:orderId" element={<OrderDetailsComponent/>} />
             <Route path="/userProfile" element={<UserProfile />} />
             <Route path="/createCategory" element={<CreateCategory />} />
             <Route path="/getCategory" element={<GetCategories />} />

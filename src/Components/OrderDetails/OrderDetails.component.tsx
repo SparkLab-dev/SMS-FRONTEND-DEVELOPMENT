@@ -24,6 +24,7 @@ import {
   OrderDetails,
   deleteOrder,
   fetchOrderDetails,
+  fetchOrderDetailsById,
 } from "redux/Pages/Orders/OrdersSlice";
 
 //mui-icons
@@ -35,7 +36,7 @@ import Popup from "Components/Popup/Popup.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
 import { orderForm } from "redux/Containers/OrderForm/OrderFormSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const OrderDetailsComponent: FC<{}> = () => {
   const navigate = useNavigate();
@@ -59,32 +60,40 @@ const OrderDetailsComponent: FC<{}> = () => {
   const [street, setStreet] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [state, setState] = useState<string>("");
+  const [productName, setProductName] = useState<string>("");
+  const [totalAmount, setTotalAmount] = useState<string>("");
   const [postalCode, setPostalCode] = useState<string>("");
   const [country, setCountry] = useState<string>("");
   const [quantity, setQuantity] = useState<string>("");
   const [unitPrice, setUnitPrice] = useState<string>("");
   const [totalPrice, setTotalPrice] = useState<string>("");
   const [selectedAccount, setSelectedAccount] = useState<number | null>(null);
+
   const dispatch: AppDispatch = useDispatch();
+  const { orderId } = useParams();
+  const orderID = orderId ? parseInt(orderId) : 0;
+  console.log(orderID);
 
   //get order api
   useEffect(() => {
-    const fetchOrderData = async () => {
-      try {
-        const result = await dispatch(fetchOrderDetails());
-        if (fetchOrderDetails.fulfilled.match(result)) {
-          setOrders(result.payload);
-        } else {
-          setError("Error fetching orders. Please try again later!");
-        }
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-        setError("Error fetching orders. Please try again later!");
+    const fetchDetails = () => {
+      if (orderID) {
+        console.log(orderID);
+        dispatch(fetchOrderDetailsById(orderID))
+          .then((result: any) => {
+            console.log(result);
+            if (fetchOrderDetailsById.fulfilled.match(result)) {
+              setOrders(result.payload);
+            }
+          })
+          .catch((error: any) => {
+            console.error("Error fetching  product details:", error);
+          });
       }
     };
 
-    fetchOrderData();
-  }, [dispatch]);
+    fetchDetails();
+  }, [dispatch, orderID]);
   console.log(orders);
 
   //edit button click
@@ -105,17 +114,6 @@ const OrderDetailsComponent: FC<{}> = () => {
     try {
       const lastAddedItem = addedItems[addedItems.length - 1];
 
-      const productsDataForOrder = addedItems.map((item) => ({
-        productName: item.productName,
-        quantity: item.quantity,
-        totalPrice: item.totalPrice,
-        totalAmount: item.totalAmount,
-        unitPrice: item.unitPrice,
-        product: {
-          id: parseInt(item.product.id),
-        },
-      }));
-
       const userCredentials = {
         totalAmount: lastAddedItem.totalAmount || "0",
         orderNotes: orderNotes,
@@ -129,7 +127,16 @@ const OrderDetailsComponent: FC<{}> = () => {
         account: {
           accountId: selectedAccount,
         },
-        orderItemList: productsDataForOrder,
+        orderItemList: {
+          productName: productName,
+          quantity: quantity,
+          totalPrice: totalPrice,
+          totalAmount: totalAmount,
+          unitPrice: unitPrice,
+          product: {
+            id: 1,
+          },
+        },
 
         orderClient: {
           id: userId,
@@ -168,8 +175,8 @@ const OrderDetailsComponent: FC<{}> = () => {
           <OrderDetailsTable>
             <OrdersTableHead>
               <OrdersTableRow>
-                <OrdersHead>FirstName</OrdersHead>
-                <OrdersHead>LastName</OrdersHead>
+                {/* <OrdersHead>FirstName</OrdersHead>
+                <OrdersHead>LastName</OrdersHead> */}
                 <OrdersHead>Account Name</OrdersHead>
                 <OrdersHead>Product Name</OrdersHead>
                 <OrdersHead>Order Notes</OrdersHead>
@@ -184,59 +191,60 @@ const OrderDetailsComponent: FC<{}> = () => {
               </OrdersTableRow>
             </OrdersTableHead>
             <OrdersTableBody>
-              {orders.map((orderGroup: any, index: number) =>
-                orderGroup.map((order: OrderDetails, subIndex: number) =>
-                  order?.orderItem?.map((item: any, itemIndex: number) => (
-                    <OrdersTableRow key={`${index}-${subIndex}-${itemIndex}`}>
-                      <OrdersTableData>
-                        {order?.userDTO?.firstName}
-                      </OrdersTableData>
-                      <OrdersTableData>
-                        {order?.userDTO?.lastName}
-                      </OrdersTableData>
-                      <OrdersTableData>
-                        {order?.accountBasicDTO?.accountName}
-                      </OrdersTableData>
-                      <OrdersTableData>
-                        {item?.product?.productName}
-                      </OrdersTableData>
-                      <OrdersTableData>{order?.orderNotes}</OrdersTableData>
-                      <OrdersTableData>{order?.orderStatus}</OrdersTableData>
-                      <OrdersTableData>
-                        {order?.shippingAddress?.street}
-                      </OrdersTableData>
-                      <OrdersTableData>
-                        {order?.shippingAddress?.city}
-                      </OrdersTableData>
-                      <OrdersTableData>
-                        {order?.shippingAddress?.state}
-                      </OrdersTableData>
-                      <OrdersTableData>
-                        {order?.shippingAddress?.country}
-                      </OrdersTableData>
-                      <OrdersTableData>
-                        {order?.shippingAddress?.postalCode}
-                      </OrdersTableData>
-                      <OrdersTableData>${order?.totalAmount}</OrdersTableData>
-                      <OrdersTableData>
-                        <EditIcon
-                          onClick={() => handleEdit(order)}
-                          style={{ cursor: "pointer" }}
-                        />
-                        {/* <EditOrderButton onClick={() => handleEdit(order)}>
+              {orders.map((order: OrderDetails, index: number) => (
+                // orderGroup.map(
+                //   (order: any, subIndex: number) => (
+                // order?.orderItem?.map((item: any, itemIndex: number) => (
+                <OrdersTableRow key={index}>
+                  {order.orderItem.map((item: any, subIndex: number) => (
+                    <OrdersTableData>
+                      {order?.accountBasicDTO?.accountType === "B2B"
+                        ? order?.accountBasicDTO?.accountName
+                        : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`}
+                    </OrdersTableData>
+                  ))}
+                  <OrdersTableData>
+                    {order.orderItem.map((item: any) => (
+                      <div key={item.id}>{item.product.productName}</div>
+                    ))}
+                  </OrdersTableData>
+                  <OrdersTableData>{order?.orderNotes}</OrdersTableData>
+                  <OrdersTableData>{order?.orderStatus}</OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.street}
+                  </OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.city}
+                  </OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.state}
+                  </OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.country}
+                  </OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.postalCode}
+                  </OrdersTableData>
+                  <OrdersTableData>${order?.totalAmount}</OrdersTableData>
+                  <OrdersTableData>
+                    <EditIcon
+                      onClick={() => handleEdit(order)}
+                      style={{ cursor: "pointer" }}
+                    />
+                    {/* <EditOrderButton onClick={() => handleEdit(order)}>
                           Edit
                         </EditOrderButton> */}
-                        {/* <IconLink to=""> */}
-                        <DeleteIcon
-                          onClick={() => handleDeleteOrder(order.id)}
-                          style={{ cursor: "pointer" }}
-                        />
-                        {/* </IconLink> */}
-                      </OrdersTableData>
-                    </OrdersTableRow>
-                  ))
-                )
-              )}
+                    {/* <IconLink to=""> */}
+                    <DeleteIcon
+                      onClick={() => handleDeleteOrder(order.id)}
+                      style={{ cursor: "pointer" }}
+                    />
+                    {/* </IconLink> */}
+                  </OrdersTableData>
+                </OrdersTableRow>
+                // )
+                // ))
+              ))}
             </OrdersTableBody>
           </OrderDetailsTable>
         </OrderDetailsHolder>
@@ -252,38 +260,6 @@ const OrderDetailsComponent: FC<{}> = () => {
           <>
             {selectedItem && (
               <>
-                <InputsOfModalHolder>
-                  <ModalInputHolder>
-                    <GenericInput
-                      input_label="FirstName"
-                      value={selectedItem?.userDTO.firstName || ""}
-                      onChange={(e: any) => {
-                        setSelectedItem({
-                          ...selectedItem,
-                          userDTO: {
-                            ...selectedItem.userDTO,
-                            firstName: e.target.value,
-                          },
-                        });
-                      }}
-                    />
-                  </ModalInputHolder>
-                  <ModalInputHolder>
-                    <GenericInput
-                      input_label="LastName"
-                      value={selectedItem?.userDTO.lastName || ""}
-                      onChange={(e: any) => {
-                        setSelectedItem({
-                          ...selectedItem,
-                          userDTO: {
-                            ...selectedItem.userDTO,
-                            lastName: e.target.value,
-                          },
-                        });
-                      }}
-                    />
-                  </ModalInputHolder>
-                </InputsOfModalHolder>
                 <InputsOfModalHolder>
                   <ModalInputHolder>
                     <GenericInput

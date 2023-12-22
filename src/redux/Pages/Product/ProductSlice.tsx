@@ -15,6 +15,7 @@ export interface ProductDetailss {
   threshold: number;
   creationDate: string;
   modificationDate: string;
+  productName?: string;
   attributes: {
     id: number;
     attributeName: string;
@@ -55,8 +56,6 @@ export const fetchProductDetails = createAsyncThunk<ProductDetailss[], number>(
     }
   }
 );
-
-
 
 //get all products
 export const fetchAllProducts = createAsyncThunk<ProductDetailss[]>(

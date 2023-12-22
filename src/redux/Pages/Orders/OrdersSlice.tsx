@@ -81,6 +81,22 @@ export const fetchOrderDetails = createAsyncThunk<OrderDetails[]>(
   }
 );
 
+//get order details by id
+export const fetchOrderDetailsById = createAsyncThunk<OrderDetails[], number>(
+  "order/orderDetails",
+  async (orderId: number) => {
+    try {
+      const response = await axios.get(
+        `http://192.168.10.210:8081/SMS/order/${orderId}`
+      );
+      console.log(response);
+      return [response.data];
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
 //delete order
 export const deleteOrder = createAsyncThunk(
   "order/deleteOrder",
@@ -118,6 +134,15 @@ const orderSlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(deleteOrder.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.product = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(fetchOrderDetailsById.fulfilled, (state, action) => {
+        state.product = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(fetchOrderDetailsById.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.product = null;
         state.error = action.payload as string | null;
