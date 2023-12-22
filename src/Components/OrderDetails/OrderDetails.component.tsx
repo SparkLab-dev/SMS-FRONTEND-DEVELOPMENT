@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 
 //style
 import {
+  EditOrderTableName,
   OrderDetailsContentHolder,
   OrderDetailsHolder,
   OrderDetailsTable,
@@ -23,7 +24,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   OrderDetails,
   deleteOrder,
-  fetchOrderDetails,
   fetchOrderDetailsById,
 } from "redux/Pages/Orders/OrdersSlice";
 
@@ -41,7 +41,6 @@ import { useNavigate, useParams } from "react-router-dom";
 const OrderDetailsComponent: FC<{}> = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState<OrderDetails[]>([]);
-  const [error, setError] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [addedItems, setAddedItems] = useState<
@@ -56,23 +55,11 @@ const OrderDetailsComponent: FC<{}> = () => {
       };
     }[]
   >([]);
-  const [orderNotes, setOrderNotes] = useState<string>("");
-  const [street, setStreet] = useState<string>("");
-  const [city, setCity] = useState<string>("");
-  const [state, setState] = useState<string>("");
-  const [productName, setProductName] = useState<string>("");
-  const [totalAmount, setTotalAmount] = useState<string>("");
-  const [postalCode, setPostalCode] = useState<string>("");
-  const [country, setCountry] = useState<string>("");
-  const [quantity, setQuantity] = useState<string>("");
-  const [unitPrice, setUnitPrice] = useState<string>("");
-  const [totalPrice, setTotalPrice] = useState<string>("");
   const [selectedAccount, setSelectedAccount] = useState<number | null>(null);
 
   const dispatch: AppDispatch = useDispatch();
   const { orderId } = useParams();
   const orderID = orderId ? parseInt(orderId) : 0;
-  console.log(orderID);
 
   //get order api
   useEffect(() => {
@@ -97,44 +84,44 @@ const OrderDetailsComponent: FC<{}> = () => {
   console.log(orders);
 
   //edit button click
-  const handleEdit = (rental: any) => {
-    console.log(rental);
+  const handleEdit = (editOrder: any) => {
+    console.log(editOrder);
     setIsModalOpen(true);
-    setSelectedItem(rental);
+    setSelectedItem(editOrder);
   };
 
   //get userRole from redux
   const userId = useSelector((state: RootState) => state.login.user?.id);
-
+  console.log(selectedItem);
   //post request
   const handleOrderFormClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     try {
-      const lastAddedItem = addedItems[addedItems.length - 1];
+      // const lastAddedItem = addedItems[addedItems.length - 1];
 
       const userCredentials = {
-        totalAmount: lastAddedItem.totalAmount || "0",
-        orderNotes: orderNotes,
+        totalAmount: selectedItem.totalAmount || "0",
+        orderNotes: selectedItem.orderNotes,
         shippingAddress: {
-          street: street,
-          city: city,
-          state: state,
-          postalCode: postalCode,
-          country: country,
+          street: selectedItem.street,
+          city: selectedItem.city,
+          state: selectedItem.state,
+          postalCode: selectedItem.postalCode,
+          country: selectedItem.country,
         },
         account: {
           accountId: selectedAccount,
         },
         orderItemList: {
-          productName: productName,
-          quantity: quantity,
-          totalPrice: totalPrice,
-          totalAmount: totalAmount,
-          unitPrice: unitPrice,
+          productName: selectedItem.productName,
+          quantity: selectedItem.quantity,
+          totalPrice: selectedItem.totalPrice,
+          totalAmount: selectedItem.totalAmount,
+          unitPrice: selectedItem.unitPrice,
           product: {
-            id: 1,
+            id: selectedItem.id,
           },
         },
 
@@ -145,7 +132,14 @@ const OrderDetailsComponent: FC<{}> = () => {
           id: userId,
         },
       };
-      await dispatch(orderForm({ userCredentials }));
+      const response = await dispatch(orderForm({ userCredentials }));
+      if (response.payload) {
+        const updatedProductDetails = orders.map((order) =>
+          order.id === selectedItem.id ? selectedItem : order
+        );
+        setOrders(updatedProductDetails);
+        setIsModalOpen(false);
+      }
     } catch (error) {
       console.log("Error in handleOrderClick:", error);
     }
@@ -175,8 +169,6 @@ const OrderDetailsComponent: FC<{}> = () => {
           <OrderDetailsTable>
             <OrdersTableHead>
               <OrdersTableRow>
-                {/* <OrdersHead>FirstName</OrdersHead>
-                <OrdersHead>LastName</OrdersHead> */}
                 <OrdersHead>Account Name</OrdersHead>
                 <OrdersHead>Product Name</OrdersHead>
                 <OrdersHead>Order Notes</OrdersHead>
@@ -186,7 +178,6 @@ const OrderDetailsComponent: FC<{}> = () => {
                 <OrdersHead>State</OrdersHead>
                 <OrdersHead>Country</OrdersHead>
                 <OrdersHead>Postal Code</OrdersHead>
-                <OrdersHead>Total Amount</OrdersHead>
                 <OrdersHead>Actions</OrdersHead>
               </OrdersTableRow>
             </OrdersTableHead>
@@ -196,16 +187,15 @@ const OrderDetailsComponent: FC<{}> = () => {
                 //   (order: any, subIndex: number) => (
                 // order?.orderItem?.map((item: any, itemIndex: number) => (
                 <OrdersTableRow key={index}>
-                  {order.orderItem.map((item: any, subIndex: number) => (
-                    <OrdersTableData>
-                      {order?.accountBasicDTO?.accountType === "B2B"
-                        ? order?.accountBasicDTO?.accountName
-                        : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`}
-                    </OrdersTableData>
-                  ))}
                   <OrdersTableData>
-                    {order.orderItem.map((item: any) => (
-                      <div key={item.id}>{item.product.productName}</div>
+                    {index === 0 &&
+                      (order?.accountBasicDTO?.accountType === "B2B"
+                        ? order?.accountBasicDTO?.accountName
+                        : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`)}
+                  </OrdersTableData>
+                  <OrdersTableData>
+                    {order.orderItem.map((item: any, subIndex: number) => (
+                      <div key={subIndex}>{item.product.productName}</div>
                     ))}
                   </OrdersTableData>
                   <OrdersTableData>{order?.orderNotes}</OrdersTableData>
@@ -225,21 +215,16 @@ const OrderDetailsComponent: FC<{}> = () => {
                   <OrdersTableData>
                     {order?.shippingAddress?.postalCode}
                   </OrdersTableData>
-                  <OrdersTableData>${order?.totalAmount}</OrdersTableData>
                   <OrdersTableData>
                     <EditIcon
                       onClick={() => handleEdit(order)}
                       style={{ cursor: "pointer" }}
                     />
-                    {/* <EditOrderButton onClick={() => handleEdit(order)}>
-                          Edit
-                        </EditOrderButton> */}
-                    {/* <IconLink to=""> */}
+
                     <DeleteIcon
                       onClick={() => handleDeleteOrder(order.id)}
                       style={{ cursor: "pointer" }}
                     />
-                    {/* </IconLink> */}
                   </OrdersTableData>
                 </OrdersTableRow>
                 // )
@@ -255,7 +240,7 @@ const OrderDetailsComponent: FC<{}> = () => {
           setIsModalOpen(false);
           setSelectedItem(null);
         }}
-        headerContent={<h2>Edit Order</h2>}
+        headerContent={<EditOrderTableName>Edit Order</EditOrderTableName>}
         bodyContent={
           <>
             {selectedItem && (
@@ -272,28 +257,6 @@ const OrderDetailsComponent: FC<{}> = () => {
                             ...selectedItem.accountBasicDTO,
                             accountName: e.target.value,
                           },
-                        });
-                      }}
-                    />
-                  </ModalInputHolder>
-                  <ModalInputHolder>
-                    <GenericInput
-                      input_label="Product Name"
-                      value={
-                        selectedItem?.orderItem[0]?.product?.productName || ""
-                      }
-                      onChange={(e) => {
-                        const { orderItem } = selectedItem;
-                        const updatedItem = {
-                          ...orderItem[0],
-                          product: {
-                            ...orderItem[0].product,
-                            productName: e.target.value,
-                          },
-                        };
-                        setSelectedItem({
-                          ...selectedItem,
-                          orderItem: [updatedItem, ...orderItem.slice(1)],
                         });
                       }}
                     />
@@ -402,18 +365,6 @@ const OrderDetailsComponent: FC<{}> = () => {
                             ...selectedItem.shippingAddress,
                             postalCode: e.target.value,
                           },
-                        });
-                      }}
-                    />
-                  </ModalInputHolder>
-                  <ModalInputHolder>
-                    <GenericInput
-                      input_label="Total Amount "
-                      value={selectedItem?.totalAmount || ""}
-                      onChange={(e: any) => {
-                        setSelectedItem({
-                          ...selectedItem,
-                          totalAmount: parseFloat(e.target.value),
                         });
                       }}
                     />

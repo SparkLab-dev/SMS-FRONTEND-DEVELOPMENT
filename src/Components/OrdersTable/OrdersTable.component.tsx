@@ -121,6 +121,7 @@ const OrdersTable: FC<{}> = () => {
                           : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`}
                       </TableCell>
 
+
                       <TableCell>
                         {order.orderItem.map((item: any) => (
                           <div key={item.id}>{item.product.productName}</div>

@@ -32,6 +32,11 @@ export const ProductList = styled.div`
   height: fit-content;
   max-width: 750px;
 `;
+export const EditOrderTableName = styled.p`
+  font-family: "Poppins";
+  color: #0e53c5;
+  font-size: 30px;
+`;
 export const EditProductButton = styled.div`
   display: flex;
   align-items: center;
