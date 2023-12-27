@@ -3,23 +3,34 @@ import styled from "styled-components";
 //mui-icons
 import EditIcon from "@mui/icons-material/Edit";
 
-export const OrderDetailsContentHolder = styled.div`
-  flex: 1;
+export const Orderdetails = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   width: 100%;
-  margin: 10px 0 17px 0;
+  height: 79%;
+`;
+export const OrderDetailsContentHolder = styled.div`
+  width: 100%;
+  height: 82%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `;
 
 export const OrderDetailsHolder = styled.div`
   width: 100%;
-  max-width: 1300px;
-  box-shadow: 3px 3px 15px 5px rgb(0 0 0 / 15%);
-  border-radius: 10px;
-  background-color: #ffff;
-  overflow: scroll;
-  height: fit-content;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0 11px 0;
+`;
+export const OrderDetailsContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
   overflow-x: auto;
   position: relative;
   overflow-y: scroll;
@@ -31,24 +42,59 @@ export const OrderDetailsHolder = styled.div`
   }
 `;
 export const OrderDetailsTable = styled.table`
+  box-shadow: 3px 3px 15px 5px rgb(0 0 0 / 15%);
+  background-color: #fff;
+  border-radius: 10px;
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+  height: fit-content;
+  max-width: 750px;
 `;
+export const DisplayOrderHolder = styled.div`
+  width: 100%;
+`;
+export const OrdDetailsHolder = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+`;
+
 export const OrdersTableHead = styled.thead`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   text-align: left;
 `;
-export const OrdersHead = styled.th`
-  border-bottom: 1px solid #ccc;
-  padding: 8px;
+export const OrdersHead = styled.div`
+  display: flex;
+  width: 100%;
+  margin: 7px ;
+  /* margin-top: 20px; */
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Poppins";
+`;
+export const Hr = styled.p`
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
 `;
 export const OrdersTableBody = styled.tbody`
-  text-align: left;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 `;
-export const OrdersTableRow = styled.tr``;
+export const OrdersTableRow = styled.tr`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+`;
 export const OrdersTableData = styled.td`
-  border-bottom: 1px solid #ccc;
-  padding: 8px;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin: 7px;
+  /* margin-top: 20px; */
+  font-family: "Poppins";
+  font-size: 15px;
 `;
 export const OrderActionTableData = styled.td`
   border-bottom: 1px solid #ccc;

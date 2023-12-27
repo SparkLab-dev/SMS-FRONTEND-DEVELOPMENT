@@ -40,6 +40,7 @@ export interface OrderDetails {
   totalAmount: number;
   orderStatus: string;
   orderNotes: string;
+  orderNumber?: string;
   orderSource: string;
   shippingAddress: ShippingAddress;
   accountBasicDTO: {
@@ -114,6 +115,45 @@ export const deleteOrder = createAsyncThunk(
   }
 );
 
+//delete products of order
+export const deleteProductsOfOrder = createAsyncThunk(
+  "productOfDetails/deleteProductOfDetails",
+  async (attributeId: number) => {
+    try {
+      const response = await axios.delete(
+        `http://192.168.10.210:8081/SMS/orderItem/${attributeId}`
+      );
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
+//add new product
+export const addOrderItem = createAsyncThunk(
+  "addOrder/addOrderItem",
+  async ({ orderItem }: { orderItem: object }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        "http://192.168.10.210:8081/SMS/orderItem/addNewOrderItem",
+        orderItem
+      );
+
+      const responseOrderItem = response.data;
+      console.log("", responseOrderItem);
+
+      return responseOrderItem;
+    } catch (error: any) {
+      console.log("Error in register order items:", error);
+
+      return rejectWithValue("Order item register failed");
+    }
+  }
+);
+
 const orderSlice = createSlice({
   name: "order",
   initialState,
@@ -143,6 +183,15 @@ const orderSlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(fetchOrderDetailsById.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.product = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(addOrderItem.fulfilled, (state, action) => {
+        state.product = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(addOrderItem.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.product = null;
         state.error = action.payload as string | null;

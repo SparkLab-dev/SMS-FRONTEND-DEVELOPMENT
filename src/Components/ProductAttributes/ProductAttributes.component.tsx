@@ -106,7 +106,7 @@ const ProductAttributes: FC<{}> = () => {
     }
   };
 
-  //edit button click
+  //upload button click
   const handleUpload = () => {
     setIsModalOpen(true);
     setAttributeName("");
@@ -168,6 +168,7 @@ const ProductAttributes: FC<{}> = () => {
   };
 
   const handleEdit = (selectedAttribute: any) => {
+    console.log(selectedAttribute)
     setSelectedItem(selectedAttribute);
     setAttributeName(selectedAttribute?.attributeName || "");
     setAttributeValue(selectedAttribute?.attributeValue || "");

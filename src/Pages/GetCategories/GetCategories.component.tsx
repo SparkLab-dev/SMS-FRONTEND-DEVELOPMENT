@@ -93,35 +93,40 @@ const GetCategories: FC<{}> = (props) => {
   console.log("photoNmae", photoName);
   const handleSaveCategory = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!selectedItem) {
+      console.error("No selected item");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", photoName || "");
+    formData.append("id", selectedItem.id.toString());
+
+    if (logo) {
+      formData.append("image", logo);
+    }
 
     try {
-      if (!selectedItem || !("id" in selectedItem)) {
-        console.error("No valid selected item");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("name", selectedItem.name || "");
-      formData.append("id", selectedItem.id.toString());
-
-      if (logo) {
-        formData.append("image", selectedItem.image);
-      }
-
       // Dispatch the update action with the updated form data
       const response = await dispatch(
         createCategory({ categoryCredentials: formData })
       );
 
       if (response.payload) {
-        // Update the categories array based on the server response
-        const updatedItem = response.payload; // Assuming the server returns the updated item
+        const updatedItem = { ...selectedItem };
+        console.log("updatedItem", updatedItem); // Create a copy of the selected item
+        updatedItem.name = photoName; // Update the name
+        // updatedItem.image = logo;
+        // Assuming the response contains updated image details, update accordingly
+        // updatedItem.image = response.payload.image; // Update the image details if needed
+
         const updatedCategories = categories.map((category) =>
-          category.id === updatedItem.id ? updatedItem : category
+          category.id === selectedItem.id ? updatedItem : category
         );
 
         setCategories(updatedCategories);
         setIsModalOpen(false);
+        setSelectedItem(updatedItem); // Update the selectedItem with the new values
       }
     } catch (error) {
       console.error("Error in handleSaveCategory:", error);

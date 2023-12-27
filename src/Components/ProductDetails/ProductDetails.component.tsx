@@ -148,6 +148,7 @@ const ProductDetails: FC<{}> = () => {
         const updatedProductDetails = productDetails.map((product) =>
           product.id === selectedItem.id ? selectedItem : product
         );
+        console.log(selectedItem)
         setProductDetails(updatedProductDetails);
         setIsModalOpen(false);
       }

@@ -1,18 +1,17 @@
 import { FC, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 //mui icons
 import ForwardIcon from "@mui/icons-material/Forward";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 //components
-import Popup from "Components/Popup/Popup.component";
-import GenericInput from "Components/GenericInput/GenericInput.component";
+// import Popup from "Components/Popup/Popup.component";
+// import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
 
 //style
 import {
-  IconLink,
   Table,
   TableAndDatepickerHolder,
   TableCell,
@@ -23,12 +22,7 @@ import {
 import {
   AddNewOrderButton,
   AddOrderNameContainerPlusIcon,
-  EditOrderButton,
-  InputsOfModalHolder,
-  ModalInputHolder,
-  ModalSaveButtonHolder,
   OrderButtonName,
-  OrderH2,
   OrdersTableContainer,
   TableBody,
 } from "./style/OrdersTable.style";
@@ -40,11 +34,11 @@ import {
   OrderDetails,
   fetchOrderDetails,
 } from "redux/Pages/Orders/OrdersSlice";
- 
+
 const OrdersTable: FC<{}> = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [orders, setOrders] = useState<OrderDetails[]>([]);
-  const [error, setError] = useState<string>("");
 
   const dispatch: AppDispatch = useDispatch();
   console.log("orders", orders);
@@ -58,17 +52,15 @@ const OrdersTable: FC<{}> = () => {
           // const orders = result.payload;
 
           setOrders(result.payload);
-        } else {
-          setError("Error fetching orders. Please try again later!");
-        }
+        } 
       } catch (error) {
         console.error("Error fetching orders:", error);
-        setError("Error fetching orders. Please try again later!");
+        
       }
     };
 
     fetchOrderData();
-  }, [dispatch]);
+  }, [dispatch, location.pathname]);
 
   const orderButtonName = (
     <AddOrderNameContainerPlusIcon>
@@ -80,7 +72,6 @@ const OrdersTable: FC<{}> = () => {
   const handleGoToOrderLinkClick = (order: OrderDetails) => {
     console.log(order);
     navigate(`/orderDetails/${order.id}`);
-    
   };
 
   return (
@@ -97,7 +88,8 @@ const OrdersTable: FC<{}> = () => {
             <TableHead>
               <TableRow>
                 <th>Account Name</th>
-                <th>Product Name</th>
+                <th>Order Number</th>
+                <th>Order Source</th>
                 <th>Order Notes</th>
                 <th>Order Status</th>
                 <th>Street</th>
@@ -121,13 +113,8 @@ const OrdersTable: FC<{}> = () => {
                           : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`}
                       </TableCell>
 
-
-                      <TableCell>
-                        {order.orderItem.map((item: any) => (
-                          <div key={item.id}>{item.product.productName}</div>
-                        ))}
-                      </TableCell>
-
+                      <TableCell>{order.orderNumber}</TableCell>
+                      <TableCell>{order.orderSource}</TableCell>
                       <TableCell>{order?.orderNotes}</TableCell>
                       <TableCell>{order?.orderStatus}</TableCell>
                       <TableCell>{order?.shippingAddress?.street}</TableCell>
