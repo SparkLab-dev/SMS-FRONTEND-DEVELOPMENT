@@ -148,7 +148,7 @@ const ProductDetails: FC<{}> = () => {
         const updatedProductDetails = productDetails.map((product) =>
           product.id === selectedItem.id ? selectedItem : product
         );
-        console.log(selectedItem)
+        console.log(selectedItem);
         setProductDetails(updatedProductDetails);
         setIsModalOpen(false);
       }
@@ -184,21 +184,20 @@ const ProductDetails: FC<{}> = () => {
                 <ProdDetailsHolder>
                   <ProdTextHolders>
                     <ProdDetailsHeaderText>Product Name</ProdDetailsHeaderText>
-                    <HorizontalLine />
+
                     <ProdDetailsHeaderText>Barcode</ProdDetailsHeaderText>
-                    <HorizontalLine />
+
                     <ProdDetailsHeaderText>
                       Stock Quantity
                     </ProdDetailsHeaderText>
-                    <HorizontalLine />
+
                     <ProdDetailsHeaderText>ThresHold</ProdDetailsHeaderText>
-                    <HorizontalLine />
+
                     <ProdDetailsHeaderText>
                       Product Category
                     </ProdDetailsHeaderText>
-                    <HorizontalLine />
+
                     <ProdDetailsHeaderText>Price</ProdDetailsHeaderText>
-                    <HorizontalLine />
                   </ProdTextHolders>
                   {productDetails.map((product: any, index: any) => (
                     <>
@@ -206,27 +205,26 @@ const ProductDetails: FC<{}> = () => {
                         <InformationOfProduct>
                           {product.name}
                         </InformationOfProduct>
-                        <HorizontalLine />
+
                         <InformationOfProduct>
                           {product.barcode}
                         </InformationOfProduct>
-                        <HorizontalLine />
+
                         <InformationOfProduct>
                           {product.stockQuantity}
                         </InformationOfProduct>
-                        <HorizontalLine />
+
                         <InformationOfProduct>
                           {product.threshold}
                         </InformationOfProduct>
-                        <HorizontalLine />
+
                         <InformationOfProduct>
                           {product.productCategory.name}
                         </InformationOfProduct>
-                        <HorizontalLine />
+
                         <InformationOfProduct>
                           {product.price}
                         </InformationOfProduct>
-                        <HorizontalLine />
                       </ProdTextHolders>
 
                       <ButtonsHolder>

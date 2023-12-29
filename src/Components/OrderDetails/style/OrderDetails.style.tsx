@@ -132,3 +132,15 @@ export const EditOrderTableName = styled.p`
   font-size: 27px;
   margin: 10px 0;
 `;
+export const AccountLabel = styled.p`
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 24px;
+  color: #43546f;
+  margin: 4px 0 1px 0;
+  padding-left: 15px;
+  text-align: left;
+  padding-top:10px;
+`;

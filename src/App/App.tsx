@@ -25,6 +25,9 @@ import VendorsTable from "Components/VendorsTable/VendorsTable.component";
 import VendorDetails from "Components/VendorDetails/VendorDetails.component";
 import ProductDetails from "Components/ProductDetails/ProductDetails.component";
 import OrderDetailsComponent from "Components/OrderDetails/OrderDetails.component";
+import AccountB2BTable from "Components/AccountB2BTable/AccountB2BTable.component";
+import B2BForm from "Components/B2BForm/B2BForm.component";
+import B2CForm from "Components/B2CForm/B2CForm.component";
 
 const App: FC<{}> = () => {
   const logoProps = {
@@ -63,7 +66,10 @@ const App: FC<{}> = () => {
             <Route path="/orderTable" element={<OrdersTable />} />
             <Route path="/orderTable" element={<OrdersTable />} />
             <Route path="/orderForm" element={<OrderForm />} />
-            <Route path="/orderDetails/:orderId" element={<OrderDetailsComponent/>} />
+            <Route
+              path="/orderDetails/:orderId"
+              element={<OrderDetailsComponent />}
+            />
             <Route path="/userProfile" element={<UserProfile />} />
             <Route path="/createCategory" element={<CreateCategory />} />
             <Route path="/getCategory" element={<GetCategories />} />
@@ -76,6 +82,9 @@ const App: FC<{}> = () => {
             <Route path="/vendorTable" element={<VendorsTable />} />
             <Route path="/vendorDetails/:id" element={<VendorDetails />} />
             <Route path="/productDetails/:id" element={<ProductDetails />} />
+            <Route path="/accountB2BTable" element={<AccountB2BTable />} />
+            <Route path="/B2BForm" element={<B2BForm />} />
+            <Route path="/B2CForm" element={<B2CForm />} />
           </Route>
         </Routes>
       </BrowserRouter>

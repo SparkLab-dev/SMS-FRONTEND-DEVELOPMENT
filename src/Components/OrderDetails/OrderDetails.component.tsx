@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 
 //style
 import {
+  AccountLabel,
   DisplayOrderHolder,
   EditOrderTableName,
   Hr,
@@ -55,19 +56,10 @@ const OrderDetailsComponent: FC<{}> = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [account, setAccount] = useState<Account[]>([]);
-  // const [addedItems, setAddedItems] = useState<
-  //   {
-  //     productName: string;
-  //     quantity: string;
-  //     totalPrice: string;
-  //     totalAmount: string;
-  //     unitPrice: string;
-  //     product: {
-  //       id: string;
-  //     };
-  //   }[]
-  // >([]);
+  console.log("ACCOUNT", account);
+
   const [selectedAccount, setSelectedAccount] = useState<number | null>(null);
+  console.log("ECELCTED ACCOUNT", selectedAccount);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -79,10 +71,6 @@ const OrderDetailsComponent: FC<{}> = () => {
     const fetchDetails = () => {
       if (orderID) {
         console.log(orderID);
-        // const storedOrders = localStorage.getItem("orders");
-        // if (storedOrders) {
-        //   setOrders(JSON.parse(storedOrders));
-        // } else {
         dispatch(fetchOrderDetailsById(orderID))
           .then((result: any) => {
             console.log(result);
@@ -93,7 +81,6 @@ const OrderDetailsComponent: FC<{}> = () => {
           .catch((error: any) => {
             console.error("Error fetching  product details:", error);
           });
-        // }
       }
     };
 
@@ -123,23 +110,17 @@ const OrderDetailsComponent: FC<{}> = () => {
 
   //edit button click
   const handleEdit = (editOrder: any) => {
+    console.log(editOrder);
     setIsModalOpen(true);
     setSelectedItem(editOrder);
-  
-    // Find the corresponding account based on the order's account name
-    const selectedOrderAccount = account.find(
-      (acc: any) => acc.accountName === editOrder.accountBasicDTO.accountName
-    );
-  
-    // Set the selectedAccount state to the ID of the found account if available
-    if (selectedOrderAccount?.accountId) {
-      setSelectedAccount(selectedOrderAccount.accountId);
+    const selectedAccountId = editOrder?.accountBasicDTO?.id;
+    console.log(selectedAccountId);
+    if (selectedAccountId !== undefined && selectedAccountId !== null) {
+      setSelectedAccount(selectedAccountId);
     } else {
-      // Handle the case where no account is found (optional)
-      setSelectedAccount(null); // Set to null or handle as per your requirement
+      setSelectedAccount(null); // or any default value if accountId doesn't exist
     }
   };
-  
 
   //get userRole from redux
   const userId = useSelector((state: RootState) => state.login.user?.id);
@@ -161,7 +142,7 @@ const OrderDetailsComponent: FC<{}> = () => {
         street: selectedItem?.shippingAddress?.street || "", // Handling null/undefined
         city: selectedItem?.shippingAddress?.city || "",
         state: selectedItem?.shippingAddress?.state || "",
-        postal_code: selectedItem?.shippingAddress?.postalCode || "",
+        postalCode: selectedItem?.shippingAddress?.postalCode || "",
         country: selectedItem?.shippingAddress?.country || "",
       },
       account: {
@@ -353,6 +334,7 @@ const OrderDetailsComponent: FC<{}> = () => {
                 </InputsOfModalHolder>
                 <InputsOfModalHolder>
                   <ModalInputHolder>
+                    <AccountLabel>Account</AccountLabel>
                     <StyledSelect
                       value={
                         selectedAccount !== null
@@ -360,8 +342,8 @@ const OrderDetailsComponent: FC<{}> = () => {
                           : ""
                       }
                       onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                        const selectedAccountId = Number(e.target.value);
-                        setSelectedAccount(selectedAccountId);
+                        // const selectedAccountId = Number(e.target.value);
+                        setSelectedAccount(Number(e.target.value));
                       }}
                     >
                       <option defaultValue="none">Select an Option</option>
