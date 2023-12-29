@@ -28,6 +28,8 @@ import OrderDetailsComponent from "Components/OrderDetails/OrderDetails.componen
 import AccountB2BTable from "Components/AccountB2BTable/AccountB2BTable.component";
 import B2BForm from "Components/B2BForm/B2BForm.component";
 import B2CForm from "Components/B2CForm/B2CForm.component";
+import AccountB2CTable from "Components/AccountB2CTable/AccountB2CTable.component";
+import B2BAccountTypeDetails from "Components/B2BAccountTypeDetails/B2BAccountTypeDetails.component";
 
 const App: FC<{}> = () => {
   const logoProps = {
@@ -83,6 +85,11 @@ const App: FC<{}> = () => {
             <Route path="/vendorDetails/:id" element={<VendorDetails />} />
             <Route path="/productDetails/:id" element={<ProductDetails />} />
             <Route path="/accountB2BTable" element={<AccountB2BTable />} />
+            <Route
+              path="/accountB2BDetails/:id"
+              element={<B2BAccountTypeDetails />}
+            />
+            <Route path="/accountB2CTable" element={<AccountB2CTable />} />
             <Route path="/B2BForm" element={<B2BForm />} />
             <Route path="/B2CForm" element={<B2CForm />} />
           </Route>

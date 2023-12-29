@@ -25,7 +25,7 @@ import {
 import { TableBody } from "Components/OrdersTable/style/OrdersTable.style";
 import {
   AccountTypeProps,
-  fetchAccountDetails,
+  getAccountByType,
 } from "redux/Pages/AccountType/AccountTypeSlice";
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
@@ -33,10 +33,7 @@ import Popup from "Components/Popup/Popup.component";
 
 const AccountB2BTable: FC<{}> = () => {
   const [accountB2B, setAccountB2B] = useState<AccountTypeProps[]>([]);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // State for controlling the modal/popup visibility
-
-  // ... (existing code remains unchanged)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // Function to open the popup
   const openPopup = () => {
@@ -49,20 +46,25 @@ const AccountB2BTable: FC<{}> = () => {
 
   //get account B2B api
   useEffect(() => {
-    const fetchOrderData = async () => {
+    const handleAccountB2CFormClick = async () => {
       try {
-        const result = await dispatch(fetchAccountDetails());
-        if (fetchAccountDetails.fulfilled.match(result)) {
-          console.log(result);
-          setAccountB2B(result.payload);
+        const accountTypeCredentials = {
+          type: "B2B",
+        };
+        const response = await dispatch(
+          getAccountByType({ accountTypeCredentials })
+        );
+
+        if (getAccountByType.fulfilled.match(response)) {
+          setAccountB2B([response.payload]);
         }
       } catch (error) {
-        console.error("Error fetching orders:", error);
+        console.log("Error in handleAccountB2BClick:", error);
       }
     };
-
-    fetchOrderData();
+    handleAccountB2CFormClick();
   }, [dispatch]);
+
   const accountButtonName = (
     <AddAccountNameContainerPlusIcon>
       <AddCircleOutlineIcon />
@@ -74,9 +76,14 @@ const AccountB2BTable: FC<{}> = () => {
     if (type === "B2B") {
       navigate("/B2BForm");
     } else if (type === "B2C") {
-      navigate("/B2CForm"); 
+      navigate("/B2CForm");
     }
-    setIsModalOpen(false); 
+    setIsModalOpen(false);
+  };
+
+  const handleGoToOrderLinkClick = (accountB2B: AccountTypeProps) => {
+    console.log(accountB2B);
+    navigate(`/accountB2BDetails/${accountB2B.accountId}`);
   };
   return (
     <>
@@ -90,8 +97,6 @@ const AccountB2BTable: FC<{}> = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <th>FistName</th>
-                  <th>LastName</th>
                   <th>Account Name</th>
                   <th>Email</th>
                   <th>Account Number</th>
@@ -108,8 +113,6 @@ const AccountB2BTable: FC<{}> = () => {
                 {accountB2B.map((accountB2B: any, index: number) =>
                   accountB2B.map((accountItem: any, subIndex: number) => (
                     <TableRow key={`${index}-${subIndex}`}>
-                      <TableCell>{accountItem.createdBy.firstName}</TableCell>
-                      <TableCell>{accountItem.createdBy.lastName}</TableCell>
                       <TableCell>{accountItem.accountName}</TableCell>
                       <TableCell>{accountItem.email}</TableCell>
                       <TableCell>{accountItem.accountNumber}</TableCell>
@@ -123,7 +126,7 @@ const AccountB2BTable: FC<{}> = () => {
                         <ForwardIcon
                           color="primary"
                           fontSize="large"
-                          // onClick={() => handleGoToOrderLinkClick(order)}
+                          onClick={() => handleGoToOrderLinkClick(accountItem)}
                           style={{ cursor: "pointer" }}
                         />
                       </TableCell>

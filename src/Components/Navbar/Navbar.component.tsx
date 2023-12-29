@@ -94,6 +94,9 @@ const Navbar: FC<{}> = () => {
                 Category{menu === "category" ? <HR /> : <></>}
               </ListItem>
             </NavLink>
+            <NavLink to="/accountB2BTable" onClick={() => setMenu("account")}>
+              <ListItem>Account{menu === "account" ? <HR /> : <></>}</ListItem>
+            </NavLink>
           </>
         )}
         {userRole === "CUSTOMER" && (

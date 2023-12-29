@@ -71,18 +71,26 @@ export const addAccount = createAsyncThunk(
 );
 
 //get accounts details
-export const fetchAccountDetails = createAsyncThunk<AccountTypeProps[]>(
-  "account/getAllAccounts",
-  async () => {
+export const getAccountByType = createAsyncThunk(
+  "getAccount/getAccountByType",
+  async (
+    { accountTypeCredentials }: { accountTypeCredentials: object },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await axios.get(
-        "http://192.168.10.210:8081/SMS/account"
+        "http://192.168.10.210:8081/SMS/account",
+        accountTypeCredentials
       );
-      console.log(response);
-      return [response.data];
-    } catch (error) {
-      console.error(error);
-      throw error;
+
+      const responseAccountTypeCredentials = response.data;
+      console.log("", responseAccountTypeCredentials);
+
+      return responseAccountTypeCredentials;
+    } catch (error: any) {
+      console.log("Error in register account items:", error);
+
+      return rejectWithValue("Account item register failed");
     }
   }
 );
@@ -136,11 +144,11 @@ const accountTypeSlice = createSlice({
         state.accountType = null;
         state.error = action.payload as string | null;
       })
-      .addCase(fetchAccountDetails.fulfilled, (state, action) => {
+      .addCase(getAccountByType.fulfilled, (state, action) => {
         state.accountType = action.payload;
         state.isAuthenticated = true;
       })
-      .addCase(fetchAccountDetails.rejected, (state, action) => {
+      .addCase(getAccountByType.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.accountType = null;
         state.error = action.payload as string | null;
