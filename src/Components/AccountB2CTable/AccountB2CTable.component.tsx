@@ -109,8 +109,8 @@ const AccountB2CTable: FC<{}> = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {accountB2C.map((accountB2B: any, index: number) =>
-                  accountB2B.map((accountItem: any, subIndex: number) => (
+                {accountB2C.map((accountB2C: any, index: number) =>
+                  accountB2C.map((accountItem: any, subIndex: number) => (
                     <TableRow key={`${index}-${subIndex}`}>
                       <TableCell>{accountItem.createdBy.firstName}</TableCell>
                       <TableCell>{accountItem.createdBy.lastName}</TableCell>

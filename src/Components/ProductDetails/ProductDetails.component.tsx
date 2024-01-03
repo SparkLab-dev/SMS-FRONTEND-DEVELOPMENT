@@ -71,7 +71,7 @@ const ProductDetails: FC<{}> = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
-  //get vendor by id
+  //get products by id
   useEffect(() => {
     const fetchProduct = () => {
       if (productId) {

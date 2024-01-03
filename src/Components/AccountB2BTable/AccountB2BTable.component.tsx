@@ -112,6 +112,7 @@ const AccountB2BTable: FC<{}> = () => {
               <TableBody>
                 {accountB2B.map((accountB2B: any, index: number) =>
                   accountB2B.map((accountItem: any, subIndex: number) => (
+               
                     <TableRow key={`${index}-${subIndex}`}>
                       <TableCell>{accountItem.accountName}</TableCell>
                       <TableCell>{accountItem.email}</TableCell>

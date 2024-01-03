@@ -96,21 +96,22 @@ export const getAccountByType = createAsyncThunk(
 );
 
 //get accounts by id
-export const fetchAccountDetailsById = createAsyncThunk<
-  AccountTypeProps[],
-  number
->("account/accountById", async (accountId: number) => {
-  try {
-    const response = await axios.get(
-      `http://192.168.10.210:8081/SMS/account/${accountId}`
-    );
-    console.log(response);
-    return [response.data];
-  } catch (error) {
-    console.error(error);
-    throw error;
+export const fetchAccountDetailsById = createAsyncThunk(
+  "account/accountById",
+  async (accountId: number) => {
+    try {
+      console.log("Fetching account details...");
+      const response = await axios.get(
+        `http://192.168.10.210:8081/SMS/account/${accountId}`
+      );
+      console.log("Response from API:", response.data);
+      return [response.data];
+    } catch (error) {
+      console.error("Error fetching account details:", error);
+      throw error;
+    }
   }
-});
+);
 
 //delete account by id
 export const deleteAccount = createAsyncThunk(
@@ -118,7 +119,7 @@ export const deleteAccount = createAsyncThunk(
   async (accountId: number) => {
     try {
       const response = await axios.delete(
-        `http://192.168.10.210:8081/SMS/order/${accountId}`
+        `http://192.168.10.210:8081/SMS/account/${accountId}`
       );
       console.log(response);
       return response.data;
