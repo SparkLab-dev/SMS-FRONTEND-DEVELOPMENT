@@ -83,6 +83,10 @@ const AccountB2CTable: FC<{}> = () => {
     setIsModalOpen(false);
   };
 
+  const handleGoToOrderLinkClick = (accountB2C: AccountTypeProps) => {
+    console.log(accountB2C);
+    navigate(`/accountB2CDetails/${accountB2C.accountId}`);
+  };
   return (
     <>
       <AccountB2CTableContainer>
@@ -96,14 +100,9 @@ const AccountB2CTable: FC<{}> = () => {
                 <TableRow>
                   <th>FirstName</th>
                   <th>LastName</th>
-                  <th>Account Name</th>
                   <th>Email</th>
-                  <th>Account Number</th>
-                  <th>Industry</th>
                   <th>Account Priority</th>
                   <th>Cel</th>
-                  <th>Website</th>
-                  <th>Employee Number</th>
                   <th>Description</th>
                   <th>Actions</th>
                 </TableRow>
@@ -114,20 +113,15 @@ const AccountB2CTable: FC<{}> = () => {
                     <TableRow key={`${index}-${subIndex}`}>
                       <TableCell>{accountItem.createdBy.firstName}</TableCell>
                       <TableCell>{accountItem.createdBy.lastName}</TableCell>
-                      <TableCell>{accountItem.accountName}</TableCell>
                       <TableCell>{accountItem.email}</TableCell>
-                      <TableCell>{accountItem.accountNumber}</TableCell>
-                      <TableCell>{accountItem.industry}</TableCell>
                       <TableCell>{accountItem.accountPriority}</TableCell>
                       <TableCell>{accountItem.phone}</TableCell>
-                      <TableCell>{accountItem.website}</TableCell>
-                      <TableCell>{accountItem.employeesNumber}</TableCell>
                       <TableCell>{accountItem.description}</TableCell>
                       <TableCell>
                         <ForwardIcon
                           color="primary"
                           fontSize="large"
-                          // onClick={() => handleGoToOrderLinkClick(order)}
+                          onClick={() => handleGoToOrderLinkClick(accountItem)}
                           style={{ cursor: "pointer" }}
                         />
                       </TableCell>
