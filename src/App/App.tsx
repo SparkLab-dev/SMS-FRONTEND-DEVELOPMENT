@@ -28,12 +28,13 @@ import OrderDetailsComponent from "Components/OrderDetails/OrderDetails.componen
 import AccountB2BTable from "Components/AccountB2BTable/AccountB2BTable.component";
 import B2BForm from "Components/B2BForm/B2BForm.component";
 import B2CForm from "Components/B2CForm/B2CForm.component";
-import AccountB2CTable from "Components/AccountB2CTable/AccountB2CTable.component";
 import B2BAccountTypeDetails from "Components/B2BAccountTypeDetails/B2BAccountTypeDetails.component";
 import B2CAccountTypeDetails from "Components/B2CAccountTypeDetails/B2CAccountTypeDetails.component";
 import Contacts from "Components/Contacts/Contacts.component";
 import ContactsTable from "Components/ContactsTable/ContactsTable.component";
 import ContactDetails from "Components/ContactDetails/ContactDetails.component";
+import { AccountB2CTableContainer } from "Components/AccountB2CTable/style/AccountB2CTable.style";
+import LeadSource from "Components/LeadSource/LeadSource.component";
 
 const App: FC<{}> = () => {
   const logoProps = {
@@ -97,12 +98,16 @@ const App: FC<{}> = () => {
               path="/accountB2CDetails/:id"
               element={<B2CAccountTypeDetails />}
             />
-            <Route path="/accountB2CTable" element={<AccountB2CTable />} />
+            <Route
+              path="/accountB2CTable"
+              element={<AccountB2CTableContainer />}
+            />
             <Route path="/B2BForm" element={<B2BForm />} />
             <Route path="/B2CForm" element={<B2CForm />} />
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/contactsTable" element={<ContactsTable />} />
             <Route path="/contactDetails/:id" element={<ContactDetails />} />
+            <Route path="/leadSource" element={<LeadSource />} />
           </Route>
         </Routes>
       </BrowserRouter>
