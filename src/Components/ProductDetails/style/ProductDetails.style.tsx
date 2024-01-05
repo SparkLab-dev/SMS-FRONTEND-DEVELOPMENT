@@ -28,14 +28,14 @@ export const ProductDetailsComponent = styled.div`
   /* flex: 1; */
   /* align-items: center; */
   /* justify-content: center; */
-  width: 100%;
+  /* width: 100%;
   max-width: 750px;
   box-shadow: 3px 3px 15px 5px rgb(0 0 0 / 15%);
   border-radius: 10px;
   background-color: #ffff;
-  overflow: scroll;
+  overflow: scroll; */
   /* height: 1000px; */
-  height: 100%;
+  /* height: 100%;
   max-height: 780px;
   overflow-x: auto;
   position: relative;
@@ -44,7 +44,12 @@ export const ProductDetailsComponent = styled.div`
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
     display: none;
-  }
+  } */
+  width: 100%;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
 `;
 export const ProductList = styled.div`
   box-shadow: 3px 3px 15px 5px rgb(0 0 0 / 15%);

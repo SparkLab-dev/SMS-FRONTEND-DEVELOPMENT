@@ -46,7 +46,7 @@ const AccountB2BTable: FC<{}> = () => {
 
   //get account B2B api
   useEffect(() => {
-    const handleAccountB2CFormClick = async () => {
+    const handleAccountB2B= async () => {
       try {
         const accountTypeCredentials = {
           type: "B2B",
@@ -62,7 +62,7 @@ const AccountB2BTable: FC<{}> = () => {
         console.log("Error in handleAccountB2BClick:", error);
       }
     };
-    handleAccountB2CFormClick();
+    handleAccountB2B();
   }, [dispatch]);
 
   const accountButtonName = (

@@ -32,6 +32,8 @@ import AccountB2CTable from "Components/AccountB2CTable/AccountB2CTable.componen
 import B2BAccountTypeDetails from "Components/B2BAccountTypeDetails/B2BAccountTypeDetails.component";
 import B2CAccountTypeDetails from "Components/B2CAccountTypeDetails/B2CAccountTypeDetails.component";
 import Contacts from "Components/Contacts/Contacts.component";
+import ContactsTable from "Components/ContactsTable/ContactsTable.component";
+import ContactDetails from "Components/ContactDetails/ContactDetails.component";
 
 const App: FC<{}> = () => {
   const logoProps = {
@@ -99,6 +101,8 @@ const App: FC<{}> = () => {
             <Route path="/B2BForm" element={<B2BForm />} />
             <Route path="/B2CForm" element={<B2CForm />} />
             <Route path="/contacts" element={<Contacts />} />
+            <Route path="/contactsTable" element={<ContactsTable />} />
+            <Route path="/contactDetails/:id" element={<ContactDetails />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -260,10 +260,10 @@ const ProductDetails: FC<{}> = () => {
           setIsModalOpen(false);
           setSelectedItem(null);
         }}
-        headerContent={<EditProductTableName>Edit Item</EditProductTableName>}
+        headerContent={<EditProductTableName>Edit Product</EditProductTableName>}
         bodyContent={
           <>
-            <div>
+            
               <InputsOfProductTable>
                 <ProductInputHold>
                   <GenericInput
@@ -357,7 +357,7 @@ const ProductDetails: FC<{}> = () => {
                   />
                 </ProductInputHold>
               </InputsOfProductTable>
-            </div>
+      
           </>
         }
         footerContent={

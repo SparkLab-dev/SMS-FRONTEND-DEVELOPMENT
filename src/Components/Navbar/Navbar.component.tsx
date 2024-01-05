@@ -17,8 +17,6 @@ import {
   UnorderedList,
 } from "./style/Navbar.style";
 
-//mui-icons
-import MenuIcon from "@mui/icons-material/Menu";
 
 //redux
 import { useSelector } from "react-redux";
@@ -96,6 +94,9 @@ const Navbar: FC<{}> = () => {
             </NavLink>
             <NavLink to="/accountB2BTable" onClick={() => setMenu("account")}>
               <ListItem>Account{menu === "account" ? <HR /> : <></>}</ListItem>
+            </NavLink>
+            <NavLink to="/contactsTable" onClick={() => setMenu("contact")}>
+              <ListItem>Contact{menu === "contact" ? <HR /> : <></>}</ListItem>
             </NavLink>
           </>
         )}

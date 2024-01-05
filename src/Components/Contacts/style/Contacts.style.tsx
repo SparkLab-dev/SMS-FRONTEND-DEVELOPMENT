@@ -5,6 +5,12 @@ export const ContactsFormContentHoder = styled.div`
   max-width: 650px;
   margin: auto;
   height: 80vh;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const InputsOfContactFormContainer = styled.div`
@@ -21,4 +27,3 @@ export const ContactsAddressFormHolder = styled.div`
   max-width: 550px;
   margin: auto;
 `;
-

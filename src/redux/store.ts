@@ -37,6 +37,8 @@ import { AccountState } from "redux/Containers/Account/AccountSlice";
 import accountSlice from "redux/Containers/Account/AccountSlice";
 import { AccountTypeState } from "redux/Pages/AccountType/AccountTypeSlice";
 import accountTypeSlice from "redux/Pages/AccountType/AccountTypeSlice";
+import { ContactState } from "redux/Pages/Contact/ContactSlice";
+import contactSlice from "redux/Pages/Contact/ContactSlice";
 
 type RootState = {
   login: LoginState;
@@ -55,6 +57,7 @@ type RootState = {
   vendor: VendorFormState;
   account: AccountState;
   accountType: AccountTypeState;
+  contact: ContactState;
 };
 const persistConfig = {
   key: "root",
@@ -77,6 +80,7 @@ const persistConfig = {
     "vendor",
     "account",
     "accountType",
+    "contact",
   ],
 };
 
@@ -97,6 +101,7 @@ const rootReducer = combineReducers({
   vendor: vendorFormSlice,
   account: accountSlice,
   accountType: accountTypeSlice,
+  contact: contactSlice,
 });
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 const store = configureStore({

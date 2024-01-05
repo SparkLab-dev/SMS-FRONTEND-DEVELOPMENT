@@ -46,6 +46,7 @@ const B2CAccountTypeDetails: FC<{}> = () => {
   const [selectedPriority, setSelectedPriority] = useState<string>(""); // State to store selected priority
 
   console.log(selectedAccount);
+  
   const dispatch: AppDispatch = useDispatch();
 
   //get userId from redux

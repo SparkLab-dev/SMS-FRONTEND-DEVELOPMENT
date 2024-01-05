@@ -8,11 +8,13 @@ import {
   CategoriesTableHolder,
   CategoryButtonName,
   CategoryEditButton,
+  CategoryInputHolder,
   CategoryTable,
   CategoryTableAndModalHolder,
   CategoryTableContainer,
   CategoryTableRow,
   Imagecategory,
+  InputsOfCategoriesPopup,
   TableCellOfCategory,
   TableHead,
   TableHeadOfCategory,
@@ -223,17 +225,17 @@ const GetCategories: FC<{}> = (props) => {
           headerContent={<h2>Edit Category</h2>}
           bodyContent={
             <>
-              <InputsOfProductTable>
-                <ModalInputHolder>
+              <InputsOfCategoriesPopup>
+                <CategoryInputHolder>
                   <UploadPhoto
                     profilePhoto={logoSelected[1]}
                     profilePhotoType={logoSelected[0]}
                     reload={true}
                     sendPhoto={setLogo}
                   />
-                </ModalInputHolder>
+                </CategoryInputHolder>
 
-                <ModalInputHolder>
+                <CategoryInputHolder>
                   <GenericInput
                     input_label="Name"
                     value={photoName || ""}
@@ -241,8 +243,8 @@ const GetCategories: FC<{}> = (props) => {
                       setPhotoName(e.target.value);
                     }}
                   />
-                </ModalInputHolder>
-              </InputsOfProductTable>
+                </CategoryInputHolder>
+              </InputsOfCategoriesPopup>
             </>
           }
           footerContent={

@@ -97,3 +97,8 @@ export const AddCategoryNameContainerPlusIcon = styled.div`
 export const CategoryButtonName = styled.p`
   margin: 5px;
 `;
+export const InputsOfCategoriesPopup=styled.div``
+export const CategoryInputHolder = styled.div`
+  flex: 1;
+  margin: 5px;
+`;

@@ -23,8 +23,6 @@ const B2CForm: FC<{}> = () => {
   const [industry, setIndustry] = useState<string>("");
   const [accountPriority, setAccountPriority] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
-  const [website, setWebsite] = useState<string>("");
-  const [employeesNumber, setEmployeesNumber] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [street, setStreet] = useState<string>("");
   const [city, setCity] = useState<string>("");
@@ -179,32 +177,6 @@ const B2CForm: FC<{}> = () => {
               value={phone || ""}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setPhone(e.target.value)
-              }
-            />
-          </GenericB2CInputHold>
-        </InputsB2CFormContainer>
-        <InputsB2CFormContainer>
-          <GenericB2CInputHold>
-            <GenericInput
-              placeholder="Website"
-              input_label="Website"
-              required={true}
-              type="text"
-              value={website || ""}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setWebsite(e.target.value)
-              }
-            />
-          </GenericB2CInputHold>
-          <GenericB2CInputHold>
-            <GenericInput
-              placeholder="Employees Number"
-              input_label="Employees Number"
-              required={true}
-              type="number"
-              value={employeesNumber || ""}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEmployeesNumber(e.target.value)
               }
             />
           </GenericB2CInputHold>

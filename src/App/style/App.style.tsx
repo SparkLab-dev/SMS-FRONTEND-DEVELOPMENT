@@ -61,7 +61,7 @@ export const StyledSelect = styled.select<dropdownProps>`
   padding-left: ${(props: any) => props.paddingleft};
   padding: ${(props: any) => props.padding || "10px"};
   margin: ${(props: any) => props.margin};
-  margin-top: ${(props: any) => props.marginTop || "12px"};
+  margin-top: ${(props: any) => props.marginTop};
 `;
 export const LabelDescriptionContainer = styled.div`
   font-family: "Poppins";
@@ -70,7 +70,7 @@ export const LabelDescriptionContainer = styled.div`
   font-size: 14px;
   line-height: 24px;
   color: #43546f;
-  margin: 10px 0 0px 0;
+  margin: 18px 0 8px 0;
   padding-left: 15px;
   text-align: left;
 `;

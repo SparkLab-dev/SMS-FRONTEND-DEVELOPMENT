@@ -25,7 +25,7 @@ export const Modal = styled.div`
   width: 100%;
   max-width: 380px;
   /* height: 100%; */
- height:700px;
+  max-height: 500px;
   overflow-x: auto;
   position: relative;
   overflow-y: scroll;
