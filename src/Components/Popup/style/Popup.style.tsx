@@ -24,7 +24,16 @@ export const Modal = styled.div`
   border-radius: 10px;
   width: 100%;
   max-width: 380px;
-  height: fit-content;
+  /* height: 100%; */
+  max-height: 500px;
+  overflow-x: auto;
+  position: relative;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   /* max-height: 824px; */
 `;
 export const ModalHeader = styled.div`

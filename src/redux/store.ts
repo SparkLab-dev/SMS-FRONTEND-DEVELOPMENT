@@ -33,6 +33,12 @@ import { NotificationPropsState } from "redux/Pages/AdminNotification/AdminNotif
 import adminNotificationSlice from "redux/Pages/AdminNotification/AdminNotificationSlice";
 import { VendorFormState } from "redux/Containers/VendorForm/VendorFormSlice";
 import vendorFormSlice from "redux/Containers/VendorForm/VendorFormSlice";
+import { AccountState } from "redux/Containers/Account/AccountSlice";
+import accountSlice from "redux/Containers/Account/AccountSlice";
+import { AccountTypeState } from "redux/Pages/AccountType/AccountTypeSlice";
+import accountTypeSlice from "redux/Pages/AccountType/AccountTypeSlice";
+import { ContactState } from "redux/Pages/Contact/ContactSlice";
+import contactSlice from "redux/Pages/Contact/ContactSlice";
 
 type RootState = {
   login: LoginState;
@@ -49,6 +55,9 @@ type RootState = {
   calculate: CalculateItem;
   notifications: NotificationPropsState;
   vendor: VendorFormState;
+  account: AccountState;
+  accountType: AccountTypeState;
+  contact: ContactState;
 };
 const persistConfig = {
   key: "root",
@@ -69,6 +78,9 @@ const persistConfig = {
     "calculate",
     "notifications",
     "vendor",
+    "account",
+    "accountType",
+    "contact",
   ],
 };
 
@@ -87,6 +99,9 @@ const rootReducer = combineReducers({
   calculate: calculateItemSlice,
   notifications: adminNotificationSlice,
   vendor: vendorFormSlice,
+  account: accountSlice,
+  accountType: accountTypeSlice,
+  contact: contactSlice,
 });
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 const store = configureStore({

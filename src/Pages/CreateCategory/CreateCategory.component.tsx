@@ -74,6 +74,21 @@ const CreateCategory: FC<{}> = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
+  const convertImageToBase64 = (image: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.result) {
+        resolve(reader.result.toString());
+      } else {
+        reject(new Error("Failed to convert image to Base64"));
+      }
+    };
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(image);
+  });
+};
+
   //post category api
   const handleCategoryClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

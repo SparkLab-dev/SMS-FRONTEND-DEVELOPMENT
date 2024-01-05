@@ -40,7 +40,6 @@ import {
 //components
 import GenericButton from "Components/GenericButton/GenericButton.component";
 
-
 const ProductsTable: FC<{}> = () => {
   const navigate = useNavigate();
 
@@ -50,7 +49,6 @@ const ProductsTable: FC<{}> = () => {
     []
   );
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -104,7 +102,6 @@ const ProductsTable: FC<{}> = () => {
     console.log(product);
     navigate(`/productDetails/${product.id}`);
   };
-
 
   const buttonName = (
     <AddProductNameContainerPlusIcon>
@@ -183,21 +180,12 @@ const ProductsTable: FC<{}> = () => {
                     ))}
                   </TableCell>
                   <TableCell>
-                    {/* <EditButton onClick={() => handleEdit(rental)}>
-                      Edit
-                    </EditButton> */}
                     <ForwardIcon
                       color="primary"
                       fontSize="large"
                       onClick={() => handleGoToLinkClick(rental)}
                       style={{ cursor: "pointer" }}
                     />
-                    {/* <IconLink
-                      to=""
-                      onClick={() => handleDeleteProduct(rental.id)}
-                    >
-                      <DeleteIcon color="primary" fontSize="large" />
-                    </IconLink> */}
                   </TableCell>
                 </TableRow>
               ))}
@@ -205,7 +193,6 @@ const ProductsTable: FC<{}> = () => {
           </Table>
         </TableContainer>
       </TableAndDatepickerHolder>
-    
     </ProductsTableHolder>
   );
 };

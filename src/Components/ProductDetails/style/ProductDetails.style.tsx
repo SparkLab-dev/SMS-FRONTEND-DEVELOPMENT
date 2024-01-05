@@ -12,17 +12,44 @@ export const Productdetails = styled.div`
 export const ProductDetailsContentHolder = styled.div`
   width: 100%;
   height: 82%;
+  align-items: center;
   display: flex;
   flex-direction: column;
   flex: 1;
 `;
 export const ProductDetailsComponent = styled.div`
+  /* width: 100%;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0 17px 0; */
+  /* display: flex; */
+  /* flex: 1; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* width: 100%;
+  max-width: 750px;
+  box-shadow: 3px 3px 15px 5px rgb(0 0 0 / 15%);
+  border-radius: 10px;
+  background-color: #ffff;
+  overflow: scroll; */
+  /* height: 1000px; */
+  /* height: 100%;
+  max-height: 780px;
+  overflow-x: auto;
+  position: relative;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  } */
   width: 100%;
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: center;
-  margin: 10px 0 17px 0;
 `;
 export const ProductList = styled.div`
   box-shadow: 3px 3px 15px 5px rgb(0 0 0 / 15%);
@@ -31,6 +58,11 @@ export const ProductList = styled.div`
   width: 100%;
   height: fit-content;
   max-width: 750px;
+`;
+export const EditOrderTableName = styled.p`
+  font-family: "Poppins";
+  color: #0e53c5;
+  font-size: 30px;
 `;
 export const EditProductButton = styled.div`
   display: flex;

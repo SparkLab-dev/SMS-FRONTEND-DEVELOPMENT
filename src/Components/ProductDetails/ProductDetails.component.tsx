@@ -71,7 +71,7 @@ const ProductDetails: FC<{}> = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
-  //get vendor by id
+  //get products by id
   useEffect(() => {
     const fetchProduct = () => {
       if (productId) {
@@ -148,6 +148,7 @@ const ProductDetails: FC<{}> = () => {
         const updatedProductDetails = productDetails.map((product) =>
           product.id === selectedItem.id ? selectedItem : product
         );
+        console.log(selectedItem);
         setProductDetails(updatedProductDetails);
         setIsModalOpen(false);
       }
@@ -183,21 +184,20 @@ const ProductDetails: FC<{}> = () => {
                 <ProdDetailsHolder>
                   <ProdTextHolders>
                     <ProdDetailsHeaderText>Product Name</ProdDetailsHeaderText>
-                    <HorizontalLine />
+
                     <ProdDetailsHeaderText>Barcode</ProdDetailsHeaderText>
-                    <HorizontalLine />
+
                     <ProdDetailsHeaderText>
                       Stock Quantity
                     </ProdDetailsHeaderText>
-                    <HorizontalLine />
+
                     <ProdDetailsHeaderText>ThresHold</ProdDetailsHeaderText>
-                    <HorizontalLine />
+
                     <ProdDetailsHeaderText>
                       Product Category
                     </ProdDetailsHeaderText>
-                    <HorizontalLine />
+
                     <ProdDetailsHeaderText>Price</ProdDetailsHeaderText>
-                    <HorizontalLine />
                   </ProdTextHolders>
                   {productDetails.map((product: any, index: any) => (
                     <>
@@ -205,27 +205,26 @@ const ProductDetails: FC<{}> = () => {
                         <InformationOfProduct>
                           {product.name}
                         </InformationOfProduct>
-                        <HorizontalLine />
+
                         <InformationOfProduct>
                           {product.barcode}
                         </InformationOfProduct>
-                        <HorizontalLine />
+
                         <InformationOfProduct>
                           {product.stockQuantity}
                         </InformationOfProduct>
-                        <HorizontalLine />
+
                         <InformationOfProduct>
                           {product.threshold}
                         </InformationOfProduct>
-                        <HorizontalLine />
+
                         <InformationOfProduct>
                           {product.productCategory.name}
                         </InformationOfProduct>
-                        <HorizontalLine />
+
                         <InformationOfProduct>
                           {product.price}
                         </InformationOfProduct>
-                        <HorizontalLine />
                       </ProdTextHolders>
 
                       <ButtonsHolder>
@@ -261,10 +260,10 @@ const ProductDetails: FC<{}> = () => {
           setIsModalOpen(false);
           setSelectedItem(null);
         }}
-        headerContent={<EditProductTableName>Edit Item</EditProductTableName>}
+        headerContent={<EditProductTableName>Edit Product</EditProductTableName>}
         bodyContent={
           <>
-            <div>
+            
               <InputsOfProductTable>
                 <ProductInputHold>
                   <GenericInput
@@ -358,7 +357,7 @@ const ProductDetails: FC<{}> = () => {
                   />
                 </ProductInputHold>
               </InputsOfProductTable>
-            </div>
+      
           </>
         }
         footerContent={
