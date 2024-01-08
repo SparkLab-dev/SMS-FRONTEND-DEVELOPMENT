@@ -117,17 +117,7 @@ const ContactsTable: FC<{}> = () => {
                 <ContactsTableCell>
                   {contacts.address.country}
                 </ContactsTableCell>
-
                 <ContactsTableCell>
-                  {/* <ContactsIconLink
-                      to=""
-                      onClick={() => handleDeleteContacts(contacts.id)}
-                    >
-                      <DeleteIcon
-                        color="primary"
-                        style={{ fontSize: "30px" }}
-                      />
-                    </ContactsIconLink> */}
                   <ForwardIcon
                     color="primary"
                     fontSize="large"

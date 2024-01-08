@@ -1,16 +1,23 @@
+import { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+//style
 import {
   FormName,
   LabelDescriptionContainer,
   StyledSelect,
 } from "App/style/App.style";
-import { FC, useEffect, useState } from "react";
 import {
   GenericLeadSourceInputHold,
   InputsLeadSourceContainer,
   LeadSourceShipingAddressFormHolder,
 } from "./style/LeadSource.style";
+
+//components
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+
+//redux
 import {
   LeadRequestBody,
   addLead,
@@ -24,8 +31,8 @@ import {
   fetchAllProducts,
 } from "redux/Pages/Product/ProductSlice";
 
-
 const LeadSource: FC<{}> = () => {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [company, setCompany] = useState<string>("");
@@ -141,7 +148,6 @@ const LeadSource: FC<{}> = () => {
       );
       console.log("selectedProductId", selectedProductId);
 
-
       const leadSouceCredentials = {
         firstName: firstName,
         lastName: lastName,
@@ -184,7 +190,7 @@ const LeadSource: FC<{}> = () => {
       const response = await dispatch(addLead({ leadSouceCredentials }));
 
       if (addLead.fulfilled.match(response)) {
-        // navigate("/contactsTable");
+        navigate("/leadSourceTable");
         console.log("Lead  added!");
       }
     } catch (error) {

@@ -35,6 +35,8 @@ import ContactsTable from "Components/ContactsTable/ContactsTable.component";
 import ContactDetails from "Components/ContactDetails/ContactDetails.component";
 import { AccountB2CTableContainer } from "Components/AccountB2CTable/style/AccountB2CTable.style";
 import LeadSource from "Components/LeadSource/LeadSource.component";
+import LeadSourceTable from "Components/LeadSourceTable/LeadSourceTable.component";
+import LeadSourceDetails from "Components/LeadSourceDetails/LeadSourceDetails.component";
 
 const App: FC<{}> = () => {
   const logoProps = {
@@ -108,6 +110,11 @@ const App: FC<{}> = () => {
             <Route path="/contactsTable" element={<ContactsTable />} />
             <Route path="/contactDetails/:id" element={<ContactDetails />} />
             <Route path="/leadSource" element={<LeadSource />} />
+            <Route path="/leadSourceTable" element={<LeadSourceTable />} />
+            <Route
+              path="/leadSourceDetails/:id"
+              element={<LeadSourceDetails />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
