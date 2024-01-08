@@ -51,22 +51,7 @@ const ContactsTable: FC<{}> = () => {
       });
   }, [dispatch]);
 
-  //delete contact
-  //   const handleDeleteContacts = async (contactId: number) => {
-  //     try {
-  //       const result = await dispatch(deleteContact(contactId));
-  //       if (deleteContact.fulfilled.match(result)) {
-  //         console.log("Contact deleted successfully!");
-  //         setContacts((prevState) =>
-  //           prevState.filter((contact) => contact.id !== contactId)
-  //         );
-  //       } else {
-  //         console.error("Failed to delete contact");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error deleting contact:", error);
-  //     }
-  //   };
+
   const contactButtonName = (
     <ContactsAddProductNameContainerPlusIcon>
       <AddCircleOutlineIcon />

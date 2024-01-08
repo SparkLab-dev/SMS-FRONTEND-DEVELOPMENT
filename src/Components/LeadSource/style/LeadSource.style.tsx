@@ -18,8 +18,15 @@ export const GenericLeadSourceInputHold = styled.div`
 
 export const LeadSourceShipingAddressFormHolder = styled.div`
   width: 100%;
-  max-width: 550px;
+  max-width: 650px;
   margin: auto;
+  height: 80vh;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const LeadSourceBillingAddressFormHolder = styled.div`
   width: 100%;

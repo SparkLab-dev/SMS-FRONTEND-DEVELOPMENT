@@ -3,25 +3,35 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 //axios
 import axios from "axios";
 
+interface Address {
+  street: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+}
+
 export interface LeadRequestBody {
+  name: string;
+  id: number;
   firstName: string;
   lastName: string;
-  company: string | null;
+  company: string;
+  annualRevenue: number;
+  phone: string;
+  email: string;
+  website: string;
+  description: string;
   leadSource: {
     id: number;
     name: string;
   };
-  annualRevenue: number;
-  phone: string;
-  email: string;
-  website: string | null;
-  description: string;
   leadStatus: {
     id: number;
     name: string;
   };
   numberOfEmployees: number;
-  address: string | null;
+  address: Address;
   productInterest: {
     id: number;
     productName: string;
@@ -81,6 +91,40 @@ export const fetchLeads = createAsyncThunk<LeadRequestBody[]>(
   async () => {
     try {
       const response = await axios.get("http://192.168.10.210:8081/SMS/lead");
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
+//get lead source
+export const fetchLeadSource = createAsyncThunk<LeadRequestBody[]>(
+  "leadSource/getLeadSource",
+  async () => {
+    try {
+      const response = await axios.get(
+        "http://192.168.10.210:8081/SMS/leadSource"
+      );
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
+//get lead status
+export const fetchLeadStatus = createAsyncThunk<LeadRequestBody[]>(
+  "leadStatus/getLeadStatus",
+  async () => {
+    try {
+      const response = await axios.get(
+        "http://192.168.10.210:8081/SMS/leadStatus"
+      );
       console.log(response);
       return response.data;
     } catch (error) {
@@ -162,6 +206,24 @@ const leadSlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(deleteLead.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.leadSource = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(fetchLeadSource.fulfilled, (state, action) => {
+        state.leadSource = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(fetchLeadSource.rejected, (state, action) => {
+        state.isAuthenticated = false;
+        state.leadSource = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(fetchLeadStatus.fulfilled, (state, action) => {
+        state.leadSource = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(fetchLeadStatus.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.leadSource = null;
         state.error = action.payload as string | null;
