@@ -34,6 +34,7 @@ import {
   OrderDetails,
   fetchOrderDetails,
 } from "redux/Pages/Orders/OrdersSlice";
+import { Sidebar } from "statics/sidebar/style/Sidebar.style";
 
 const OrdersTable: FC<{}> = () => {
   const navigate = useNavigate();
@@ -52,10 +53,9 @@ const OrdersTable: FC<{}> = () => {
           // const orders = result.payload;
 
           setOrders(result.payload);
-        } 
+        }
       } catch (error) {
         console.error("Error fetching orders:", error);
-        
       }
     };
 
@@ -76,6 +76,9 @@ const OrdersTable: FC<{}> = () => {
 
   return (
     <OrdersTableContainer>
+      <div>
+        <Sidebar />
+      </div>
       <AddNewOrderButton>
         <GenericButton
           name={orderButtonName}

@@ -41,7 +41,7 @@ const LeadSourceDetails: FC<{}> = () => {
   const [leadSourceDetails, setLeadSourceDetails] = useState<LeadRequestBody[]>(
     []
   );
-  const [selectedLead, setSelectedLead] = useState<any>(null);
+  const [selectedLeadDetail, setSelectedLeadDetail] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedLeadSource, setSelectedLeadSource] = useState<number | null>(
     null
@@ -54,7 +54,7 @@ const LeadSourceDetails: FC<{}> = () => {
   const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
   const [getAllProducts, setGetAllProducts] = useState<ProductDetailss[]>([]);
 
-  console.log("selectedLead", selectedLead);
+  console.log("selectedLead", selectedLeadDetail);
   const dispatch: AppDispatch = useDispatch();
 
   //get userRole from redux
@@ -113,7 +113,7 @@ const LeadSourceDetails: FC<{}> = () => {
 
   const handleEdit = (lead: any) => {
     setIsModalOpen(true);
-    setSelectedLead(lead);
+    setSelectedLeadDetail(lead);
   };
 
   //get all lead source api call
@@ -197,29 +197,29 @@ const LeadSourceDetails: FC<{}> = () => {
       console.log("hiiiiiiii", selectedLead);
       const leadSouceCredentials = {
         id: leadDetailsId,
-        firstName: selectedLead.firstName,
-        lastName: selectedLead.lastName,
-        company: selectedLead.company,
+        firstName: selectedLeadDetail.firstName,
+        lastName: selectedLeadDetail.lastName,
+        company: selectedLeadDetail.company,
         leadSource: {
           id: selectedLeadSource,
           name: selectedLeadName,
         },
-        annualRevenue: selectedLead.annualRevenue,
-        phone: selectedLead.phone,
-        email: selectedLead.email,
-        website: selectedLead.website,
-        description: selectedLead.description,
+        annualRevenue: selectedLeadDetail.annualRevenue,
+        phone: selectedLeadDetail.phone,
+        email: selectedLeadDetail.email,
+        website: selectedLeadDetail.website,
+        description: selectedLeadDetail.description,
         leadStatus: {
           id: selectedLeadStatus,
           name: selectedStatusName,
         },
-        numberOfEmployees: selectedLead.numberOfEmployees,
+        numberOfEmployees: selectedLeadDetail.numberOfEmployees,
         address: {
-          street: selectedLead.address.street,
-          city: selectedLead.address.city,
-          state: selectedLead.address.state,
-          postalCode: selectedLead.address.postalCode,
-          country: selectedLead.address.country,
+          street: selectedLeadDetail.address.street,
+          city: selectedLeadDetail.address.city,
+          state: selectedLeadDetail.address.state,
+          postalCode: selectedLeadDetail.address.postalCode,
+          country: selectedLeadDetail.address.country,
         },
         productInterest: {
           id: selectedProduct,
@@ -236,20 +236,26 @@ const LeadSourceDetails: FC<{}> = () => {
         },
       };
       const response = await dispatch(addLead({ leadSouceCredentials }));
-
-      if (addLead.fulfilled.match(response)) {
-        const updatedLead = {
-          ...selectedLead, // Update with the modified contact details
-        };
-
-        const updatedLeads = leadSourceDetails.map((lead) =>
-          lead.id === leadDetailsId ? updatedLead : lead
+      if (response.payload) {
+        const updatedLeadDetails = leadSourceDetails.map((lead) =>
+          lead.id === selectedLeadDetail.accountId ? selectedLeadDetail : lead
         );
-
-        setLeadSource(updatedLeads); // Update the state with modified contacts
+        setLeadSourceDetails(updatedLeadDetails);
         setIsModalOpen(false);
-        console.log("Lead updated!");
       }
+      // if (addLead.fulfilled.match(response)) {
+      //   const updatedLead = {
+      //     ...selectedLead, // Update with the modified contact details
+      //   };
+
+      //   const updatedLeads = leadSourceDetails.map((lead) =>
+      //     lead.id === leadDetailsId ? updatedLead : lead
+      //   );
+
+      //   setLeadSource(updatedLeads);
+      //   setIsModalOpen(false);
+      //   console.log("Lead updated!");
+      // }
     } catch (error) {
       console.log("Error in handleLeadsClick:", error);
     }
@@ -343,287 +349,285 @@ const LeadSourceDetails: FC<{}> = () => {
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);
-          setSelectedLead(null);
+          setSelectedLeadDetail(null);
         }}
         headerContent={
-          <EditProductTableName>Edit Contact</EditProductTableName>
+          <EditProductTableName>Edit Lead Source</EditProductTableName>
         }
         bodyContent={
           <>
-            <div>
-              <InputsOfProductTable>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="FirstName"
-                    type="text"
-                    value={selectedLead?.firstName || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        firstName: e.target.value,
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="LastName"
-                    value={selectedLead?.lastName || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        lastName: e.target.value,
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-              </InputsOfProductTable>
+            <InputsOfProductTable>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="FirstName"
+                  type="text"
+                  value={selectedLeadDetail?.firstName || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      firstName: e.target.value,
+                    });
+                  }}
+                />
+              </ProductInputHold>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="LastName"
+                  value={selectedLeadDetail?.lastName || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      lastName: e.target.value,
+                    });
+                  }}
+                />
+              </ProductInputHold>
+            </InputsOfProductTable>
 
-              <InputsOfProductTable>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Company"
-                    value={selectedLead?.company || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        company: e.target.value,
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-                <ProductInputHold>
-                  <LabelDescriptionContainer>
-                    Lead Source
-                  </LabelDescriptionContainer>
-                  <StyledSelect
-                    value={
-                      selectedLeadSource !== null
-                        ? selectedLeadSource.toString()
-                        : ""
-                    }
-                    onChange={(e: any) => {
-                      const selectedLeadSourceId = Number(e.target.value);
-                      setSelectedLeadSource(selectedLeadSourceId);
-                    }}
-                  >
-                    <option value="none">Select an Option</option>
-                    {leadSource.map((lead: any, index: any) => (
-                      <option key={index} value={lead.id}>
-                        {lead.name}
-                      </option>
-                    ))}
-                  </StyledSelect>
-                </ProductInputHold>
-              </InputsOfProductTable>
-              <InputsOfProductTable>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Annual Revenue"
-                    value={selectedLead?.annualRevenue || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        annualRevenue: e.target.value,
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Phone"
-                    value={selectedLead?.phone || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        phone: e.target.value,
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-              </InputsOfProductTable>
-              <InputsOfProductTable>
+            <InputsOfProductTable>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Company"
+                  value={selectedLeadDetail?.company || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      company: e.target.value,
+                    });
+                  }}
+                />
+              </ProductInputHold>
+              <ProductInputHold>
+                <LabelDescriptionContainer>
+                  Lead Source
+                </LabelDescriptionContainer>
+                <StyledSelect
+                  value={
+                    selectedLeadSource !== null
+                      ? selectedLeadSource.toString()
+                      : ""
+                  }
+                  onChange={(e: any) => {
+                    const selectedLeadSourceId = Number(e.target.value);
+                    setSelectedLeadSource(selectedLeadSourceId);
+                  }}
+                >
+                  <option value="none">Select an Option</option>
+                  {leadSource.map((lead: any, index: any) => (
+                    <option key={index} value={lead.id}>
+                      {lead.name}
+                    </option>
+                  ))}
+                </StyledSelect>
+              </ProductInputHold>
+            </InputsOfProductTable>
+            <InputsOfProductTable>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Annual Revenue"
+                  value={selectedLeadDetail?.annualRevenue || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      annualRevenue: e.target.value,
+                    });
+                  }}
+                />
+              </ProductInputHold>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Phone"
+                  value={selectedLeadDetail?.phone || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      phone: e.target.value,
+                    });
+                  }}
+                />
+              </ProductInputHold>
+            </InputsOfProductTable>
+            <InputsOfProductTable>
+              {" "}
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Email"
+                  type="email"
+                  value={selectedLeadDetail?.email || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      email: e.target.value,
+                    });
+                  }}
+                />
+              </ProductInputHold>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Website"
+                  value={selectedLeadDetail?.website || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      website: e.target.value,
+                    });
+                  }}
+                />
+              </ProductInputHold>
+            </InputsOfProductTable>
+            <InputsOfProductTable>
+              {" "}
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Description "
+                  value={selectedLeadDetail?.description || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      description: e.target.value,
+                    });
+                  }}
+                />
+              </ProductInputHold>
+              <ProductInputHold>
+                <LabelDescriptionContainer>
+                  Lead Status
+                </LabelDescriptionContainer>
+                <StyledSelect
+                  value={
+                    selectedLeadStatus !== null
+                      ? selectedLeadStatus.toString()
+                      : ""
+                  }
+                  onChange={(e: any) => {
+                    const selectedLeadStatusId = Number(e.target.value);
+                    setSelectedLeadStatus(selectedLeadStatusId);
+                  }}
+                >
+                  <option value="none">Select an Option</option>
+                  {leadStatus.map((leadStatus: any, index: any) => (
+                    <option key={index} value={leadStatus.id}>
+                      {leadStatus.name}
+                    </option>
+                  ))}
+                </StyledSelect>
+              </ProductInputHold>
+            </InputsOfProductTable>
+            <InputsOfProductTable>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Employee Number"
+                  value={selectedLeadDetail?.numberOfEmployees || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      numberOfEmployees: e.target.value,
+                    });
+                  }}
+                />
+              </ProductInputHold>
+              <ProductInputHold>
                 {" "}
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Email"
-                    type="email"
-                    value={selectedLead?.email || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        email: e.target.value,
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Website"
-                    value={selectedLead?.website || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        website: e.target.value,
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-              </InputsOfProductTable>
-              <InputsOfProductTable>
-                {" "}
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Description "
-                    value={selectedLead?.description || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        description: e.target.value,
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-                <ProductInputHold>
-                  <LabelDescriptionContainer>
-                    Lead Status
-                  </LabelDescriptionContainer>
-                  <StyledSelect
-                    value={
-                      selectedLeadStatus !== null
-                        ? selectedLeadStatus.toString()
-                        : ""
-                    }
-                    onChange={(e: any) => {
-                      const selectedLeadStatusId = Number(e.target.value);
-                      setSelectedLeadStatus(selectedLeadStatusId);
-                    }}
-                  >
-                    <option value="none">Select an Option</option>
-                    {leadStatus.map((leadStatus: any, index: any) => (
-                      <option key={index} value={leadStatus.id}>
-                        {leadStatus.name}
-                      </option>
-                    ))}
-                  </StyledSelect>
-                </ProductInputHold>
-              </InputsOfProductTable>
-              <InputsOfProductTable>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Employee Number"
-                    value={selectedLead?.numberOfEmployees || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        numberOfEmployees: e.target.value,
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-                <ProductInputHold>
-                  {" "}
-                  <LabelDescriptionContainer>Product</LabelDescriptionContainer>
-                  <StyledSelect
-                    value={
-                      selectedProduct !== null ? selectedProduct.toString() : ""
-                    }
-                    onChange={(e: any) => {
-                      const selectedProductId = Number(e.target.value);
-                      setSelectedProduct(selectedProductId);
-                    }}
-                  >
-                    <option value="none">Select an Option</option>
-                    {getAllProducts.map((product: any, index: any) => (
-                      <option key={index} value={product.id}>
-                        {product.name}
-                      </option>
-                    ))}
-                  </StyledSelect>
-                </ProductInputHold>
-              </InputsOfProductTable>
-              <InputsOfProductTable>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Street"
-                    value={selectedLead?.address.street || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        address: {
-                          ...selectedLead.address,
-                          street: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="City "
-                    value={selectedLead?.address.city || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        address: {
-                          ...selectedLead.address,
-                          city: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-              </InputsOfProductTable>
-              <InputsOfProductTable>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="State"
-                    value={selectedLead?.address.state || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        address: {
-                          ...selectedLead.address,
-                          state: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Postal Code "
-                    value={selectedLead?.address.postalCode || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        address: {
-                          ...selectedLead.address,
-                          postalCode: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-              </InputsOfProductTable>
-              <InputsOfProductTable>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Country"
-                    value={selectedLead?.address.country || ""}
-                    onChange={(e: any) => {
-                      setSelectedLead({
-                        ...selectedLead,
-                        address: {
-                          ...selectedLead.address,
-                          country: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-              </InputsOfProductTable>
-            </div>
+                <LabelDescriptionContainer>Product</LabelDescriptionContainer>
+                <StyledSelect
+                  value={
+                    selectedProduct !== null ? selectedProduct.toString() : ""
+                  }
+                  onChange={(e: any) => {
+                    const selectedProductId = Number(e.target.value);
+                    setSelectedProduct(selectedProductId);
+                  }}
+                >
+                  <option value="none">Select an Option</option>
+                  {getAllProducts.map((product: any, index: any) => (
+                    <option key={index} value={product.id}>
+                      {product.name}
+                    </option>
+                  ))}
+                </StyledSelect>
+              </ProductInputHold>
+            </InputsOfProductTable>
+            <InputsOfProductTable>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Street"
+                  value={selectedLeadDetail?.address.street || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      address: {
+                        ...selectedLeadDetail.address,
+                        street: e.target.value,
+                      },
+                    });
+                  }}
+                />
+              </ProductInputHold>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="City "
+                  value={selectedLeadDetail?.address.city || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      address: {
+                        ...selectedLeadDetail.address,
+                        city: e.target.value,
+                      },
+                    });
+                  }}
+                />
+              </ProductInputHold>
+            </InputsOfProductTable>
+            <InputsOfProductTable>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="State"
+                  value={selectedLeadDetail?.address.state || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      address: {
+                        ...selectedLeadDetail.address,
+                        state: e.target.value,
+                      },
+                    });
+                  }}
+                />
+              </ProductInputHold>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Postal Code "
+                  value={selectedLeadDetail?.address.postalCode || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      address: {
+                        ...selectedLeadDetail.address,
+                        postalCode: e.target.value,
+                      },
+                    });
+                  }}
+                />
+              </ProductInputHold>
+            </InputsOfProductTable>
+            <InputsOfProductTable>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Country"
+                  value={selectedLeadDetail?.address.country || ""}
+                  onChange={(e: any) => {
+                    setSelectedLeadDetail({
+                      ...selectedLeadDetail,
+                      address: {
+                        ...selectedLeadDetail.address,
+                        country: e.target.value,
+                      },
+                    });
+                  }}
+                />
+              </ProductInputHold>
+            </InputsOfProductTable>
           </>
         }
         footerContent={

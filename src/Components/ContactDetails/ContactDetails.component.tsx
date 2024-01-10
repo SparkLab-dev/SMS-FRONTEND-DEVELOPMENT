@@ -51,7 +51,10 @@ const TableCell = styled.div`
   border: 1px solid #000;
   padding: 5px 10px;
   height: 39px;
-  width: 250px;
+  max-width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const ContactDetails: FC<{}> = () => {

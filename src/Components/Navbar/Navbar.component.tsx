@@ -3,28 +3,29 @@ import { useNavigate } from "react-router";
 
 //style
 import {
-  HR,
   Header,
-  ListItem,
   LogoName,
   LogoutButton,
-  NavCartCount,
-  NavImage,
-  NavLink,
   NavLoginCart,
   NavbarLogo,
-  ShoppingCart,
-  UnorderedList,
 } from "./style/Navbar.style";
 
+//mui icons
+import MenuIcon from "@mui/icons-material/Menu";
+import StoreIcon from "@mui/icons-material/Store";
 
 //redux
 import { useSelector } from "react-redux";
 import { RootState } from "redux/store";
 
-const Navbar: FC<{}> = () => {
+interface NavbarProps {
+  toggleSidebar: () => void;
+}
+
+const Navbar: FC<NavbarProps> = ({ toggleSidebar }) => {
   const navigate = useNavigate();
   const [menu, setMenu] = useState("shop");
+  const [showMenu, setShowMenu] = useState(false);
   const Shop = require("./assets/AccountIcon.png") as string;
 
   //get userRole from redux
@@ -47,76 +48,33 @@ const Navbar: FC<{}> = () => {
   const handleLogin = () => {
     navigate("/login");
   };
+
   return (
     <Header>
-      <NavLink to="/">
+      <div style={{ display: "flex", cursor: "pointer" }}>
+        {" "}
+        <MenuIcon
+          onClick={toggleSidebar}
+          fontSize="large"
+          style={{ marginTop: "2px", paddingLeft: "10px" }}
+        />
         <NavbarLogo>
-          <NavImage src={Shop} alt="shop-photo" />
+          {/* <NavImage src={Shop} alt="shop-photo" /> */}
+          <StoreIcon
+            style={{ marginTop: "2px", paddingLeft: "10px", color: "#0e53c5" }}
+            fontSize="large"
+          />
           <LogoName>SMS</LogoName>
         </NavbarLogo>
-      </NavLink>
-      <UnorderedList>
-        {userRole === "ADMIN" && (
-          <>
-            <NavLink to="/home" onClick={() => setMenu("shop")}>
-              <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
-            </NavLink>
-            <NavLink
-              to="/adminNotification"
-              onClick={() => setMenu("notification")}
-            >
-              <ListItem>
-                Notification{menu === "notification" ? <HR /> : <></>}
-              </ListItem>
-            </NavLink>
-            <NavLink to="/vendorTable" onClick={() => setMenu("vendor")}>
-              <ListItem>Vendor{menu === "vendor" ? <HR /> : <></>}</ListItem>
-            </NavLink>
-          </>
-        )}
-
-        {userRole === "EMPLOYEE" && (
-          <>
-            <NavLink to="/orderTable" onClick={() => setMenu("orderTable")}>
-              <ListItem>
-                Order Table{menu === "orderTable" ? <HR /> : <></>}
-              </ListItem>
-            </NavLink>
-            <NavLink to="/table" onClick={() => setMenu("bicycle")}>
-              <ListItem>
-                Product table{menu === "bicycle" ? <HR /> : <></>}
-              </ListItem>
-            </NavLink>
-            <NavLink to="/getCategory" onClick={() => setMenu("category")}>
-              <ListItem>
-                Category{menu === "category" ? <HR /> : <></>}
-              </ListItem>
-            </NavLink>
-            <NavLink to="/accountB2BTable" onClick={() => setMenu("account")}>
-              <ListItem>Account{menu === "account" ? <HR /> : <></>}</ListItem>
-            </NavLink>
-            <NavLink to="/contactsTable" onClick={() => setMenu("contact")}>
-              <ListItem>Contact{menu === "contact" ? <HR /> : <></>}</ListItem>
-            </NavLink>
-          </>
-        )}
-        {userRole === "CUSTOMER" && (
-          <NavLink to="/home" onClick={() => setMenu("shop")}>
-            <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
-          </NavLink>
-        )}
-      </UnorderedList>
-      {/* <div style={{ display: "flex" }}>
-        <MenuIcon />
-      </div> */}
+      </div>
       <NavLoginCart>
         {isLoggedIn ? (
           <LogoutButton onClick={handleLogout}>Log out</LogoutButton>
         ) : (
           <LogoutButton onClick={handleLogin}>Log in</LogoutButton>
         )}
-        <ShoppingCart style={{ fontSize: "30px" }} />
-        <NavCartCount>0</NavCartCount>
+        {/* <ShoppingCart style={{ fontSize: "30px" }} />
+        <NavCartCount>0</NavCartCount> */}
       </NavLoginCart>
     </Header>
   );

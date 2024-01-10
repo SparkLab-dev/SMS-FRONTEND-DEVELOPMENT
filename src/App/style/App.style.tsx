@@ -6,7 +6,7 @@ import { RefObject } from "react";
 
 //outlet
 export const Page = styled.div`
-  width: 100%;
+  /* width: 100%; */
   height: 100vh;
   display: flex;
   flex-direction: column;

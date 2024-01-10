@@ -51,11 +51,11 @@ export const ContactsTH = styled.th``;
 export const ContactsTableBody = styled.tbody``;
 export const ContactsTableCell = styled.td`
   border: 1px solid #3746673b;
-  text-align: center;
-  padding: 6px;
-  font-family: "Poppins";
-  font-size: 15px;
+  padding: 5px 10px;
+  height: 39px;
+  max-width: 250px;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 `;
 export const ContactsEditButton = styled.button`

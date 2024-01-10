@@ -3,14 +3,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 //axios
 import axios from "axios";
 
-interface Address {
-  street: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
-}
-
 export interface LeadRequestBody {
   name: string;
   id: number;
@@ -31,7 +23,14 @@ export interface LeadRequestBody {
     name: string;
   };
   numberOfEmployees: number;
-  address: Address;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  };
+
   productInterest: {
     id: number;
     productName: string;
