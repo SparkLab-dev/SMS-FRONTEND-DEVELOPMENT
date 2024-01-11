@@ -37,6 +37,7 @@ import { AccountB2CTableContainer } from "Components/AccountB2CTable/style/Accou
 import LeadSource from "Components/LeadSource/LeadSource.component";
 import LeadSourceTable from "Components/LeadSourceTable/LeadSourceTable.component";
 import LeadSourceDetails from "Components/LeadSourceDetails/LeadSourceDetails.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const App: FC<{}> = () => {
   const logoProps = {
@@ -50,6 +51,7 @@ const App: FC<{}> = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<OutletPage />}>
+            <Route element={<SnackBarList />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route

@@ -36,9 +36,12 @@ import {
   ShopCategoryProductProps,
   fetchShopProductCategory,
 } from "redux/Pages/ShopCategory/ShopCategorySlice";
+// Import necessary actions
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 //components
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const ProductsTable: FC<{}> = () => {
   const navigate = useNavigate();
@@ -64,6 +67,13 @@ const ProductsTable: FC<{}> = () => {
           if (categories.length > 0) {
             // Set the selected category to the first category ID
             setSelectedCategory(categories[0].id);
+            dispatch(
+              addSnackbar({
+                id: "success",
+                type: "success",
+                message: "Categories loaded successfully.",
+              })
+            );
           }
         } else {
           console.error("Product categories not found.");
@@ -71,6 +81,13 @@ const ProductsTable: FC<{}> = () => {
       })
       .catch((error: any) => {
         console.error("Error fetching product categories:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching product categories.",
+          })
+        );
       });
   }, [dispatch]);
   console.log("productCategory", productCategory);
@@ -111,89 +128,94 @@ const ProductsTable: FC<{}> = () => {
   );
 
   return (
-    <ProductsTableHolder>
-      <AddNewProductButton>
-        <GenericButton
-          name={buttonName}
-          onClick={() => navigate("/productForm")}
-        />
-      </AddNewProductButton>
-      <TableAndDatepickerHolder>
-        <DropdownOfProductCategory>
-          <StyledSelect
-            value={selectedCategory !== null ? selectedCategory.toString() : ""}
-            onChange={(e: any) => setSelectedCategory(Number(e.target.value))}
-          >
-            <SelectOption defaultValue="none">Select an Option</SelectOption>
-            {productCategory.map((role) => (
-              <option key={role.id} value={role.id}>
-                {role.name}
-              </option>
-            ))}
-          </StyledSelect>
-        </DropdownOfProductCategory>
-
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TH>Product Image</TH>
-                <TH>Name</TH>
-                <TH>Barcode</TH>
-                <TH>Stock Quantity</TH>
-                <TH>THresHold</TH>
-                <TH>Product Category</TH>
-                <TH>Price</TH>
-                <TH>Attribute Name</TH>
-                <TH>Attribute Value</TH>
-                <TH>Product Details</TH>
-              </TableRow>
-            </TableHead>
-            <Tbody>
-              {shopCategory.map((rental: any, index: any) => (
-                <TableRow key={index}>
-                  <TableCell>
-                    {rental.primaryImage && (
-                      <ProductImage
-                        src={`data:image/jpeg;base64,${rental.primaryImage}`}
-                      />
-                    )}
-                  </TableCell>
-                  <TableCell>{rental.name}</TableCell>
-                  <TableCell>{rental.barcode}</TableCell>
-                  <TableCell> {rental.stockQuantity} </TableCell>
-                  <TableCell> {rental.threshold} </TableCell>
-                  <TableCell> {rental.productCategory.name} </TableCell>
-                  <TableCell> ${rental.price} </TableCell>
-                  <TableCell>
-                    {rental.attributes.map((attr: any, attrIndex: any) => (
-                      <div key={attrIndex}>
-                        <p>{attr.attributeName}</p>
-                      </div>
-                    ))}
-                  </TableCell>
-                  <TableCell>
-                    {rental.attributes.map((attr: any, attrIndex: any) => (
-                      <div key={attrIndex}>
-                        <p>{attr.attributeValue}</p>
-                      </div>
-                    ))}
-                  </TableCell>
-                  <TableCell>
-                    <ForwardIcon
-                      color="primary"
-                      fontSize="large"
-                      onClick={() => handleGoToLinkClick(rental)}
-                      style={{ cursor: "pointer" }}
-                    />
-                  </TableCell>
-                </TableRow>
+    <>
+      <ProductsTableHolder>
+        <AddNewProductButton>
+          <GenericButton
+            name={buttonName}
+            onClick={() => navigate("/productForm")}
+          />
+        </AddNewProductButton>
+        <TableAndDatepickerHolder>
+          <DropdownOfProductCategory>
+            <StyledSelect
+              value={
+                selectedCategory !== null ? selectedCategory.toString() : ""
+              }
+              onChange={(e: any) => setSelectedCategory(Number(e.target.value))}
+            >
+              <SelectOption defaultValue="none">Select an Option</SelectOption>
+              {productCategory.map((role) => (
+                <option key={role.id} value={role.id}>
+                  {role.name}
+                </option>
               ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </TableAndDatepickerHolder>
-    </ProductsTableHolder>
+            </StyledSelect>
+          </DropdownOfProductCategory>
+
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TH>Product Image</TH>
+                  <TH>Name</TH>
+                  <TH>Barcode</TH>
+                  <TH>Stock Quantity</TH>
+                  <TH>THresHold</TH>
+                  <TH>Product Category</TH>
+                  <TH>Price</TH>
+                  <TH>Attribute Name</TH>
+                  <TH>Attribute Value</TH>
+                  <TH>Product Details</TH>
+                </TableRow>
+              </TableHead>
+              <Tbody>
+                {shopCategory.map((rental: any, index: any) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      {rental.primaryImage && (
+                        <ProductImage
+                          src={`data:image/jpeg;base64,${rental.primaryImage}`}
+                        />
+                      )}
+                    </TableCell>
+                    <TableCell>{rental.name}</TableCell>
+                    <TableCell>{rental.barcode}</TableCell>
+                    <TableCell> {rental.stockQuantity} </TableCell>
+                    <TableCell> {rental.threshold} </TableCell>
+                    <TableCell> {rental.productCategory.name} </TableCell>
+                    <TableCell> ${rental.price} </TableCell>
+                    <TableCell>
+                      {rental.attributes.map((attr: any, attrIndex: any) => (
+                        <div key={attrIndex}>
+                          <p>{attr.attributeName}</p>
+                        </div>
+                      ))}
+                    </TableCell>
+                    <TableCell>
+                      {rental.attributes.map((attr: any, attrIndex: any) => (
+                        <div key={attrIndex}>
+                          <p>{attr.attributeValue}</p>
+                        </div>
+                      ))}
+                    </TableCell>
+                    <TableCell>
+                      <ForwardIcon
+                        color="primary"
+                        fontSize="large"
+                        onClick={() => handleGoToLinkClick(rental)}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        </TableAndDatepickerHolder>
+      </ProductsTableHolder>
+      <SnackBarList />
+    </>
   );
 };
 

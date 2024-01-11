@@ -45,7 +45,7 @@ export const CenterUl = styled.ul`
 export const CenterLi = styled.li`
   display: flex;
   align-items: center;
-  padding: 15px ;
+  padding: 15px;
   cursor: pointer;
 
   &:hover {
