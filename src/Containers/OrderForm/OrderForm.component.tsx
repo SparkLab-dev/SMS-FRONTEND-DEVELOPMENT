@@ -41,6 +41,9 @@ import {
   Account,
   fetchAccountDetails,
 } from "redux/Containers/Account/AccountSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
+import { Asterik } from "Components/GenericInput/style/GenericInput.style";
 
 const OrderForm: FC<{}> = () => {
   const navigate = useNavigate();
@@ -96,12 +99,15 @@ const OrderForm: FC<{}> = () => {
           const orders = result.payload.flat();
 
           setGetAllProducts(orders);
-        } else {
-          setError("Error fetching orders. Please try again later!");
         }
       } catch (error) {
-        console.error("Error fetching orders:", error);
-        setError("Error fetching orders. Please try again later!");
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching products. Please try again later!",
+          })
+        );
       }
     };
 
@@ -128,7 +134,13 @@ const OrderForm: FC<{}> = () => {
 
     try {
       if (!selectedProduct || selectedProduct.id === undefined) {
-        console.error("No product selected or invalid product ID.");
+        dispatch(
+          addSnackbar({
+            id: "warning",
+            type: "warning",
+            message: "No product selected or invalid product ID!",
+          })
+        );
         return;
       }
 
@@ -158,6 +170,8 @@ const OrderForm: FC<{}> = () => {
         const { orderItemList, totalPrice: calculatedTotal } = response.payload;
         setQuantity("");
         setUnitPrice("");
+        setSelectedProduct(null);
+        // setSelectedAccount(null);
 
         orderItemList.forEach((item: any) => {
           const newItem = {
@@ -183,7 +197,13 @@ const OrderForm: FC<{}> = () => {
         setTotalPrice(total.toFixed(2));
       }
     } catch (error) {
-      console.log("Error in calculate item click:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error in calculate item click!",
+        })
+      );
     }
   };
 
@@ -197,12 +217,15 @@ const OrderForm: FC<{}> = () => {
           const accounts = result.payload.flat();
 
           setAccount(accounts);
-        } else {
-          setError("Error fetching accounts. Please try again later!");
         }
       } catch (error) {
-        console.error("Error fetching accounts:", error);
-        setError("Error fetching accounts. Please try again later!");
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching accounts. Please try again later!",
+          })
+        );
       }
     };
 
@@ -215,6 +238,24 @@ const OrderForm: FC<{}> = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
+    // if (
+    //   !postalCode ||
+    //   !account ||
+    //   !quantity ||
+    //   !unitPrice ||
+    //   !selectedProduct ||
+    //   !selectedAccount ||
+    //   !selectedCategory
+    // ) {
+    //   dispatch(
+    //     addSnackbar({
+    //       id: "warning",
+    //       type: "warning",
+    //       message: "Please complete the required fields!",
+    //     })
+    //   );
+    //   return;
+    // }
     try {
       const lastAddedItem = addedItems[addedItems.length - 1];
 
@@ -251,11 +292,23 @@ const OrderForm: FC<{}> = () => {
       const response = await dispatch(orderForm({ userCredentials }));
 
       if (orderForm.fulfilled.match(response)) {
-        navigate("/orderTable");
-        console.log("Order added!");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Order added successfully!",
+          })
+        );
       }
+      navigate("/orderTable");
     } catch (error) {
-      console.log("Error in handleOrderClick:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error on adding order!",
+        })
+      );
     }
   };
 
@@ -280,6 +333,7 @@ const OrderForm: FC<{}> = () => {
             <GenericInput
               placeholder="Postal Code"
               input_label="Postal Code"
+              asterik="*"
               required={true}
               type="number"
               value={postalCode || ""}
@@ -343,7 +397,9 @@ const OrderForm: FC<{}> = () => {
         </OrderFormInputsHolder>
         <OrderFormInputsHolder>
           <OrderInputContainer>
-            <LabelDescriptionContainer>Account</LabelDescriptionContainer>
+            <LabelDescriptionContainer>
+              Account<Asterik>*</Asterik>
+            </LabelDescriptionContainer>
             <StyledSelect
               value={selectedAccount !== null ? selectedAccount.toString() : ""}
               onChange={(e: any) => {
@@ -364,7 +420,9 @@ const OrderForm: FC<{}> = () => {
         </OrderFormInputsHolder>
         <OrderFormInputsHolder>
           <OrderInputContainer>
-            <LabelDescriptionContainer>Products</LabelDescriptionContainer>
+            <LabelDescriptionContainer>
+              Products<Asterik>*</Asterik>
+            </LabelDescriptionContainer>
             <StyledSelect
               value={
                 selectedCategory !== null ? selectedCategory.toString() : ""
@@ -387,6 +445,7 @@ const OrderForm: FC<{}> = () => {
             <GenericInput
               placeholder="Quantity"
               input_label="Quantity"
+              asterik="*"
               required={true}
               type="number"
               value={quantity || ""}
@@ -401,6 +460,7 @@ const OrderForm: FC<{}> = () => {
             <GenericInput
               placeholder="Unit Price"
               input_label="Unit Price"
+              asterik="*"
               required={true}
               type="number"
               value={unitPrice || ""}
@@ -439,6 +499,7 @@ const OrderForm: FC<{}> = () => {
           </ProductsTableBody>
         </Table>
       </OrderFormTableContainer>
+      <SnackBarList />
     </OrderTable>
   );
 };

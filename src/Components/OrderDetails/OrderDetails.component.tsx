@@ -49,6 +49,8 @@ import {
   Account,
   fetchAccountDetails,
 } from "redux/Containers/Account/AccountSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const OrderDetailsComponent: FC<{}> = () => {
   const navigate = useNavigate();
@@ -79,7 +81,13 @@ const OrderDetailsComponent: FC<{}> = () => {
             }
           })
           .catch((error: any) => {
-            console.error("Error fetching  product details:", error);
+            dispatch(
+              addSnackbar({
+                id: "error",
+                type: "error",
+                message: "Error fetching  product details!",
+              })
+            );
           });
       }
     };
@@ -100,7 +108,13 @@ const OrderDetailsComponent: FC<{}> = () => {
           setAccount(accounts);
         }
       } catch (error) {
-        console.error("Error fetching accounts:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching accounts!",
+          })
+        );
       }
     };
 
@@ -167,11 +181,25 @@ const OrderDetailsComponent: FC<{}> = () => {
         );
         console.log(selectedItem);
         setOrders(updatedOrderDetails);
+
         // localStorage.setItem("orders", JSON.stringify(updatedOrderDetails));
         setIsModalOpen(false);
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Order edited successfully!",
+          })
+        );
       }
     } catch (error) {
-      console.log("Error in handleOrderClick:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error editing order!",
+        })
+      );
     }
   };
 
@@ -184,12 +212,23 @@ const OrderDetailsComponent: FC<{}> = () => {
         setOrders((prevState) =>
           prevState.filter((order) => order.id !== orderId)
         );
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Order deleted successfully!",
+          })
+        );
         navigate("/orderTable");
-      } else {
-        console.error("Failed to delete order");
       }
     } catch (error) {
-      console.error("Error deleting order:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting order!",
+        })
+      );
     }
   };
   return (
@@ -502,6 +541,7 @@ const OrderDetailsComponent: FC<{}> = () => {
         }
       />
       <ProductsOfOrder />
+      <SnackBarList />
     </Orderdetails>
   );
 };

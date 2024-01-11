@@ -1,4 +1,7 @@
 import { FC, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+//style
 import {
   EditIconMui,
   ProductsOfOrderContentHolder,
@@ -16,7 +19,15 @@ import {
   EditProductDetailsButtonNameContainer,
   EditProductText,
 } from "Components/ProductDetails/style/ProductDetails.style";
+import {
+  InputsOfModalHolder,
+  ModalInputHolder,
+  ModalSaveButtonHolder,
+} from "Components/OrdersTable/style/OrdersTable.style";
+import { LabelDescriptionContainer, StyledSelect } from "App/style/App.style";
 import { DeleteIconInAttributesHold } from "Components/ProductAttributes/style/ProductAttributes.style";
+
+//redux
 import {
   OrderDetails,
   addOrderItem,
@@ -25,22 +36,19 @@ import {
 } from "redux/Pages/Orders/OrdersSlice";
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Popup from "Components/Popup/Popup.component";
-import {
-  InputsOfModalHolder,
-  ModalInputHolder,
-  ModalSaveButtonHolder,
-} from "Components/OrdersTable/style/OrdersTable.style";
-import GenericInput from "Components/GenericInput/GenericInput.component";
-import GenericButton from "Components/GenericButton/GenericButton.component";
 import {
   ProductDetailss,
   fetchAllProducts,
 } from "redux/Pages/Product/ProductSlice";
-import { LabelDescriptionContainer, StyledSelect } from "App/style/App.style";
-// import { calculateItem } from "redux/Containers/CalculateItem/CalculateItemSlice";
-import { useParams } from "react-router-dom";
+
+//mui icons
+import DeleteIcon from "@mui/icons-material/Delete";
+
+//components
+import Popup from "Components/Popup/Popup.component";
+import GenericInput from "Components/GenericInput/GenericInput.component";
+import GenericButton from "Components/GenericButton/GenericButton.component";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 const ProductsOfOrder: FC<{}> = () => {
   const [orders, setOrders] = useState<OrderDetails[]>([]);
@@ -55,7 +63,7 @@ const ProductsOfOrder: FC<{}> = () => {
   const [selectedProduct, setSelectedProduct] =
     useState<ProductDetailss | null>(null);
   console.log(selectedProduct);
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  // const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   // const [addedItems, setAddedItems] = useState<
   //   {
   //     productName: string;
@@ -75,8 +83,8 @@ const ProductsOfOrder: FC<{}> = () => {
   //     unitPrice: string;
   //   }[]
   // >([]);
-  const [selectedOrderItemDetails, setSelectedOrderItemDetails] =
-    useState<any>(null);
+  // const [selectedOrderItemDetails, setSelectedOrderItemDetails] =
+  //   useState<any>(null);
   const { orderId } = useParams();
   const orderID = orderId ? parseInt(orderId) : 0;
   console.log("orderId", orderId);
@@ -93,7 +101,13 @@ const ProductsOfOrder: FC<{}> = () => {
             setOrders(result.payload);
           }
         } catch (error) {
-          console.error("Error fetching product details:", error);
+          dispatch(
+            addSnackbar({
+              id: "error",
+              type: "error",
+              message: "Error fetching product details!",
+            })
+          );
         }
       }
     };
@@ -149,10 +163,23 @@ const ProductsOfOrder: FC<{}> = () => {
             .then((result: any) => {
               if (fetchOrderDetailsById.fulfilled.match(result)) {
                 setOrders(result.payload);
+                dispatch(
+                  addSnackbar({
+                    id: "attributeSuccess",
+                    type: "success",
+                    message: "Order product added successfully!",
+                  })
+                );
               }
             })
             .catch((error: any) => {
-              console.error("Error fetching product details:", error);
+              dispatch(
+                addSnackbar({
+                  id: "error",
+                  type: "error",
+                  message: "Error adding order product!",
+                })
+              );
             });
         }
       } else {
@@ -174,7 +201,13 @@ const ProductsOfOrder: FC<{}> = () => {
         );
 
         if (addOrderItem.fulfilled.match(response)) {
-          console.log("New item added successfully!");
+          dispatch(
+            addSnackbar({
+              id: "attributeSuccess",
+              type: "success",
+              message: "New item added successfully!",
+            })
+          );
           setIsModalOpen(false);
 
           dispatch(fetchOrderDetailsById(orderID))
@@ -184,12 +217,24 @@ const ProductsOfOrder: FC<{}> = () => {
               }
             })
             .catch((error: any) => {
-              console.error("Error fetching product details:", error);
+              dispatch(
+                addSnackbar({
+                  id: "error",
+                  type: "error",
+                  message: "Error adding new item!",
+                })
+              );
             });
         }
       }
     } catch (error) {
-      console.error("Save edited value failed!", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Save edited value failed!",
+        })
+      );
     }
   };
 
@@ -206,6 +251,13 @@ const ProductsOfOrder: FC<{}> = () => {
             console.log(result);
             if (fetchOrderDetailsById.fulfilled.match(result)) {
               setOrders(result.payload);
+              dispatch(
+                addSnackbar({
+                  id: "attributeSuccess",
+                  type: "success",
+                  message: "Item deleted successfully!",
+                })
+              );
             }
           })
           .catch((error: any) => {
@@ -213,6 +265,13 @@ const ProductsOfOrder: FC<{}> = () => {
           });
       }
     } catch (error) {
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting order item!",
+        })
+      );
       console.error("Error deleting attribute:", error);
     }
   };

@@ -47,6 +47,7 @@ import {
 import Popup from "Components/Popup/Popup.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 const ProductAttributes: FC<{}> = () => {
   const [attributeName, setAttributeName] = useState<string>("");
@@ -95,14 +96,33 @@ const ProductAttributes: FC<{}> = () => {
             console.log(result);
             if (fetchProductDetails.fulfilled.match(result)) {
               setProductAttributes(result.payload);
+              dispatch(
+                addSnackbar({
+                  id: "attributeSuccess",
+                  type: "success",
+                  message: "Attribute deleted successfully!",
+                })
+              );
             }
           })
           .catch((error: any) => {
-            console.error("Error fetching product details:", error);
+            dispatch(
+              addSnackbar({
+                id: "error",
+                type: "error",
+                message: "Error deleting product attribute!",
+              })
+            );
           });
       }
     } catch (error) {
-      console.error("Error deleting attribute:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting product attribute!",
+        })
+      );
     }
   };
 
@@ -156,10 +176,23 @@ const ProductAttributes: FC<{}> = () => {
           .then((result: any) => {
             if (fetchProductDetails.fulfilled.match(result)) {
               setProductAttributes(result.payload);
+              dispatch(
+                addSnackbar({
+                  id: "attributeSuccess",
+                  type: "success",
+                  message: "Attribute added successfully!",
+                })
+              );
             }
           })
           .catch((error: any) => {
-            console.error("Error fetching product details:", error);
+            dispatch(
+              addSnackbar({
+                id: "error",
+                type: "error",
+                message: "Error adding product attribute!",
+              })
+            );
           });
       }
     } catch (error) {
@@ -168,7 +201,7 @@ const ProductAttributes: FC<{}> = () => {
   };
 
   const handleEdit = (selectedAttribute: any) => {
-    console.log(selectedAttribute)
+    console.log(selectedAttribute);
     setSelectedItem(selectedAttribute);
     setAttributeName(selectedAttribute?.attributeName || "");
     setAttributeValue(selectedAttribute?.attributeValue || "");

@@ -17,6 +17,7 @@ import { AppDispatch } from "redux/store";
 //style
 import {
   AddButton,
+  AsterikCategory,
   ButtonHold,
   GenericInputHold,
   InputsTableFormContainer,
@@ -38,6 +39,8 @@ import {
 import UploadPhoto from "Components/UploadPhoto/UploadPhoto.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 interface LogoProps {
   profilePhoto: string;
@@ -66,9 +69,15 @@ const ProductForm: FC<LogoProps> = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
+  //add attribute
   const handleAttributeAddition = (e: any) => {
     e.preventDefault();
 
+    if (newAttributeName.trim() === "" || newAttributeValue.trim() === "") {
+      // Display an error message or handle the situation accordingly
+      console.log("Attribute name and value are required.");
+      return;
+    }
     const newAttribute = {
       attributeName: newAttributeName,
       attributeValue: newAttributeValue,
@@ -76,14 +85,48 @@ const ProductForm: FC<LogoProps> = () => {
 
     const updatedAttributes = [...productAttributes, newAttribute];
     setProductAttributes(updatedAttributes);
-    // setNewAttributeName("");
-    // setNewAttributeValue("");
+    setNewAttributeName("");
+    setNewAttributeValue("");
+    dispatch(
+      addSnackbar({
+        id: "attributeSuccess",
+        type: "success",
+        message:
+          "Attribute added successfully! You can add another if is needed!",
+      })
+    );
   };
-  console.log("productAttributes", productAttributes);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    if (!barCode || !/^\d{12}$/.test(barCode)) {
+      dispatch(
+        addSnackbar({
+          id: "warning",
+          type: "warning",
+          message: "Please enter a valid 12-digit barcode.",
+        })
+      );
+      return;
+    }
+    if (
+      !productName ||
+      !barCode ||
+      !stockQuantity ||
+      !stockQuantity ||
+      !price ||
+      !threshold ||
+      !selectedCategory
+    ) {
+      dispatch(
+        addSnackbar({
+          id: "warning",
+          type: "warning",
+          message: "Please complete the required fields!",
+        })
+      );
+      return;
+    }
     const formData = new FormData();
     formData.append("name", productName);
     formData.append("barcode", barCode);
@@ -109,10 +152,24 @@ const ProductForm: FC<LogoProps> = () => {
       );
 
       if (productForm.fulfilled.match(response)) {
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Product added successfully!",
+          })
+        );
         navigate("/table");
         console.log("fulfilled");
       }
     } catch (error) {
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Errro adding product!",
+        })
+      );
       console.log("Error in handleProductClick:", error);
     }
   };
@@ -216,6 +273,7 @@ const ProductForm: FC<LogoProps> = () => {
               placeholder="Name"
               input_label="Name"
               required={true}
+              asterik="*"
               type="text"
               value={productName || ""}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -228,6 +286,7 @@ const ProductForm: FC<LogoProps> = () => {
               placeholder="Barcode"
               input_label="Barcode"
               required={true}
+              asterik="*"
               type="text"
               value={barCode || ""}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -241,6 +300,7 @@ const ProductForm: FC<LogoProps> = () => {
             <GenericInput
               placeholder="Stock Quantity"
               input_label="Stock Quantity"
+              asterik="*"
               required={true}
               type="number"
               value={stockQuantity || ""}
@@ -255,6 +315,7 @@ const ProductForm: FC<LogoProps> = () => {
             <GenericInput
               placeholder="Price"
               input_label="Price"
+              asterik="*"
               required={true}
               type="number"
               value={price || ""}
@@ -268,6 +329,7 @@ const ProductForm: FC<LogoProps> = () => {
               placeholder="ThresHold"
               input_label="ThresHold"
               required={true}
+              asterik="*"
               type="number"
               value={threshold || ""}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -316,7 +378,9 @@ const ProductForm: FC<LogoProps> = () => {
           </div> */}
         <InputsTableFormContainer>
           <GenericInputHold>
-            <LabelDescriptionContainer>Category</LabelDescriptionContainer>
+            <LabelDescriptionContainer>
+              Category<AsterikCategory>*</AsterikCategory>
+            </LabelDescriptionContainer>
             <StyledSelect
               value={
                 selectedCategory !== null ? selectedCategory.toString() : ""
@@ -349,6 +413,7 @@ const ProductForm: FC<LogoProps> = () => {
         </InputsTableFormContainer>
         <GenericButton name="Create Product" onClick={handleSubmit} />
       </ProductTableForm>
+      <SnackBarList />
       {/* </FormAndModalHolder> */}
     </>
   );

@@ -44,6 +44,7 @@ import {
   ProductImagesTableHead,
   UploadImageButton,
 } from "./style/ProductImages.style";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 const ProductImages: FC<{}> = () => {
   const [image, setImage] = useState<ProductImage[]>([]);
@@ -69,7 +70,13 @@ const ProductImages: FC<{}> = () => {
           }
         }
       } catch (error) {
-        console.error("Error fetching images:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching images!",
+          })
+        );
       }
     };
 
@@ -92,11 +99,24 @@ const ProductImages: FC<{}> = () => {
       if (fetchImageCategory.fulfilled.match(updatedImages)) {
         setImage(updatedImages.payload);
       }
+      dispatch(
+        addSnackbar({
+          id: "attributeSuccess",
+          type: "success",
+          message: "Image added successfully!",
+        })
+      );
       setOpenModal(false);
       setLogoSelected(["", ""]);
       setLogo(null);
     } catch (error) {
-      console.log("Error in handleSaveProductImage:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error in  adding image!",
+        })
+      );
     }
   };
 
@@ -109,11 +129,22 @@ const ProductImages: FC<{}> = () => {
         setImage((prevState) =>
           prevState.filter((image) => image.id !== imageId)
         );
-      } else {
-        console.error("Failed to delete image");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Image deleted successfully!",
+          })
+        );
       }
     } catch (error) {
-      console.error("Error deleting image:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting image!",
+        })
+      );
     }
   };
 
