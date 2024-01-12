@@ -10,7 +10,7 @@ export const AddressText = styled.h2`
 export const InformationOfAccountB2BTable = styled.p`
   display: flex;
   width: 100%;
-  max-width: 200px;  /* Set a maximum width according to your design */
+  max-width: 200px; /* Set a maximum width according to your design */
   height: 100%;
   margin: 10px;
   font-family: "Poppins";
@@ -18,6 +18,12 @@ export const InformationOfAccountB2BTable = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  /* padding: 5px 10px;
+  height: 39px;
+  max-width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; */
 `;
 export const AccountB2BDetailsHeaderText = styled.div`
   display: flex;

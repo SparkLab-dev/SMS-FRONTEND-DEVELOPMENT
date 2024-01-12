@@ -3,8 +3,6 @@ import {
   DisplayProductsHolder,
   EditButtonContainer,
   EditProductTableName,
-  InformationOfProduct,
-  ProdDetailsHeaderText,
   ProdDetailsHolder,
   ProdTextHolders,
   ProductDetailsComponent,
@@ -36,7 +34,11 @@ import { GenericB2BInputHold } from "Components/B2BForm/style/B2BForm.style";
 import { AccountLabel } from "Components/OrderDetails/style/OrderDetails.style";
 import { StyledSelect } from "App/style/App.style";
 
-import { B2CAddressText } from "./style/B2CAccountTypeDetails.style";
+import {
+  AccountB2CDetailsHeaderText,
+  B2CAddressText,
+  InformationOfAccountB2CTable,
+} from "./style/B2CAccountTypeDetails.style";
 
 const B2CAccountTypeDetails: FC<{}> = () => {
   const navigate = useNavigate();
@@ -46,7 +48,7 @@ const B2CAccountTypeDetails: FC<{}> = () => {
   const [selectedPriority, setSelectedPriority] = useState<string>(""); // State to store selected priority
 
   console.log(selectedAccount);
-  
+
   const dispatch: AppDispatch = useDispatch();
 
   //get userId from redux
@@ -172,79 +174,109 @@ const B2CAccountTypeDetails: FC<{}> = () => {
               <ProductDetailsContainer>
                 <ProdDetailsHolder>
                   <ProdTextHolders>
-                    <ProdDetailsHeaderText>FirstName</ProdDetailsHeaderText>
-                    <ProdDetailsHeaderText>LastName</ProdDetailsHeaderText>
-                    <ProdDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      FirstName
+                    </AccountB2CDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      LastName
+                    </AccountB2CDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
                       Account Priority
-                    </ProdDetailsHeaderText>
-                    <ProdDetailsHeaderText>Phone</ProdDetailsHeaderText>
-                    <ProdDetailsHeaderText>Email</ProdDetailsHeaderText>
-                    <ProdDetailsHeaderText>Description</ProdDetailsHeaderText>
+                    </AccountB2CDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      Phone
+                    </AccountB2CDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      Email
+                    </AccountB2CDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      Description
+                    </AccountB2CDetailsHeaderText>
                     <B2CAddressText>Shipping Address</B2CAddressText>
-                    <ProdDetailsHeaderText>Street</ProdDetailsHeaderText>
-                    <ProdDetailsHeaderText>City</ProdDetailsHeaderText>
-                    <ProdDetailsHeaderText>State</ProdDetailsHeaderText>
-                    <ProdDetailsHeaderText>Postal Code</ProdDetailsHeaderText>
-                    <ProdDetailsHeaderText>Country</ProdDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      Street
+                    </AccountB2CDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      City
+                    </AccountB2CDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      State
+                    </AccountB2CDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      Postal Code
+                    </AccountB2CDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      Country
+                    </AccountB2CDetailsHeaderText>
                     <B2CAddressText>Billing Address</B2CAddressText>
-                    <ProdDetailsHeaderText>Street</ProdDetailsHeaderText>
-                    <ProdDetailsHeaderText>City</ProdDetailsHeaderText>
-                    <ProdDetailsHeaderText>State</ProdDetailsHeaderText>
-                    <ProdDetailsHeaderText>Postal Code</ProdDetailsHeaderText>
-                    <ProdDetailsHeaderText>Country</ProdDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      Street
+                    </AccountB2CDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      City
+                    </AccountB2CDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      State
+                    </AccountB2CDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      Postal Code
+                    </AccountB2CDetailsHeaderText>
+                    <AccountB2CDetailsHeaderText>
+                      Country
+                    </AccountB2CDetailsHeaderText>
                   </ProdTextHolders>
                   {accountB2C.map((accountB2C: any, index: number) => (
                     <>
                       <ProdTextHolders key={index}>
-                        <InformationOfProduct>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.firstName}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.lastName}
-                        </InformationOfProduct>
+                        </InformationOfAccountB2CTable>
 
-                        <InformationOfProduct>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.accountPriority}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.phone}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.email}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.description}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.shippingAddress.street}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.shippingAddress.city}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.shippingAddress.state}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.shippingAddress.postalCode}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.shippingAddress.country}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.billingAddress.street}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.billingAddress.city}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.billingAddress.state}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.billingAddress.postalCode}
-                        </InformationOfProduct>
-                        <InformationOfProduct>
+                        </InformationOfAccountB2CTable>
+                        <InformationOfAccountB2CTable>
                           {accountB2C.billingAddress.country}
-                        </InformationOfProduct>
+                        </InformationOfAccountB2CTable>
                       </ProdTextHolders>
                       <ButtonsHolder>
                         <EditButtonContainer

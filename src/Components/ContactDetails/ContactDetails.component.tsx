@@ -1,11 +1,30 @@
+import { useNavigate, useParams } from "react-router-dom";
+import { FC, useEffect, useState } from "react";
+
+//style
 import {
   ButtonsHolder,
-  EditButtonContainer,
+  DisplayProductsHolder,
   EditProductTableName,
+  ProdDetailsHolder,
+  ProdTextHolders,
+  ProductDetailsComponent,
+  ProductDetailsContentHolder,
+  ProductList,
+  Productdetails,
 } from "Components/ProductDetails/style/ProductDetails.style";
-import { FC, useEffect, useState } from "react";
+import {
+  InputsOfProductTable,
+  ProductInputHold,
+} from "Components/ProductsTable/style/ProductsTable.style";
+import { LabelDescriptionContainer, StyledSelect } from "App/style/App.style";
+import {
+  ContactDetailsHeaderText,
+  InformationOfContactsTable,
+} from "./style/ContactDetails.style";
+
+//redux
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
 import {
   ContactProps,
   addContact,
@@ -14,48 +33,19 @@ import {
   getLeadSource,
 } from "redux/Pages/Contact/ContactSlice";
 import { AppDispatch, RootState } from "redux/store";
-import styled from "styled-components";
-//mui icons
-import DeleteIcon from "@mui/icons-material/Delete";
-import Popup from "Components/Popup/Popup.component";
-import {
-  InputsOfProductTable,
-  ProductInputHold,
-} from "Components/ProductsTable/style/ProductsTable.style";
-import GenericInput from "Components/GenericInput/GenericInput.component";
-import { LabelDescriptionContainer, StyledSelect } from "App/style/App.style";
-import GenericButton from "Components/GenericButton/GenericButton.component";
 import {
   AccountTypeProps,
   getAccountByType,
 } from "redux/Pages/AccountType/AccountTypeSlice";
-const FlexTableContainer = styled.div`
-  display: flex;
-  border: 1px solid #000;
-  height: 80vh;
-`;
 
-const TableHeader = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-`;
+//mui icons
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
-const TableBody = styled.div`
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-`;
-
-const TableCell = styled.div`
-  border: 1px solid #000;
-  padding: 5px 10px;
-  height: 39px;
-  max-width: 250px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`;
+//components
+import Popup from "Components/Popup/Popup.component";
+import GenericInput from "Components/GenericInput/GenericInput.component";
+import GenericButton from "Components/GenericButton/GenericButton.component";
 
 const ContactDetails: FC<{}> = () => {
   const navigate = useNavigate();
@@ -223,60 +213,115 @@ const ContactDetails: FC<{}> = () => {
   };
   return (
     <>
-      <FlexTableContainer>
-        <TableHeader>
-          <TableCell>Actions</TableCell>
-          <TableCell>FirstName</TableCell>
-          <TableCell>LastName</TableCell>
-          <TableCell>Phone</TableCell>
-          <TableCell>Fax</TableCell>
-          <TableCell>Email</TableCell>
-          <TableCell>Account</TableCell>
-          <TableCell>Birthdate</TableCell>
-          <TableCell>Lead Source</TableCell>
-          <TableCell>Description</TableCell>
-          <TableCell>Street</TableCell>
-          <TableCell>City</TableCell>
-          <TableCell>State</TableCell>
-          <TableCell>Postal Code</TableCell>
-          <TableCell>Country</TableCell>
-        </TableHeader>
-        {contacts.map((contacts: any, index: number) => (
-          <TableBody key={index}>
-            <TableCell>
-              <ButtonsHolder>
-                <EditButtonContainer onClick={() => handleEdit(contacts)}>
-                  Edit
-                </EditButtonContainer>
-                <DeleteIcon
-                  style={{
-                    color: "#1976d2",
-                    textAlign: "center",
-                    fontSize: "30px",
-                    marginTop: "10px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleDeleteContacts(contacts.id)}
-                />
-              </ButtonsHolder>
-            </TableCell>
-            <TableCell>{contacts.firstName}</TableCell>
-            <TableCell>{contacts.lastName}</TableCell>
-            <TableCell>{contacts.phone}</TableCell>
-            <TableCell>{contacts.fax}</TableCell>
-            <TableCell>{contacts.email}</TableCell>
-            <TableCell>{contacts.account.accountName}</TableCell>
-            <TableCell>{contacts.birthdate}</TableCell>
-            <TableCell>{contacts.leadSource.name}</TableCell>
-            <TableCell>{contacts.description}</TableCell>
-            <TableCell>{contacts.address.street}</TableCell>
-            <TableCell>{contacts.address.city}</TableCell>
-            <TableCell>{contacts.address.state}</TableCell>
-            <TableCell>{contacts.address.postalCode}</TableCell>
-            <TableCell>{contacts.address.country}</TableCell>
-          </TableBody>
-        ))}
-      </FlexTableContainer>
+      <Productdetails>
+        <ProductDetailsContentHolder>
+          <ProductDetailsComponent>
+            <ProductList>
+              <DisplayProductsHolder>
+                <ProdDetailsHolder>
+                  <ProdTextHolders>
+                    <ContactDetailsHeaderText>Actions</ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>
+                      FirstName
+                    </ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>
+                      LastName
+                    </ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>Phone</ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>Fax</ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>Email</ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>Account</ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>
+                      Birthdate
+                    </ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>
+                      Lead Source
+                    </ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>
+                      Description
+                    </ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>Street</ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>City</ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>State</ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>
+                      Postal Code
+                    </ContactDetailsHeaderText>
+                    <ContactDetailsHeaderText>Country</ContactDetailsHeaderText>
+                  </ProdTextHolders>
+                  {contacts.map((contacts: any, index: number) => (
+                    <ProdTextHolders key={index}>
+                      <InformationOfContactsTable>
+                        <ButtonsHolder>
+                          <EditIcon
+                            onClick={() => handleEdit(contacts)}
+                            style={{
+                              color: "#1976d2",
+                              fontSize: "25px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Edit
+                          </EditIcon>
+                          <DeleteIcon
+                            style={{
+                              color: "#1976d2",
+                              fontSize: "25px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => handleDeleteContacts(contacts.id)}
+                          />
+                        </ButtonsHolder>
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.firstName}
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.lastName}
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.phone}
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.fax}
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.email}
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.account.accountName}
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.birthdate}
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.leadSource.name}
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.description}
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.address.street}
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.address.city}
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.address.state}
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.address.postalCode}
+                      </InformationOfContactsTable>
+                      <InformationOfContactsTable>
+                        {contacts.address.country}
+                      </InformationOfContactsTable>
+                    </ProdTextHolders>
+                  ))}
+                </ProdDetailsHolder>
+              </DisplayProductsHolder>
+            </ProductList>
+          </ProductDetailsComponent>
+        </ProductDetailsContentHolder>
+      </Productdetails>
       <Popup
         isOpen={isModalOpen}
         onClose={() => {
