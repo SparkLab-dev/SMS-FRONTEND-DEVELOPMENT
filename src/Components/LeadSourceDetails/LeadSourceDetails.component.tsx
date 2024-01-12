@@ -3,25 +3,29 @@ import { useNavigate, useParams } from "react-router-dom";
 
 //style
 import {
-  LeadDetailsTableBody,
-  LeadDetailsTableCell,
-  LeadDetailsTableContainer,
-  LeadDetailsTableHeader,
+  InformationOfLeadDetailsTable,
+  LeadSourceDetailsHeaderText,
 } from "./style/LeadSourceDetails.style";
 import {
   ButtonsHolder,
-  EditButtonContainer,
+  DisplayProductsHolder,
   EditProductTableName,
+  ProdDetailsHolder,
+  ProdTextHolders,
+  ProductDetailsComponent,
+  ProductDetailsContentHolder,
+  ProductList,
+  Productdetails,
 } from "Components/ProductDetails/style/ProductDetails.style";
 import {
   InputsOfProductTable,
   ProductInputHold,
 } from "Components/ProductsTable/style/ProductsTable.style";
-
 import { LabelDescriptionContainer, StyledSelect } from "App/style/App.style";
 
 //mui icons
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 //redux
 import {
@@ -251,108 +255,158 @@ const LeadSourceDetails: FC<{}> = () => {
         setLeadSourceDetails(updatedLeadDetails);
         setIsModalOpen(false);
       }
-      // if (addLead.fulfilled.match(response)) {
-      //   const updatedLead = {
-      //     ...selectedLead, // Update with the modified contact details
-      //   };
-
-      //   const updatedLeads = leadSourceDetails.map((lead) =>
-      //     lead.id === leadDetailsId ? updatedLead : lead
-      //   );
-
-      //   setLeadSource(updatedLeads);
-      //   setIsModalOpen(false);
-      //   console.log("Lead updated!");
-      // }
     } catch (error) {
       console.log("Error in handleLeadsClick:", error);
     }
   };
   return (
     <>
-      <LeadDetailsTableContainer>
-        <LeadDetailsTableHeader>
-          <LeadDetailsTableCell>Actions</LeadDetailsTableCell>
-          <LeadDetailsTableCell>FirstName</LeadDetailsTableCell>
-          <LeadDetailsTableCell>LastName</LeadDetailsTableCell>
-          <LeadDetailsTableCell>Company</LeadDetailsTableCell>
-          <LeadDetailsTableCell>Lead Name</LeadDetailsTableCell>
-          <LeadDetailsTableCell>Annual Revenue</LeadDetailsTableCell>
-          <LeadDetailsTableCell>Phone</LeadDetailsTableCell>
-          <LeadDetailsTableCell>Email</LeadDetailsTableCell>
-          <LeadDetailsTableCell>Website</LeadDetailsTableCell>
-          <LeadDetailsTableCell>Description</LeadDetailsTableCell>
-          <LeadDetailsTableCell>Lead Status</LeadDetailsTableCell>
-          <LeadDetailsTableCell>Number of employees</LeadDetailsTableCell>
-          <LeadDetailsTableCell>Street</LeadDetailsTableCell>
-          <LeadDetailsTableCell>City</LeadDetailsTableCell>
-          <LeadDetailsTableCell>State</LeadDetailsTableCell>
-          <LeadDetailsTableCell>Postal Code</LeadDetailsTableCell>
-          <LeadDetailsTableCell>Country</LeadDetailsTableCell>
-          <LeadDetailsTableCell>Product Name</LeadDetailsTableCell>
-        </LeadDetailsTableHeader>
-        {leadSourceDetails.map((leadDetails: any, index: number) => (
-          <LeadDetailsTableBody key={index}>
-            <LeadDetailsTableCell>
-              <ButtonsHolder>
-                <EditButtonContainer onClick={() => handleEdit(leadDetails)}>
-                  Edit
-                </EditButtonContainer>
-                <DeleteIcon
-                  style={{
-                    color: "#1976d2",
-                    textAlign: "center",
-                    fontSize: "30px",
-                    marginTop: "10px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleDeleteLead(leadDetails.id)}
-                />
-              </ButtonsHolder>
-            </LeadDetailsTableCell>
-            <LeadDetailsTableCell>{leadDetails.firstName}</LeadDetailsTableCell>
-            <LeadDetailsTableCell>{leadDetails.lastName}</LeadDetailsTableCell>
-            <LeadDetailsTableCell>{leadDetails.company}</LeadDetailsTableCell>
-            <LeadDetailsTableCell>
-              {leadDetails.leadSource?.name}
-            </LeadDetailsTableCell>
+      <Productdetails>
+        <ProductDetailsContentHolder>
+          <ProductDetailsComponent>
+            <ProductList>
+              <DisplayProductsHolder>
+                <ProdDetailsHolder>
+                  <ProdTextHolders>
+                    <LeadSourceDetailsHeaderText>
+                      Actions
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      FirstName
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      LastName
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      Company
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      Lead Name
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      Annual Revenue
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      Phone
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      Email
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      Website
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      Description
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      Lead Status
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      Number of employees
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      Street
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      City
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      State
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      Postal Code
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      Country
+                    </LeadSourceDetailsHeaderText>
+                    <LeadSourceDetailsHeaderText>
+                      Product Name
+                    </LeadSourceDetailsHeaderText>
+                  </ProdTextHolders>
+                  {leadSourceDetails.map((leadDetails: any, index: number) => (
+                    <ProdTextHolders key={index}>
+                      <InformationOfLeadDetailsTable>
+                        <ButtonsHolder>
+                          <EditIcon
+                            onClick={() => handleEdit(leadDetails)}
+                            style={{
+                              color: "#1976d2",
+                              fontSize: "25px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Edit
+                          </EditIcon>
+                          <DeleteIcon
+                            style={{
+                              color: "#1976d2",
+                              fontSize: "25px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => handleDeleteLead(leadDetails.id)}
+                          />
+                        </ButtonsHolder>
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.firstName}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.lastName}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.company}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.leadSource?.name}
+                      </InformationOfLeadDetailsTable>
 
-            <LeadDetailsTableCell>
-              {leadDetails.annualRevenue}
-            </LeadDetailsTableCell>
-            <LeadDetailsTableCell>{leadDetails.phone}</LeadDetailsTableCell>
-            <LeadDetailsTableCell>{leadDetails.email}</LeadDetailsTableCell>
-            <LeadDetailsTableCell>{leadDetails.website}</LeadDetailsTableCell>
-            <LeadDetailsTableCell>
-              {leadDetails.description}
-            </LeadDetailsTableCell>
-            <LeadDetailsTableCell>
-              {leadDetails.leadStatus.name}
-            </LeadDetailsTableCell>
-            <LeadDetailsTableCell>
-              {leadDetails.numberOfEmployees}
-            </LeadDetailsTableCell>
-            <LeadDetailsTableCell>
-              {leadDetails.address.street}
-            </LeadDetailsTableCell>
-            <LeadDetailsTableCell>
-              {leadDetails.address.city}
-            </LeadDetailsTableCell>
-            <LeadDetailsTableCell>
-              {leadDetails.address.state}
-            </LeadDetailsTableCell>
-            <LeadDetailsTableCell>
-              {leadDetails.address.postalCode}
-            </LeadDetailsTableCell>
-            <LeadDetailsTableCell>
-              {leadDetails.address.country}
-            </LeadDetailsTableCell>
-            <LeadDetailsTableCell>
-              {leadDetails.productInterest.productName}
-            </LeadDetailsTableCell>
-          </LeadDetailsTableBody>
-        ))}
-      </LeadDetailsTableContainer>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.annualRevenue}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.phone}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.email}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.website}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.description}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.leadStatus.name}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.numberOfEmployees}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.address.street}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.address.city}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.address.state}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.address.postalCode}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.address.country}
+                      </InformationOfLeadDetailsTable>
+                      <InformationOfLeadDetailsTable>
+                        {leadDetails.productInterest.productName}
+                      </InformationOfLeadDetailsTable>
+                    </ProdTextHolders>
+                  ))}
+                </ProdDetailsHolder>
+              </DisplayProductsHolder>
+            </ProductList>
+          </ProductDetailsComponent>
+        </ProductDetailsContentHolder>
+      </Productdetails>
       <Popup
         isOpen={isModalOpen}
         onClose={() => {

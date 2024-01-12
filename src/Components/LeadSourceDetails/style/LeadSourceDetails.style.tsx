@@ -5,21 +5,30 @@ export const LeadDetailsTableContainer = styled.div`
   height: 80vh;
 `;
 
-export const LeadDetailsTableHeader = styled.div`
-  flex: 1;
+export const InformationOfLeadDetailsTable = styled.p`
   display: flex;
-  flex-direction: column;
-`;
-
-export const LeadDetailsTableBody = styled.div`
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-`;
-
-export const LeadDetailsTableCell = styled.div`
-  border: 1px solid #000;
-  padding: 5px 10px;
+  width: 100%;
+  max-width: 200px; /* Set a maximum width according to your design */
+  height: 100%;
+  margin: 10px;
+  font-family: "Poppins";
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* padding: 5px 10px;
   height: 39px;
-  width: 250px;
+  max-width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; */
+`;
+export const LeadSourceDetailsHeaderText = styled.div`
+  display: flex;
+  width: 100%;
+  margin: 10px;
+  /* margin-top: 20px; */
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Poppins";
 `;
