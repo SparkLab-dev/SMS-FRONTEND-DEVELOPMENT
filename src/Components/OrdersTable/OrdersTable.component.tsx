@@ -34,7 +34,6 @@ import {
   OrderDetails,
   fetchOrderDetails,
 } from "redux/Pages/Orders/OrdersSlice";
-import { Sidebar } from "statics/sidebar/style/Sidebar.style";
 
 const OrdersTable: FC<{}> = () => {
   const navigate = useNavigate();
@@ -76,9 +75,6 @@ const OrdersTable: FC<{}> = () => {
 
   return (
     <OrdersTableContainer>
-      <div>
-        <Sidebar />
-      </div>
       <AddNewOrderButton>
         <GenericButton
           name={orderButtonName}
@@ -106,40 +102,34 @@ const OrdersTable: FC<{}> = () => {
             </TableHead>
             <TableBody>
               {orders.map((orderGroup: any, index: number) =>
-                orderGroup.map(
-                  (order: any, subIndex: number) => (
-                    // order?.orderItem?.map((item: any, itemIndex: number) => (
-                    <TableRow key={`${index}-${subIndex}`}>
-                      <TableCell>
-                        {order?.accountBasicDTO?.accountType === "B2B"
-                          ? order?.accountBasicDTO?.accountName
-                          : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`}
-                      </TableCell>
+                orderGroup.map((order: any, subIndex: number) => (
+                  <TableRow key={`${index}-${subIndex}`}>
+                    <TableCell>
+                      {order?.accountBasicDTO?.accountType === "B2B"
+                        ? order?.accountBasicDTO?.accountName
+                        : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`}
+                    </TableCell>
 
-                      <TableCell>{order.orderNumber}</TableCell>
-                      <TableCell>{order.orderSource}</TableCell>
-                      <TableCell>{order?.orderNotes}</TableCell>
-                      <TableCell>{order?.orderStatus}</TableCell>
-                      <TableCell>{order?.shippingAddress?.street}</TableCell>
-                      <TableCell>{order?.shippingAddress?.city}</TableCell>
-                      <TableCell>{order?.shippingAddress?.state}</TableCell>
-                      <TableCell>{order?.shippingAddress?.country}</TableCell>
-                      <TableCell>
-                        {order?.shippingAddress?.postalCode}
-                      </TableCell>
-                      <TableCell>${order?.totalAmount}</TableCell>
-                      <TableCell>
-                        <ForwardIcon
-                          color="primary"
-                          fontSize="large"
-                          onClick={() => handleGoToOrderLinkClick(order)}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  )
-                  // ))
-                )
+                    <TableCell>{order.orderNumber}</TableCell>
+                    <TableCell>{order.orderSource}</TableCell>
+                    <TableCell>{order?.orderNotes}</TableCell>
+                    <TableCell>{order?.orderStatus}</TableCell>
+                    <TableCell>{order?.shippingAddress?.street}</TableCell>
+                    <TableCell>{order?.shippingAddress?.city}</TableCell>
+                    <TableCell>{order?.shippingAddress?.state}</TableCell>
+                    <TableCell>{order?.shippingAddress?.country}</TableCell>
+                    <TableCell>{order?.shippingAddress?.postalCode}</TableCell>
+                    <TableCell>${order?.totalAmount}</TableCell>
+                    <TableCell>
+                      <ForwardIcon
+                        color="primary"
+                        fontSize="large"
+                        onClick={() => handleGoToOrderLinkClick(order)}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))
               )}
             </TableBody>
           </Table>

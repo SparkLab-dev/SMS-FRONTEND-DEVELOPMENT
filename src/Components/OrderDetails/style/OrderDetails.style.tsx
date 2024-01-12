@@ -75,7 +75,7 @@ export const OrdersHead = styled.div`
   font-family: "Poppins";
 `;
 export const Hr = styled.p`
-  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  /* border-bottom: 1px solid rgba(224, 224, 224, 1); */
 `;
 export const OrdersTableBody = styled.tbody`
   display: flex;

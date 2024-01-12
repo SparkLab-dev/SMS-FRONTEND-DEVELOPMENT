@@ -142,6 +142,18 @@ const SideBar: FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
                           <SidebarSpan id="hoverIcon">Lead Source</SidebarSpan>
                         </CenterLi>
                       </SidebarLink>
+                      <SidebarLink to="/vendorTable">
+                        <CenterLi>
+                          <DashboardIcon className="icon" />
+                          <SidebarSpan id="hoverIcon">Vendors</SidebarSpan>
+                        </CenterLi>
+                      </SidebarLink>
+                      <SidebarLink to="/adminNotification">
+                        <CenterLi>
+                          <CircleNotificationsIcon className="icon" />
+                          <SidebarSpan id="hoverIcon">Notification</SidebarSpan>
+                        </CenterLi>
+                      </SidebarLink>
                     </>
                   )}
                 </CenterUl>

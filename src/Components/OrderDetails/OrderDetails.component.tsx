@@ -219,8 +219,8 @@ const OrderDetailsComponent: FC<{}> = () => {
             message: "Order deleted successfully!",
           })
         );
-        navigate("/orderTable");
       }
+      navigate("/orderTable");
     } catch (error) {
       dispatch(
         addSnackbar({
