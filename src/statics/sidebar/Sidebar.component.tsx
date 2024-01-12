@@ -20,6 +20,7 @@ import ReorderIcon from "@mui/icons-material/Reorder";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import HomeIcon from "@mui/icons-material/Home";
 import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
+import SourceIcon from "@mui/icons-material/Source";
 
 //redux
 import { RootState } from "redux/store";
@@ -135,12 +136,18 @@ const SideBar: FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
                           <SidebarSpan id="hoverIcon">Contact</SidebarSpan>
                         </CenterLi>
                       </SidebarLink>
+                      <SidebarLink to="/leadSourceTable">
+                        <CenterLi>
+                          <SourceIcon className="icon" />
+                          <SidebarSpan id="hoverIcon">Lead Source</SidebarSpan>
+                        </CenterLi>
+                      </SidebarLink>
                     </>
                   )}
                 </CenterUl>
               </Center>
-            </SidebarItems>{" "}
-          </Sidebar>{" "}
+            </SidebarItems>
+          </Sidebar>
         </>
       )}
     </>

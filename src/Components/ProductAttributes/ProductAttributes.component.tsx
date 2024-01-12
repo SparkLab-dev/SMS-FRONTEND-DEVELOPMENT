@@ -15,6 +15,7 @@ import {
   deleteAttribute,
   editAttribute,
 } from "redux/Pages/ShopCategory/ShopCategorySlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 //style
 import {
@@ -47,7 +48,6 @@ import {
 import Popup from "Components/Popup/Popup.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
-import { addSnackbar } from "redux/actions/actions-snackbar";
 
 const ProductAttributes: FC<{}> = () => {
   const [attributeName, setAttributeName] = useState<string>("");
@@ -62,6 +62,8 @@ const ProductAttributes: FC<{}> = () => {
   const productId = id ? parseInt(id) : 0;
 
   const dispatch: AppDispatch = useDispatch();
+
+  const isSaveButtonDisabled = !attributeName || !attributeValue;
 
   //get vendor by id
   useEffect(() => {
@@ -224,11 +226,11 @@ const ProductAttributes: FC<{}> = () => {
             </EditProductButtonHolder>
             <ProductAttributesTable>
               <AttributesTableHead>
-                <AttributesTableRow>
-                  <AttributesHead>Attribute Name</AttributesHead>
-                  <AttributesHead>Attribute Value</AttributesHead>
-                  <AttributesHead>Actions</AttributesHead>
-                </AttributesTableRow>
+                {/* <AttributesTableRow> */}
+                <AttributesHead>Attribute Name</AttributesHead>
+                <AttributesHead>Attribute Value</AttributesHead>
+                <AttributesHead>Actions</AttributesHead>
+                {/* </AttributesTableRow> */}
               </AttributesTableHead>
               <ProductAttributesTableBody>
                 {product.attributes.map((attribute: any, attrIndex: any) => (
@@ -301,7 +303,11 @@ const ProductAttributes: FC<{}> = () => {
         }
         footerContent={
           <ModalSaveButtonHolder>
-            <GenericButton name="Save" onClick={handleEditAttributeClick} />
+            <GenericButton
+              name="Save"
+              onClick={handleEditAttributeClick}
+              disabled={isSaveButtonDisabled}
+            />
           </ModalSaveButtonHolder>
         }
       />

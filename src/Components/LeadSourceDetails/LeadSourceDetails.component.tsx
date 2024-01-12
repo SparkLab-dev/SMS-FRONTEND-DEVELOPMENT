@@ -1,4 +1,7 @@
 import { FC, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+//style
 import {
   LeadDetailsTableBody,
   LeadDetailsTableCell,
@@ -10,8 +13,17 @@ import {
   EditButtonContainer,
   EditProductTableName,
 } from "Components/ProductDetails/style/ProductDetails.style";
+import {
+  InputsOfProductTable,
+  ProductInputHold,
+} from "Components/ProductsTable/style/ProductsTable.style";
+
+import { LabelDescriptionContainer, StyledSelect } from "App/style/App.style";
+
 //mui icons
 import DeleteIcon from "@mui/icons-material/Delete";
+
+//redux
 import {
   LeadRequestBody,
   addLead,
@@ -22,19 +34,15 @@ import {
 } from "redux/Pages/LeadSource/LeadSourceSlice";
 import { AppDispatch, RootState } from "redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import Popup from "Components/Popup/Popup.component";
-import {
-  InputsOfProductTable,
-  ProductInputHold,
-} from "Components/ProductsTable/style/ProductsTable.style";
-import GenericInput from "Components/GenericInput/GenericInput.component";
-import { LabelDescriptionContainer, StyledSelect } from "App/style/App.style";
-import GenericButton from "Components/GenericButton/GenericButton.component";
 import {
   ProductDetailss,
   fetchAllProducts,
 } from "redux/Pages/Product/ProductSlice";
+
+//components
+import Popup from "Components/Popup/Popup.component";
+import GenericInput from "Components/GenericInput/GenericInput.component";
+import GenericButton from "Components/GenericButton/GenericButton.component";
 
 const LeadSourceDetails: FC<{}> = () => {
   const navigate = useNavigate();

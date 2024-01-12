@@ -8,7 +8,6 @@ import {
   DisplayProductsHolder,
   EditButtonContainer,
   EditProductTableName,
-  HorizontalLine,
   InformationOfProduct,
   ProdDetailsHeaderText,
   ProdDetailsHolder,

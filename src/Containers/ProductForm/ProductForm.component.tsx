@@ -167,7 +167,7 @@ const ProductForm: FC<LogoProps> = () => {
         addSnackbar({
           id: "error",
           type: "error",
-          message: "Errro adding product!",
+          message: "Error adding product!",
         })
       );
       console.log("Error in handleProductClick:", error);

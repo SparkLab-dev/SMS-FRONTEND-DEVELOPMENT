@@ -30,6 +30,7 @@ import {
 } from "redux/Pages/LeadSource/LeadSourceSlice";
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
+
 const LeadSourceTable: FC<{}> = () => {
   const navigate = useNavigate();
   const [leadSource, setLeadSource] = useState<LeadRequestBody[]>([]);
@@ -54,7 +55,7 @@ const LeadSourceTable: FC<{}> = () => {
   const leadButtonName = (
     <LeadSourceAddProductNameContainerPlusIcon>
       <AddCircleOutlineIcon />
-      <LeadSourceButtonName>New Contact</LeadSourceButtonName>
+      <LeadSourceButtonName>New Lead Source</LeadSourceButtonName>
     </LeadSourceAddProductNameContainerPlusIcon>
   );
 

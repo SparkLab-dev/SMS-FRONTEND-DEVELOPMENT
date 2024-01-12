@@ -10,6 +10,7 @@ import {
   uploadImage,
 } from "redux/Pages/ImageCategory/ImageCategorySlice";
 import { AppDispatch } from "redux/store";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 //mui
 import { Box } from "@mui/system";
@@ -44,7 +45,6 @@ import {
   ProductImagesTableHead,
   UploadImageButton,
 } from "./style/ProductImages.style";
-import { addSnackbar } from "redux/actions/actions-snackbar";
 
 const ProductImages: FC<{}> = () => {
   const [image, setImage] = useState<ProductImage[]>([]);
@@ -56,6 +56,8 @@ const ProductImages: FC<{}> = () => {
   const productId = id ? parseInt(id) : 0;
 
   const dispatch: AppDispatch = useDispatch();
+
+  const isSaveButtonDisabled = !logo;
 
   //get images
   useEffect(() => {
@@ -215,6 +217,7 @@ const ProductImages: FC<{}> = () => {
                     handleImageChange();
                     handleSaveImage(e);
                   }}
+                  disabled={isSaveButtonDisabled}
                 />
               </ButtonHold>
             </ModalButtonHolder>
@@ -224,18 +227,14 @@ const ProductImages: FC<{}> = () => {
       <ProductImageContentHolder>
         <ImagesHolder>
           <EditProductButtonHolder>
-            <EditProductButton>
-              <EditProductDetailsButtonNameContainer>
-                <UploadImageButton
-                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                    e.preventDefault();
-                    setOpenModal(true);
-                  }}
-                >
-                  Upload
-                </UploadImageButton>
-              </EditProductDetailsButtonNameContainer>
-            </EditProductButton>
+            <UploadImageButton
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                e.preventDefault();
+                setOpenModal(true);
+              }}
+            >
+              Upload
+            </UploadImageButton>
           </EditProductButtonHolder>
           <ImagesTable>
             <ProductImagesTableHead>

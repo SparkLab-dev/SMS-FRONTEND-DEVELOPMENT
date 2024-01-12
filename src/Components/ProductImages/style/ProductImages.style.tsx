@@ -51,7 +51,7 @@ export const ImageDeleteIconHolder = styled.div`
   cursor: pointer;
 `;
 export const UploadImageButton = styled.button`
-  display: flex;
+   display: flex;
   align-items: center;
   justify-content: space-evenly;
   border-radius: 10px;
@@ -63,11 +63,10 @@ export const UploadImageButton = styled.button`
   font-size: 16px;
   line-height: 24px;
   color: #ffffff;
-  height: 48px;
+  height: 45px;
   gap: 5px;
   position: relative;
-  width: 25%;
+  width: 22%;
   border-bottom-right-radius: 0px;
   border-bottom-left-radius: 0;
-  cursor: pointer;
 `;
