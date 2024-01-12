@@ -182,22 +182,29 @@ const ProductDetails: FC<{}> = () => {
     try {
       const result = await dispatch(deleteProduct(productId));
       if (deleteProduct.fulfilled.match(result)) {
-        addSnackbar({
-          id: "attributeSuccess",
-          type: "success",
-          message: "Product deleted successfully!",
-        });
-        // );
-        // console.log("Product deleted successfully!");
         setShopCategory((prevState) =>
           prevState.filter((product) => product.id !== productId)
         );
-        navigate("/table");
-      } else {
-        console.error("Failed to delete product");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Product deleted successfully!",
+          })
+        );
+
+        setTimeout(() => {
+          navigate("/table");
+        }, 2000);
       }
     } catch (error) {
-      console.error("Error deleting product:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting product!",
+        })
+      );
     }
   };
   return (

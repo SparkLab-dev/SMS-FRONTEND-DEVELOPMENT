@@ -98,14 +98,14 @@ const ProductAttributes: FC<{}> = () => {
             console.log(result);
             if (fetchProductDetails.fulfilled.match(result)) {
               setProductAttributes(result.payload);
-              dispatch(
-                addSnackbar({
-                  id: "attributeSuccess",
-                  type: "success",
-                  message: "Attribute deleted successfully!",
-                })
-              );
             }
+            dispatch(
+              addSnackbar({
+                id: "attributeSuccess",
+                type: "success",
+                message: "Attribute deleted successfully!",
+              })
+            );
           })
           .catch((error: any) => {
             dispatch(

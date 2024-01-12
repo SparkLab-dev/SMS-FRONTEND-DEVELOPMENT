@@ -132,7 +132,7 @@ const OrderDetailsComponent: FC<{}> = () => {
     if (selectedAccountId !== undefined && selectedAccountId !== null) {
       setSelectedAccount(selectedAccountId);
     } else {
-      setSelectedAccount(null); // or any default value if accountId doesn't exist
+      setSelectedAccount(null);
     }
   };
 
@@ -153,7 +153,7 @@ const OrderDetailsComponent: FC<{}> = () => {
       orderStatus: selectedItem.orderStatus,
       orderNotes: selectedItem.orderNotes,
       shippingAddress: {
-        street: selectedItem?.shippingAddress?.street || "", // Handling null/undefined
+        street: selectedItem?.shippingAddress?.street || "",
         city: selectedItem?.shippingAddress?.city || "",
         state: selectedItem?.shippingAddress?.state || "",
         postalCode: selectedItem?.shippingAddress?.postalCode || "",
@@ -172,8 +172,6 @@ const OrderDetailsComponent: FC<{}> = () => {
     };
     console.log("SELECTED ACCOUNT", selectedAccount);
     try {
-      // const lastAddedItem = addedItems[addedItems.length - 1];
-
       const response = await dispatch(orderForm({ userCredentials }));
       if (response.payload) {
         const updatedOrderDetails = orders.map((order) =>
@@ -181,8 +179,6 @@ const OrderDetailsComponent: FC<{}> = () => {
         );
         console.log(selectedItem);
         setOrders(updatedOrderDetails);
-
-        // localStorage.setItem("orders", JSON.stringify(updatedOrderDetails));
         setIsModalOpen(false);
         dispatch(
           addSnackbar({
@@ -208,7 +204,6 @@ const OrderDetailsComponent: FC<{}> = () => {
     try {
       const result = await dispatch(deleteOrder(orderId));
       if (deleteOrder.fulfilled.match(result)) {
-        console.log("Order deleted successfully!");
         setOrders((prevState) =>
           prevState.filter((order) => order.id !== orderId)
         );
@@ -219,8 +214,11 @@ const OrderDetailsComponent: FC<{}> = () => {
             message: "Order deleted successfully!",
           })
         );
+
+        setTimeout(() => {
+          navigate("/orderTable");
+        }, 2000);
       }
-      navigate("/orderTable");
     } catch (error) {
       dispatch(
         addSnackbar({
@@ -240,82 +238,49 @@ const OrderDetailsComponent: FC<{}> = () => {
               <OrderDetailsContainer>
                 <OrdDetailsHolder>
                   <OrdersTableHead>
-                    {/* <OrdersTableRow> */}
                     <OrdersHead>Order Number</OrdersHead>
-
-                    <Hr />
                     <OrdersHead>Account Name</OrdersHead>
-                    <Hr />
                     <OrdersHead>Order Source</OrdersHead>
-                    <Hr />
                     <OrdersHead>Order Notes</OrdersHead>
-                    <Hr />
                     <OrdersHead>Order Status</OrdersHead>
-                    <Hr />
                     <OrdersHead>Street</OrdersHead>
-                    <Hr />
                     <OrdersHead>City</OrdersHead>
-                    <Hr />
                     <OrdersHead>State</OrdersHead>
-                    <Hr />
                     <OrdersHead>Country</OrdersHead>
-                    <Hr />
                     <OrdersHead>Postal Code</OrdersHead>
-                    <Hr />
                     <OrdersHead>Total Amount</OrdersHead>
-                    <Hr />
                     <OrdersHead>Actions</OrdersHead>
-
-                    {/* </OrdersTableRow> */}
                   </OrdersTableHead>
-                  {/* <OrdersTableBody> */}
                   {orders.map((order: any, index: number) => (
-                    // orderGroup.map(
-                    //   (order: any, subIndex: number) => (
-                    // order?.orderItem?.map((item: any, itemIndex: number) => (
                     <>
                       <OrdersTableRow key={index}>
                         <OrdersTableData>{order.orderNumber}</OrdersTableData>
-                        <Hr />
                         <OrdersTableData>
                           {index === 0 &&
                             (order?.accountBasicDTO?.accountType === "B2B"
                               ? order?.accountBasicDTO?.accountName
                               : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`)}
                         </OrdersTableData>
-                        <Hr />
                         <OrdersTableData>{order.orderSource}</OrdersTableData>
-                        <Hr />
                         <OrdersTableData>{order?.orderNotes}</OrdersTableData>
-                        <Hr />
                         <OrdersTableData>{order?.orderStatus}</OrdersTableData>
-                        <Hr />
                         <OrdersTableData>
                           {order?.shippingAddress?.street}
                         </OrdersTableData>
-                        <Hr />
                         <OrdersTableData>
                           {order?.shippingAddress?.city}
                         </OrdersTableData>
-                        <Hr />
                         <OrdersTableData>
                           {order?.shippingAddress?.state}
                         </OrdersTableData>
-                        <Hr />
                         <OrdersTableData>
                           {order?.shippingAddress?.country}
                         </OrdersTableData>
-                        <Hr />
                         <OrdersTableData>
                           {order?.shippingAddress?.postalCode}
                         </OrdersTableData>
-                        <Hr />
+                        <OrdersTableData>{order?.totalAmount}</OrdersTableData>{" "}
                         <OrdersTableData>
-                          {order?.totalAmount}
-                        </OrdersTableData>{" "}
-                        <Hr />
-                        <OrdersTableData>
-                          <Hr />
                           <EditIcon
                             onClick={() => handleEdit(order)}
                             style={{
@@ -335,10 +300,7 @@ const OrderDetailsComponent: FC<{}> = () => {
                         </OrdersTableData>
                       </OrdersTableRow>
                     </>
-                    // )
-                    // ))
                   ))}
-                  {/* </OrdersTableBody> */}
                 </OrdDetailsHolder>
               </OrderDetailsContainer>
             </DisplayOrderHolder>
@@ -381,7 +343,6 @@ const OrderDetailsComponent: FC<{}> = () => {
                           : ""
                       }
                       onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                        // const selectedAccountId = Number(e.target.value);
                         setSelectedAccount(Number(e.target.value));
                       }}
                     >

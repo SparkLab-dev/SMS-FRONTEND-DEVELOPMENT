@@ -47,6 +47,8 @@ import {
 import Popup from "Components/Popup/Popup.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const LeadSourceDetails: FC<{}> = () => {
   const navigate = useNavigate();
@@ -110,16 +112,29 @@ const LeadSourceDetails: FC<{}> = () => {
     try {
       const result = await dispatch(deleteLead(leadDetailsId));
       if (deleteLead.fulfilled.match(result)) {
-        console.log("Lead deleted successfully!");
         setLeadSourceDetails((prevState) =>
           prevState.filter((lead) => lead.id !== leadDetailsId)
         );
-        navigate("/leadSourceTable");
-      } else {
-        console.error("Failed to delete lead");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Lead Source deleted successfully!",
+          })
+        );
+
+        setTimeout(() => {
+          navigate("/leadSourceTable");
+        }, 2000);
       }
     } catch (error) {
-      console.error("Error deleting lead:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting lead source!",
+        })
+      );
     }
   };
 
@@ -134,12 +149,16 @@ const LeadSourceDetails: FC<{}> = () => {
       .then((result: any) => {
         if (fetchLeadSource.fulfilled.match(result)) {
           setLeadSource(result.payload);
-        } else {
-          console.error("Lead source details not found.");
         }
       })
       .catch((error: any) => {
-        console.error("Error fetching lead source details:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching lead source details!",
+          })
+        );
       });
   }, [dispatch]);
 
@@ -154,7 +173,13 @@ const LeadSourceDetails: FC<{}> = () => {
         }
       })
       .catch((error: any) => {
-        console.error("Error fetching lead status details:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching lead status details!",
+          })
+        );
       });
   }, [dispatch]);
 
@@ -250,13 +275,26 @@ const LeadSourceDetails: FC<{}> = () => {
       const response = await dispatch(addLead({ leadSouceCredentials }));
       if (response.payload) {
         const updatedLeadDetails = leadSourceDetails.map((lead) =>
-          lead.id === selectedLeadDetail.accountId ? selectedLeadDetail : lead
+          lead.id === selectedLeadDetail.id ? selectedLeadDetail : lead
         );
         setLeadSourceDetails(updatedLeadDetails);
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Lead source edited successfully!",
+          })
+        );
         setIsModalOpen(false);
       }
     } catch (error) {
-      console.log("Error in handleLeadsClick:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error in editing lead source!",
+        })
+      );
     }
   };
   return (
@@ -696,6 +734,7 @@ const LeadSourceDetails: FC<{}> = () => {
           <GenericButton name="Save" onClick={handleUpdateLeadClick} />
         }
       />
+      <SnackBarList />
     </>
   );
 };

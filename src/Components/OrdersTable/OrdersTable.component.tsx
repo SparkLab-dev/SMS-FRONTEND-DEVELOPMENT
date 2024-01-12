@@ -6,9 +6,8 @@ import ForwardIcon from "@mui/icons-material/Forward";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 //components
-// import Popup from "Components/Popup/Popup.component";
-// import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 //style
 import {
@@ -34,6 +33,7 @@ import {
   OrderDetails,
   fetchOrderDetails,
 } from "redux/Pages/Orders/OrdersSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 const OrdersTable: FC<{}> = () => {
   const navigate = useNavigate();
@@ -54,7 +54,13 @@ const OrdersTable: FC<{}> = () => {
           setOrders(result.payload);
         }
       } catch (error) {
-        console.error("Error fetching orders:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching orders!",
+          })
+        );
       }
     };
 
@@ -109,7 +115,6 @@ const OrdersTable: FC<{}> = () => {
                         ? order?.accountBasicDTO?.accountName
                         : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`}
                     </TableCell>
-
                     <TableCell>{order.orderNumber}</TableCell>
                     <TableCell>{order.orderSource}</TableCell>
                     <TableCell>{order?.orderNotes}</TableCell>
@@ -135,6 +140,7 @@ const OrdersTable: FC<{}> = () => {
           </Table>
         </TableContainer>
       </TableAndDatepickerHolder>
+      <SnackBarList />
     </OrdersTableContainer>
   );
 };

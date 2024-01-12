@@ -46,6 +46,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import Popup from "Components/Popup/Popup.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const ContactDetails: FC<{}> = () => {
   const navigate = useNavigate();
@@ -81,11 +83,17 @@ const ContactDetails: FC<{}> = () => {
               console.log(
                 "fetchedContact.leadSource.id",
                 fetchedContact.leadSource.id
-              ); // Ensure this is the correct property for the Lead Source ID
+              );
             }
           })
           .catch((error: any) => {
-            console.error("Error fetching  contact details:", error);
+            dispatch(
+              addSnackbar({
+                id: "error",
+                type: "error",
+                message: "Error fetching  contact details!",
+              })
+            );
           });
       }
     };
@@ -104,12 +112,16 @@ const ContactDetails: FC<{}> = () => {
       .then((result: any) => {
         if (getLeadSource.fulfilled.match(result)) {
           setLeadSource(result.payload);
-        } else {
-          console.error("Lead Source details not found.");
         }
       })
       .catch((error: any) => {
-        console.error("Error fetching Lead Source details:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching Lead Source details!",
+          })
+        );
       });
   }, [dispatch]);
 
@@ -122,12 +134,26 @@ const ContactDetails: FC<{}> = () => {
         setContacts((prevState) =>
           prevState.filter((contact) => contact.id !== contactId)
         );
-        navigate("/contactsTable");
-      } else {
-        console.error("Failed to delete contact");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Contact deleted successfully!",
+          })
+        );
+
+        setTimeout(() => {
+          navigate("/contactsTable");
+        }, 2000);
       }
     } catch (error) {
-      console.error("Error deleting contact:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting contact!",
+        })
+      );
     }
   };
 
@@ -146,7 +172,13 @@ const ContactDetails: FC<{}> = () => {
           setAccountB2B([response.payload]);
         }
       } catch (error) {
-        console.log("Error in handleAccountB2B:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error on getting account B2B details!",
+          })
+        );
       }
     };
     handleAccountB2B();
@@ -192,19 +224,31 @@ const ContactDetails: FC<{}> = () => {
 
       if (addContact.fulfilled.match(response)) {
         const updatedContact = {
-          ...selectedContact, // Update with the modified contact details
+          ...selectedContact,
         };
 
         const updatedContacts = contacts.map((contact) =>
           contact.id === contactId ? updatedContact : contact
         );
 
-        setContacts(updatedContacts); // Update the state with modified contacts
+        setContacts(updatedContacts);
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Contact edited successfully!",
+          })
+        );
         setIsModalOpen(false);
-        console.log("Contact added!");
       }
     } catch (error) {
-      console.log("Error in handleContatcClick:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error in editing the contact!",
+        })
+      );
     }
   };
 
@@ -562,6 +606,7 @@ const ContactDetails: FC<{}> = () => {
           <GenericButton onClick={handleUpdateContactClick} name="Save" />
         }
       />
+      <SnackBarList />
     </>
   );
 };

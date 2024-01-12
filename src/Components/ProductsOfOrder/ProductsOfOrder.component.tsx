@@ -58,33 +58,11 @@ const ProductsOfOrder: FC<{}> = () => {
   const [totalPrice, setTotalPrice] = useState<string>("");
   const [unitPrice, setUnitPrice] = useState<string>("");
   const [quantity, setQuantity] = useState<string>("");
-  const [totalAmount, setTotalAmount] = useState<string>("");
   const [getAllProducts, setGetAllProducts] = useState<ProductDetailss[]>([]);
   const [selectedProduct, setSelectedProduct] =
     useState<ProductDetailss | null>(null);
   console.log(selectedProduct);
-  // const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  // const [addedItems, setAddedItems] = useState<
-  //   {
-  //     productName: string;
-  //     quantity: string;
-  //     totalPrice: string;
-  //     totalAmount: string;
-  //     unitPrice: string;
-  //     product: {
-  //       id: string;
-  //     };
-  //   }[]
-  // >([]);
-  // const [selectedProductsList, setSelectedProductsList] = useState<
-  //   {
-  //     productId: number;
-  //     quantity: string;
-  //     unitPrice: string;
-  //   }[]
-  // >([]);
-  // const [selectedOrderItemDetails, setSelectedOrderItemDetails] =
-  //   useState<any>(null);
+
   const { orderId } = useParams();
   const orderID = orderId ? parseInt(orderId) : 0;
   console.log("orderId", orderId);
@@ -116,7 +94,6 @@ const ProductsOfOrder: FC<{}> = () => {
   }, [dispatch, orderID]);
 
   //upload button click
-
   const handleUpload = () => {
     setIsModalOpen(true);
     setSelectedItem(null);
@@ -135,11 +112,8 @@ const ProductsOfOrder: FC<{}> = () => {
     try {
       let editedOrderItem = null;
 
-      // Check if selectedItem is not null and an existing item is being edited
       if (selectedItem) {
         const orderItemId = selectedItem.id;
-
-        // Create the editedOrderItem object using the orderItemId
         editedOrderItem = {
           id: orderItemId,
           quantity: quantity,
@@ -183,7 +157,6 @@ const ProductsOfOrder: FC<{}> = () => {
             });
         }
       } else {
-        // Handle the case when a new item is being added
         editedOrderItem = {
           quantity: quantity,
           unitPrice: unitPrice,
@@ -297,7 +270,13 @@ const ProductsOfOrder: FC<{}> = () => {
           setGetAllProducts(orders);
         }
       } catch (error) {
-        console.error("Error fetching orders:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching orders!",
+          })
+        );
       }
     };
 
@@ -356,7 +335,6 @@ const ProductsOfOrder: FC<{}> = () => {
                     <ProductsOfOrderTableData>
                       {item.totalPrice}
                     </ProductsOfOrderTableData>
-
                     <ProductsOfOrderTableData>
                       <EditIconMui onClick={() => handleEdit(item, index)} />
                       <DeleteIconInAttributesHold>

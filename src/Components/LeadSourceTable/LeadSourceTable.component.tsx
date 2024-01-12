@@ -30,6 +30,8 @@ import {
 } from "redux/Pages/LeadSource/LeadSourceSlice";
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const LeadSourceTable: FC<{}> = () => {
   const navigate = useNavigate();
@@ -48,7 +50,13 @@ const LeadSourceTable: FC<{}> = () => {
         }
       })
       .catch((error: any) => {
-        console.error("Error fetching lead details:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching lead details!",
+          })
+        );
       });
   }, [dispatch]);
 
@@ -162,6 +170,7 @@ const LeadSourceTable: FC<{}> = () => {
           </LeadsourceTable>
         </LeadSourceTableContainer>
       </LeadSourceTableHolder>
+      <SnackBarList />
     </>
   );
 };
