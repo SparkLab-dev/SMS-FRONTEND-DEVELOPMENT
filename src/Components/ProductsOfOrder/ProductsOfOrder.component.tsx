@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 //style
 import {
   EditIconMui,
+  ProductOfOrderText,
   ProductsOfOrderContentHolder,
   ProductsOfOrderHead,
   ProductsOfOrderHolder,
@@ -40,6 +41,7 @@ import {
   ProductDetailss,
   fetchAllProducts,
 } from "redux/Pages/Product/ProductSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 //mui icons
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -48,7 +50,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Popup from "Components/Popup/Popup.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
-import { addSnackbar } from "redux/actions/actions-snackbar";
 
 const ProductsOfOrder: FC<{}> = () => {
   const [orders, setOrders] = useState<OrderDetails[]>([]);
@@ -65,7 +66,6 @@ const ProductsOfOrder: FC<{}> = () => {
 
   const { orderId } = useParams();
   const orderID = orderId ? parseInt(orderId) : 0;
-  console.log("orderId", orderId);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -131,7 +131,6 @@ const ProductsOfOrder: FC<{}> = () => {
         );
 
         if (addOrderItem.fulfilled.match(response)) {
-          console.log("done");
           setIsModalOpen(false);
           dispatch(fetchOrderDetailsById(orderID))
             .then((result: any) => {
@@ -217,25 +216,20 @@ const ProductsOfOrder: FC<{}> = () => {
     try {
       const result = await dispatch(deleteProductsOfOrder(attributeId));
       if (deleteProductsOfOrder.fulfilled.match(result)) {
-        console.log("Attribute deleted successfully!");
         // Fetch updated product details after deletion
-        dispatch(fetchOrderDetailsById(orderID))
-          .then((result: any) => {
-            console.log(result);
-            if (fetchOrderDetailsById.fulfilled.match(result)) {
-              setOrders(result.payload);
-              dispatch(
-                addSnackbar({
-                  id: "attributeSuccess",
-                  type: "success",
-                  message: "Item deleted successfully!",
-                })
-              );
-            }
-          })
-          .catch((error: any) => {
-            console.error("Error fetching product details:", error);
-          });
+        dispatch(fetchOrderDetailsById(orderID)).then((result: any) => {
+          console.log(result);
+          if (fetchOrderDetailsById.fulfilled.match(result)) {
+            setOrders(result.payload);
+            dispatch(
+              addSnackbar({
+                id: "attributeSuccess",
+                type: "success",
+                message: "Item deleted successfully!",
+              })
+            );
+          }
+        });
       }
     } catch (error) {
       dispatch(
@@ -245,7 +239,6 @@ const ProductsOfOrder: FC<{}> = () => {
           message: "Error deleting order item!",
         })
       );
-      console.error("Error deleting attribute:", error);
     }
   };
 
@@ -266,7 +259,6 @@ const ProductsOfOrder: FC<{}> = () => {
         console.log(result);
         if (fetchAllProducts.fulfilled.match(result)) {
           const orders = result.payload.flat();
-
           setGetAllProducts(orders);
         }
       } catch (error) {
@@ -314,11 +306,9 @@ const ProductsOfOrder: FC<{}> = () => {
                 <ProductsOfOrderHead>Quantity</ProductsOfOrderHead>
                 <ProductsOfOrderHead>Unit Price</ProductsOfOrderHead>
                 <ProductsOfOrderHead>Total Price</ProductsOfOrderHead>
-
                 <ProductsOfOrderHead>Actions</ProductsOfOrderHead>
               </ProductsOfOrderTableRow>
             </ProductsOfOrderTableHead>
-
             <ProductsOfOrderTableBody>
               {orders.map((order: OrderDetails, index: number) =>
                 order.orderItem.map((item: any, itemIndex: number) => (
@@ -360,7 +350,9 @@ const ProductsOfOrder: FC<{}> = () => {
           setIsModalOpen(false);
         }}
         headerContent={
-          <p>{selectedItem ? "Edit Product" : "Add New Product"}</p>
+          <ProductOfOrderText>
+            {selectedItem ? "Edit Product" : "Add New Product"}
+          </ProductOfOrderText>
         }
         bodyContent={
           <>

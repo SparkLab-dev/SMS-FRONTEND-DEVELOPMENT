@@ -226,11 +226,9 @@ const ProductAttributes: FC<{}> = () => {
             </EditProductButtonHolder>
             <ProductAttributesTable>
               <AttributesTableHead>
-                {/* <AttributesTableRow> */}
                 <AttributesHead>Attribute Name</AttributesHead>
                 <AttributesHead>Attribute Value</AttributesHead>
                 <AttributesHead>Actions</AttributesHead>
-                {/* </AttributesTableRow> */}
               </AttributesTableHead>
               <ProductAttributesTableBody>
                 {product.attributes.map((attribute: any, attrIndex: any) => (
@@ -271,7 +269,6 @@ const ProductAttributes: FC<{}> = () => {
         }}
         headerContent={
           <EditAttributeTableName>
-            {" "}
             {selectedItem ? "Edit Attribute" : "Add New Attribute"}
           </EditAttributeTableName>
         }

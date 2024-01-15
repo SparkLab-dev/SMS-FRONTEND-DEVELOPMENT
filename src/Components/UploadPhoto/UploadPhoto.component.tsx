@@ -2,6 +2,9 @@ import { FC, useState, useEffect, ChangeEvent, useRef } from "react";
 
 //mui-icons
 import EditIcon from "@mui/icons-material/Edit";
+
+//style
+import { LabelDescription } from "Components/GenericInput/style/GenericInput.style";
 import {
   EditPhotoContainer,
   InputHold,
@@ -9,9 +12,6 @@ import {
   PhotoPreview,
   Preview,
 } from "./style/UploadPhoto.style";
-
-//style
-import { LabelDescription } from "Components/GenericInput/style/GenericInput.style";
 
 interface LogoProps {
   profilePhoto: string;

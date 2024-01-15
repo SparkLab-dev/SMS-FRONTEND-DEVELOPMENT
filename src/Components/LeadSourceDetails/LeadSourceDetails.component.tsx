@@ -42,12 +42,12 @@ import {
   ProductDetailss,
   fetchAllProducts,
 } from "redux/Pages/Product/ProductSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 //components
 import Popup from "Components/Popup/Popup.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
-import { addSnackbar } from "redux/actions/actions-snackbar";
 import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const LeadSourceDetails: FC<{}> = () => {
@@ -99,7 +99,13 @@ const LeadSourceDetails: FC<{}> = () => {
             }
           })
           .catch((error: any) => {
-            console.error("Error fetching  contact details:", error);
+            dispatch(
+              addSnackbar({
+                id: "error",
+                type: "error",
+                message: "Error fetching  contact details!",
+              })
+            );
           });
       }
     };
@@ -194,7 +200,13 @@ const LeadSourceDetails: FC<{}> = () => {
           setGetAllProducts(orders);
         }
       } catch (error) {
-        console.error("Error fetching orders:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching orders!",
+          })
+        );
       }
     };
 
@@ -227,11 +239,6 @@ const LeadSourceDetails: FC<{}> = () => {
         return;
       }
 
-      const selectedProductId = getAllProducts.find(
-        (product: any) => product.id === selectedProduct
-      );
-      console.log("selectedProductId", selectedProductId);
-      console.log("hiiiiiiii", selectedLead);
       const leadSouceCredentials = {
         id: leadDetailsId,
         firstName: selectedLeadDetail.firstName,
@@ -397,7 +404,6 @@ const LeadSourceDetails: FC<{}> = () => {
                       <InformationOfLeadDetailsTable>
                         {leadDetails.leadSource?.name}
                       </InformationOfLeadDetailsTable>
-
                       <InformationOfLeadDetailsTable>
                         {leadDetails.annualRevenue}
                       </InformationOfLeadDetailsTable>
@@ -420,22 +426,22 @@ const LeadSourceDetails: FC<{}> = () => {
                         {leadDetails.numberOfEmployees}
                       </InformationOfLeadDetailsTable>
                       <InformationOfLeadDetailsTable>
-                        {leadDetails.address.street}
+                        {leadDetails?.address?.street}
                       </InformationOfLeadDetailsTable>
                       <InformationOfLeadDetailsTable>
-                        {leadDetails.address.city}
+                        {leadDetails?.address?.city}
                       </InformationOfLeadDetailsTable>
                       <InformationOfLeadDetailsTable>
-                        {leadDetails.address.state}
+                        {leadDetails?.address?.state}
                       </InformationOfLeadDetailsTable>
                       <InformationOfLeadDetailsTable>
-                        {leadDetails.address.postalCode}
+                        {leadDetails?.address?.postalCode}
                       </InformationOfLeadDetailsTable>
                       <InformationOfLeadDetailsTable>
-                        {leadDetails.address.country}
+                        {leadDetails?.address?.country}
                       </InformationOfLeadDetailsTable>
                       <InformationOfLeadDetailsTable>
-                        {leadDetails.productInterest.productName}
+                        {leadDetails?.productInterest?.productName}
                       </InformationOfLeadDetailsTable>
                     </ProdTextHolders>
                   ))}
@@ -651,7 +657,7 @@ const LeadSourceDetails: FC<{}> = () => {
               <ProductInputHold>
                 <GenericInput
                   input_label="Street"
-                  value={selectedLeadDetail?.address.street || ""}
+                  value={selectedLeadDetail?.address?.street || ""}
                   onChange={(e: any) => {
                     setSelectedLeadDetail({
                       ...selectedLeadDetail,
@@ -666,7 +672,7 @@ const LeadSourceDetails: FC<{}> = () => {
               <ProductInputHold>
                 <GenericInput
                   input_label="City "
-                  value={selectedLeadDetail?.address.city || ""}
+                  value={selectedLeadDetail?.address?.city || ""}
                   onChange={(e: any) => {
                     setSelectedLeadDetail({
                       ...selectedLeadDetail,
@@ -683,7 +689,7 @@ const LeadSourceDetails: FC<{}> = () => {
               <ProductInputHold>
                 <GenericInput
                   input_label="State"
-                  value={selectedLeadDetail?.address.state || ""}
+                  value={selectedLeadDetail?.address?.state || ""}
                   onChange={(e: any) => {
                     setSelectedLeadDetail({
                       ...selectedLeadDetail,
@@ -698,7 +704,7 @@ const LeadSourceDetails: FC<{}> = () => {
               <ProductInputHold>
                 <GenericInput
                   input_label="Postal Code "
-                  value={selectedLeadDetail?.address.postalCode || ""}
+                  value={selectedLeadDetail?.address?.postalCode || ""}
                   onChange={(e: any) => {
                     setSelectedLeadDetail({
                       ...selectedLeadDetail,
@@ -715,7 +721,7 @@ const LeadSourceDetails: FC<{}> = () => {
               <ProductInputHold>
                 <GenericInput
                   input_label="Country"
-                  value={selectedLeadDetail?.address.country || ""}
+                  value={selectedLeadDetail?.address?.country || ""}
                   onChange={(e: any) => {
                     setSelectedLeadDetail({
                       ...selectedLeadDetail,

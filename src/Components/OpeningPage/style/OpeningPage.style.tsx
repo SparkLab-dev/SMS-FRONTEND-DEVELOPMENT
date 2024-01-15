@@ -1,4 +1,6 @@
 import styled from "styled-components";
+
+//mui-icons
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 export const OpeningPageContainer = styled.div`

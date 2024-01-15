@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useNavigate } from "react-router";
 
 //style
@@ -24,9 +24,6 @@ interface NavbarProps {
 
 const Navbar: FC<NavbarProps> = ({ toggleSidebar }) => {
   const navigate = useNavigate();
-  const [menu, setMenu] = useState("shop");
-  const [showMenu, setShowMenu] = useState(false);
-  const Shop = require("./assets/AccountIcon.png") as string;
 
   //get userRole from redux
   const userRole = useSelector((state: RootState) => state.login.user?.role);
@@ -38,7 +35,6 @@ const Navbar: FC<NavbarProps> = ({ toggleSidebar }) => {
     try {
       localStorage.clear();
       navigate("/login");
-      // window.location.reload();
       console.log("LocalStorage cleared successfully.");
     } catch (error) {
       console.error("Error clearing localStorage:", error);
@@ -60,7 +56,6 @@ const Navbar: FC<NavbarProps> = ({ toggleSidebar }) => {
               style={{ marginTop: "2px", paddingLeft: "10px" }}
             />):("")}
             <NavbarLogo>
-              {/* <NavImage src={Shop} alt="shop-photo" /> */}
               <StoreIcon
                 style={{
                   marginTop: "2px",
@@ -78,8 +73,6 @@ const Navbar: FC<NavbarProps> = ({ toggleSidebar }) => {
             ) : (
               <LogoutButton onClick={handleLogin}>Log in</LogoutButton>
             )}
-            {/* <ShoppingCart style={{ fontSize: "30px" }} />
-        <NavCartCount>0</NavCartCount> */}
           </NavLoginCart>
   
     </Header>

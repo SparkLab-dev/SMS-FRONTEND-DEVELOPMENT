@@ -36,7 +36,6 @@ import {
   ShopCategoryProductProps,
   fetchShopProductCategory,
 } from "redux/Pages/ShopCategory/ShopCategorySlice";
-// Import necessary actions
 import { addSnackbar } from "redux/actions/actions-snackbar";
 
 //components
@@ -67,13 +66,6 @@ const ProductsTable: FC<{}> = () => {
           if (categories.length > 0) {
             // Set the selected category to the first category ID
             setSelectedCategory(categories[0].id);
-            dispatch(
-              addSnackbar({
-                id: "success",
-                type: "success",
-                message: "Categories loaded successfully.",
-              })
-            );
           }
         } else {
           console.error("Product categories not found.");

@@ -25,14 +25,16 @@ import {
 //redux
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
-
-//components
-import GenericButton from "Components/GenericButton/GenericButton.component";
 import {
   Vendor,
   deleteVendor,
   fetchVendors,
 } from "redux/Containers/VendorForm/VendorFormSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+
+//components
+import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const VendorsTable: FC<{}> = () => {
   const navigate = useNavigate();
@@ -48,11 +50,23 @@ const VendorsTable: FC<{}> = () => {
         if (fetchVendors.fulfilled.match(result)) {
           setVendors(result.payload);
         } else {
-          console.error("Vendor details not found.");
+          dispatch(
+            addSnackbar({
+              id: "error",
+              type: "error",
+              message: "Vendor details not found!",
+            })
+          );
         }
       })
       .catch((error: any) => {
-        console.error("Error fetching vendor details:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching vendor details!",
+          })
+        );
       });
   }, [dispatch]);
 
@@ -61,15 +75,25 @@ const VendorsTable: FC<{}> = () => {
     try {
       const result = await dispatch(deleteVendor(vendorId));
       if (deleteVendor.fulfilled.match(result)) {
-        console.log("Vendor deleted successfully!");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Vendor deleted successfully!",
+          })
+        );
         setVendors((prevState) =>
           prevState.filter((order) => order.id !== vendorId)
         );
-      } else {
-        console.error("Failed to delete vendor");
       }
     } catch (error) {
-      console.error("Error deleting vendor:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting vendor!",
+        })
+      );
     }
   };
   const vendorButtonName = (
@@ -134,6 +158,7 @@ const VendorsTable: FC<{}> = () => {
           </VedorTableBody>
         </VendorTable>
       </VendorTableContainer>
+      <SnackBarList />
     </VendorTableHolder>
   );
 };

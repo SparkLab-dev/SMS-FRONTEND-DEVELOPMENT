@@ -40,15 +40,6 @@ const Product: FC<{}> = () => {
   const [error, setError] = useState<string | null>(null);
   const [product, setProduct] = useState<ProductDetailss[]>([]);
 
-  // const [uploadCommentFile, setUploadCommentFile] = useState(false);
-  // const [uploadFile, setUploadFile] = useState(false);
-  // const [files, setFiles] = useState<File[]>([]);
-  // const [showButtons, setShowButtons] = useState(false);
-
-  // const handleCommentFileChange = (e: any) => {
-  //   setUploadCommentFile(!uploadFile);
-  // };
-
   const dispatch: AppDispatch = useDispatch();
   const { id } = useParams();
   const productId = id ? parseInt(id) : 0;
@@ -150,16 +141,6 @@ const Product: FC<{}> = () => {
           <AddToCartButton>Add to cart</AddToCartButton>
         </AddToCartHolder>
       </ProductDetailsHolder>
-      {/* <GenericButton
-        onClick={() => setUploadCommentFile(!uploadCommentFile)}
-        name="Toggle File Uploader"
-      ></GenericButton>
-      {uploadCommentFile ? (
-        <FileUploader
-          setAttachments={setFiles}
-          closeFileUploader={setUploadCommentFile}
-        />
-      ) : null} */}
     </Holder>
   );
 };

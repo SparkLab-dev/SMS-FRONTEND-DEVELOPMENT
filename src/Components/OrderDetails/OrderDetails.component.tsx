@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 //style
 import {
   AccountLabel,
   DisplayOrderHolder,
   EditOrderTableName,
-  Hr,
   OrdDetailsHolder,
   OrderDetailsContainer,
   OrderDetailsContentHolder,
@@ -13,7 +13,6 @@ import {
   OrderDetailsTable,
   Orderdetails,
   OrdersHead,
-  // OrdersTableBody,
   OrdersTableData,
   OrdersTableHead,
   OrdersTableRow,
@@ -23,6 +22,7 @@ import {
   ModalInputHolder,
   ModalSaveButtonHolder,
 } from "Components/OrdersTable/style/OrdersTable.style";
+import { StyledSelect } from "App/style/App.style";
 
 //redux
 import { AppDispatch, RootState } from "redux/store";
@@ -32,6 +32,12 @@ import {
   deleteOrder,
   fetchOrderDetailsById,
 } from "redux/Pages/Orders/OrdersSlice";
+import { orderForm } from "redux/Containers/OrderForm/OrderFormSlice";
+import {
+  Account,
+  fetchAccountDetails,
+} from "redux/Containers/Account/AccountSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 //mui-icons
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -41,15 +47,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import Popup from "Components/Popup/Popup.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
-import { orderForm } from "redux/Containers/OrderForm/OrderFormSlice";
-import { useNavigate, useParams } from "react-router-dom";
 import ProductsOfOrder from "Components/ProductsOfOrder/ProductsOfOrder.component";
-import { StyledSelect } from "App/style/App.style";
-import {
-  Account,
-  fetchAccountDetails,
-} from "redux/Containers/Account/AccountSlice";
-import { addSnackbar } from "redux/actions/actions-snackbar";
 import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const OrderDetailsComponent: FC<{}> = () => {
@@ -59,7 +57,6 @@ const OrderDetailsComponent: FC<{}> = () => {
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [account, setAccount] = useState<Account[]>([]);
   console.log("ACCOUNT", account);
-
   const [selectedAccount, setSelectedAccount] = useState<number | null>(null);
   console.log("ECELCTED ACCOUNT", selectedAccount);
 
@@ -120,7 +117,6 @@ const OrderDetailsComponent: FC<{}> = () => {
 
     fetchAccountData();
   }, [dispatch]);
-  console.log("account", account);
 
   //edit button click
   const handleEdit = (editOrder: any) => {
@@ -170,7 +166,6 @@ const OrderDetailsComponent: FC<{}> = () => {
         id: userId,
       },
     };
-    console.log("SELECTED ACCOUNT", selectedAccount);
     try {
       const response = await dispatch(orderForm({ userCredentials }));
       if (response.payload) {

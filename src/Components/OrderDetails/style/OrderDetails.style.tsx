@@ -69,13 +69,12 @@ export const OrdersHead = styled.div`
   display: flex;
   width: 100%;
   margin: 7px ;
-  /* margin-top: 20px; */
   font-size: 16px;
   font-weight: 600;
   font-family: "Poppins";
 `;
 export const Hr = styled.p`
-  /* border-bottom: 1px solid rgba(224, 224, 224, 1); */
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
 `;
 export const OrdersTableBody = styled.tbody`
   display: flex;
@@ -92,7 +91,6 @@ export const OrdersTableData = styled.td`
   width: 100%;
   height: 100%;
   margin: 7px;
-  /* margin-top: 20px; */
   font-family: "Poppins";
   font-size: 15px;
 `;

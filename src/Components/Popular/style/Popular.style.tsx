@@ -6,7 +6,6 @@ export const PopularDiv = styled.div`
   align-items: center;
   gap: 10px;
   margin: auto;
-  /* padding-top: 50px;  */
   height: calc(100vh - 281px);
   width: 100%;
   overflow-y: auto;
@@ -38,13 +37,13 @@ export const PopularItem = styled.div`
   justify-content: center;
 `;
 export const ItemHandler = styled.div`
-  flex: 0 0 calc(25% - 20px); /* Four items per row with a gap of 20px */
+  flex: 0 0 calc(25% - 20px); 
   margin-bottom: 30px;
   @media (max-width: 1100px) {
-    flex: 0 0 calc(33.33% - 20px); /* Three items per row for medium screens */
+    flex: 0 0 calc(33.33% - 20px);
   }
   @media (max-width: 800px) {
-    flex: 0 0 calc(50% - 20px); /* Two items per row for smaller screens */
+    flex: 0 0 calc(50% - 20px); 
   }
   @media (max-width: 600px) {
     flex: 0 0 calc(100% - 20px); /* One item per row for mobile */

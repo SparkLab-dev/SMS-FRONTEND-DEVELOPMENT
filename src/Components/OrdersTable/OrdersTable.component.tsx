@@ -23,6 +23,7 @@ import {
   AddOrderNameContainerPlusIcon,
   OrderButtonName,
   OrdersTableContainer,
+  OrdersTableHead,
   TableBody,
 } from "./style/OrdersTable.style";
 
@@ -49,8 +50,6 @@ const OrdersTable: FC<{}> = () => {
       try {
         const result = await dispatch(fetchOrderDetails());
         if (fetchOrderDetails.fulfilled.match(result)) {
-          // const orders = result.payload;
-
           setOrders(result.payload);
         }
       } catch (error) {
@@ -92,18 +91,18 @@ const OrdersTable: FC<{}> = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <th>Account Name</th>
-                <th>Order Number</th>
-                <th>Order Source</th>
-                <th>Order Notes</th>
-                <th>Order Status</th>
-                <th>Street</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Country</th>
-                <th>Postal Code</th>
-                <th>Total Amount</th>
-                <th>Actions</th>
+                <OrdersTableHead>Account Name</OrdersTableHead>
+                <OrdersTableHead>Order Number</OrdersTableHead>
+                <OrdersTableHead>Order Source</OrdersTableHead>
+                <OrdersTableHead>Order Notes</OrdersTableHead>
+                <OrdersTableHead>Order Status</OrdersTableHead>
+                <OrdersTableHead>Street</OrdersTableHead>
+                <OrdersTableHead>City</OrdersTableHead>
+                <OrdersTableHead>State</OrdersTableHead>
+                <OrdersTableHead>Country</OrdersTableHead>
+                <OrdersTableHead>Postal Code</OrdersTableHead>
+                <OrdersTableHead>Total Amount</OrdersTableHead>
+                <OrdersTableHead>Actions</OrdersTableHead>
               </TableRow>
             </TableHead>
             <TableBody>

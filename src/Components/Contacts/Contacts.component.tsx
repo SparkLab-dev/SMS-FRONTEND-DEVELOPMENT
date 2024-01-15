@@ -1,5 +1,7 @@
 import { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+//components
 import {
   FormName,
   LabelDescriptionContainer,
@@ -7,14 +9,11 @@ import {
 } from "App/style/App.style";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
+
+//redux
 import { AppDispatch, RootState } from "redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import {
-  ContactsFormContentHoder,
-  GenericContactInputHold,
-  InputsOfContactFormContainer,
-} from "./style/Contacts.style";
 import {
   ContactProps,
   addContact,
@@ -24,6 +23,14 @@ import {
   AccountTypeProps,
   getAccountByType,
 } from "redux/Pages/AccountType/AccountTypeSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+
+//style
+import {
+  ContactsFormContentHoder,
+  GenericContactInputHold,
+  InputsOfContactFormContainer,
+} from "./style/Contacts.style";
 
 const Contacts: FC<{}> = () => {
   const navigate = useNavigate();
@@ -44,10 +51,10 @@ const Contacts: FC<{}> = () => {
   const [selectedLeadSource, setSelectedLeadSource] = useState<number | null>(
     null
   );
-  console.log(selectedLeadSource);
   const [leadsource, setLeadSource] = useState<ContactProps[]>([]);
   console.log(leadsource);
   console.log(selectedAccount);
+
   const dispatch: AppDispatch = useDispatch();
 
   //get userRole from redux
@@ -81,11 +88,23 @@ const Contacts: FC<{}> = () => {
         if (getLeadSource.fulfilled.match(result)) {
           setLeadSource(result.payload);
         } else {
-          console.error("Lead Source details not found.");
+          dispatch(
+            addSnackbar({
+              id: "warning",
+              type: "warning",
+              message: "Lead Source details not found!",
+            })
+          );
         }
       })
       .catch((error: any) => {
-        console.error("Error fetching Lead Source details:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching Lead Source details!",
+          })
+        );
       });
   }, [dispatch]);
 
@@ -137,11 +156,26 @@ const Contacts: FC<{}> = () => {
       const response = await dispatch(addContact({ contactCredentials }));
 
       if (addContact.fulfilled.match(response)) {
-        navigate("/contactsTable");
-        console.log("Contact  added!");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Contact added successfully!",
+          })
+        );
+
+        setTimeout(() => {
+          navigate("/contactsTable");
+        }, 2000);
       }
     } catch (error) {
-      console.log("Error in handleContatcClick:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error on adding new contact!",
+        })
+      );
     }
   };
 
@@ -354,6 +388,7 @@ const Contacts: FC<{}> = () => {
         </InputsOfContactFormContainer>
         <GenericButton name="Create contact" onClick={handleContactFormClick} />
       </ContactsFormContentHoder>
+      <SnackBarList />
     </>
   );
 };

@@ -49,11 +49,11 @@ import ProductAttributes from "Components/ProductAttributes/ProductAttributes.co
 import Popup from "Components/Popup/Popup.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 //mui icons
 import DeleteIcon from "@mui/icons-material/Delete";
 import { addSnackbar } from "redux/actions/actions-snackbar";
-import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const ProductDetails: FC<{}> = () => {
   const navigate = useNavigate();
@@ -85,7 +85,13 @@ const ProductDetails: FC<{}> = () => {
             }
           })
           .catch((error: any) => {
-            console.error("Error fetching  product details:", error);
+            dispatch(
+              addSnackbar({
+                id: "error",
+                type: "error",
+                message: "Error fetching  product details!",
+              })
+            );
           });
       }
     };
@@ -118,7 +124,6 @@ const ProductDetails: FC<{}> = () => {
         );
       });
   }, [dispatch]);
-  console.log("productCategory", productCategory);
 
   //edit button click
   const handleEdit = (product: any) => {
@@ -217,19 +222,14 @@ const ProductDetails: FC<{}> = () => {
                 <ProdDetailsHolder>
                   <ProdTextHolders>
                     <ProdDetailsHeaderText>Product Name</ProdDetailsHeaderText>
-
                     <ProdDetailsHeaderText>Barcode</ProdDetailsHeaderText>
-
                     <ProdDetailsHeaderText>
                       Stock Quantity
                     </ProdDetailsHeaderText>
-
                     <ProdDetailsHeaderText>ThresHold</ProdDetailsHeaderText>
-
                     <ProdDetailsHeaderText>
                       Product Category
                     </ProdDetailsHeaderText>
-
                     <ProdDetailsHeaderText>Price</ProdDetailsHeaderText>
                   </ProdTextHolders>
                   {productDetails.map((product: any, index: any) => (
@@ -238,28 +238,22 @@ const ProductDetails: FC<{}> = () => {
                         <InformationOfProduct>
                           {product.name}
                         </InformationOfProduct>
-
                         <InformationOfProduct>
                           {product.barcode}
                         </InformationOfProduct>
-
                         <InformationOfProduct>
                           {product.stockQuantity}
                         </InformationOfProduct>
-
                         <InformationOfProduct>
                           {product.threshold}
                         </InformationOfProduct>
-
                         <InformationOfProduct>
                           {product.productCategory.name}
                         </InformationOfProduct>
-
                         <InformationOfProduct>
                           {product.price}
                         </InformationOfProduct>
                       </ProdTextHolders>
-
                       <ButtonsHolder>
                         <EditButtonContainer
                           onClick={() => handleEdit(product)}

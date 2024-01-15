@@ -15,8 +15,10 @@ import {
 } from "./style/OpeningPage.style";
 
 const OpeningPage: FC<{}> = () => {
+  
   const navigate = useNavigate();
   const OnlineShopping = require("./assets/OnlineShopping.jpg") as string;
+
   return (
     <>
       <OpeningPageContainer>

@@ -37,6 +37,6 @@ export const AccountTypeName = styled.p`
   cursor: pointer;
   margin: 10px;
   &:hover {
-    font-weight: bold; /* Change the font size when hovered */
+    font-weight: bold;
   }
 `;

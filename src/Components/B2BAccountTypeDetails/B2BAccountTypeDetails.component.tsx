@@ -1,36 +1,23 @@
+import { FC, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+//style
 import {
   ButtonsHolder,
   DisplayProductsHolder,
   EditButtonContainer,
   EditProductTableName,
-  ProdDetailsHeaderText,
   ProdDetailsHolder,
   ProdTextHolders,
   ProductDetailsComponent,
-  ProductDetailsContainer,
   ProductDetailsContentHolder,
   ProductList,
   Productdetails,
 } from "Components/ProductDetails/style/ProductDetails.style";
-import { FC, useEffect, useState } from "react";
-//mui icons
-import DeleteIcon from "@mui/icons-material/Delete";
-import {
-  AccountTypeProps,
-  addAccount,
-  deleteAccount,
-  fetchAccountDetailsById,
-} from "redux/Pages/AccountType/AccountTypeSlice";
-import { AppDispatch, RootState } from "redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import Popup from "Components/Popup/Popup.component";
 import {
   InputsOfProductTable,
   ProductInputHold,
 } from "Components/ProductsTable/style/ProductsTable.style";
-import GenericInput from "Components/GenericInput/GenericInput.component";
-import GenericButton from "Components/GenericButton/GenericButton.component";
 import { GenericB2BInputHold } from "Components/B2BForm/style/B2BForm.style";
 import { AccountLabel } from "Components/OrderDetails/style/OrderDetails.style";
 import { StyledSelect } from "App/style/App.style";
@@ -40,12 +27,32 @@ import {
   InformationOfAccountB2BTable,
 } from "./style/B2BAccountTypeDetails.style";
 
+//mui icons
+import DeleteIcon from "@mui/icons-material/Delete";
+
+//redux
+import {
+  AccountTypeProps,
+  addAccount,
+  deleteAccount,
+  fetchAccountDetailsById,
+} from "redux/Pages/AccountType/AccountTypeSlice";
+import { AppDispatch, RootState } from "redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+
+//components
+import Popup from "Components/Popup/Popup.component";
+import GenericInput from "Components/GenericInput/GenericInput.component";
+import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
+
 const B2BAccountTypeDetails: FC<{}> = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [accountB2B, setAccountB2B] = useState<AccountTypeProps[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<any>(null);
-  const [selectedPriority, setSelectedPriority] = useState<string>(""); // State to store selected priority
+  const [selectedPriority, setSelectedPriority] = useState<string>("");
 
   console.log(selectedAccount);
   const dispatch: AppDispatch = useDispatch();
@@ -73,14 +80,19 @@ const B2BAccountTypeDetails: FC<{}> = () => {
             console.log(result);
             if (fetchAccountDetailsById.fulfilled.match(result)) {
               setAccountB2B(result.payload);
-              // Set selectedPriority here based on fetched data
               if (result.payload.length > 0) {
                 setSelectedPriority(result.payload[0].accountPriority);
               }
             }
           })
           .catch((error: any) => {
-            console.error("Error fetching  product details:", error);
+            dispatch(
+              addSnackbar({
+                id: "error",
+                type: "error",
+                message: "Error fetching  product details!",
+              })
+            );
           });
       }
     };
@@ -141,11 +153,24 @@ const B2BAccountTypeDetails: FC<{}> = () => {
             : account
         );
         setAccountB2B(updatedProductDetails);
+        setSelectedPriority(selectedAccount.accountPriority);
         setIsModalOpen(false);
-        setSelectedPriority(selectedAccount.accountPriority); // No need to update here if already updated in handleEdit
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Account edited successfully!",
+          })
+        );
       }
     } catch (error) {
-      console.log("Error in handleEditAccountClick:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error in editing account!",
+        })
+      );
     }
   };
 
@@ -154,188 +179,203 @@ const B2BAccountTypeDetails: FC<{}> = () => {
     try {
       const result = await dispatch(deleteAccount(accountId));
       if (deleteAccount.fulfilled.match(result)) {
-        console.log("Account deleted successfully!");
         setAccountB2B((prevState) =>
           prevState.filter((account) => account.accountId !== accountId)
         );
-        navigate("/accountB2BTable");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Account deleted successfully!",
+          })
+        );
+
+        setTimeout(() => {
+          navigate("/accountB2BTable");
+        }, 2000);
       } else {
         console.error("Failed to delete account");
       }
     } catch (error) {
-      console.error("Error deleting account:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting account!",
+        })
+      );
     }
   };
 
   return (
-    <Productdetails>
-      <ProductDetailsContentHolder>
-        <ProductDetailsComponent>
-          <ProductList>
-            <DisplayProductsHolder>
-              <ProdDetailsHolder>
-                <ProdTextHolders>
-                  <AccountB2BDetailsHeaderText>
-                    Account Name
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    Email
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    Account Number
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    Industry
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    Account Priority
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    Phone
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    Website
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    Employees Number
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    Description
-                  </AccountB2BDetailsHeaderText>
-                  <AddressText>Shipping Address</AddressText>
-                  <AccountB2BDetailsHeaderText>
-                    Street
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    City
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    State
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    Postal Code
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    Country
-                  </AccountB2BDetailsHeaderText>
-                  <AddressText>Billing Address</AddressText>
-                  <AccountB2BDetailsHeaderText>
-                    Street
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    City
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    State
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    Postal Code
-                  </AccountB2BDetailsHeaderText>
-                  <AccountB2BDetailsHeaderText>
-                    Country
-                  </AccountB2BDetailsHeaderText>
-                </ProdTextHolders>
-                {accountB2B.map((accountB2B: any, index: number) => (
-                  <>
-                    <ProdTextHolders key={index}>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.accountName}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.email}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.accountNumber}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.industry}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.accountPriority}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.phone}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.website}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.employeesNumber}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.description}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable></InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.shippingAddress.street}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.shippingAddress.city}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.shippingAddress.state}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.shippingAddress.postalCode}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.shippingAddress.country}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable></InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.billingAddress.street}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.billingAddress.city}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.billingAddress.state}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.billingAddress.postalCode}
-                      </InformationOfAccountB2BTable>
-                      <InformationOfAccountB2BTable>
-                        {accountB2B.billingAddress.country}
-                      </InformationOfAccountB2BTable>
-                    </ProdTextHolders>
-                    <ButtonsHolder>
-                      <EditButtonContainer
-                        onClick={() => handleEdit(accountB2B)}
-                      >
-                        Edit
-                      </EditButtonContainer>
-                      <DeleteIcon
-                        style={{
-                          color: "#1976d2",
-                          textAlign: "center",
-                          fontSize: "30px",
-                          marginTop: "10px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() =>
-                          handleDeleteProduct(accountB2B.accountId)
-                        }
-                      />
-                    </ButtonsHolder>
-                  </>
-                ))}
-              </ProdDetailsHolder>
-            </DisplayProductsHolder>
-          </ProductList>
-        </ProductDetailsComponent>
-      </ProductDetailsContentHolder>
-      <Popup
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setSelectedAccount(null);
-        }}
-        headerContent={
-          <EditProductTableName>Edit Account</EditProductTableName>
-        }
-        bodyContent={
-          <>
-            <div>
+    <>
+      <Productdetails>
+        <ProductDetailsContentHolder>
+          <ProductDetailsComponent>
+            <ProductList>
+              <DisplayProductsHolder>
+                <ProdDetailsHolder>
+                  <ProdTextHolders>
+                    <AccountB2BDetailsHeaderText>
+                      Account Name
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      Email
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      Account Number
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      Industry
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      Account Priority
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      Phone
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      Website
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      Employees Number
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      Description
+                    </AccountB2BDetailsHeaderText>
+                    <AddressText>Shipping Address</AddressText>
+                    <AccountB2BDetailsHeaderText>
+                      Street
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      City
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      State
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      Postal Code
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      Country
+                    </AccountB2BDetailsHeaderText>
+                    <AddressText>Billing Address</AddressText>
+                    <AccountB2BDetailsHeaderText>
+                      Street
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      City
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      State
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      Postal Code
+                    </AccountB2BDetailsHeaderText>
+                    <AccountB2BDetailsHeaderText>
+                      Country
+                    </AccountB2BDetailsHeaderText>
+                  </ProdTextHolders>
+                  {accountB2B.map((accountB2B: any, index: number) => (
+                    <>
+                      <ProdTextHolders key={index}>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.accountName}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.email}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.accountNumber}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.industry}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.accountPriority}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.phone}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.website}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.employeesNumber}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.description}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable></InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.shippingAddress.street}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.shippingAddress.city}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.shippingAddress.state}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.shippingAddress.postalCode}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.shippingAddress.country}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable></InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.billingAddress.street}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.billingAddress.city}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.billingAddress.state}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.billingAddress.postalCode}
+                        </InformationOfAccountB2BTable>
+                        <InformationOfAccountB2BTable>
+                          {accountB2B.billingAddress.country}
+                        </InformationOfAccountB2BTable>
+                      </ProdTextHolders>
+                      <ButtonsHolder>
+                        <EditButtonContainer
+                          onClick={() => handleEdit(accountB2B)}
+                        >
+                          Edit
+                        </EditButtonContainer>
+                        <DeleteIcon
+                          style={{
+                            color: "#1976d2",
+                            textAlign: "center",
+                            fontSize: "30px",
+                            marginTop: "10px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() =>
+                            handleDeleteProduct(accountB2B.accountId)
+                          }
+                        />
+                      </ButtonsHolder>
+                    </>
+                  ))}
+                </ProdDetailsHolder>
+              </DisplayProductsHolder>
+            </ProductList>
+          </ProductDetailsComponent>
+        </ProductDetailsContentHolder>
+        <Popup
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            setSelectedAccount(null);
+          }}
+          headerContent={
+            <EditProductTableName>Edit Account</EditProductTableName>
+          }
+          bodyContent={
+            <>
               <InputsOfProductTable>
                 <ProductInputHold>
                   <GenericInput
@@ -623,17 +663,18 @@ const B2BAccountTypeDetails: FC<{}> = () => {
                   />
                 </ProductInputHold>
               </InputsOfProductTable>
-            </div>
-          </>
-        }
-        footerContent={
-          <GenericButton
-            onClick={handleUpdateAccountB2BFormClick}
-            name="Save"
-          />
-        }
-      />
-    </Productdetails>
+            </>
+          }
+          footerContent={
+            <GenericButton
+              onClick={handleUpdateAccountB2BFormClick}
+              name="Save"
+            />
+          }
+        />
+      </Productdetails>
+      <SnackBarList />
+    </>
   );
 };
 

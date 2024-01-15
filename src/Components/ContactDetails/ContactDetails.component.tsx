@@ -58,7 +58,6 @@ const ContactDetails: FC<{}> = () => {
   const [selectedAccount, setSelectedAccount] = useState<number | null>(null);
   const [selectedLeadSource, setSelectedLeadSource] = useState<any>("");
   const [leadsource, setLeadSource] = useState<ContactProps[]>([]);
-  console.log(selectedContact);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -130,7 +129,6 @@ const ContactDetails: FC<{}> = () => {
     try {
       const result = await dispatch(deleteContact(contactId));
       if (deleteContact.fulfilled.match(result)) {
-        console.log("Contact deleted successfully!");
         setContacts((prevState) =>
           prevState.filter((contact) => contact.id !== contactId)
         );

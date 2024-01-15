@@ -1,5 +1,9 @@
 import { FC, useEffect } from "react";
+
+//mui-icons
 import CloseIcon from "@mui/icons-material/Close";
+
+//style
 import { CloseButton, MessageBox, SnackBarCard } from "./style/SnackBar.style";
 
 export interface SnackBarProps {

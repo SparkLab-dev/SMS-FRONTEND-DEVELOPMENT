@@ -1,14 +1,18 @@
-import { Container, Snackbar } from "@mui/material";
-import { ItemPrices } from "Components/Item/style/Item.style";
-import useAppDispatch from "hooks/useAppDispatch";
-import useAppSelector from "hooks/useAppSelector";
-import { FC, useCallback } from "react";
-import SnackBar from "./SnackBar/SnackBar.component";
-import { removeSnackbarByID } from "redux/actions/actions-snackbar";
 import { createPortal } from "react-dom";
+import { FC, useCallback } from "react";
+
+//style
+import { ItemPrices } from "Components/Item/style/Item.style";
+import { SnackBarContainer } from "./style/SnackbarList.style";
+
+//redux
+import useAppSelector from "hooks/useAppSelector";
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
-import { SnackBarContainer } from "./style/SnackbarList.style";
+import { removeSnackbarByID } from "redux/actions/actions-snackbar";
+
+//components
+import SnackBar from "./SnackBar/SnackBar.component";
 
 const SnackBarList: FC<{}> = () => {
   const snackbarPortalElement = document.getElementById("snackbar-root");

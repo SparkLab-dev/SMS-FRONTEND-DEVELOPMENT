@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 //redux
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
 import {
   ProductImage,
   deleteProductImage,
@@ -20,6 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 //components
 import UploadPhoto from "Components/UploadPhoto/UploadPhoto.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 //style
 import {
@@ -28,9 +29,7 @@ import {
   UploadPhotoText,
 } from "Containers/ProductForm/style/ProductForm.style";
 import {
-  EditProductButton,
   EditProductButtonHolder,
-  EditProductDetailsButtonNameContainer,
   ProductImageHolder,
 } from "Components/ProductDetails/style/ProductDetails.style";
 import {
@@ -271,6 +270,7 @@ const ProductImages: FC<{}> = () => {
           </ImagesTable>
         </ImagesHolder>
       </ProductImageContentHolder>
+      <SnackBarList />
     </>
   );
 };

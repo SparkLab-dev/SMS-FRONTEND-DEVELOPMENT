@@ -18,6 +18,7 @@ import {
 
 //components
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 //mui icons
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -31,12 +32,12 @@ import {
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
 import { addSnackbar } from "redux/actions/actions-snackbar";
-import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const LeadSourceTable: FC<{}> = () => {
   const navigate = useNavigate();
   const [leadSource, setLeadSource] = useState<LeadRequestBody[]>([]);
   console.log("lead source", leadSource);
+
   const dispatch: AppDispatch = useDispatch();
 
   //get all leads api call
@@ -138,22 +139,22 @@ const LeadSourceTable: FC<{}> = () => {
                     {leadSource.numberOfEmployees}
                   </LeadSourceTableCell>
                   <LeadSourceTableCell>
-                    {leadSource.address.street}
+                    {leadSource?.address?.street}
                   </LeadSourceTableCell>
                   <LeadSourceTableCell>
-                    {leadSource.address.city}
+                    {leadSource?.address?.city}
                   </LeadSourceTableCell>
                   <LeadSourceTableCell>
-                    {leadSource.address.state}
+                    {leadSource?.address?.state}
                   </LeadSourceTableCell>
                   <LeadSourceTableCell>
-                    {leadSource.address.postalCode}
+                    {leadSource.address?.postalCode}
                   </LeadSourceTableCell>
                   <LeadSourceTableCell>
-                    {leadSource.address.country}
+                    {leadSource?.address?.country}
                   </LeadSourceTableCell>
                   <LeadSourceTableCell>
-                    {leadSource.productInterest.productName}
+                    {leadSource?.productInterest?.productName}
                   </LeadSourceTableCell>
 
                   <LeadSourceTableCell>

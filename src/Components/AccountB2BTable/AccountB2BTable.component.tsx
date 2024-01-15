@@ -1,4 +1,7 @@
 import { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+//style
 import {
   AccountButtonName,
   AccountTableContainer,
@@ -9,12 +12,6 @@ import {
   PopupName,
   TableAccountHolder,
 } from "./style/AccountB2BTable.style";
-import GenericButton from "Components/GenericButton/GenericButton.component";
-
-//mui icons
-import ForwardIcon from "@mui/icons-material/Forward";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { useNavigate } from "react-router-dom";
 import {
   Table,
   TableCell,
@@ -23,13 +20,24 @@ import {
   TableRow,
 } from "Components/ProductsTable/style/ProductsTable.style";
 import { TableBody } from "Components/OrdersTable/style/OrdersTable.style";
+
+//components
+import GenericButton from "Components/GenericButton/GenericButton.component";
+import Popup from "Components/Popup/Popup.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
+
+//mui icons
+import ForwardIcon from "@mui/icons-material/Forward";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+
+//redux
 import {
   AccountTypeProps,
   getAccountByType,
 } from "redux/Pages/AccountType/AccountTypeSlice";
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
-import Popup from "Components/Popup/Popup.component";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 const AccountB2BTable: FC<{}> = () => {
   const [accountB2B, setAccountB2B] = useState<AccountTypeProps[]>([]);
@@ -46,7 +54,7 @@ const AccountB2BTable: FC<{}> = () => {
 
   //get account B2B api
   useEffect(() => {
-    const handleAccountB2B= async () => {
+    const handleAccountB2B = async () => {
       try {
         const accountTypeCredentials = {
           type: "B2B",
@@ -59,6 +67,13 @@ const AccountB2BTable: FC<{}> = () => {
           setAccountB2B([response.payload]);
         }
       } catch (error) {
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error in getting account B2B!",
+          })
+        );
         console.log("Error in handleAccountB2BClick:", error);
       }
     };
@@ -158,6 +173,7 @@ const AccountB2BTable: FC<{}> = () => {
         }
         footerContent={<GenericButton name="Save" />}
       />
+      <SnackBarList />
     </>
   );
 };

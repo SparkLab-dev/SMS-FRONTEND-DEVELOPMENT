@@ -1,11 +1,7 @@
 import { FC, useEffect, useState } from "react";
-
-import GenericButton from "Components/GenericButton/GenericButton.component";
-
-//mui icons
-import ForwardIcon from "@mui/icons-material/Forward";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useNavigate } from "react-router-dom";
+
+//style
 import {
   Table,
   TableCell,
@@ -15,25 +11,38 @@ import {
 } from "Components/ProductsTable/style/ProductsTable.style";
 import { TableBody } from "Components/OrdersTable/style/OrdersTable.style";
 import {
-  AccountTypeProps,
-  getAccountByType,
-} from "redux/Pages/AccountType/AccountTypeSlice";
-import { AppDispatch } from "redux/store";
-import { useDispatch } from "react-redux";
-import {
   AccountB2CButtonName,
   AccountB2CTableContainer,
+  AccountB2CTableHead,
   AddAccountB2CNameContainerPlusIcon,
   AddNewAccountB2CButton,
 } from "./style/AccountB2CTable.style";
-import Popup from "Components/Popup/Popup.component";
 import { PopupName } from "Components/VendorDetails/style/VendorDetails.style";
 import {
   AccountTypeName,
   AccountsTypeNAmeHolder,
 } from "Components/AccountB2BTable/style/AccountB2BTable.style";
 
+//mui icons
+import ForwardIcon from "@mui/icons-material/Forward";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+
+//redux
+import {
+  AccountTypeProps,
+  getAccountByType,
+} from "redux/Pages/AccountType/AccountTypeSlice";
+import { AppDispatch } from "redux/store";
+import { useDispatch } from "react-redux";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+
+//components
+import Popup from "Components/Popup/Popup.component";
+import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
+
 const AccountB2CTable: FC<{}> = () => {
+  const navigate = useNavigate();
   const [accountB2C, setAccountB2C] = useState<AccountTypeProps[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -41,8 +50,6 @@ const AccountB2CTable: FC<{}> = () => {
   const openPopup = () => {
     setIsModalOpen(true);
   };
-
-  const navigate = useNavigate();
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -61,6 +68,13 @@ const AccountB2CTable: FC<{}> = () => {
           setAccountB2C([response.payload]);
         }
       } catch (error) {
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error in getting account  B2C!",
+          })
+        );
         console.log("Error in handleAccountB2C Click:", error);
       }
     };
@@ -98,13 +112,13 @@ const AccountB2CTable: FC<{}> = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <th>FirstName</th>
-                  <th>LastName</th>
-                  <th>Email</th>
-                  <th>Account Priority</th>
-                  <th>Cel</th>
-                  <th>Description</th>
-                  <th>Actions</th>
+                  <AccountB2CTableHead>FirstName</AccountB2CTableHead>
+                  <AccountB2CTableHead>LastName</AccountB2CTableHead>
+                  <AccountB2CTableHead>Email</AccountB2CTableHead>
+                  <AccountB2CTableHead>Account Priority</AccountB2CTableHead>
+                  <AccountB2CTableHead>Cel</AccountB2CTableHead>
+                  <AccountB2CTableHead>Description</AccountB2CTableHead>
+                  <AccountB2CTableHead>Actions</AccountB2CTableHead>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -153,6 +167,7 @@ const AccountB2CTable: FC<{}> = () => {
         }
         footerContent={<GenericButton name="Save" />}
       />
+      <SnackBarList />
     </>
   );
 };

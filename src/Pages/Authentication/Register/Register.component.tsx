@@ -85,7 +85,6 @@ const Register: FC<{}> = () => {
         setEmail("");
         setUsername("");
         setRoles([]);
-        // window.location.href = "login";
       } catch (error) {
         console.error("Register failed!", error);
       }

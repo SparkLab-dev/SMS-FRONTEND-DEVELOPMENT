@@ -8,13 +8,13 @@ export const SnackBarCard = styled.div<SnackBarProp>`
   background-color: ${({ type }) => {
     switch (type) {
       case "success":
-        return "green";
+        return "#386641";
       case "error":
-        return "red";
+        return "#9b2226";
       case "warning":
-        return "orange";
+        return "#e85d04";
       case "info":
-        return "blue";
+        return "#005f73";
       default:
         return "gray";
     }
@@ -26,6 +26,8 @@ export const SnackBarCard = styled.div<SnackBarProp>`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: "Poppins";
+  padding-left: 15px;
 `;
 
 export const MessageBox = styled.div`

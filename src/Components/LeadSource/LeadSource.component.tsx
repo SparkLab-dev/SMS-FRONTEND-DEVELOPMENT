@@ -16,6 +16,7 @@ import {
 //components
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 //redux
 import {
@@ -30,6 +31,7 @@ import {
   ProductDetailss,
   fetchAllProducts,
 } from "redux/Pages/Product/ProductSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 const LeadSource: FC<{}> = () => {
   const navigate = useNavigate();
@@ -190,11 +192,26 @@ const LeadSource: FC<{}> = () => {
       const response = await dispatch(addLead({ leadSouceCredentials }));
 
       if (addLead.fulfilled.match(response)) {
-        navigate("/leadSourceTable");
-        console.log("Lead  added!");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Lead added successfully!",
+          })
+        );
+
+        setTimeout(() => {
+          navigate("/leadSourceTable");
+        }, 2000);
       }
     } catch (error) {
-      console.log("Error in handleLeadClick:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error on adding new lead!",
+        })
+      );
     }
   };
   return (
@@ -212,7 +229,7 @@ const LeadSource: FC<{}> = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setFirstName(e.target.value)
               }
-            />{" "}
+            />
           </GenericLeadSourceInputHold>
           <GenericLeadSourceInputHold>
             <GenericInput
@@ -238,7 +255,7 @@ const LeadSource: FC<{}> = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setCompany(e.target.value)
               }
-            />{" "}
+            />
           </GenericLeadSourceInputHold>
           <GenericLeadSourceInputHold>
             <LabelDescriptionContainer>Lead Source</LabelDescriptionContainer>
@@ -271,7 +288,7 @@ const LeadSource: FC<{}> = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setAnnualRevenue(e.target.value)
               }
-            />{" "}
+            />
           </GenericLeadSourceInputHold>
           <GenericLeadSourceInputHold>
             <GenericInput
@@ -283,7 +300,7 @@ const LeadSource: FC<{}> = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setPhone(e.target.value)
               }
-            />{" "}
+            />
           </GenericLeadSourceInputHold>
         </InputsLeadSourceContainer>
         <InputsLeadSourceContainer>
@@ -297,7 +314,7 @@ const LeadSource: FC<{}> = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setEmail(e.target.value)
               }
-            />{" "}
+            />
           </GenericLeadSourceInputHold>
           <GenericLeadSourceInputHold>
             <GenericInput
@@ -324,8 +341,8 @@ const LeadSource: FC<{}> = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setWebsite(e.target.value)
               }
-            />{" "}
-          </GenericLeadSourceInputHold>{" "}
+            />
+          </GenericLeadSourceInputHold>
           <GenericLeadSourceInputHold>
             <LabelDescriptionContainer>Lead Status</LabelDescriptionContainer>
             <StyledSelect
@@ -347,7 +364,6 @@ const LeadSource: FC<{}> = () => {
           </GenericLeadSourceInputHold>
         </InputsLeadSourceContainer>
         <InputsLeadSourceContainer>
-          {" "}
           <GenericLeadSourceInputHold>
             <GenericInput
               placeholder="Number of employees"
@@ -359,7 +375,7 @@ const LeadSource: FC<{}> = () => {
                 setNumberOfEmployees(e.target.value)
               }
             />
-          </GenericLeadSourceInputHold>{" "}
+          </GenericLeadSourceInputHold>
           <GenericLeadSourceInputHold>
             <LabelDescriptionContainer>Product</LabelDescriptionContainer>
             <StyledSelect
@@ -389,10 +405,9 @@ const LeadSource: FC<{}> = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setStreet(e.target.value)
               }
-            />{" "}
+            />
           </GenericLeadSourceInputHold>
           <GenericLeadSourceInputHold>
-            {" "}
             <GenericInput
               placeholder="City"
               input_label="City"
@@ -419,7 +434,6 @@ const LeadSource: FC<{}> = () => {
             />
           </GenericLeadSourceInputHold>
           <GenericLeadSourceInputHold>
-            {" "}
             <GenericInput
               placeholder="Postal Code"
               input_label="Postal Code"
@@ -434,7 +448,6 @@ const LeadSource: FC<{}> = () => {
         </InputsLeadSourceContainer>
         <InputsLeadSourceContainer>
           <GenericLeadSourceInputHold>
-            {" "}
             <GenericInput
               placeholder="Country"
               input_label="Country"
@@ -452,6 +465,7 @@ const LeadSource: FC<{}> = () => {
           onClick={handleLeadSourceFormClick}
         />
       </LeadSourceShipingAddressFormHolder>
+      <SnackBarList />
     </>
   );
 };
