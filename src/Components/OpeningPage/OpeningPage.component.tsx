@@ -1,4 +1,7 @@
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
+
+//style
 import {
   ArrowIcon,
   DIV,
@@ -10,11 +13,12 @@ import {
   OpeningPageRight,
   ParagNew,
 } from "./style/OpeningPage.style";
-import { useNavigate } from "react-router-dom";
 
 const OpeningPage: FC<{}> = () => {
+  
   const navigate = useNavigate();
   const OnlineShopping = require("./assets/OnlineShopping.jpg") as string;
+
   return (
     <>
       <OpeningPageContainer>

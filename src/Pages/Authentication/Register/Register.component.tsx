@@ -23,7 +23,6 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "redux/store";
 import { registerUser } from "redux/Authentication/Register/RegisterSlice";
 
-
 interface DropdownItem {
   id: string;
   name?: string;
@@ -76,14 +75,16 @@ const Register: FC<{}> = () => {
       console.log("Invalid email format!");
     } else {
       try {
-        await dispatch(registerUser(userCredentials));
-        console.log("Go to check the email!");
+        const response = await dispatch(registerUser(userCredentials));
+        if (registerUser.fulfilled.match(response)) {
+          console.log("Go to check the email!");
+        }
+
         setFirstName("");
         setLastName("");
         setEmail("");
         setUsername("");
         setRoles([]);
-        // window.location.href = "login";
       } catch (error) {
         console.error("Register failed!", error);
       }

@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 //mui-icons
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { Link } from "react-router-dom";
+
 export const AdminNotifyContainer = styled.div`
   width: 100%;
   height: 75%;
@@ -13,7 +14,7 @@ export const AdminNotificationsContentHolder = styled.div`
   width: 100%;
   height: 100%;
   padding: 1px 0;
-  background-color: #ffff;
+  /* background: #e5e5e5; */
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;

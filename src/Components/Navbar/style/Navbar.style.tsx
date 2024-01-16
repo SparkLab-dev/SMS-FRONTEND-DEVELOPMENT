@@ -13,19 +13,22 @@ export const Header = styled.header`
   right: 0;
   z-index: 10;
   display: flex;
-  justify-content: space-around;
-  padding: 16px;
+  padding: 16px 0;
+  justify-content: space-between;
   align-items: center;
-  background-color: #fff;
+  background-color: white;
   color: #000000;
   width: 100%;
-  height: 55px;
+  height: 50px;
   box-shadow: 0 1px 3px -2px black;
+`;
+export const LogoHolder = styled.div`
+  display: flex;
+  cursor: pointer;
 `;
 export const NavbarLogo = styled.div`
   display: flex;
-  align-items: center;
-  gap: 10px;
+  padding-left: 20px;
 `;
 export const NavImage = styled.img`
   width: 55px;
@@ -34,8 +37,8 @@ export const NavImage = styled.img`
 export const LogoName = styled.p`
   font-family: "Poppins";
   font-weight: 600;
-  font-size: 32px;
-  color: black;
+  font-size: 28px;
+  color: #0f0f0f;
 `;
 
 export const UnorderedList = styled.ul`
@@ -45,7 +48,6 @@ export const UnorderedList = styled.ul`
   justify-content: center;
   margin: 0;
   padding: 0;
-  /* margin-left: 20px; */
 `;
 export const HR = styled.hr`
   border: none;
@@ -78,8 +80,11 @@ export const NavLink = styled(Link)`
 `;
 export const NavLoginCart = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-end;
   gap: 45px;
+  padding-right: 15px;
 `;
 export const LogoutButton = styled.button`
   width: 110px;
@@ -113,4 +118,13 @@ export const NavCartCount = styled.div`
   border-radius: 14px;
   background-color: red;
   color: white;
+`;
+export const HamburgerIcon = styled.div`
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+
+  @media (max-width: 1100px) {
+    display: block;
+  }
 `;

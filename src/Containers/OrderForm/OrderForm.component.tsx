@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 //style
 import {
@@ -33,11 +34,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { orderForm } from "redux/Containers/OrderForm/OrderFormSlice";
 import { calculateItem } from "redux/Containers/CalculateItem/CalculateItemSlice";
 import {
-  ProductDetails,
+  ProductDetailss,
   fetchAllProducts,
 } from "redux/Pages/Product/ProductSlice";
+import {
+  Account,
+  fetchAccountDetails,
+} from "redux/Containers/Account/AccountSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
+import { Asterik } from "Components/GenericInput/style/GenericInput.style";
 
 const OrderForm: FC<{}> = () => {
+  const navigate = useNavigate();
+
   const [orderNotes, setOrderNotes] = useState<string>("");
   const [street, setStreet] = useState<string>("");
   const [city, setCity] = useState<string>("");
@@ -47,7 +57,7 @@ const OrderForm: FC<{}> = () => {
   const [quantity, setQuantity] = useState<string>("");
   const [unitPrice, setUnitPrice] = useState<string>("");
   const [totalPrice, setTotalPrice] = useState<string>("");
-  const [getAllProducts, setGetAllProducts] = useState<ProductDetails[]>([]);
+  const [getAllProducts, setGetAllProducts] = useState<ProductDetailss[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [addedItems, setAddedItems] = useState<
@@ -62,9 +72,8 @@ const OrderForm: FC<{}> = () => {
       };
     }[]
   >([]);
-  const [selectedProduct, setSelectedProduct] = useState<ProductDetails | null>(
-    null
-  );
+  const [selectedProduct, setSelectedProduct] =
+    useState<ProductDetailss | null>(null);
   const [selectedProductsList, setSelectedProductsList] = useState<
     {
       productId: number;
@@ -72,6 +81,8 @@ const OrderForm: FC<{}> = () => {
       unitPrice: string;
     }[]
   >([]);
+  const [account, setAccount] = useState<Account[]>([]);
+  const [selectedAccount, setSelectedAccount] = useState<number | null>(null);
 
   //get userRole from redux
   const userId = useSelector((state: RootState) => state.login.user?.id);
@@ -88,12 +99,15 @@ const OrderForm: FC<{}> = () => {
           const orders = result.payload.flat();
 
           setGetAllProducts(orders);
-        } else {
-          setError("Error fetching orders. Please try again later!");
         }
       } catch (error) {
-        console.error("Error fetching orders:", error);
-        setError("Error fetching orders. Please try again later!");
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching products. Please try again later!",
+          })
+        );
       }
     };
 
@@ -120,7 +134,13 @@ const OrderForm: FC<{}> = () => {
 
     try {
       if (!selectedProduct || selectedProduct.id === undefined) {
-        console.error("No product selected or invalid product ID.");
+        dispatch(
+          addSnackbar({
+            id: "warning",
+            type: "warning",
+            message: "No product selected or invalid product ID!",
+          })
+        );
         return;
       }
 
@@ -150,6 +170,8 @@ const OrderForm: FC<{}> = () => {
         const { orderItemList, totalPrice: calculatedTotal } = response.payload;
         setQuantity("");
         setUnitPrice("");
+        setSelectedProduct(null);
+        // setSelectedAccount(null);
 
         orderItemList.forEach((item: any) => {
           const newItem = {
@@ -175,15 +197,65 @@ const OrderForm: FC<{}> = () => {
         setTotalPrice(total.toFixed(2));
       }
     } catch (error) {
-      console.log("Error in calculate item click:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error in calculate item click!",
+        })
+      );
     }
   };
+
+  //get account api
+  useEffect(() => {
+    const fetchAccountData = async () => {
+      try {
+        const result = await dispatch(fetchAccountDetails());
+        console.log(result);
+        if (fetchAccountDetails.fulfilled.match(result)) {
+          const accounts = result.payload.flat();
+
+          setAccount(accounts);
+        }
+      } catch (error) {
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching accounts. Please try again later!",
+          })
+        );
+      }
+    };
+
+    fetchAccountData();
+  }, [dispatch]);
+  console.log("account", account);
 
   //post request
   const handleOrderFormClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
+    // if (
+    //   !postalCode ||
+    //   !account ||
+    //   !quantity ||
+    //   !unitPrice ||
+    //   !selectedProduct ||
+    //   !selectedAccount ||
+    //   !selectedCategory
+    // ) {
+    //   dispatch(
+    //     addSnackbar({
+    //       id: "warning",
+    //       type: "warning",
+    //       message: "Please complete the required fields!",
+    //     })
+    //   );
+    //   return;
+    // }
     try {
       const lastAddedItem = addedItems[addedItems.length - 1];
 
@@ -208,10 +280,11 @@ const OrderForm: FC<{}> = () => {
           postalCode: postalCode,
           country: country,
         },
-        orderItemList: productsDataForOrder,
-        orderClient: {
-          id: userId,
+        account: {
+          accountId: selectedAccount,
         },
+        orderItemList: productsDataForOrder,
+
         createdBy: {
           id: userId,
         },
@@ -219,10 +292,23 @@ const OrderForm: FC<{}> = () => {
       const response = await dispatch(orderForm({ userCredentials }));
 
       if (orderForm.fulfilled.match(response)) {
-        console.log("Order added!");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Order added successfully!",
+          })
+        );
       }
+      navigate("/orderTable");
     } catch (error) {
-      console.log("Error in handleOrderClick:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error on adding order!",
+        })
+      );
     }
   };
 
@@ -247,6 +333,7 @@ const OrderForm: FC<{}> = () => {
             <GenericInput
               placeholder="Postal Code"
               input_label="Postal Code"
+              asterik="*"
               required={true}
               type="number"
               value={postalCode || ""}
@@ -310,7 +397,32 @@ const OrderForm: FC<{}> = () => {
         </OrderFormInputsHolder>
         <OrderFormInputsHolder>
           <OrderInputContainer>
-            <LabelDescriptionContainer>Products</LabelDescriptionContainer>
+            <LabelDescriptionContainer>
+              Account<Asterik>*</Asterik>
+            </LabelDescriptionContainer>
+            <StyledSelect
+              value={selectedAccount !== null ? selectedAccount.toString() : ""}
+              onChange={(e: any) => {
+                const selectedAccountId = Number(e.target.value);
+                setSelectedAccount(selectedAccountId);
+              }}
+            >
+              <option defaultValue="none">Select an Option</option>
+              {account.map((account: any, index: any) => (
+                <option key={index} value={account.accountId}>
+                  {account.accountType === "B2B"
+                    ? account.accountName
+                    : `${account.firstName} ${account.lastName}`}
+                </option>
+              ))}
+            </StyledSelect>
+          </OrderInputContainer>
+        </OrderFormInputsHolder>
+        <OrderFormInputsHolder>
+          <OrderInputContainer>
+            <LabelDescriptionContainer>
+              Products<Asterik>*</Asterik>
+            </LabelDescriptionContainer>
             <StyledSelect
               value={
                 selectedCategory !== null ? selectedCategory.toString() : ""
@@ -333,6 +445,7 @@ const OrderForm: FC<{}> = () => {
             <GenericInput
               placeholder="Quantity"
               input_label="Quantity"
+              asterik="*"
               required={true}
               type="number"
               value={quantity || ""}
@@ -347,6 +460,7 @@ const OrderForm: FC<{}> = () => {
             <GenericInput
               placeholder="Unit Price"
               input_label="Unit Price"
+              asterik="*"
               required={true}
               type="number"
               value={unitPrice || ""}
@@ -385,6 +499,7 @@ const OrderForm: FC<{}> = () => {
           </ProductsTableBody>
         </Table>
       </OrderFormTableContainer>
+      <SnackBarList />
     </OrderTable>
   );
 };

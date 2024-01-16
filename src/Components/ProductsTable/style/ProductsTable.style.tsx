@@ -58,8 +58,8 @@ export const TableRow = styled.tr`
   }
 `;
 
-export const TH=styled.th``
-export const Tbody=styled.tbody``
+export const TH = styled.th``;
+export const Tbody = styled.tbody``;
 export const TableCell = styled.td`
   border: 1px solid #3746673b;
   text-align: center;
@@ -69,21 +69,7 @@ export const TableCell = styled.td`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-export const EditButton = styled.button`
-  background-color: #3746673b;
-  border-radius: 5px;
-  color: Black;
-  border: none;
-  font-weight: 500;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  font-family: "Poppins";
-  display: inline-block;
-  font-size: 15px;
-  margin: 4px 2px;
-  cursor: pointer;
-`;
+
 export const IconLink = styled(Link)`
   text-decoration: none;
   color: black;
@@ -111,4 +97,8 @@ export const InputsOfProductTable = styled.div`
 export const ProductInputHold = styled.div`
   flex: 1;
   margin: 5px;
+`;
+export const ProductImage = styled.img`
+  width: 75px;
+  height: 75px;
 `;

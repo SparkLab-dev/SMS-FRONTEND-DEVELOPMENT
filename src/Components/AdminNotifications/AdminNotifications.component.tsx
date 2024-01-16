@@ -6,7 +6,6 @@ import {
   AdminNotifyContainer,
   CancelIcon,
   CancelIconHolder,
-  CancelImage,
   DateAndPriorityContainer,
   DateTimeHolder,
   DivCardContentHolder,
@@ -34,10 +33,13 @@ import {
   deleteNotification,
   fetchAdminNotification,
 } from "redux/Pages/AdminNotification/AdminNotificationSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+
+//components
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const AdminNotifications: FC<{}> = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const Cancel = require("./assets/cancel.png") as string;
 
   //get userId from redux
   const userId = useSelector((state: RootState) => state.login.user?.id);
@@ -55,6 +57,13 @@ const AdminNotifications: FC<{}> = () => {
           }
         })
         .catch((error: any) => {
+          dispatch(
+            addSnackbar({
+              id: "error",
+              type: "error",
+              message: "Error fetching notification!",
+            })
+          );
           console.error("Error fetching notification:", error);
         });
     }
@@ -71,12 +80,24 @@ const AdminNotifications: FC<{}> = () => {
             (notification) => notification?.id !== notificationId
           )
         );
-        console.log("Notification deleted successfully!");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Notification deleted successfully!",
+          })
+        );
       } else {
         console.error("Failed to delete notification");
       }
     } catch (error) {
-      console.error("Error deleting notification:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting notification!",
+        })
+      );
     }
   };
 
@@ -93,11 +114,24 @@ const AdminNotifications: FC<{}> = () => {
             return notification;
           })
         );
-        console.log("Notification status updated successfully!");
+        // dispatch(
+        //   addSnackbar({
+        //     id: "attributeSuccess",
+        //     type: "success",
+        //     message: "Notification status updated successfully!",
+        //   })
+        // );
       } else {
         console.error("Failed to update notification status");
       }
     } catch (error) {
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error updating notification status!",
+        })
+      );
       console.error("Error updating notification status:", error);
     }
   };
@@ -158,7 +192,6 @@ const AdminNotifications: FC<{}> = () => {
                     <CancelIcon
                       style={{ color: "#808080c2", cursor: "pointer" }}
                     />
-                    {/* <CancelImage src={Cancel} alt="cancel" /> */}
                   </CancelIconHolder>
                 </NotificationCard>
 
@@ -168,6 +201,7 @@ const AdminNotifications: FC<{}> = () => {
           </div>
         ))}
       </AdminNotificationsContentHolder>
+      <SnackBarList />
     </AdminNotifyContainer>
   );
 };

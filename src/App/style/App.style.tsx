@@ -6,14 +6,14 @@ import { RefObject } from "react";
 
 //outlet
 export const Page = styled.div`
-  width: 100%;
+  /* width: 100%; */
   height: 100vh;
-  /* padding: 30px; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #e5e5e5;
+  /* background: #e5e5e5; */
+  background-color: white;
 `;
 
 //generic dropdown
@@ -45,6 +45,7 @@ interface dropdownProps {
   borderradius?: string;
   padding?: string;
   margin?: string;
+  marginTop?: string;
 }
 export const StyledSelect = styled.select<dropdownProps>`
   font-family: ${(props: any) => props.fontFamily || "Poppins"};
@@ -59,8 +60,8 @@ export const StyledSelect = styled.select<dropdownProps>`
   font-size: ${(props: any) => props.fontSize || "12px"};
   padding-left: ${(props: any) => props.paddingleft};
   padding: ${(props: any) => props.padding || "10px"};
-  margin-top: 12px;
   margin: ${(props: any) => props.margin};
+  margin-top: ${(props: any) => props.marginTop};
 `;
 export const LabelDescriptionContainer = styled.div`
   font-family: "Poppins";
@@ -69,7 +70,7 @@ export const LabelDescriptionContainer = styled.div`
   font-size: 14px;
   line-height: 24px;
   color: #43546f;
-  margin: 10px 0 0px 0;
+  margin: 18px 0 8px 0;
   padding-left: 15px;
   text-align: left;
 `;
@@ -84,7 +85,6 @@ export const StyledForm = styled.form<FormProps>`
   width: 100%;
   max-width: 650px;
   margin: auto;
-  /* height: 80vh; */
 `;
 
 export const FormName = styled.h1`

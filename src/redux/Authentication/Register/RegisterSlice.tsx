@@ -39,7 +39,7 @@ export const registerUser = createAsyncThunk(
       const responseRegData = response.data.body;
 
       if (response.status !== 200) {
-        return rejectWithValue(responseRegData.error.message);
+        return rejectWithValue(responseRegData.error);
       }
 
       return responseRegData;

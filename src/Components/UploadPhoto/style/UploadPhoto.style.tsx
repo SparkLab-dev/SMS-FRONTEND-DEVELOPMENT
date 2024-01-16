@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const EditPhotoContainer = styled.div`
   position: relative;
   max-width: 205px;
-  margin: 50px auto;
+  margin: 20px auto;
 `;
 export const PhotoEdit = styled.div`
   position: absolute;

@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 //style
 import { VendorInput, VendorInputsHolder } from "./style/Vendor.style";
@@ -7,11 +8,17 @@ import { FormName, StyledForm } from "App/style/App.style";
 //components
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
+
+//redux
 import { AppDispatch, RootState } from "redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { vendorForm } from "redux/Containers/VendorForm/VendorFormSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+
 
 const Vendor: FC<{}> = () => {
+  const navigate = useNavigate();
   const [companyName, setCompanyName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -52,12 +59,37 @@ const Vendor: FC<{}> = () => {
     e.preventDefault();
 
     if (email === null || name === "" || phoneNumber === "") {
-      console.log("Missing required information!");
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Missing required information!",
+        })
+      );
     } else if (!validateEmail(email)) {
-      console.log("Invalid email format!");
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Invalid email format!",
+        })
+      );
     } else {
       try {
-        await dispatch(vendorForm({ vendorCredentials }));
+        const response = await dispatch(vendorForm({ vendorCredentials }));
+        if (vendorForm.fulfilled.match(response)) {
+          dispatch(
+            addSnackbar({
+              id: "attributeSuccess",
+              type: "success",
+              message: "Vendor added successfully!",
+            })
+          );
+
+          setTimeout(() => {
+            navigate("/vendorTable");
+          }, 2000);
+        }
         setCompanyName("");
         setEmail("");
         setName("");
@@ -65,9 +97,14 @@ const Vendor: FC<{}> = () => {
         setPaymentTerms("");
         setPhoneNumber("");
         setBankName("");
-        // window.location.href = "login";
       } catch (error) {
-        console.error("Register failed!", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Register failed!",
+          })
+        );
       }
     }
   };
@@ -165,6 +202,7 @@ const Vendor: FC<{}> = () => {
         </VendorInputsHolder>
         <GenericButton name="Submit" onClick={handleVendorClick} />
       </StyledForm>
+      <SnackBarList />
     </>
   );
 };

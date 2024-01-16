@@ -24,6 +24,17 @@ export const Modal = styled.div`
   border-radius: 10px;
   width: 100%;
   max-width: 380px;
+  /* height: 100%; */
+  max-height: 500px;
+  overflow-x: auto;
+  position: relative;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  /* max-height: 824px; */
 `;
 export const ModalHeader = styled.div`
   display: flex;
@@ -42,14 +53,12 @@ export const ModalHeader = styled.div`
 `;
 export const ModalBody = styled.div`
   flex: 1;
-  padding: 10px 25px;
   background-color: white;
 `;
 
 export const ModalFooter = styled.div`
   display: flex;
   width: 300px;
-  /* height: 40px; */
   align-items: center;
   justify-content: center;
   padding: 5px 0px 25px 0px;

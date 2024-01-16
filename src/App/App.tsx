@@ -21,6 +21,23 @@ import GetCategories from "Pages/GetCategories/GetCategories.component";
 import AdminNotifications from "Components/AdminNotifications/AdminNotifications.component";
 import AdminMessageNotification from "Components/AdminMessageNotification/AdminMessageNotification.component";
 import Vendor from "Components/Vendor/Vendor.component";
+import VendorsTable from "Components/VendorsTable/VendorsTable.component";
+import VendorDetails from "Components/VendorDetails/VendorDetails.component";
+import ProductDetails from "Components/ProductDetails/ProductDetails.component";
+import OrderDetailsComponent from "Components/OrderDetails/OrderDetails.component";
+import AccountB2BTable from "Components/AccountB2BTable/AccountB2BTable.component";
+import B2BForm from "Components/B2BForm/B2BForm.component";
+import B2CForm from "Components/B2CForm/B2CForm.component";
+import B2BAccountTypeDetails from "Components/B2BAccountTypeDetails/B2BAccountTypeDetails.component";
+import B2CAccountTypeDetails from "Components/B2CAccountTypeDetails/B2CAccountTypeDetails.component";
+import Contacts from "Components/Contacts/Contacts.component";
+import ContactsTable from "Components/ContactsTable/ContactsTable.component";
+import ContactDetails from "Components/ContactDetails/ContactDetails.component";
+import { AccountB2CTableContainer } from "Components/AccountB2CTable/style/AccountB2CTable.style";
+import LeadSource from "Components/LeadSource/LeadSource.component";
+import LeadSourceTable from "Components/LeadSourceTable/LeadSourceTable.component";
+import LeadSourceDetails from "Components/LeadSourceDetails/LeadSourceDetails.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const App: FC<{}> = () => {
   const logoProps = {
@@ -34,6 +51,7 @@ const App: FC<{}> = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<OutletPage />}>
+            <Route element={<SnackBarList />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route
@@ -57,7 +75,12 @@ const App: FC<{}> = () => {
             />
             <Route path="/table" element={<ProductsTable />} />
             <Route path="/orderTable" element={<OrdersTable />} />
+            <Route path="/orderTable" element={<OrdersTable />} />
             <Route path="/orderForm" element={<OrderForm />} />
+            <Route
+              path="/orderDetails/:orderId"
+              element={<OrderDetailsComponent />}
+            />
             <Route path="/userProfile" element={<UserProfile />} />
             <Route path="/createCategory" element={<CreateCategory />} />
             <Route path="/getCategory" element={<GetCategories />} />
@@ -67,6 +90,33 @@ const App: FC<{}> = () => {
               element={<AdminMessageNotification />}
             />
             <Route path="/vendor" element={<Vendor />} />
+            <Route path="/vendorTable" element={<VendorsTable />} />
+            <Route path="/vendorDetails/:id" element={<VendorDetails />} />
+            <Route path="/productDetails/:id" element={<ProductDetails />} />
+            <Route path="/accountB2BTable" element={<AccountB2BTable />} />
+            <Route
+              path="/accountB2BDetails/:id"
+              element={<B2BAccountTypeDetails />}
+            />
+            <Route
+              path="/accountB2CDetails/:id"
+              element={<B2CAccountTypeDetails />}
+            />
+            <Route
+              path="/accountB2CTable"
+              element={<AccountB2CTableContainer />}
+            />
+            <Route path="/B2BForm" element={<B2BForm />} />
+            <Route path="/B2CForm" element={<B2CForm />} />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/contactsTable" element={<ContactsTable />} />
+            <Route path="/contactDetails/:id" element={<ContactDetails />} />
+            <Route path="/leadSource" element={<LeadSource />} />
+            <Route path="/leadSourceTable" element={<LeadSourceTable />} />
+            <Route
+              path="/leadSourceDetails/:id"
+              element={<LeadSourceDetails />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

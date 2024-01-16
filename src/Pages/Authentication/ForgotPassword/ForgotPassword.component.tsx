@@ -8,6 +8,8 @@ import { ResetPassInputsHolder } from "../ResetPassword/style/ResetPassword.styl
 //components
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+
+//redux
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
 import { forgotPassword } from "redux/Authentication/ResetPassword/ResetPasswordSlice";
@@ -40,7 +42,6 @@ const ForgotPassword: FC<{}> = () => {
         try {
           await dispatch(forgotPassword(emailState)); 
           console.log("Go to check the email!");
-          // window.location.href = "login";
         } catch (error) {
           console.error("Error during forgot pass:", error);
         }

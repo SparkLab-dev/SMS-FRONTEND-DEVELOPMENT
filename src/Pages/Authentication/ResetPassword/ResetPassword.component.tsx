@@ -1,5 +1,4 @@
 import { FC, useState } from "react";
-// import { useNavigate } from "react-router";
 
 //style
 import { ResetPassInputsHolder } from "./style/ResetPassword.style";
@@ -19,7 +18,6 @@ import { useDispatch } from "react-redux";
 import { resetPassword } from "redux/Authentication/ResetPassword/ResetPasswordSlice";
 
 const ResetPassword: FC<{}> = () => {
-  // const navigate = useNavigate();
   const [resetPasswordState, setResetPasswordState] = useState<string>("");
   const [confirmResetPassword, setConfirmResetPassword] = useState<string>("");
   const [showNewPassword, setShowNewPassword] = useState(true);

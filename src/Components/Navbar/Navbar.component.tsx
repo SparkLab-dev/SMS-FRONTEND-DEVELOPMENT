@@ -1,33 +1,29 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useNavigate } from "react-router";
 
 //style
 import {
-  HR,
   Header,
-  ListItem,
   LogoName,
   LogoutButton,
-  NavCartCount,
-  NavImage,
-  NavLink,
   NavLoginCart,
   NavbarLogo,
-  ShoppingCart,
-  UnorderedList,
 } from "./style/Navbar.style";
 
-//mui-icons
+//mui icons
 import MenuIcon from "@mui/icons-material/Menu";
+import StoreIcon from "@mui/icons-material/Store";
 
 //redux
 import { useSelector } from "react-redux";
 import { RootState } from "redux/store";
 
-const Navbar: FC<{}> = () => {
+interface NavbarProps {
+  toggleSidebar: () => void;
+}
+
+const Navbar: FC<NavbarProps> = ({ toggleSidebar }) => {
   const navigate = useNavigate();
-  const [menu, setMenu] = useState("shop");
-  const Shop = require("./assets/AccountIcon.png") as string;
 
   //get userRole from redux
   const userRole = useSelector((state: RootState) => state.login.user?.role);
@@ -39,7 +35,6 @@ const Navbar: FC<{}> = () => {
     try {
       localStorage.clear();
       navigate("/login");
-      // window.location.reload();
       console.log("LocalStorage cleared successfully.");
     } catch (error) {
       console.error("Error clearing localStorage:", error);
@@ -49,71 +44,37 @@ const Navbar: FC<{}> = () => {
   const handleLogin = () => {
     navigate("/login");
   };
+
   return (
     <Header>
-      <NavLink to="/">
-        <NavbarLogo>
-          <NavImage src={Shop} alt="shop-photo" />
-          <LogoName>SMS</LogoName>
-        </NavbarLogo>
-      </NavLink>
-      <UnorderedList>
-        {userRole === "ADMIN" && (
-          <>
-            <NavLink to="/home" onClick={() => setMenu("shop")}>
-              <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
-            </NavLink>
-            <NavLink
-              to="/adminNotification"
-              onClick={() => setMenu("notification")}
-            >
-              <ListItem>
-                Notification{menu === "notification" ? <HR /> : <></>}
-              </ListItem>
-            </NavLink>
-            <NavLink to="/vendor" onClick={() => setMenu("vendor")}>
-              <ListItem>Vendor{menu === "vendor" ? <HR /> : <></>}</ListItem>
-            </NavLink>
-          </>
-        )}
-
-        {userRole === "EMPLOYEE" && (
-          <>
-            <NavLink to="/orderTable" onClick={() => setMenu("orderTable")}>
-              <ListItem>
-                Order Table{menu === "orderTable" ? <HR /> : <></>}
-              </ListItem>
-            </NavLink>
-            <NavLink to="/table" onClick={() => setMenu("bicycle")}>
-              <ListItem>
-                Product table{menu === "bicycle" ? <HR /> : <></>}
-              </ListItem>
-            </NavLink>
-            <NavLink to="/createCategory" onClick={() => setMenu("category")}>
-              <ListItem>
-                Category{menu === "category" ? <HR /> : <></>}
-              </ListItem>
-            </NavLink>
-          </>
-        )}
-        {userRole === "CUSTOMER" && (
-          <NavLink to="/home" onClick={() => setMenu("shop")}>
-            <ListItem>Home{menu === "shop" ? <HR /> : <></>}</ListItem>
-          </NavLink>
-        )}
-      </UnorderedList>
-      {/* <div style={{ display: "flex" }}>
-        <MenuIcon />
-      </div> */}
-      <NavLoginCart>
-        {isLoggedIn ? (
-          <LogoutButton onClick={handleLogout}>Log out</LogoutButton>
-        ) : (
-          <LogoutButton onClick={handleLogin}>Log in</LogoutButton>
-        )}
-        <ShoppingCart style={{ fontSize: "30px" }} />
-        <NavCartCount>0</NavCartCount>
-      </NavLoginCart>
+   
+          <div style={{ display: "flex", cursor: "pointer" }}>
+          {isLoggedIn ? (
+            <MenuIcon
+              onClick={toggleSidebar}
+              fontSize="large"
+              style={{ marginTop: "2px", paddingLeft: "10px" }}
+            />):("")}
+            <NavbarLogo>
+              <StoreIcon
+                style={{
+                  marginTop: "2px",
+                  paddingLeft: "10px",
+                  color: "#0e53c5",
+                }}
+                fontSize="large"
+              />
+              <LogoName>SMS</LogoName>
+            </NavbarLogo>
+          </div>
+          <NavLoginCart>
+            {isLoggedIn ? (
+              <LogoutButton onClick={handleLogout}>Log out</LogoutButton>
+            ) : (
+              <LogoutButton onClick={handleLogin}>Log in</LogoutButton>
+            )}
+          </NavLoginCart>
+  
     </Header>
   );
 };
