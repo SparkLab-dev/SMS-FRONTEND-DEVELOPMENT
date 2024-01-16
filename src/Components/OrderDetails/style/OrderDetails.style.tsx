@@ -48,6 +48,10 @@ export const OrderDetailsTable = styled.table`
   width: 100%;
   height: fit-content;
   max-width: 750px;
+  /* width: 100%; */
+  /* height: 100%; */
+  display: flex;
+  flex-direction: row;
 `;
 export const DisplayOrderHolder = styled.div`
   width: 100%;
@@ -59,16 +63,17 @@ export const OrdDetailsHolder = styled.div`
   flex-direction: row;
 `;
 
+export const OrderTableRow = styled.tr``;
 export const OrdersTableHead = styled.thead`
   display: flex;
   flex: 1;
   flex-direction: column;
   text-align: left;
 `;
-export const OrdersHead = styled.div`
+export const OrdersHead = styled.th`
   display: flex;
   width: 100%;
-  margin: 7px ;
+  margin: 7px;
   font-size: 16px;
   font-weight: 600;
   font-family: "Poppins";
@@ -137,8 +142,7 @@ export const AccountLabel = styled.p`
   font-size: 14px;
   line-height: 24px;
   color: #43546f;
-  margin: 4px 0 1px 0;
+  margin: 18px 0 8px 0;
   padding-left: 15px;
   text-align: left;
-  padding-top:10px;
 `;

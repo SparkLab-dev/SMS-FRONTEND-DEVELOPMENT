@@ -71,11 +71,13 @@ const ProductsOfOrder: FC<{}> = () => {
 
   //get order api
   useEffect(() => {
+    let isMounted = true;
+  
     const fetchDetails = async () => {
-      if (orderID) {
+      if (orderID && isMounted) {
         try {
           const result = await dispatch(fetchOrderDetailsById(orderID));
-          if (fetchOrderDetailsById.fulfilled.match(result)) {
+          if (fetchOrderDetailsById.fulfilled.match(result) && isMounted) {
             setOrders(result.payload);
           }
         } catch (error) {
@@ -89,9 +91,15 @@ const ProductsOfOrder: FC<{}> = () => {
         }
       }
     };
-
+  
     fetchDetails();
+  
+    return () => {
+      isMounted = false;
+    };
+  
   }, [dispatch, orderID]);
+  
 
   //upload button click
   const handleUpload = () => {

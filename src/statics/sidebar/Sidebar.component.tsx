@@ -33,7 +33,6 @@ interface SidebarProps {
 }
 
 const SideBar: FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
-  const navigate = useNavigate();
 
   useEffect(() => {
     closeSidebar();

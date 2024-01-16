@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const InformationOfContactsTable = styled.p`
+export const InformationOfContactsTable = styled.div`
   display: flex;
   width: 100%;
   max-width: 200px;

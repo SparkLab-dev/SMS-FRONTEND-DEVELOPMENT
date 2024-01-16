@@ -4,15 +4,14 @@ import { useNavigate, useParams } from "react-router-dom";
 //style
 import {
   AccountLabel,
-  DisplayOrderHolder,
   EditOrderTableName,
-  OrdDetailsHolder,
-  OrderDetailsContainer,
   OrderDetailsContentHolder,
   OrderDetailsHolder,
   OrderDetailsTable,
+  OrderTableRow,
   Orderdetails,
   OrdersHead,
+  OrdersTableBody,
   OrdersTableData,
   OrdersTableHead,
   OrdersTableRow,
@@ -229,76 +228,72 @@ const OrderDetailsComponent: FC<{}> = () => {
       <OrderDetailsContentHolder>
         <OrderDetailsHolder>
           <OrderDetailsTable>
-            <DisplayOrderHolder>
-              <OrderDetailsContainer>
-                <OrdDetailsHolder>
-                  <OrdersTableHead>
-                    <OrdersHead>Order Number</OrdersHead>
-                    <OrdersHead>Account Name</OrdersHead>
-                    <OrdersHead>Order Source</OrdersHead>
-                    <OrdersHead>Order Notes</OrdersHead>
-                    <OrdersHead>Order Status</OrdersHead>
-                    <OrdersHead>Street</OrdersHead>
-                    <OrdersHead>City</OrdersHead>
-                    <OrdersHead>State</OrdersHead>
-                    <OrdersHead>Country</OrdersHead>
-                    <OrdersHead>Postal Code</OrdersHead>
-                    <OrdersHead>Total Amount</OrdersHead>
-                    <OrdersHead>Actions</OrdersHead>
-                  </OrdersTableHead>
-                  {orders.map((order: any, index: number) => (
-                    <>
-                      <OrdersTableRow key={index}>
-                        <OrdersTableData>{order.orderNumber}</OrdersTableData>
-                        <OrdersTableData>
-                          {index === 0 &&
-                            (order?.accountBasicDTO?.accountType === "B2B"
-                              ? order?.accountBasicDTO?.accountName
-                              : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`)}
-                        </OrdersTableData>
-                        <OrdersTableData>{order.orderSource}</OrdersTableData>
-                        <OrdersTableData>{order?.orderNotes}</OrdersTableData>
-                        <OrdersTableData>{order?.orderStatus}</OrdersTableData>
-                        <OrdersTableData>
-                          {order?.shippingAddress?.street}
-                        </OrdersTableData>
-                        <OrdersTableData>
-                          {order?.shippingAddress?.city}
-                        </OrdersTableData>
-                        <OrdersTableData>
-                          {order?.shippingAddress?.state}
-                        </OrdersTableData>
-                        <OrdersTableData>
-                          {order?.shippingAddress?.country}
-                        </OrdersTableData>
-                        <OrdersTableData>
-                          {order?.shippingAddress?.postalCode}
-                        </OrdersTableData>
-                        <OrdersTableData>{order?.totalAmount}</OrdersTableData>{" "}
-                        <OrdersTableData>
-                          <EditIcon
-                            onClick={() => handleEdit(order)}
-                            style={{
-                              cursor: "pointer",
-                              color: "#0e53c5",
-                              fontSize: "25px",
-                            }}
-                          />
-                          <DeleteIcon
-                            onClick={() => handleDeleteOrder(order.id)}
-                            style={{
-                              cursor: "pointer",
-                              color: "#0e53c5",
-                              fontSize: "25px",
-                            }}
-                          />
-                        </OrdersTableData>
-                      </OrdersTableRow>
-                    </>
-                  ))}
-                </OrdDetailsHolder>
-              </OrderDetailsContainer>
-            </DisplayOrderHolder>
+            <OrdersTableHead>
+              <OrderTableRow>
+                <OrdersHead>Order Number</OrdersHead>
+                <OrdersHead>Account Name</OrdersHead>
+                <OrdersHead>Order Source</OrdersHead>
+                <OrdersHead>Order Notes</OrdersHead>
+                <OrdersHead>Order Status</OrdersHead>
+                <OrdersHead>Street</OrdersHead>
+                <OrdersHead>City</OrdersHead>
+                <OrdersHead>State</OrdersHead>
+                <OrdersHead>Country</OrdersHead>
+                <OrdersHead>Postal Code</OrdersHead>
+                <OrdersHead>Total Amount</OrdersHead>
+                <OrdersHead>Actions</OrdersHead>
+              </OrderTableRow>
+            </OrdersTableHead>
+            {orders.map((order: any, index: number) => (
+              <OrdersTableBody key={index}>
+                <OrdersTableRow>
+                  <OrdersTableData>{order.orderNumber}</OrdersTableData>
+                  <OrdersTableData>
+                    {index === 0 &&
+                      (order?.accountBasicDTO?.accountType === "B2B"
+                        ? order?.accountBasicDTO?.accountName
+                        : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`)}
+                  </OrdersTableData>
+                  <OrdersTableData>{order.orderSource}</OrdersTableData>
+                  <OrdersTableData>{order?.orderNotes}</OrdersTableData>
+                  <OrdersTableData>{order?.orderStatus}</OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.street}
+                  </OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.city}
+                  </OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.state}
+                  </OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.country}
+                  </OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.postalCode}
+                  </OrdersTableData>
+                  <OrdersTableData>{order?.totalAmount}</OrdersTableData>{" "}
+                  <OrdersTableData>
+                    <EditIcon
+                      onClick={() => handleEdit(order)}
+                      style={{
+                        cursor: "pointer",
+                        color: "#0e53c5",
+                        fontSize: "25px",
+                      }}
+                    />
+                    <DeleteIcon
+                      onClick={() => handleDeleteOrder(order.id)}
+                      style={{
+                        cursor: "pointer",
+                        color: "#0e53c5",
+                        fontSize: "25px",
+                      }}
+                    />
+                  </OrdersTableData>
+                </OrdersTableRow>
+              </OrdersTableBody>
+            ))}
           </OrderDetailsTable>
         </OrderDetailsHolder>
       </OrderDetailsContentHolder>
@@ -315,7 +310,6 @@ const OrderDetailsComponent: FC<{}> = () => {
               <>
                 <InputsOfModalHolder>
                   <ModalInputHolder>
-                    {" "}
                     <GenericInput
                       input_label="Order number"
                       value={selectedItem?.orderNumber || ""}
