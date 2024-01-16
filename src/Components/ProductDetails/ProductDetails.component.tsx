@@ -8,7 +8,6 @@ import {
   DisplayProductsHolder,
   EditButtonContainer,
   EditProductTableName,
-  HorizontalLine,
   InformationOfProduct,
   ProdDetailsHeaderText,
   ProdDetailsHolder,
@@ -50,9 +49,11 @@ import ProductAttributes from "Components/ProductAttributes/ProductAttributes.co
 import Popup from "Components/Popup/Popup.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 //mui icons
 import DeleteIcon from "@mui/icons-material/Delete";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 const ProductDetails: FC<{}> = () => {
   const navigate = useNavigate();
@@ -84,7 +85,13 @@ const ProductDetails: FC<{}> = () => {
             }
           })
           .catch((error: any) => {
-            console.error("Error fetching  product details:", error);
+            dispatch(
+              addSnackbar({
+                id: "error",
+                type: "error",
+                message: "Error fetching  product details!",
+              })
+            );
           });
       }
     };
@@ -108,10 +115,15 @@ const ProductDetails: FC<{}> = () => {
         }
       })
       .catch((error: any) => {
-        console.error("Error fetching product categories:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching product categories!",
+          })
+        );
       });
   }, [dispatch]);
-  console.log("productCategory", productCategory);
 
   //edit button click
   const handleEdit = (product: any) => {
@@ -150,10 +162,23 @@ const ProductDetails: FC<{}> = () => {
         );
         console.log(selectedItem);
         setProductDetails(updatedProductDetails);
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Product edited successfully!",
+          })
+        );
         setIsModalOpen(false);
       }
     } catch (error) {
-      console.error("Error in handleSaveProduct:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error in editing the product!",
+        })
+      );
     }
   };
 
@@ -162,16 +187,29 @@ const ProductDetails: FC<{}> = () => {
     try {
       const result = await dispatch(deleteProduct(productId));
       if (deleteProduct.fulfilled.match(result)) {
-        console.log("Product deleted successfully!");
         setShopCategory((prevState) =>
           prevState.filter((product) => product.id !== productId)
         );
-        navigate("/table");
-      } else {
-        console.error("Failed to delete product");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Product deleted successfully!",
+          })
+        );
+
+        setTimeout(() => {
+          navigate("/table");
+        }, 2000);
       }
     } catch (error) {
-      console.error("Error deleting product:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting product!",
+        })
+      );
     }
   };
   return (
@@ -184,19 +222,14 @@ const ProductDetails: FC<{}> = () => {
                 <ProdDetailsHolder>
                   <ProdTextHolders>
                     <ProdDetailsHeaderText>Product Name</ProdDetailsHeaderText>
-
                     <ProdDetailsHeaderText>Barcode</ProdDetailsHeaderText>
-
                     <ProdDetailsHeaderText>
                       Stock Quantity
                     </ProdDetailsHeaderText>
-
                     <ProdDetailsHeaderText>ThresHold</ProdDetailsHeaderText>
-
                     <ProdDetailsHeaderText>
                       Product Category
                     </ProdDetailsHeaderText>
-
                     <ProdDetailsHeaderText>Price</ProdDetailsHeaderText>
                   </ProdTextHolders>
                   {productDetails.map((product: any, index: any) => (
@@ -205,28 +238,22 @@ const ProductDetails: FC<{}> = () => {
                         <InformationOfProduct>
                           {product.name}
                         </InformationOfProduct>
-
                         <InformationOfProduct>
                           {product.barcode}
                         </InformationOfProduct>
-
                         <InformationOfProduct>
                           {product.stockQuantity}
                         </InformationOfProduct>
-
                         <InformationOfProduct>
                           {product.threshold}
                         </InformationOfProduct>
-
                         <InformationOfProduct>
                           {product.productCategory.name}
                         </InformationOfProduct>
-
                         <InformationOfProduct>
                           {product.price}
                         </InformationOfProduct>
                       </ProdTextHolders>
-
                       <ButtonsHolder>
                         <EditButtonContainer
                           onClick={() => handleEdit(product)}
@@ -260,110 +287,111 @@ const ProductDetails: FC<{}> = () => {
           setIsModalOpen(false);
           setSelectedItem(null);
         }}
-        headerContent={<EditProductTableName>Edit Product</EditProductTableName>}
+        headerContent={
+          <EditProductTableName>Edit Product</EditProductTableName>
+        }
         bodyContent={
           <>
-            
-              <InputsOfProductTable>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Name"
-                    type="text"
-                    value={selectedItem?.name || ""}
-                    onChange={(e: any) => {
-                      setSelectedItem({
-                        ...selectedItem,
-                        name: e.target.value,
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Barcode"
-                    value={selectedItem?.barcode || ""}
-                    onChange={(e: any) => {
-                      setSelectedItem({
-                        ...selectedItem,
-                        barcode: parseFloat(e.target.value),
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-              </InputsOfProductTable>
-              <InputsOfProductTable>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Stock Quantity "
-                    value={selectedItem?.stockQuantity || ""}
-                    onChange={(e: any) => {
-                      setSelectedItem({
-                        ...selectedItem,
-                        stockQuantity: parseFloat(e.target.value),
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="ThresHold "
-                    value={selectedItem?.threshold || ""}
-                    onChange={(e: any) => {
-                      setSelectedItem({
-                        ...selectedItem,
-                        threshold: parseFloat(e.target.value),
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-              </InputsOfProductTable>
-              <InputsOfProductTable>
-                <ProductInputHold>
-                  <CategoryLabel>Category</CategoryLabel>
-                  <DropdownOfProductCategory>
-                    <StyledSelect
-                      value={
-                        selectedCategory !== null
-                          ? selectedCategory.toString()
-                          : ""
-                      }
-                      onChange={(e: any) =>
-                        setSelectedCategory(Number(e.target.value))
-                      }
-                      marginTop="0px"
-                    >
-                      <SelectOption defaultValue="none">
-                        Select an Option
-                      </SelectOption>
-                      {productCategory.map((role) => (
-                        <option key={role.id} value={role.id}>
-                          {role.name}
-                        </option>
-                      ))}
-                    </StyledSelect>
-                  </DropdownOfProductCategory>
-                </ProductInputHold>
-                <ProductInputHold>
-                  <GenericInput
-                    input_label="Price"
-                    type="number"
-                    value={selectedItem?.price || ""}
-                    onChange={(e: any) => {
-                      setSelectedItem({
-                        ...selectedItem,
-                        price: parseFloat(e.target.value),
-                      });
-                    }}
-                  />
-                </ProductInputHold>
-              </InputsOfProductTable>
-      
+            <InputsOfProductTable>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Name"
+                  type="text"
+                  value={selectedItem?.name || ""}
+                  onChange={(e: any) => {
+                    setSelectedItem({
+                      ...selectedItem,
+                      name: e.target.value,
+                    });
+                  }}
+                />
+              </ProductInputHold>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Barcode"
+                  value={selectedItem?.barcode || ""}
+                  onChange={(e: any) => {
+                    setSelectedItem({
+                      ...selectedItem,
+                      barcode: parseFloat(e.target.value),
+                    });
+                  }}
+                />
+              </ProductInputHold>
+            </InputsOfProductTable>
+            <InputsOfProductTable>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Stock Quantity "
+                  value={selectedItem?.stockQuantity || ""}
+                  onChange={(e: any) => {
+                    setSelectedItem({
+                      ...selectedItem,
+                      stockQuantity: parseFloat(e.target.value),
+                    });
+                  }}
+                />
+              </ProductInputHold>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="ThresHold "
+                  value={selectedItem?.threshold || ""}
+                  onChange={(e: any) => {
+                    setSelectedItem({
+                      ...selectedItem,
+                      threshold: parseFloat(e.target.value),
+                    });
+                  }}
+                />
+              </ProductInputHold>
+            </InputsOfProductTable>
+            <InputsOfProductTable>
+              <ProductInputHold>
+                <CategoryLabel>Category</CategoryLabel>
+                <DropdownOfProductCategory>
+                  <StyledSelect
+                    value={
+                      selectedCategory !== null
+                        ? selectedCategory.toString()
+                        : ""
+                    }
+                    onChange={(e: any) =>
+                      setSelectedCategory(Number(e.target.value))
+                    }
+                    marginTop="0px"
+                  >
+                    <SelectOption defaultValue="none">
+                      Select an Option
+                    </SelectOption>
+                    {productCategory.map((role) => (
+                      <option key={role.id} value={role.id}>
+                        {role.name}
+                      </option>
+                    ))}
+                  </StyledSelect>
+                </DropdownOfProductCategory>
+              </ProductInputHold>
+              <ProductInputHold>
+                <GenericInput
+                  input_label="Price"
+                  type="number"
+                  value={selectedItem?.price || ""}
+                  onChange={(e: any) => {
+                    setSelectedItem({
+                      ...selectedItem,
+                      price: parseFloat(e.target.value),
+                    });
+                  }}
+                />
+              </ProductInputHold>
+            </InputsOfProductTable>
           </>
         }
         footerContent={
           <GenericButton onClick={handleSaveProduct} name="Save" />
         }
       />
+      <SnackBarList />
     </Productdetails>
   );
 };

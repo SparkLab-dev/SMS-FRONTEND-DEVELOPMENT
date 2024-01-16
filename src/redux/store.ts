@@ -39,7 +39,8 @@ import { AccountTypeState } from "redux/Pages/AccountType/AccountTypeSlice";
 import accountTypeSlice from "redux/Pages/AccountType/AccountTypeSlice";
 import { ContactState } from "redux/Pages/Contact/ContactSlice";
 import contactSlice from "redux/Pages/Contact/ContactSlice";
-
+import snackbarSlice from "./slices/slice-snackbar";
+import { SnackbarState } from "./slices/slice-snackbar";
 type RootState = {
   login: LoginState;
   register: AuthRegState;
@@ -58,6 +59,7 @@ type RootState = {
   account: AccountState;
   accountType: AccountTypeState;
   contact: ContactState;
+  snackbar: SnackbarState;
 };
 const persistConfig = {
   key: "root",
@@ -81,6 +83,7 @@ const persistConfig = {
     "account",
     "accountType",
     "contact",
+    "snackbar",
   ],
 };
 
@@ -102,6 +105,7 @@ const rootReducer = combineReducers({
   account: accountSlice,
   accountType: accountTypeSlice,
   contact: contactSlice,
+  snackbar: snackbarSlice,
 });
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 const store = configureStore({

@@ -12,7 +12,6 @@ export const LabelDescription = styled.div`
   font-size: 14px;
   line-height: 24px;
   color: #43546f;
-  /* margin: 23px 0 14px 0; */
   margin: 18px 0 8px 0;
   padding-left: 15px;
   text-align: left;

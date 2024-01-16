@@ -21,3 +21,4 @@ export const AddAccountB2CNameContainerPlusIcon = styled.div`
 export const AccountB2CButtonName = styled.p`
   margin: 5px;
 `;
+export const AccountB2CTableHead=styled.th``

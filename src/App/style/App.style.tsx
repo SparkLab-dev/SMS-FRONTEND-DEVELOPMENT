@@ -6,7 +6,7 @@ import { RefObject } from "react";
 
 //outlet
 export const Page = styled.div`
-  width: 100%;
+  /* width: 100%; */
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -85,7 +85,6 @@ export const StyledForm = styled.form<FormProps>`
   width: 100%;
   max-width: 650px;
   margin: auto;
-  /* height: 80vh; */
 `;
 
 export const FormName = styled.h1`

@@ -52,7 +52,6 @@ export const FileUploadDoneButton = styled.div`
   line-height: 24px;
   color: #ffffff;
   max-width: 100px;
-  /* position: relative; */
   margin-left: 70%;
   &:hover {
     cursor: pointer;
@@ -61,7 +60,6 @@ export const FileUploadDoneButton = styled.div`
 export const UploadedFileRemoveButton = styled.div`
   &:hover {
     cursor: pointer;
-    /* background-color: #0e53c5; */
     color: blue;
   }
 `;

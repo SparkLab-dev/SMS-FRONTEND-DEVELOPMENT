@@ -6,9 +6,8 @@ import ForwardIcon from "@mui/icons-material/Forward";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 //components
-// import Popup from "Components/Popup/Popup.component";
-// import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 //style
 import {
@@ -24,6 +23,7 @@ import {
   AddOrderNameContainerPlusIcon,
   OrderButtonName,
   OrdersTableContainer,
+  OrdersTableHead,
   TableBody,
 } from "./style/OrdersTable.style";
 
@@ -34,6 +34,7 @@ import {
   OrderDetails,
   fetchOrderDetails,
 } from "redux/Pages/Orders/OrdersSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 const OrdersTable: FC<{}> = () => {
   const navigate = useNavigate();
@@ -49,13 +50,16 @@ const OrdersTable: FC<{}> = () => {
       try {
         const result = await dispatch(fetchOrderDetails());
         if (fetchOrderDetails.fulfilled.match(result)) {
-          // const orders = result.payload;
-
           setOrders(result.payload);
-        } 
+        }
       } catch (error) {
-        console.error("Error fetching orders:", error);
-        
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching orders!",
+          })
+        );
       }
     };
 
@@ -87,61 +91,55 @@ const OrdersTable: FC<{}> = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <th>Account Name</th>
-                <th>Order Number</th>
-                <th>Order Source</th>
-                <th>Order Notes</th>
-                <th>Order Status</th>
-                <th>Street</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Country</th>
-                <th>Postal Code</th>
-                <th>Total Amount</th>
-                <th>Actions</th>
+                <OrdersTableHead>Account Name</OrdersTableHead>
+                <OrdersTableHead>Order Number</OrdersTableHead>
+                <OrdersTableHead>Order Source</OrdersTableHead>
+                <OrdersTableHead>Order Notes</OrdersTableHead>
+                <OrdersTableHead>Order Status</OrdersTableHead>
+                <OrdersTableHead>Street</OrdersTableHead>
+                <OrdersTableHead>City</OrdersTableHead>
+                <OrdersTableHead>State</OrdersTableHead>
+                <OrdersTableHead>Country</OrdersTableHead>
+                <OrdersTableHead>Postal Code</OrdersTableHead>
+                <OrdersTableHead>Total Amount</OrdersTableHead>
+                <OrdersTableHead>Actions</OrdersTableHead>
               </TableRow>
             </TableHead>
             <TableBody>
               {orders.map((orderGroup: any, index: number) =>
-                orderGroup.map(
-                  (order: any, subIndex: number) => (
-                    // order?.orderItem?.map((item: any, itemIndex: number) => (
-                    <TableRow key={`${index}-${subIndex}`}>
-                      <TableCell>
-                        {order?.accountBasicDTO?.accountType === "B2B"
-                          ? order?.accountBasicDTO?.accountName
-                          : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`}
-                      </TableCell>
-
-                      <TableCell>{order.orderNumber}</TableCell>
-                      <TableCell>{order.orderSource}</TableCell>
-                      <TableCell>{order?.orderNotes}</TableCell>
-                      <TableCell>{order?.orderStatus}</TableCell>
-                      <TableCell>{order?.shippingAddress?.street}</TableCell>
-                      <TableCell>{order?.shippingAddress?.city}</TableCell>
-                      <TableCell>{order?.shippingAddress?.state}</TableCell>
-                      <TableCell>{order?.shippingAddress?.country}</TableCell>
-                      <TableCell>
-                        {order?.shippingAddress?.postalCode}
-                      </TableCell>
-                      <TableCell>${order?.totalAmount}</TableCell>
-                      <TableCell>
-                        <ForwardIcon
-                          color="primary"
-                          fontSize="large"
-                          onClick={() => handleGoToOrderLinkClick(order)}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  )
-                  // ))
-                )
+                orderGroup.map((order: any, subIndex: number) => (
+                  <TableRow key={`${index}-${subIndex}`}>
+                    <TableCell>
+                      {order?.accountBasicDTO?.accountType === "B2B"
+                        ? order?.accountBasicDTO?.accountName
+                        : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`}
+                    </TableCell>
+                    <TableCell>{order.orderNumber}</TableCell>
+                    <TableCell>{order.orderSource}</TableCell>
+                    <TableCell>{order?.orderNotes}</TableCell>
+                    <TableCell>{order?.orderStatus}</TableCell>
+                    <TableCell>{order?.shippingAddress?.street}</TableCell>
+                    <TableCell>{order?.shippingAddress?.city}</TableCell>
+                    <TableCell>{order?.shippingAddress?.state}</TableCell>
+                    <TableCell>{order?.shippingAddress?.country}</TableCell>
+                    <TableCell>{order?.shippingAddress?.postalCode}</TableCell>
+                    <TableCell>${order?.totalAmount}</TableCell>
+                    <TableCell>
+                      <ForwardIcon
+                        color="primary"
+                        fontSize="large"
+                        onClick={() => handleGoToOrderLinkClick(order)}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))
               )}
             </TableBody>
           </Table>
         </TableContainer>
       </TableAndDatepickerHolder>
+      <SnackBarList />
     </OrdersTableContainer>
   );
 };

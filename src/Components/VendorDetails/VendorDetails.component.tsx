@@ -30,11 +30,13 @@ import {
 } from "redux/Containers/VendorForm/VendorFormSlice";
 import { AppDispatch, RootState } from "redux/store";
 import { useDispatch, useSelector } from "react-redux";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 //components
 import Popup from "Components/Popup/Popup.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const VendorDetails: FC<{}> = () => {
   const [vendorsId, setVendorsId] = useState<Vendor[]>([]);
@@ -69,7 +71,13 @@ const VendorDetails: FC<{}> = () => {
           }
         })
         .catch((error: any) => {
-          console.error("Error fetching apartment details:", error);
+          dispatch(
+            addSnackbar({
+              id: "error",
+              type: "error",
+              message: "Error fetching apartment details!",
+            })
+          );
         });
     }
   }, [dispatch, vendorId]);
@@ -105,7 +113,7 @@ const VendorDetails: FC<{}> = () => {
 
       const updatedVendorsId = vendorsId.map((vendor: any) => {
         if (vendor.id === selectedItem[0]?.id) {
-          return updatedItem; 
+          return updatedItem;
         }
         return vendor;
       });
@@ -122,7 +130,13 @@ const VendorDetails: FC<{}> = () => {
       setBankName("");
       setIsModalOpen(false);
     } catch (error) {
-      console.error("Vendor edit failed!", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Vendor edit failed!",
+        })
+      );
     }
   };
 
@@ -356,6 +370,7 @@ const VendorDetails: FC<{}> = () => {
           footerContent={<GenericButton onClick={handleSave} name="Save" />}
         />
       )}
+      <SnackBarList />
     </VendorDetailsComponent>
   );
 };

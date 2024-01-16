@@ -1,4 +1,6 @@
 import styled from "styled-components";
+
+//mui-icons
 import EditIcon from "@mui/icons-material/Edit";
 
 export const ProductAttributesContentHolder = styled.div`

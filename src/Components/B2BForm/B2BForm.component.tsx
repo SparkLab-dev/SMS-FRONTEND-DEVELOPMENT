@@ -1,19 +1,31 @@
 import { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+//style
 import {
+  AccountB2BFormOfAddressesContentHolder,
+  B2BBillingAddressContainer,
   B2BBillingAddressFormHolder,
   B2BFormContentHoder,
   B2BShipingAddressFormHolder,
+  B2BShippingAddressContainer,
   GenericB2BInputHold,
   InputsB2BFormContainer,
+  ShippingAndBillingAddressHolder,
 } from "./style/B2BForm.style";
 import { FormName, StyledSelect } from "App/style/App.style";
+import { AccountLabel } from "Components/OrderDetails/style/OrderDetails.style";
+
+//components
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
+
+//redux
 import { addAccount } from "redux/Pages/AccountType/AccountTypeSlice";
 import { AppDispatch, RootState } from "redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { AccountLabel } from "Components/OrderDetails/style/OrderDetails.style";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 const B2BForm: FC<{}> = () => {
   const navigate = useNavigate();
@@ -36,7 +48,7 @@ const B2BForm: FC<{}> = () => {
   const [shippingStateAddress, setShippingStateAddress] = useState<string>("");
   const [shippingPostalCode, setShippingPostalCode] = useState<string>("");
   const [shippingCountry, setShippingCountry] = useState<string>("");
-  const [selectedPriority, setSelectedPriority] = useState<string>(""); // State to store selected priority
+  const [selectedPriority, setSelectedPriority] = useState<string>("");
 
   // Static options for Account Priority
   const accountPriorityOptions = ["Low", "Medium", "High"];
@@ -92,18 +104,33 @@ const B2BForm: FC<{}> = () => {
       const response = await dispatch(addAccount({ accountCredentials }));
 
       if (addAccount.fulfilled.match(response)) {
-        navigate("/accountB2BTable");
-        console.log("Account B2B added!");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Account B2B added successfully!",
+          })
+        );
+
+        setTimeout(() => {
+          navigate("/accountB2BTable");
+        }, 2000);
       }
     } catch (error) {
-      console.log("Error in handleAccountClick:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error in adding  Account  B2B!",
+        })
+      );
     }
   };
 
   return (
-    <div style={{ display: "flex", width: "100%", height: "80vh" }}>
-      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <div style={{ flex: "1" }}>
+    <AccountB2BFormOfAddressesContentHolder>
+      <ShippingAndBillingAddressHolder>
+        <B2BShippingAddressContainer>
           <B2BShipingAddressFormHolder>
             <FormName>Shipping Address</FormName>
             <InputsB2BFormContainer>
@@ -173,9 +200,9 @@ const B2BForm: FC<{}> = () => {
               </GenericB2BInputHold>
             </InputsB2BFormContainer>
           </B2BShipingAddressFormHolder>
-        </div>
+        </B2BShippingAddressContainer>
 
-        <div style={{ flex: "1" }}>
+        <B2BBillingAddressContainer>
           <B2BBillingAddressFormHolder>
             <FormName>Billing Address </FormName>
             <InputsB2BFormContainer>
@@ -245,8 +272,8 @@ const B2BForm: FC<{}> = () => {
               </GenericB2BInputHold>
             </InputsB2BFormContainer>
           </B2BBillingAddressFormHolder>
-        </div>
-      </div>
+        </B2BBillingAddressContainer>
+      </ShippingAndBillingAddressHolder>
 
       <B2BFormContentHoder>
         <FormName> B2B Account</FormName>
@@ -375,7 +402,8 @@ const B2BForm: FC<{}> = () => {
           onClick={handleAccountB2BFormClick}
         />
       </B2BFormContentHoder>
-    </div>
+      <SnackBarList />
+    </AccountB2BFormOfAddressesContentHolder>
   );
 };
 export default B2BForm;

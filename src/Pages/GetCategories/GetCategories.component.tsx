@@ -34,7 +34,6 @@ import {
 //components
 import GenericButton from "Components/GenericButton/GenericButton.component";
 import Popup from "Components/Popup/Popup.component";
-import { InputsOfProductTable } from "Components/ProductsTable/style/ProductsTable.style";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import UploadPhoto from "Components/UploadPhoto/UploadPhoto.component";
 
@@ -42,7 +41,6 @@ import UploadPhoto from "Components/UploadPhoto/UploadPhoto.component";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import { ModalInputHolder } from "Components/OrdersTable/style/OrdersTable.style";
 
 const GetCategories: FC<{}> = (props) => {
   const navigate = useNavigate();
@@ -118,10 +116,7 @@ const GetCategories: FC<{}> = (props) => {
         const updatedItem = { ...selectedItem };
         console.log("updatedItem", updatedItem); // Create a copy of the selected item
         updatedItem.name = photoName; // Update the name
-        // updatedItem.image = logo;
-        // Assuming the response contains updated image details, update accordingly
-        // updatedItem.image = response.payload.image; // Update the image details if needed
-
+        
         const updatedCategories = categories.map((category) =>
           category.id === selectedItem.id ? updatedItem : category
         );
@@ -160,7 +155,6 @@ const GetCategories: FC<{}> = (props) => {
         setCategories((prevState) =>
           prevState.filter((category) => category.id !== categoryId)
         );
-        // navigate("/table");
       } else {
         console.error("Failed to delete category");
       }

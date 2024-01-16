@@ -1,4 +1,7 @@
 import { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+//style
 import {
   B2CBillingAddressFormHolder,
   B2CFormContentHoder,
@@ -7,13 +10,17 @@ import {
   InputsB2CFormContainer,
 } from "./style/B2CForm.style";
 import { FormName, StyledSelect } from "App/style/App.style";
+import { AccountLabel } from "Components/OrderDetails/style/OrderDetails.style";
+
+//components
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
-import { useNavigate } from "react-router-dom";
+
+//redux
 import { AppDispatch, RootState } from "redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addAccount } from "redux/Pages/AccountType/AccountTypeSlice";
-import { AccountLabel } from "Components/OrderDetails/style/OrderDetails.style";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 const B2CForm: FC<{}> = () => {
   const navigate = useNavigate();
@@ -21,7 +28,6 @@ const B2CForm: FC<{}> = () => {
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [industry, setIndustry] = useState<string>("");
-  const [accountPriority, setAccountPriority] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [street, setStreet] = useState<string>("");
@@ -35,7 +41,7 @@ const B2CForm: FC<{}> = () => {
   const [shippingStateAddress, setShippingStateAddress] = useState<string>("");
   const [shippingPostalCode, setShippingPostalCode] = useState<string>("");
   const [shippingCountry, setShippingCountry] = useState<string>("");
-  const [selectedPriority, setSelectedPriority] = useState<string>(""); // State to store selected priority
+  const [selectedPriority, setSelectedPriority] = useState<string>("");
 
   // Static options for Account Priority
   const accountPriorityOptions = ["Low", "Medium", "High"];
@@ -89,11 +95,26 @@ const B2CForm: FC<{}> = () => {
       const response = await dispatch(addAccount({ accountCredentials }));
 
       if (addAccount.fulfilled.match(response)) {
-        navigate("/accountB2CTable");
-        console.log("Account B2C added!");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Account B2C added successfully!",
+          })
+        );
+
+        setTimeout(() => {
+          navigate("/tabaccountB2CTablele");
+        }, 2000);
       }
     } catch (error) {
-      console.log("Error in handleAccountB2CClick:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error on adding B2B account!",
+        })
+      );
     }
   };
 
@@ -216,7 +237,7 @@ const B2CForm: FC<{}> = () => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setShippingAddressStreet(e.target.value)
                   }
-                />{" "}
+                />
               </GenericB2CInputHold>
               <GenericB2CInputHold>
                 <GenericInput
@@ -242,7 +263,7 @@ const B2CForm: FC<{}> = () => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setShippingStateAddress(e.target.value)
                   }
-                />{" "}
+                />
               </GenericB2CInputHold>
               <GenericB2CInputHold>
                 <GenericInput
@@ -268,7 +289,7 @@ const B2CForm: FC<{}> = () => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setShippingCountry(e.target.value)
                   }
-                />{" "}
+                />
               </GenericB2CInputHold>
             </InputsB2CFormContainer>
           </B2CShipingAddressFormHolder>
@@ -288,7 +309,7 @@ const B2CForm: FC<{}> = () => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setStreet(e.target.value)
                   }
-                />{" "}
+                />
               </GenericB2CInputHold>
               <GenericB2CInputHold>
                 <GenericInput
@@ -314,7 +335,7 @@ const B2CForm: FC<{}> = () => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setState(e.target.value)
                   }
-                />{" "}
+                />
               </GenericB2CInputHold>
               <GenericB2CInputHold>
                 <GenericInput
@@ -340,7 +361,7 @@ const B2CForm: FC<{}> = () => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setCountry(e.target.value)
                   }
-                />{" "}
+                />
               </GenericB2CInputHold>
             </InputsB2CFormContainer>
           </B2CBillingAddressFormHolder>

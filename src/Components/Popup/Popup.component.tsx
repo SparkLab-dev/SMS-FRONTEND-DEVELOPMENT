@@ -1,4 +1,6 @@
 import { FC, ReactNode } from "react";
+
+//style
 import {
   Modal,
   ModalBody,
@@ -8,7 +10,9 @@ import {
   PopupCloseButton,
 } from "./style/Popup.style";
 
+//components
 import GenericButton from "Components/GenericButton/GenericButton.component";
+
 type popupProps = {
   isOpen?: boolean;
   onClose?: any;

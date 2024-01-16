@@ -1,6 +1,10 @@
 import { FC, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+//style
 import {
   EditIconMui,
+  ProductOfOrderText,
   ProductsOfOrderContentHolder,
   ProductsOfOrderHead,
   ProductsOfOrderHolder,
@@ -16,7 +20,15 @@ import {
   EditProductDetailsButtonNameContainer,
   EditProductText,
 } from "Components/ProductDetails/style/ProductDetails.style";
+import {
+  InputsOfModalHolder,
+  ModalInputHolder,
+  ModalSaveButtonHolder,
+} from "Components/OrdersTable/style/OrdersTable.style";
+import { LabelDescriptionContainer, StyledSelect } from "App/style/App.style";
 import { DeleteIconInAttributesHold } from "Components/ProductAttributes/style/ProductAttributes.style";
+
+//redux
 import {
   OrderDetails,
   addOrderItem,
@@ -25,22 +37,19 @@ import {
 } from "redux/Pages/Orders/OrdersSlice";
 import { AppDispatch } from "redux/store";
 import { useDispatch } from "react-redux";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Popup from "Components/Popup/Popup.component";
-import {
-  InputsOfModalHolder,
-  ModalInputHolder,
-  ModalSaveButtonHolder,
-} from "Components/OrdersTable/style/OrdersTable.style";
-import GenericInput from "Components/GenericInput/GenericInput.component";
-import GenericButton from "Components/GenericButton/GenericButton.component";
 import {
   ProductDetailss,
   fetchAllProducts,
 } from "redux/Pages/Product/ProductSlice";
-import { LabelDescriptionContainer, StyledSelect } from "App/style/App.style";
-// import { calculateItem } from "redux/Containers/CalculateItem/CalculateItemSlice";
-import { useParams } from "react-router-dom";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+
+//mui icons
+import DeleteIcon from "@mui/icons-material/Delete";
+
+//components
+import Popup from "Components/Popup/Popup.component";
+import GenericInput from "Components/GenericInput/GenericInput.component";
+import GenericButton from "Components/GenericButton/GenericButton.component";
 
 const ProductsOfOrder: FC<{}> = () => {
   const [orders, setOrders] = useState<OrderDetails[]>([]);
@@ -50,59 +59,49 @@ const ProductsOfOrder: FC<{}> = () => {
   const [totalPrice, setTotalPrice] = useState<string>("");
   const [unitPrice, setUnitPrice] = useState<string>("");
   const [quantity, setQuantity] = useState<string>("");
-  const [totalAmount, setTotalAmount] = useState<string>("");
   const [getAllProducts, setGetAllProducts] = useState<ProductDetailss[]>([]);
   const [selectedProduct, setSelectedProduct] =
     useState<ProductDetailss | null>(null);
   console.log(selectedProduct);
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  // const [addedItems, setAddedItems] = useState<
-  //   {
-  //     productName: string;
-  //     quantity: string;
-  //     totalPrice: string;
-  //     totalAmount: string;
-  //     unitPrice: string;
-  //     product: {
-  //       id: string;
-  //     };
-  //   }[]
-  // >([]);
-  // const [selectedProductsList, setSelectedProductsList] = useState<
-  //   {
-  //     productId: number;
-  //     quantity: string;
-  //     unitPrice: string;
-  //   }[]
-  // >([]);
-  const [selectedOrderItemDetails, setSelectedOrderItemDetails] =
-    useState<any>(null);
+
   const { orderId } = useParams();
   const orderID = orderId ? parseInt(orderId) : 0;
-  console.log("orderId", orderId);
 
   const dispatch: AppDispatch = useDispatch();
 
   //get order api
   useEffect(() => {
+    let isMounted = true;
+  
     const fetchDetails = async () => {
-      if (orderID) {
+      if (orderID && isMounted) {
         try {
           const result = await dispatch(fetchOrderDetailsById(orderID));
-          if (fetchOrderDetailsById.fulfilled.match(result)) {
+          if (fetchOrderDetailsById.fulfilled.match(result) && isMounted) {
             setOrders(result.payload);
           }
         } catch (error) {
-          console.error("Error fetching product details:", error);
+          dispatch(
+            addSnackbar({
+              id: "error",
+              type: "error",
+              message: "Error fetching product details!",
+            })
+          );
         }
       }
     };
-
+  
     fetchDetails();
+  
+    return () => {
+      isMounted = false;
+    };
+  
   }, [dispatch, orderID]);
+  
 
   //upload button click
-
   const handleUpload = () => {
     setIsModalOpen(true);
     setSelectedItem(null);
@@ -121,11 +120,8 @@ const ProductsOfOrder: FC<{}> = () => {
     try {
       let editedOrderItem = null;
 
-      // Check if selectedItem is not null and an existing item is being edited
       if (selectedItem) {
         const orderItemId = selectedItem.id;
-
-        // Create the editedOrderItem object using the orderItemId
         editedOrderItem = {
           id: orderItemId,
           quantity: quantity,
@@ -143,20 +139,31 @@ const ProductsOfOrder: FC<{}> = () => {
         );
 
         if (addOrderItem.fulfilled.match(response)) {
-          console.log("done");
           setIsModalOpen(false);
           dispatch(fetchOrderDetailsById(orderID))
             .then((result: any) => {
               if (fetchOrderDetailsById.fulfilled.match(result)) {
                 setOrders(result.payload);
+                dispatch(
+                  addSnackbar({
+                    id: "attributeSuccess",
+                    type: "success",
+                    message: "Order product added successfully!",
+                  })
+                );
               }
             })
             .catch((error: any) => {
-              console.error("Error fetching product details:", error);
+              dispatch(
+                addSnackbar({
+                  id: "error",
+                  type: "error",
+                  message: "Error adding order product!",
+                })
+              );
             });
         }
       } else {
-        // Handle the case when a new item is being added
         editedOrderItem = {
           quantity: quantity,
           unitPrice: unitPrice,
@@ -174,7 +181,13 @@ const ProductsOfOrder: FC<{}> = () => {
         );
 
         if (addOrderItem.fulfilled.match(response)) {
-          console.log("New item added successfully!");
+          dispatch(
+            addSnackbar({
+              id: "attributeSuccess",
+              type: "success",
+              message: "New item added successfully!",
+            })
+          );
           setIsModalOpen(false);
 
           dispatch(fetchOrderDetailsById(orderID))
@@ -184,12 +197,24 @@ const ProductsOfOrder: FC<{}> = () => {
               }
             })
             .catch((error: any) => {
-              console.error("Error fetching product details:", error);
+              dispatch(
+                addSnackbar({
+                  id: "error",
+                  type: "error",
+                  message: "Error adding new item!",
+                })
+              );
             });
         }
       }
     } catch (error) {
-      console.error("Save edited value failed!", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Save edited value failed!",
+        })
+      );
     }
   };
 
@@ -199,21 +224,29 @@ const ProductsOfOrder: FC<{}> = () => {
     try {
       const result = await dispatch(deleteProductsOfOrder(attributeId));
       if (deleteProductsOfOrder.fulfilled.match(result)) {
-        console.log("Attribute deleted successfully!");
         // Fetch updated product details after deletion
-        dispatch(fetchOrderDetailsById(orderID))
-          .then((result: any) => {
-            console.log(result);
-            if (fetchOrderDetailsById.fulfilled.match(result)) {
-              setOrders(result.payload);
-            }
-          })
-          .catch((error: any) => {
-            console.error("Error fetching product details:", error);
-          });
+        dispatch(fetchOrderDetailsById(orderID)).then((result: any) => {
+          console.log(result);
+          if (fetchOrderDetailsById.fulfilled.match(result)) {
+            setOrders(result.payload);
+            dispatch(
+              addSnackbar({
+                id: "attributeSuccess",
+                type: "success",
+                message: "Item deleted successfully!",
+              })
+            );
+          }
+        });
       }
     } catch (error) {
-      console.error("Error deleting attribute:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting order item!",
+        })
+      );
     }
   };
 
@@ -234,11 +267,16 @@ const ProductsOfOrder: FC<{}> = () => {
         console.log(result);
         if (fetchAllProducts.fulfilled.match(result)) {
           const orders = result.payload.flat();
-
           setGetAllProducts(orders);
         }
       } catch (error) {
-        console.error("Error fetching orders:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching orders!",
+          })
+        );
       }
     };
 
@@ -276,11 +314,9 @@ const ProductsOfOrder: FC<{}> = () => {
                 <ProductsOfOrderHead>Quantity</ProductsOfOrderHead>
                 <ProductsOfOrderHead>Unit Price</ProductsOfOrderHead>
                 <ProductsOfOrderHead>Total Price</ProductsOfOrderHead>
-
                 <ProductsOfOrderHead>Actions</ProductsOfOrderHead>
               </ProductsOfOrderTableRow>
             </ProductsOfOrderTableHead>
-
             <ProductsOfOrderTableBody>
               {orders.map((order: OrderDetails, index: number) =>
                 order.orderItem.map((item: any, itemIndex: number) => (
@@ -297,7 +333,6 @@ const ProductsOfOrder: FC<{}> = () => {
                     <ProductsOfOrderTableData>
                       {item.totalPrice}
                     </ProductsOfOrderTableData>
-
                     <ProductsOfOrderTableData>
                       <EditIconMui onClick={() => handleEdit(item, index)} />
                       <DeleteIconInAttributesHold>
@@ -323,7 +358,9 @@ const ProductsOfOrder: FC<{}> = () => {
           setIsModalOpen(false);
         }}
         headerContent={
-          <p>{selectedItem ? "Edit Product" : "Add New Product"}</p>
+          <ProductOfOrderText>
+            {selectedItem ? "Edit Product" : "Add New Product"}
+          </ProductOfOrderText>
         }
         bodyContent={
           <>

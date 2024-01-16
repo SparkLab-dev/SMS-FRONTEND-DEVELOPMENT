@@ -53,14 +53,12 @@ export const ModalHeader = styled.div`
 `;
 export const ModalBody = styled.div`
   flex: 1;
-  /* padding: 10px 25px; */
   background-color: white;
 `;
 
 export const ModalFooter = styled.div`
   display: flex;
   width: 300px;
-  /* height: 40px; */
   align-items: center;
   justify-content: center;
   padding: 5px 0px 25px 0px;

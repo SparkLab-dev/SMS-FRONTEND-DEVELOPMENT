@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 //redux
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
 import {
   ProductImage,
   deleteProductImage,
@@ -10,6 +10,7 @@ import {
   uploadImage,
 } from "redux/Pages/ImageCategory/ImageCategorySlice";
 import { AppDispatch } from "redux/store";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 //mui
 import { Box } from "@mui/system";
@@ -19,6 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 //components
 import UploadPhoto from "Components/UploadPhoto/UploadPhoto.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 //style
 import {
@@ -27,9 +29,7 @@ import {
   UploadPhotoText,
 } from "Containers/ProductForm/style/ProductForm.style";
 import {
-  EditProductButton,
   EditProductButtonHolder,
-  EditProductDetailsButtonNameContainer,
   ProductImageHolder,
 } from "Components/ProductDetails/style/ProductDetails.style";
 import {
@@ -56,6 +56,8 @@ const ProductImages: FC<{}> = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
+  const isSaveButtonDisabled = !logo;
+
   //get images
   useEffect(() => {
     const fetchImage = async () => {
@@ -69,7 +71,13 @@ const ProductImages: FC<{}> = () => {
           }
         }
       } catch (error) {
-        console.error("Error fetching images:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching images!",
+          })
+        );
       }
     };
 
@@ -92,11 +100,24 @@ const ProductImages: FC<{}> = () => {
       if (fetchImageCategory.fulfilled.match(updatedImages)) {
         setImage(updatedImages.payload);
       }
+      dispatch(
+        addSnackbar({
+          id: "attributeSuccess",
+          type: "success",
+          message: "Image added successfully!",
+        })
+      );
       setOpenModal(false);
       setLogoSelected(["", ""]);
       setLogo(null);
     } catch (error) {
-      console.log("Error in handleSaveProductImage:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error in  adding image!",
+        })
+      );
     }
   };
 
@@ -109,11 +130,22 @@ const ProductImages: FC<{}> = () => {
         setImage((prevState) =>
           prevState.filter((image) => image.id !== imageId)
         );
-      } else {
-        console.error("Failed to delete image");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Image deleted successfully!",
+          })
+        );
       }
     } catch (error) {
-      console.error("Error deleting image:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting image!",
+        })
+      );
     }
   };
 
@@ -184,6 +216,7 @@ const ProductImages: FC<{}> = () => {
                     handleImageChange();
                     handleSaveImage(e);
                   }}
+                  disabled={isSaveButtonDisabled}
                 />
               </ButtonHold>
             </ModalButtonHolder>
@@ -193,18 +226,14 @@ const ProductImages: FC<{}> = () => {
       <ProductImageContentHolder>
         <ImagesHolder>
           <EditProductButtonHolder>
-            <EditProductButton>
-              <EditProductDetailsButtonNameContainer>
-                <UploadImageButton
-                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                    e.preventDefault();
-                    setOpenModal(true);
-                  }}
-                >
-                  Upload
-                </UploadImageButton>
-              </EditProductDetailsButtonNameContainer>
-            </EditProductButton>
+            <UploadImageButton
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                e.preventDefault();
+                setOpenModal(true);
+              }}
+            >
+              Upload
+            </UploadImageButton>
           </EditProductButtonHolder>
           <ImagesTable>
             <ProductImagesTableHead>
@@ -241,6 +270,7 @@ const ProductImages: FC<{}> = () => {
           </ImagesTable>
         </ImagesHolder>
       </ProductImageContentHolder>
+      <SnackBarList />
     </>
   );
 };

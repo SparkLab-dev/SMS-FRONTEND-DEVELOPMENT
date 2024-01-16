@@ -3,6 +3,7 @@ export const OrdersTableContainer = styled.div`
   width: 100%;
   height: 700px;
 `;
+export const OrdersTableHead = styled.th``;
 export const OrderH2 = styled.h2`
   font-size: 30px;
   font-family: "Poppins";
@@ -27,9 +28,7 @@ export const ModalInputHolder = styled.div`
   flex: 1;
   margin: 5px;
 `;
-export const TableBody = styled.tbody`
-  /* display: flex; */
-`;
+export const TableBody = styled.tbody``;
 export const ModalSaveButtonHolder = styled.div`
   display: flex;
   width: 100%;

@@ -84,3 +84,8 @@ export const EditAttributeTableName = styled.p`
   font-size: 27px;
   margin: 10px 0;
 `;
+export const ProductOfOrderText = styled.p`
+  font-family: "Poppins";
+  color: #0e53c5;
+  font-size: 30px;
+`;

@@ -56,7 +56,7 @@ export const GenericInputHold = styled.div`
 export const Option = styled.option``;
 export const LogoDescAndNameHolder = styled.div`
   flex: 1;
-  margin: 15px 5px 5px;
+  margin: 5px;
 `;
 export const AddButton = styled.button`
   float: right;
@@ -85,4 +85,9 @@ export const LogoTitle = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+`;
+export const AsterikCategory = styled.span`
+  color: #fc0101;
+  font-weight: bold;
+  font-family: "Poppins";
 `;

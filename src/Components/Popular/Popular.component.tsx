@@ -4,15 +4,14 @@ import { useNavigate } from "react-router";
 //style
 import {
   CategoryName,
-  Hr,
   ItemHandler,
   PopularDiv,
   PopularItem,
-  PopularText,
 } from "./style/Popular.style";
 
 //components
 import Item from "Components/Item/Item.component";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 //redux
 import { AppDispatch } from "redux/store";
@@ -21,6 +20,8 @@ import {
   ProductProps,
   fetchProductsCategory,
 } from "redux/Pages/ProductCategory/ProductCategorySlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
+
 
 const Popular: FC<{}> = () => {
   const navigate = useNavigate();
@@ -34,11 +35,23 @@ const Popular: FC<{}> = () => {
         if (fetchProductsCategory.fulfilled.match(result)) {
           setProductCategory(result.payload);
         } else {
-          console.error("Product details not found.");
+          dispatch(
+            addSnackbar({
+              id: "info",
+              type: "info",
+              message: "Product details not found!",
+            })
+          );
         }
       })
       .catch((error: any) => {
-        console.error("Error fetching Product details:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching Product details!",
+          })
+        );
       });
   }, [dispatch]);
 
@@ -65,6 +78,7 @@ const Popular: FC<{}> = () => {
             );
           })}
         </PopularItem>
+        <SnackBarList />
       </PopularDiv>
     </>
   );

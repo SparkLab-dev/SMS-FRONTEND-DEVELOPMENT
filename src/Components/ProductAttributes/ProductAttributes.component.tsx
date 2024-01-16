@@ -15,6 +15,7 @@ import {
   deleteAttribute,
   editAttribute,
 } from "redux/Pages/ShopCategory/ShopCategorySlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 //style
 import {
@@ -62,6 +63,8 @@ const ProductAttributes: FC<{}> = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
+  const isSaveButtonDisabled = !attributeName || !attributeValue;
+
   //get vendor by id
   useEffect(() => {
     const fetchProduct = () => {
@@ -96,13 +99,32 @@ const ProductAttributes: FC<{}> = () => {
             if (fetchProductDetails.fulfilled.match(result)) {
               setProductAttributes(result.payload);
             }
+            dispatch(
+              addSnackbar({
+                id: "attributeSuccess",
+                type: "success",
+                message: "Attribute deleted successfully!",
+              })
+            );
           })
           .catch((error: any) => {
-            console.error("Error fetching product details:", error);
+            dispatch(
+              addSnackbar({
+                id: "error",
+                type: "error",
+                message: "Error deleting product attribute!",
+              })
+            );
           });
       }
     } catch (error) {
-      console.error("Error deleting attribute:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting product attribute!",
+        })
+      );
     }
   };
 
@@ -156,10 +178,23 @@ const ProductAttributes: FC<{}> = () => {
           .then((result: any) => {
             if (fetchProductDetails.fulfilled.match(result)) {
               setProductAttributes(result.payload);
+              dispatch(
+                addSnackbar({
+                  id: "attributeSuccess",
+                  type: "success",
+                  message: "Attribute added successfully!",
+                })
+              );
             }
           })
           .catch((error: any) => {
-            console.error("Error fetching product details:", error);
+            dispatch(
+              addSnackbar({
+                id: "error",
+                type: "error",
+                message: "Error adding product attribute!",
+              })
+            );
           });
       }
     } catch (error) {
@@ -168,7 +203,7 @@ const ProductAttributes: FC<{}> = () => {
   };
 
   const handleEdit = (selectedAttribute: any) => {
-    console.log(selectedAttribute)
+    console.log(selectedAttribute);
     setSelectedItem(selectedAttribute);
     setAttributeName(selectedAttribute?.attributeName || "");
     setAttributeValue(selectedAttribute?.attributeValue || "");
@@ -191,11 +226,9 @@ const ProductAttributes: FC<{}> = () => {
             </EditProductButtonHolder>
             <ProductAttributesTable>
               <AttributesTableHead>
-                <AttributesTableRow>
-                  <AttributesHead>Attribute Name</AttributesHead>
-                  <AttributesHead>Attribute Value</AttributesHead>
-                  <AttributesHead>Actions</AttributesHead>
-                </AttributesTableRow>
+                <AttributesHead>Attribute Name</AttributesHead>
+                <AttributesHead>Attribute Value</AttributesHead>
+                <AttributesHead>Actions</AttributesHead>
               </AttributesTableHead>
               <ProductAttributesTableBody>
                 {product.attributes.map((attribute: any, attrIndex: any) => (
@@ -236,7 +269,6 @@ const ProductAttributes: FC<{}> = () => {
         }}
         headerContent={
           <EditAttributeTableName>
-            {" "}
             {selectedItem ? "Edit Attribute" : "Add New Attribute"}
           </EditAttributeTableName>
         }
@@ -268,7 +300,11 @@ const ProductAttributes: FC<{}> = () => {
         }
         footerContent={
           <ModalSaveButtonHolder>
-            <GenericButton name="Save" onClick={handleEditAttributeClick} />
+            <GenericButton
+              name="Save"
+              onClick={handleEditAttributeClick}
+              disabled={isSaveButtonDisabled}
+            />
           </ModalSaveButtonHolder>
         }
       />

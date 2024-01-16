@@ -1,19 +1,17 @@
 import { FC, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 //style
 import {
   AccountLabel,
-  DisplayOrderHolder,
   EditOrderTableName,
-  Hr,
-  OrdDetailsHolder,
-  OrderDetailsContainer,
   OrderDetailsContentHolder,
   OrderDetailsHolder,
   OrderDetailsTable,
+  OrderTableRow,
   Orderdetails,
   OrdersHead,
-  // OrdersTableBody,
+  OrdersTableBody,
   OrdersTableData,
   OrdersTableHead,
   OrdersTableRow,
@@ -23,6 +21,7 @@ import {
   ModalInputHolder,
   ModalSaveButtonHolder,
 } from "Components/OrdersTable/style/OrdersTable.style";
+import { StyledSelect } from "App/style/App.style";
 
 //redux
 import { AppDispatch, RootState } from "redux/store";
@@ -32,6 +31,12 @@ import {
   deleteOrder,
   fetchOrderDetailsById,
 } from "redux/Pages/Orders/OrdersSlice";
+import { orderForm } from "redux/Containers/OrderForm/OrderFormSlice";
+import {
+  Account,
+  fetchAccountDetails,
+} from "redux/Containers/Account/AccountSlice";
+import { addSnackbar } from "redux/actions/actions-snackbar";
 
 //mui-icons
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -41,14 +46,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import Popup from "Components/Popup/Popup.component";
 import GenericInput from "Components/GenericInput/GenericInput.component";
 import GenericButton from "Components/GenericButton/GenericButton.component";
-import { orderForm } from "redux/Containers/OrderForm/OrderFormSlice";
-import { useNavigate, useParams } from "react-router-dom";
 import ProductsOfOrder from "Components/ProductsOfOrder/ProductsOfOrder.component";
-import { StyledSelect } from "App/style/App.style";
-import {
-  Account,
-  fetchAccountDetails,
-} from "redux/Containers/Account/AccountSlice";
+import SnackBarList from "Components/SnackbarList/SnackbarList.component";
 
 const OrderDetailsComponent: FC<{}> = () => {
   const navigate = useNavigate();
@@ -57,7 +56,6 @@ const OrderDetailsComponent: FC<{}> = () => {
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [account, setAccount] = useState<Account[]>([]);
   console.log("ACCOUNT", account);
-
   const [selectedAccount, setSelectedAccount] = useState<number | null>(null);
   console.log("ECELCTED ACCOUNT", selectedAccount);
 
@@ -79,7 +77,13 @@ const OrderDetailsComponent: FC<{}> = () => {
             }
           })
           .catch((error: any) => {
-            console.error("Error fetching  product details:", error);
+            dispatch(
+              addSnackbar({
+                id: "error",
+                type: "error",
+                message: "Error fetching  product details!",
+              })
+            );
           });
       }
     };
@@ -100,13 +104,18 @@ const OrderDetailsComponent: FC<{}> = () => {
           setAccount(accounts);
         }
       } catch (error) {
-        console.error("Error fetching accounts:", error);
+        dispatch(
+          addSnackbar({
+            id: "error",
+            type: "error",
+            message: "Error fetching accounts!",
+          })
+        );
       }
     };
 
     fetchAccountData();
   }, [dispatch]);
-  console.log("account", account);
 
   //edit button click
   const handleEdit = (editOrder: any) => {
@@ -118,7 +127,7 @@ const OrderDetailsComponent: FC<{}> = () => {
     if (selectedAccountId !== undefined && selectedAccountId !== null) {
       setSelectedAccount(selectedAccountId);
     } else {
-      setSelectedAccount(null); // or any default value if accountId doesn't exist
+      setSelectedAccount(null);
     }
   };
 
@@ -139,7 +148,7 @@ const OrderDetailsComponent: FC<{}> = () => {
       orderStatus: selectedItem.orderStatus,
       orderNotes: selectedItem.orderNotes,
       shippingAddress: {
-        street: selectedItem?.shippingAddress?.street || "", // Handling null/undefined
+        street: selectedItem?.shippingAddress?.street || "",
         city: selectedItem?.shippingAddress?.city || "",
         state: selectedItem?.shippingAddress?.state || "",
         postalCode: selectedItem?.shippingAddress?.postalCode || "",
@@ -156,10 +165,7 @@ const OrderDetailsComponent: FC<{}> = () => {
         id: userId,
       },
     };
-    console.log("SELECTED ACCOUNT", selectedAccount);
     try {
-      // const lastAddedItem = addedItems[addedItems.length - 1];
-
       const response = await dispatch(orderForm({ userCredentials }));
       if (response.payload) {
         const updatedOrderDetails = orders.map((order) =>
@@ -167,11 +173,23 @@ const OrderDetailsComponent: FC<{}> = () => {
         );
         console.log(selectedItem);
         setOrders(updatedOrderDetails);
-        // localStorage.setItem("orders", JSON.stringify(updatedOrderDetails));
         setIsModalOpen(false);
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Order edited successfully!",
+          })
+        );
       }
     } catch (error) {
-      console.log("Error in handleOrderClick:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error editing order!",
+        })
+      );
     }
   };
 
@@ -180,16 +198,29 @@ const OrderDetailsComponent: FC<{}> = () => {
     try {
       const result = await dispatch(deleteOrder(orderId));
       if (deleteOrder.fulfilled.match(result)) {
-        console.log("Order deleted successfully!");
         setOrders((prevState) =>
           prevState.filter((order) => order.id !== orderId)
         );
-        navigate("/orderTable");
-      } else {
-        console.error("Failed to delete order");
+        dispatch(
+          addSnackbar({
+            id: "attributeSuccess",
+            type: "success",
+            message: "Order deleted successfully!",
+          })
+        );
+
+        setTimeout(() => {
+          navigate("/orderTable");
+        }, 2000);
       }
     } catch (error) {
-      console.error("Error deleting order:", error);
+      dispatch(
+        addSnackbar({
+          id: "error",
+          type: "error",
+          message: "Error deleting order!",
+        })
+      );
     }
   };
   return (
@@ -197,112 +228,72 @@ const OrderDetailsComponent: FC<{}> = () => {
       <OrderDetailsContentHolder>
         <OrderDetailsHolder>
           <OrderDetailsTable>
-            <DisplayOrderHolder>
-              <OrderDetailsContainer>
-                <OrdDetailsHolder>
-                  <OrdersTableHead>
-                    {/* <OrdersTableRow> */}
-                    <OrdersHead>Order Number</OrdersHead>
-
-                    <Hr />
-                    <OrdersHead>Account Name</OrdersHead>
-                    <Hr />
-                    <OrdersHead>Order Source</OrdersHead>
-                    <Hr />
-                    <OrdersHead>Order Notes</OrdersHead>
-                    <Hr />
-                    <OrdersHead>Order Status</OrdersHead>
-                    <Hr />
-                    <OrdersHead>Street</OrdersHead>
-                    <Hr />
-                    <OrdersHead>City</OrdersHead>
-                    <Hr />
-                    <OrdersHead>State</OrdersHead>
-                    <Hr />
-                    <OrdersHead>Country</OrdersHead>
-                    <Hr />
-                    <OrdersHead>Postal Code</OrdersHead>
-                    <Hr />
-                    <OrdersHead>Total Amount</OrdersHead>
-                    <Hr />
-                    <OrdersHead>Actions</OrdersHead>
-
-                    {/* </OrdersTableRow> */}
-                  </OrdersTableHead>
-                  {/* <OrdersTableBody> */}
-                  {orders.map((order: any, index: number) => (
-                    // orderGroup.map(
-                    //   (order: any, subIndex: number) => (
-                    // order?.orderItem?.map((item: any, itemIndex: number) => (
-                    <>
-                      <OrdersTableRow key={index}>
-                        <OrdersTableData>{order.orderNumber}</OrdersTableData>
-                        <Hr />
-                        <OrdersTableData>
-                          {index === 0 &&
-                            (order?.accountBasicDTO?.accountType === "B2B"
-                              ? order?.accountBasicDTO?.accountName
-                              : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`)}
-                        </OrdersTableData>
-                        <Hr />
-                        <OrdersTableData>{order.orderSource}</OrdersTableData>
-                        <Hr />
-                        <OrdersTableData>{order?.orderNotes}</OrdersTableData>
-                        <Hr />
-                        <OrdersTableData>{order?.orderStatus}</OrdersTableData>
-                        <Hr />
-                        <OrdersTableData>
-                          {order?.shippingAddress?.street}
-                        </OrdersTableData>
-                        <Hr />
-                        <OrdersTableData>
-                          {order?.shippingAddress?.city}
-                        </OrdersTableData>
-                        <Hr />
-                        <OrdersTableData>
-                          {order?.shippingAddress?.state}
-                        </OrdersTableData>
-                        <Hr />
-                        <OrdersTableData>
-                          {order?.shippingAddress?.country}
-                        </OrdersTableData>
-                        <Hr />
-                        <OrdersTableData>
-                          {order?.shippingAddress?.postalCode}
-                        </OrdersTableData>
-                        <Hr />
-                        <OrdersTableData>
-                          {order?.totalAmount}
-                        </OrdersTableData>{" "}
-                        <Hr />
-                        <OrdersTableData>
-                          <Hr />
-                          <EditIcon
-                            onClick={() => handleEdit(order)}
-                            style={{
-                              cursor: "pointer",
-                              color: "#0e53c5",
-                              fontSize: "25px",
-                            }}
-                          />
-                          <DeleteIcon
-                            onClick={() => handleDeleteOrder(order.id)}
-                            style={{
-                              cursor: "pointer",
-                              color: "#0e53c5",
-                              fontSize: "25px",
-                            }}
-                          />
-                        </OrdersTableData>
-                      </OrdersTableRow>
-                    </>
-                    // )
-                    // ))
-                  ))}
-                  {/* </OrdersTableBody> */}
-                </OrdDetailsHolder>
-              </OrderDetailsContainer>
-            </DisplayOrderHolder>
+            <OrdersTableHead>
+              <OrderTableRow>
+                <OrdersHead>Order Number</OrdersHead>
+                <OrdersHead>Account Name</OrdersHead>
+                <OrdersHead>Order Source</OrdersHead>
+                <OrdersHead>Order Notes</OrdersHead>
+                <OrdersHead>Order Status</OrdersHead>
+                <OrdersHead>Street</OrdersHead>
+                <OrdersHead>City</OrdersHead>
+                <OrdersHead>State</OrdersHead>
+                <OrdersHead>Country</OrdersHead>
+                <OrdersHead>Postal Code</OrdersHead>
+                <OrdersHead>Total Amount</OrdersHead>
+                <OrdersHead>Actions</OrdersHead>
+              </OrderTableRow>
+            </OrdersTableHead>
+            {orders.map((order: any, index: number) => (
+              <OrdersTableBody key={index}>
+                <OrdersTableRow>
+                  <OrdersTableData>{order.orderNumber}</OrdersTableData>
+                  <OrdersTableData>
+                    {index === 0 &&
+                      (order?.accountBasicDTO?.accountType === "B2B"
+                        ? order?.accountBasicDTO?.accountName
+                        : `${order?.accountBasicDTO?.firstName} ${order?.accountBasicDTO?.lastName}`)}
+                  </OrdersTableData>
+                  <OrdersTableData>{order.orderSource}</OrdersTableData>
+                  <OrdersTableData>{order?.orderNotes}</OrdersTableData>
+                  <OrdersTableData>{order?.orderStatus}</OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.street}
+                  </OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.city}
+                  </OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.state}
+                  </OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.country}
+                  </OrdersTableData>
+                  <OrdersTableData>
+                    {order?.shippingAddress?.postalCode}
+                  </OrdersTableData>
+                  <OrdersTableData>{order?.totalAmount}</OrdersTableData>{" "}
+                  <OrdersTableData>
+                    <EditIcon
+                      onClick={() => handleEdit(order)}
+                      style={{
+                        cursor: "pointer",
+                        color: "#0e53c5",
+                        fontSize: "25px",
+                      }}
+                    />
+                    <DeleteIcon
+                      onClick={() => handleDeleteOrder(order.id)}
+                      style={{
+                        cursor: "pointer",
+                        color: "#0e53c5",
+                        fontSize: "25px",
+                      }}
+                    />
+                  </OrdersTableData>
+                </OrdersTableRow>
+              </OrdersTableBody>
+            ))}
           </OrderDetailsTable>
         </OrderDetailsHolder>
       </OrderDetailsContentHolder>
@@ -319,7 +310,6 @@ const OrderDetailsComponent: FC<{}> = () => {
               <>
                 <InputsOfModalHolder>
                   <ModalInputHolder>
-                    {" "}
                     <GenericInput
                       input_label="Order number"
                       value={selectedItem?.orderNumber || ""}
@@ -342,7 +332,6 @@ const OrderDetailsComponent: FC<{}> = () => {
                           : ""
                       }
                       onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                        // const selectedAccountId = Number(e.target.value);
                         setSelectedAccount(Number(e.target.value));
                       }}
                     >
@@ -502,6 +491,7 @@ const OrderDetailsComponent: FC<{}> = () => {
         }
       />
       <ProductsOfOrder />
+      <SnackBarList />
     </Orderdetails>
   );
 };
