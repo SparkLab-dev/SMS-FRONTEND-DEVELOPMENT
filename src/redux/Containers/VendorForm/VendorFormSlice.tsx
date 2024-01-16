@@ -49,11 +49,9 @@ export const vendorForm = createAsyncThunk(
 
       const responseRegData = response.data;
       console.log("", responseRegData);
-
       //   if (response.status !== 200) {
       //     return rejectWithValue(responseRegData.error);
       //   }
-
       return responseRegData;
     } catch (error: any) {
       console.log("Error in register vendor:", error);
@@ -62,6 +60,7 @@ export const vendorForm = createAsyncThunk(
     }
   }
 );
+
 
 //get vendors api
 export const fetchVendors = createAsyncThunk<Vendor[]>(

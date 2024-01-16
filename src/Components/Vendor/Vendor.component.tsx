@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { vendorForm } from "redux/Containers/VendorForm/VendorFormSlice";
 import { addSnackbar } from "redux/actions/actions-snackbar";
 
+
 const Vendor: FC<{}> = () => {
   const navigate = useNavigate();
   const [companyName, setCompanyName] = useState<string>("");

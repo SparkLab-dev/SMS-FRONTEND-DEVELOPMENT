@@ -41,6 +41,7 @@ import { ContactState } from "redux/Pages/Contact/ContactSlice";
 import contactSlice from "redux/Pages/Contact/ContactSlice";
 import snackbarSlice from "./slices/slice-snackbar";
 import { SnackbarState } from "./slices/slice-snackbar";
+
 type RootState = {
   login: LoginState;
   register: AuthRegState;
@@ -107,6 +108,7 @@ const rootReducer = combineReducers({
   contact: contactSlice,
   snackbar: snackbarSlice,
 });
+
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 const store = configureStore({
   reducer: persistedReducer,
