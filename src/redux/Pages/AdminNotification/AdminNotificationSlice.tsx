@@ -43,7 +43,7 @@ export const fetchAdminNotification = createAsyncThunk<
 >("notification/adminNotification", async ({ userId }) => {
   try {
     const response = await axios.get(
-      `http://192.168.10.210:8081/SMS/notification/user/${userId}`
+      `https://sms-production-f94f.up.railway.app/SMS/notification/user/${userId}`
     );
     console.log(response);
     return [response.data];
@@ -59,7 +59,7 @@ export const deleteNotification = createAsyncThunk<Notification[], number>(
   async (notificationId: number) => {
     try {
       const response = await axios.delete(
-        `http://192.168.10.210:8081/SMS/notification/${notificationId}`
+        `https://sms-production-f94f.up.railway.app/SMS/notification/${notificationId}`
       );
       console.log(response);
       console.log(notificationId);
@@ -71,13 +71,13 @@ export const deleteNotification = createAsyncThunk<Notification[], number>(
   }
 );
 
-//read or unread api 
+//read or unread api
 export const NotificationRead = createAsyncThunk<Notification[], number>(
   "read/readNotification",
   async (notificationId: number) => {
     try {
       const response = await axios.put(
-        `http://192.168.10.210:8081/SMS/notification/readNotification/${notificationId}`
+        `https://sms-production-f94f.up.railway.app/SMS/notification/readNotification/${notificationId}`
       );
       console.log(response);
 

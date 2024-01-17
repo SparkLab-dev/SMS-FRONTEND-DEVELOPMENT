@@ -37,7 +37,7 @@ export const productForm = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        "http://192.168.10.210:8081/SMS/product",
+        "https://sms-production-f94f.up.railway.app/SMS/product",
         userCredentials
       );
 

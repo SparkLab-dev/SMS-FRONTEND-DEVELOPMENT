@@ -30,7 +30,7 @@ export const fetchImageCategory = createAsyncThunk<ProductImage[], number>(
   async (productId: number) => {
     try {
       const response = await axios.get(
-        `http://192.168.10.210:8081/SMS/product/${productId}/images`
+        `https://sms-production-f94f.up.railway.app/SMS/product/${productId}/images`
       );
       console.log(response);
       return response.data;
@@ -50,7 +50,7 @@ export const uploadImage = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        "http://192.168.10.210:8081/SMS/productimage",
+        "https://sms-production-f94f.up.railway.app/SMS/productimage",
         userCredentials
       );
 
@@ -72,7 +72,7 @@ export const deleteProductImage = createAsyncThunk<ProductImage[], number>(
   async (imageId: number) => {
     try {
       const response = await axios.delete(
-        `http://192.168.10.210:8081/SMS/productimage/${imageId}`
+        `https://sms-production-f94f.up.railway.app/SMS/productimage/${imageId}`
       );
       console.log(response);
       console.log(imageId);

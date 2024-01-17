@@ -2,7 +2,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SnackBarOptions } from "./slice-snackbar.types";
 
-
 // slice-snackbar.d.ts
 
 interface SnackbarData extends SnackBarOptions {

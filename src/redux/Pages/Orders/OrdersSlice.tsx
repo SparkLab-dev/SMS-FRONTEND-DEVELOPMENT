@@ -72,7 +72,9 @@ export const fetchOrderDetails = createAsyncThunk<OrderDetails[]>(
   "order/orderProp",
   async () => {
     try {
-      const response = await axios.get("http://192.168.10.210:8081/SMS/order");
+      const response = await axios.get(
+        "https://sms-production-f94f.up.railway.app/SMS/order"
+      );
       console.log(response);
       return [response.data];
     } catch (error) {
@@ -88,7 +90,7 @@ export const fetchOrderDetailsById = createAsyncThunk<OrderDetails[], number>(
   async (orderId: number) => {
     try {
       const response = await axios.get(
-        `http://192.168.10.210:8081/SMS/order/${orderId}`
+        `https://sms-production-f94f.up.railway.app/SMS/order/${orderId}`
       );
       console.log(response);
       return [response.data];
@@ -104,7 +106,7 @@ export const deleteOrder = createAsyncThunk(
   async (orderId: number) => {
     try {
       const response = await axios.delete(
-        `http://192.168.10.210:8081/SMS/order/${orderId}`
+        `https://sms-production-f94f.up.railway.app/SMS/order/${orderId}`
       );
       console.log(response);
       return response.data;
@@ -121,7 +123,7 @@ export const deleteProductsOfOrder = createAsyncThunk(
   async (attributeId: number) => {
     try {
       const response = await axios.delete(
-        `http://192.168.10.210:8081/SMS/orderItem/${attributeId}`
+        `https://sms-production-f94f.up.railway.app/SMS/orderItem/${attributeId}`
       );
       console.log(response);
       return response.data;
@@ -138,7 +140,7 @@ export const addOrderItem = createAsyncThunk(
   async ({ orderItem }: { orderItem: object }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://192.168.10.210:8081/SMS/orderItem/addNewOrderItem",
+        "https://sms-production-f94f.up.railway.app/SMS/orderItem/addNewOrderItem",
         orderItem
       );
 

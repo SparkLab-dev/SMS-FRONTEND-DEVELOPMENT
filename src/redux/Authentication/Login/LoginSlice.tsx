@@ -27,7 +27,7 @@ export const UserLogin = createAsyncThunk(
   async (userCredentials: object, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://192.168.10.210:8081/SMS/auth/login",
+        "https://sms-production-f94f.up.railway.app/SMS/auth/login",
         userCredentials
       );
 
@@ -67,7 +67,7 @@ export const UserLogout = createAsyncThunk<void, number | null>(
         throw new Error("User ID not found in user data");
       }
       const response = await axios.post(
-        `http://192.168.10.210:8081/SMS/auth/logout/${userIdFromLocalStorage}`
+        `https://sms-production-f94f.up.railway.app/SMS/auth/logout/${userIdFromLocalStorage}`
       );
 
       console.log("Logout response:", response.data);

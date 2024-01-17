@@ -29,7 +29,7 @@ export const resetPassword = createAsyncThunk(
       const token = pathnameParts[pathnameParts.length - 1];
 
       const response = await axios.put(
-        `http://192.168.10.210:8081/SMS/user/resetPassword/${token}`,
+        `https://sms-production-f94f.up.railway.app/SMS/user/resetPassword/${token}`,
         resetPassword
       );
 
@@ -50,32 +50,32 @@ export const resetPassword = createAsyncThunk(
 
 //forgot password
 export const forgotPassword = createAsyncThunk<ResetPass, string>(
-    "forgot/forgotPassword",
-    async (email: string, { rejectWithValue }) => {
-      try {
-        const response = await axios.post(
-          `http://192.168.10.210:8081/SMS/user/forgetPassword/${email}`
-        );
-   
-        const responseData = response.data;
-  
-        console.log("forgot pass response", responseData);
-  
-        localStorage.setItem("email", JSON.stringify(responseData));
-  
-        if (response.status !== 200) {
-          return rejectWithValue(responseData.error.message);
-        }
-  
-        return responseData;
-      } catch (error) {
-        console.log("Error in forgot pass:", error);
-  
-        return rejectWithValue("Forgot pass failed!");
+  "forgot/forgotPassword",
+  async (email: string, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `https://sms-production-f94f.up.railway.app/SMS/user/forgetPassword/${email}`
+      );
+
+      const responseData = response.data;
+
+      console.log("forgot pass response", responseData);
+
+      localStorage.setItem("email", JSON.stringify(responseData));
+
+      if (response.status !== 200) {
+        return rejectWithValue(responseData.error.message);
       }
+
+      return responseData;
+    } catch (error) {
+      console.log("Error in forgot pass:", error);
+
+      return rejectWithValue("Forgot pass failed!");
     }
-  );
-  
+  }
+);
+
 const resetPasswordSlice = createSlice({
   name: "resetPassword",
   initialState,

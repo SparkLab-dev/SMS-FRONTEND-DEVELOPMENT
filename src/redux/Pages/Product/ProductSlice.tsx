@@ -46,7 +46,7 @@ export const fetchProductDetails = createAsyncThunk<ProductDetailss[], number>(
   async (productId: number) => {
     try {
       const response = await axios.get(
-        `http://192.168.10.210:8081/SMS/product/${productId}`
+        `https://sms-production-f94f.up.railway.app/SMS/product/${productId}`
       );
       console.log(response);
       return [response.data];
@@ -63,7 +63,7 @@ export const fetchAllProducts = createAsyncThunk<ProductDetailss[]>(
   async () => {
     try {
       const response = await axios.get(
-        "http://192.168.10.210:8081/SMS/product"
+        "https://sms-production-f94f.up.railway.app/SMS/product"
       );
       console.log(response);
       return [response.data];

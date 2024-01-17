@@ -49,7 +49,7 @@ export const fetchShopProductCategory = createAsyncThunk<
 >("shopProduct/shopProductCategory", async (productId: number) => {
   try {
     const response = await axios.get(
-      `http://192.168.10.210:8081/SMS/productcategory/${productId}/products`
+      `https://sms-production-f94f.up.railway.app/SMS/productcategory/${productId}/products`
     );
     console.log(response);
     console.log(productId);
@@ -67,7 +67,7 @@ export const deleteProduct = createAsyncThunk<
 >("delete/deleteProduct", async (productId: number) => {
   try {
     const response = await axios.delete(
-      `http://192.168.10.210:8081/SMS/product/${productId}`
+      `https://sms-production-f94f.up.railway.app/SMS/product/${productId}`
     );
     console.log(response);
     console.log(productId);
@@ -87,7 +87,7 @@ export const editAttribute = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        "http://192.168.10.210:8081/SMS/productAttribute",
+        "https://sms-production-f94f.up.railway.app/SMS/productAttribute",
         attributeValues
       );
 
@@ -110,7 +110,7 @@ export const deleteAttribute = createAsyncThunk<
 >("deleteAttribute/deleteProductAttribute", async (attributeId: number) => {
   try {
     const response = await axios.delete(
-      `http://192.168.10.210:8081/SMS/productAttribute/${attributeId}`
+      `https://sms-production-f94f.up.railway.app/SMS/productAttribute/${attributeId}`
     );
     console.log(response);
     console.log(attributeId);

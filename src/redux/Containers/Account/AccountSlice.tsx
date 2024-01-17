@@ -62,7 +62,7 @@ export const fetchAccountDetails = createAsyncThunk<Account[]>(
   async () => {
     try {
       const response = await axios.get(
-        "http://192.168.10.210:8081/SMS/account"
+        "https://sms-production-f94f.up.railway.app/SMS/account"
       );
       console.log(response);
       return [response.data];

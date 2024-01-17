@@ -31,14 +31,12 @@ const initialState: CalculateItem = {
 export const calculateItem = createAsyncThunk(
   "calculate/calculateItem",
   async (
-    {
-      itemCredentials
-    }: { itemCredentials: object },
+    { itemCredentials }: { itemCredentials: object },
     { rejectWithValue }
   ) => {
     try {
       const response = await axios.post(
-        "http://192.168.10.210:8081/SMS/order/calculateItem",
+        "https://sms-production-f94f.up.railway.app/SMS/order/calculateItem",
         itemCredentials
       );
 

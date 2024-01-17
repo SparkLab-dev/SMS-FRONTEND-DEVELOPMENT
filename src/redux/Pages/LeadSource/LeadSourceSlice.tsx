@@ -68,7 +68,7 @@ export const addLead = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        "http://192.168.10.210:8081/SMS/lead",
+        "https://sms-production-f94f.up.railway.app/SMS/lead",
         leadSouceCredentials
       );
 
@@ -89,7 +89,9 @@ export const fetchLeads = createAsyncThunk<LeadRequestBody[]>(
   "leads/getAllLeads",
   async () => {
     try {
-      const response = await axios.get("http://192.168.10.210:8081/SMS/lead");
+      const response = await axios.get(
+        "https://sms-production-f94f.up.railway.app/SMS/lead"
+      );
       console.log(response);
       return response.data;
     } catch (error) {
@@ -105,7 +107,7 @@ export const fetchLeadSource = createAsyncThunk<LeadRequestBody[]>(
   async () => {
     try {
       const response = await axios.get(
-        "http://192.168.10.210:8081/SMS/leadSource"
+        "https://sms-production-f94f.up.railway.app/SMS/leadSource"
       );
       console.log(response);
       return response.data;
@@ -122,7 +124,7 @@ export const fetchLeadStatus = createAsyncThunk<LeadRequestBody[]>(
   async () => {
     try {
       const response = await axios.get(
-        "http://192.168.10.210:8081/SMS/leadStatus"
+        "https://sms-production-f94f.up.railway.app/SMS/leadStatus"
       );
       console.log(response);
       return response.data;
@@ -139,7 +141,7 @@ export const fetchLeadById = createAsyncThunk(
   async (leadId: number) => {
     try {
       const response = await axios.get(
-        `http://192.168.10.210:8081/SMS/lead/${leadId}`
+        `https://sms-production-f94f.up.railway.app/SMS/lead/${leadId}`
       );
       console.log("Response from API:", response.data);
       return [response.data];
@@ -156,7 +158,7 @@ export const deleteLead = createAsyncThunk(
   async (leadId: number) => {
     try {
       const response = await axios.delete(
-        `http://192.168.10.210:8081/SMS/lead/${leadId}`
+        `https://sms-production-f94f.up.railway.app/SMS/lead/${leadId}`
       );
       console.log(response);
       return response.data;

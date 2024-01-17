@@ -43,7 +43,7 @@ export const vendorForm = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        "http://192.168.10.210:8081/SMS/vendor",
+        "https://sms-production-f94f.up.railway.app/SMS/vendor",
         vendorCredentials
       );
 
@@ -61,13 +61,14 @@ export const vendorForm = createAsyncThunk(
   }
 );
 
-
 //get vendors api
 export const fetchVendors = createAsyncThunk<Vendor[]>(
   "vendors/getVendors",
   async () => {
     try {
-      const response = await axios.get("http://192.168.10.210:8081/SMS/vendor");
+      const response = await axios.get(
+        "https://sms-production-f94f.up.railway.app/SMS/vendor"
+      );
       console.log("vendors", response);
       return response.data;
     } catch (error) {
@@ -85,7 +86,7 @@ export const fetchVendorsById = createAsyncThunk<
 >("vendorById/getVendorById", async ({ vendorId }) => {
   try {
     const response = await axios.get(
-      `http://192.168.10.210:8081/SMS/vendor/${vendorId}`
+      `https://sms-production-f94f.up.railway.app/SMS/vendor/${vendorId}`
     );
     console.log("vendors by id", response);
     return [response.data];
@@ -101,7 +102,7 @@ export const deleteVendor = createAsyncThunk<Vendor[], number>(
   async (vendorId: number) => {
     try {
       const response = await axios.delete(
-        `http://192.168.10.210:8081/SMS/vendor/${vendorId}`
+        `https://sms-production-f94f.up.railway.app/SMS/vendor/${vendorId}`
       );
       console.log(response);
       console.log(vendorId);

@@ -65,7 +65,7 @@ export const addContact = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        "http://192.168.10.210:8081/SMS/contact",
+        "https://sms-production-f94f.up.railway.app/SMS/contact",
         contactCredentials
       );
 
@@ -87,7 +87,7 @@ export const fetchContacts = createAsyncThunk<ContactProps[]>(
   async () => {
     try {
       const response = await axios.get(
-        "http://192.168.10.210:8081/SMS/contact"
+        "https://sms-production-f94f.up.railway.app/SMS/contact"
       );
       console.log(response);
       return response.data;
@@ -104,7 +104,7 @@ export const getLeadSource = createAsyncThunk<ContactProps[]>(
   async () => {
     try {
       const response = await axios.get(
-        "http://192.168.10.210:8081/SMS/leadSource"
+        "https://sms-production-f94f.up.railway.app/SMS/leadSource"
       );
       console.log(response);
       return response.data;
@@ -121,7 +121,7 @@ export const fetchContactById = createAsyncThunk(
   async (contactId: number) => {
     try {
       const response = await axios.get(
-        `http://192.168.10.210:8081/SMS/contact/${contactId}`
+        `https://sms-production-f94f.up.railway.app/SMS/contact/${contactId}`
       );
       console.log("Response from API:", response.data);
       return [response.data];
@@ -138,7 +138,7 @@ export const deleteContact = createAsyncThunk(
   async (contactId: number) => {
     try {
       const response = await axios.delete(
-        `http://192.168.10.210:8081/SMS/contact/${contactId}`
+        `https://sms-production-f94f.up.railway.app/SMS/contact/${contactId}`
       );
       console.log(response);
       return response.data;

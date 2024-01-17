@@ -27,7 +27,7 @@ export const createCategory = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        "http://192.168.10.210:8081/SMS/productcategory",
+        "https://sms-production-f94f.up.railway.app/SMS/productcategory",
         categoryCredentials
       );
 
@@ -53,7 +53,7 @@ export const fetchCategories = createAsyncThunk<Category[]>(
   async () => {
     try {
       const response = await axios.get(
-        "http://192.168.10.210:8081/SMS/productcategory"
+        "https://sms-production-f94f.up.railway.app/SMS/productcategory"
       );
       console.log(response);
       return response.data;
@@ -70,7 +70,7 @@ export const deleteCategory = createAsyncThunk<Category[], number>(
   async (categoryId: number) => {
     try {
       const response = await axios.delete(
-        `http://192.168.10.210:8081/SMS/productcategory/${categoryId}`
+        `https://sms-production-f94f.up.railway.app/SMS/productcategory/${categoryId}`
       );
       console.log(response);
       console.log(categoryId);

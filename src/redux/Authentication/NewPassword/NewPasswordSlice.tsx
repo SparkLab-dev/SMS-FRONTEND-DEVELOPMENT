@@ -29,7 +29,7 @@ export const newPassword = createAsyncThunk(
       const token = pathnameParts[pathnameParts.length - 1];
 
       const response = await axios.post(
-        `http://192.168.10.210:8081/SMS/savepassword/${token}`,
+        `https://sms-production-f94f.up.railway.app/SMS/savepassword/${token}`,
 
         newPassword
       );
