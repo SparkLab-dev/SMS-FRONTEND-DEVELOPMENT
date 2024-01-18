@@ -33,7 +33,7 @@ export const ContactTable = styled.table`
 `;
 
 export const ContactsTableHead = styled.thead`
-  background-color: #cfdeff;
+  background-color: #00646621;
   font-family: "Poppins";
   white-space: nowrap;
   position: sticky;
@@ -43,7 +43,7 @@ export const ContactsTableHead = styled.thead`
 
 export const ContactsTableRow = styled.tr`
   &:nth-child(even) {
-    background-color: #cfdeffa1;
+    background-color: #3746673b;
   }
 `;
 
@@ -80,7 +80,7 @@ export const ContactsIconLink = styled(Link)`
 export const ContactsH2 = styled.h2`
   font-size: 30px;
   font-family: "Poppins";
-  color: #0e53c5;
+  color: #006466;
 `;
 export const AddNewProductContactsButton = styled.div`
   height: fit-content;

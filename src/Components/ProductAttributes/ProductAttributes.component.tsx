@@ -247,9 +247,9 @@ const ProductAttributes: FC<{}> = () => {
                         }
                       >
                         <DeleteIcon
-                          color="primary"
                           style={{
                             fontSize: "30px",
+                            color: "#006466",
                           }}
                         />
                       </DeleteIconInAttributesHold>

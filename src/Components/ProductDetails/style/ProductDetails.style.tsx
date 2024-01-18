@@ -43,8 +43,8 @@ export const EditProductButton = styled.div`
   align-items: center;
   justify-content: space-evenly;
   border-radius: 10px;
-  background-color: #0e53c5;
-  border: 1px solid #0e53c5;
+  background-color: #006466;
+  border: 1px solid #006466;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
@@ -149,19 +149,19 @@ export const ProductImageHolder = styled.img`
 `;
 export const EditProductTableName = styled.p`
   font-family: "Poppins";
-  color: #0e53c5;
+  color: #006466;
   font-size: 30px;
 `;
 export const ButtonsHolder = styled.div`
   display: flex;
 `;
 export const EditButtonContainer = styled.div`
-  background: #1976d2;
+  background: #006466;
   font-size: 16px;
   font-family: "Poppins";
   padding: 10px 10px;
   border-radius: 10px;
-  border: 1px solid #323fb6;
+  border: 1px solid #006466;
   text-transform: capitalize;
   font-weight: 600;
   display: flex;
@@ -176,9 +176,9 @@ export const EditButtonContainer = styled.div`
   justify-content: center;
   margin-top: 7px;
   &:hover {
-    background: #cfdeff;
+    background: #00646642;
     border-radius: 10px;
-    color: #0e53c5;
+    color: #006466;
     border: 1px solid transparent;
   }
   &:disabled {

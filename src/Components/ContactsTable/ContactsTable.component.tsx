@@ -130,10 +130,9 @@ const ContactsTable: FC<{}> = () => {
                   </ContactsTableCell>
                   <ContactsTableCell>
                     <ForwardIcon
-                      color="primary"
                       fontSize="large"
                       onClick={() => handleGoToLinkClick(contacts)}
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: "pointer", color: "#006466" }}
                     />
                   </ContactsTableCell>
                 </ContactsTableRow>

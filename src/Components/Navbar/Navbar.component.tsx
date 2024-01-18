@@ -47,34 +47,35 @@ const Navbar: FC<NavbarProps> = ({ toggleSidebar }) => {
 
   return (
     <Header>
-   
-          <div style={{ display: "flex", cursor: "pointer" }}>
-          {isLoggedIn ? (
-            <MenuIcon
-              onClick={toggleSidebar}
-              fontSize="large"
-              style={{ marginTop: "2px", paddingLeft: "10px" }}
-            />):("")}
-            <NavbarLogo>
-              <StoreIcon
-                style={{
-                  marginTop: "2px",
-                  paddingLeft: "10px",
-                  color: "#0e53c5",
-                }}
-                fontSize="large"
-              />
-              <LogoName>SMS</LogoName>
-            </NavbarLogo>
-          </div>
-          <NavLoginCart>
-            {isLoggedIn ? (
-              <LogoutButton onClick={handleLogout}>Log out</LogoutButton>
-            ) : (
-              <LogoutButton onClick={handleLogin}>Log in</LogoutButton>
-            )}
-          </NavLoginCart>
-  
+      <div style={{ display: "flex", cursor: "pointer" }}>
+        {isLoggedIn ? (
+          <MenuIcon
+            onClick={toggleSidebar}
+            fontSize="large"
+            style={{ marginTop: "2px", paddingLeft: "10px" }}
+          />
+        ) : (
+          ""
+        )}
+        <NavbarLogo>
+          <StoreIcon
+            style={{
+              marginTop: "2px",
+              paddingLeft: "10px",
+              color: "#006466",
+            }}
+            fontSize="large"
+          />
+          <LogoName>SMS</LogoName>
+        </NavbarLogo>
+      </div>
+      <NavLoginCart>
+        {isLoggedIn ? (
+          <LogoutButton onClick={handleLogout}>Log out</LogoutButton>
+        ) : (
+          <LogoutButton onClick={handleLogin}>Log in</LogoutButton>
+        )}
+      </NavLoginCart>
     </Header>
   );
 };

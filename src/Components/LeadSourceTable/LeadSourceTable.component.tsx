@@ -159,10 +159,9 @@ const LeadSourceTable: FC<{}> = () => {
 
                   <LeadSourceTableCell>
                     <ForwardIcon
-                      color="primary"
                       fontSize="large"
                       onClick={() => handleGoToLinkClick(leadSource)}
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: "pointer", color: "#006466" }}
                     />
                   </LeadSourceTableCell>
                 </LeadSourceTableRow>

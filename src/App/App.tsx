@@ -84,7 +84,7 @@ const App: FC<{}> = () => {
             <Route path="/userProfile" element={<UserProfile />} />
             <Route path="/createCategory" element={<CreateCategory />} />
             <Route path="/getCategory" element={<GetCategories />} />
-            <Route path="/adminNotification" element={<AdminNotifications />} />
+            <Route path="/notification" element={<AdminNotifications />} />
             <Route
               path="/adminMessage/:id"
               element={<AdminMessageNotification />}

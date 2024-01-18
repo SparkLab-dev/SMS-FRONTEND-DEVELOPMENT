@@ -25,7 +25,6 @@ import SourceIcon from "@mui/icons-material/Source";
 //redux
 import { RootState } from "redux/store";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -33,7 +32,6 @@ interface SidebarProps {
 }
 
 const SideBar: FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
-
   useEffect(() => {
     closeSidebar();
   }, []);
@@ -87,7 +85,7 @@ const SideBar: FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
                           <SidebarSpan id="hoverIcon">Home</SidebarSpan>
                         </CenterLi>
                       </SidebarLink>
-                      <SidebarLink to="/adminNotification">
+                      <SidebarLink to="/notification">
                         <CenterLi>
                           <CircleNotificationsIcon className="icon" />
                           <SidebarSpan id="hoverIcon">Notification</SidebarSpan>
@@ -103,6 +101,12 @@ const SideBar: FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
                   )}
                   {userRole === "EMPLOYEE" && (
                     <>
+                      <SidebarLink to="/notification">
+                        <CenterLi>
+                          <CircleNotificationsIcon className="icon" />
+                          <SidebarSpan id="hoverIcon">Notification</SidebarSpan>
+                        </CenterLi>
+                      </SidebarLink>
                       <SidebarLink to="/orderTable">
                         <CenterLi>
                           <ReorderIcon className="icon" />

@@ -127,11 +127,11 @@ export const OrderEditButton = styled.button`
 export const EditOrderIconMui = styled(EditIcon)`
   cursor: pointer;
   padding: 4px;
-  color: #1976d2;
+  color: #006466;
 `;
 export const EditOrderTableName = styled.p`
   font-family: "Poppins";
-  color: #0e53c5;
+  color: #006466;
   font-size: 27px;
   margin: 10px 0;
 `;

@@ -6,7 +6,7 @@ interface OptionProps {
 }
 export const ProductsTableHolder = styled.div`
   width: 100%;
-  height: 700px;
+  height: 650px;
 `;
 export const DropdownOfProductCategory = styled.div`
   margin: 10px auto;
@@ -44,7 +44,7 @@ export const Table = styled.table`
 `;
 
 export const TableHead = styled.thead`
-  background-color: #cfdeff;
+  background-color: #00646621;
   font-family: "Poppins";
   white-space: nowrap;
   position: sticky;
@@ -54,7 +54,7 @@ export const TableHead = styled.thead`
 
 export const TableRow = styled.tr`
   &:nth-child(even) {
-    background-color: #cfdeffa1;
+    background-color: #00646621;
   }
 `;
 
@@ -77,7 +77,7 @@ export const IconLink = styled(Link)`
 export const H2 = styled.h2`
   font-size: 30px;
   font-family: "Poppins";
-  color: #0e53c5;
+  color: #006466;
 `;
 export const AddNewProductButton = styled.div`
   height: fit-content;

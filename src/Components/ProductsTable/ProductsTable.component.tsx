@@ -153,7 +153,7 @@ const ProductsTable: FC<{}> = () => {
                   <TH>Name</TH>
                   <TH>Barcode</TH>
                   <TH>Stock Quantity</TH>
-                  <TH>THresHold</TH>
+                  <TH>ThresHold</TH>
                   <TH>Product Category</TH>
                   <TH>Price</TH>
                   <TH>Attribute Name</TH>
@@ -193,10 +193,9 @@ const ProductsTable: FC<{}> = () => {
                     </TableCell>
                     <TableCell>
                       <ForwardIcon
-                        color="primary"
                         fontSize="large"
                         onClick={() => handleGoToLinkClick(rental)}
-                        style={{ cursor: "pointer" }}
+                        style={{ cursor: "pointer", color: "#006466" }}
                       />
                     </TableCell>
                   </TableRow>

@@ -6,12 +6,13 @@ export const ButtonHolder = styled.div`
   margin: auto;
 `;
 export const ButtonCont = styled.button`
-  background: #0e53c5;
+  /* background: #3F68D4ff; */
+  background: #006466;
   font-size: 16px;
   font-family: "Poppins";
   padding: 15px 0px;
   border-radius: 10px;
-  border: 1px solid #323fb6;
+  border: 1px solid #006466;
   text-transform: capitalize;
   font-weight: 600;
   display: flex;
@@ -23,9 +24,9 @@ export const ButtonCont = styled.button`
   justify-content: center;
   margin-top: 32px;
   &:hover {
-    background: #cfdeff;
+    background: #00646642;
     border-radius: 10px;
-    color: #0e53c5;
+    color: #006466;
     border: 1px solid transparent;
   }
   &:disabled {

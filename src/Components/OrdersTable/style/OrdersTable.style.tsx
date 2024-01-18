@@ -7,7 +7,7 @@ export const OrdersTableHead = styled.th``;
 export const OrderH2 = styled.h2`
   font-size: 30px;
   font-family: "Poppins";
-  color: #0e53c5;
+  color: #006466;
 `;
 export const AddNewOrderButton = styled.div`
   height: fit-content;

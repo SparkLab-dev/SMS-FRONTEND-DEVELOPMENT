@@ -144,13 +144,14 @@ const VendorsTable: FC<{}> = () => {
                     to=""
                     onClick={() => handleDeleteVendor(vendor.id)}
                   >
-                    <DeleteIcon color="primary" style={{ fontSize: "30px" }} />
+                    <DeleteIcon
+                      style={{ fontSize: "30px", color: "#006466" }}
+                    />
                   </VendorIconLink>
                   <ForwardIcon
-                    color="primary"
                     fontSize="large"
                     onClick={() => handleGoToLinkClick(vendor)}
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer", color: "#006466" }}
                   />
                 </VendorTableCell>
               </VendorTableRow>

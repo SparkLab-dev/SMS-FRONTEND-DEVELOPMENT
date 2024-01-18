@@ -297,7 +297,7 @@ const ContactDetails: FC<{}> = () => {
                           <EditIcon
                             onClick={() => handleEdit(contacts)}
                             style={{
-                              color: "#1976d2",
+                              color: "#006466",
                               fontSize: "25px",
                               cursor: "pointer",
                             }}
@@ -306,7 +306,7 @@ const ContactDetails: FC<{}> = () => {
                           </EditIcon>
                           <DeleteIcon
                             style={{
-                              color: "#1976d2",
+                              color: "#006466",
                               fontSize: "25px",
                               cursor: "pointer",
                             }}

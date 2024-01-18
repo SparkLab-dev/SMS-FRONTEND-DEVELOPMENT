@@ -366,16 +366,6 @@ const ProductForm: FC<LogoProps> = () => {
           name="Add new attributes"
           onClick={(e: any) => handleAttributeAddition(e)}
         />
-        {/* <div>
-            <h3>Attributes for {productName}</h3>
-            <ul>
-              {productAttributes.map((attr, index) => (
-                <li key={index}>
-                  {attr.attributeName}: {attr.attributeValue}
-                </li>
-              ))}
-            </ul>
-          </div> */}
         <InputsTableFormContainer>
           <GenericInputHold>
             <LabelDescriptionContainer>

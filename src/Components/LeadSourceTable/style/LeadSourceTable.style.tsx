@@ -33,7 +33,7 @@ export const LeadsourceTable = styled.table`
 `;
 
 export const LeadSourceTableHead = styled.thead`
-  background-color: #cfdeff;
+  background-color: #00646621;
   font-family: "Poppins";
   white-space: nowrap;
   position: sticky;
@@ -43,7 +43,7 @@ export const LeadSourceTableHead = styled.thead`
 
 export const LeadSourceTableRow = styled.tr`
   &:nth-child(even) {
-    background-color: #cfdeffa1;
+    background-color: #00646621;
   }
 `;
 
@@ -80,7 +80,7 @@ export const LeadSourceIconLink = styled(Link)`
 export const LeadSourceH2 = styled.h2`
   font-size: 30px;
   font-family: "Poppins";
-  color: #0e53c5;
+  color: #006466;
 `;
 export const AddNewLeadSourceButton = styled.div`
   height: fit-content;

@@ -49,7 +49,7 @@ export const CenterLi = styled.li`
   cursor: pointer;
 
   &:hover {
-    background-color: #cfdeff;
+    background-color: #00646642;
     border-radius: 10px;
   }
 

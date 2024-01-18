@@ -22,8 +22,8 @@ export const EditButton = styled.button`
   align-items: center;
   justify-content: space-evenly;
   border-radius: 10px;
-  background-color: #0e53c5;
-  border: 1px solid #0e53c5;
+  background-color: #006466;
+  border: 1px solid #006466;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
@@ -111,7 +111,7 @@ export const HorizontalLine = styled.p`
 export const PopupName = styled.h2`
   font-size: 30px;
   font-family: "Poppins";
-  color: #0e53c5;
+  color: #006466;
 `;
 export const PopupInputsContainer = styled.div`
   display: flex;

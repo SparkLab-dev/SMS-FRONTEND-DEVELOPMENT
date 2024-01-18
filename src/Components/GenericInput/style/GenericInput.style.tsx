@@ -32,7 +32,9 @@ export const InputContainer = styled.input`
   width: 100%;
   height: 53px;
   background: #ffffff;
-  border: 1.5px solid #cfdeff;
+  box-shadow: 0px 4px 16px rgba(209, 209, 214, 1.5);
+  /* border: 1.5px solid #cfdeff; */
+  border: none;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 400;

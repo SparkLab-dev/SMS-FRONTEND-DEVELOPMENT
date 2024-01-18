@@ -133,10 +133,9 @@ const AccountB2CTable: FC<{}> = () => {
                       <TableCell>{accountItem.description}</TableCell>
                       <TableCell>
                         <ForwardIcon
-                          color="primary"
                           fontSize="large"
                           onClick={() => handleGoToOrderLinkClick(accountItem)}
-                          style={{ cursor: "pointer" }}
+                          style={{ cursor: "pointer", color: "#006466" }}
                         />
                       </TableCell>
                     </TableRow>

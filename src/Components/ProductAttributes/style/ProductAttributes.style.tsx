@@ -78,11 +78,11 @@ export const EditButton = styled.button`
 export const EditIconMui = styled(EditIcon)`
   cursor: pointer;
   padding: 4px;
-  color: #1976d2;
+  color: #006466;
 `;
 export const EditAttributeTableName = styled.p`
   font-family: "Poppins";
-  color: #0e53c5;
+  color: #006466;
   font-size: 27px;
   margin: 10px 0;
 `;

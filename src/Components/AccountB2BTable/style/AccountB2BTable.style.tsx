@@ -22,7 +22,7 @@ export const AccountButtonName = styled.p`
   margin: 5px;
 `;
 export const PopupName = styled.p`
-  color: #323fb6;
+  color: #006466;
   font-size: 25px;
   font-family: "Poppins";
 `;

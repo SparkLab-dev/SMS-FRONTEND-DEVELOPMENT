@@ -13,7 +13,7 @@ export const Page = styled.div`
   align-items: center;
   justify-content: center;
   /* background: #e5e5e5; */
-  background-color: white;
+  background-color: #0064660a;
 `;
 
 //generic dropdown
@@ -52,7 +52,7 @@ export const StyledSelect = styled.select<dropdownProps>`
   font-weight: ${(props: any) => props.fontWeight || "400"};
   outline: none;
   box-sizing: border-box;
-  border: ${(props: any) => props.border || "1.5px solid #cfdeff"};
+  border: ${(props: any) => props.border || "none"};
   width: ${(props: any) => props.width || "100%"};
   height: ${(props: any) => props.height || "53px"};
   background: ${(props: any) => props.backgroundcolor || "#FFFFFF"};
@@ -62,6 +62,9 @@ export const StyledSelect = styled.select<dropdownProps>`
   padding: ${(props: any) => props.padding || "10px"};
   margin: ${(props: any) => props.margin};
   margin-top: ${(props: any) => props.marginTop};
+  background: #ffffff;
+  box-shadow: 0px 4px 16px rgba(209, 209, 214, 1.5);
+  border: none;
 `;
 export const LabelDescriptionContainer = styled.div`
   font-family: "Poppins";
@@ -83,8 +86,11 @@ interface FormProps {
 }
 export const StyledForm = styled.form<FormProps>`
   width: 100%;
-  max-width: 650px;
+  max-width: 450px;
   margin: auto;
+  /* box-shadow: 3px 3px 15px 5px rgba(0, 0, 0, 0.04);
+  border-radius: 30px;
+  padding: 10px 20px; */
 `;
 
 export const FormName = styled.h1`
@@ -92,18 +98,25 @@ export const FormName = styled.h1`
   text-align: center;
   font-style: normal;
   font-weight: 600;
-  font-size: 40px;
+  font-size: 55px;
   line-height: 70px;
   color: #43546f;
+  @media screen and (max-width: 1000px) {
+    font-size: 50px;
+  }
 `;
 
 //Link
 export const LinkTo = styled(Link)`
   text-decoration: none;
-  color: black;
-  font-weight: bold;
+  color: #444444;
+  font-weight: 600;
   font-size: 15px;
   font-family: "Poopins";
+  padding-left: 4px;
+  :hover {
+    font-weight: bold;
+  }
 `;
 
 //button

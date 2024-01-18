@@ -4,8 +4,15 @@ import { useNavigate } from "react-router";
 //style
 import { FormName, LinkTo, StyledForm } from "App/style/App.style";
 import {
+  Arrow,
   DontHaveAccountHold,
+  ImgArrow,
+  ImgContainer,
+  ImgLogo,
   InputsHolder,
+  LoginContainer,
+  LoginFormContainer,
+  Logo,
   Paragraph,
 } from "./style/Login.style";
 
@@ -23,6 +30,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserLogin } from "redux/Authentication/Login/LoginSlice";
 
 const Login: FC<{}> = () => {
+  const Banner = require("./assets/images/top-left-arrow.png") as string;
+  const Store = require("./assets/images/store.png") as string;
+
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -69,7 +79,7 @@ const Login: FC<{}> = () => {
             } else if (userRole === "CUSTOMER") {
               navigate("/home");
             } else if (userRole === "EMPLOYEE") {
-              navigate("/orderTable");
+              navigate("/notification");
             }
             console.log("Login successful!");
           } else if (UserLogin.rejected.match(resultAction)) {
@@ -87,52 +97,63 @@ const Login: FC<{}> = () => {
     setTypePassword(!typePassword);
   };
   return (
-    <>
-      <StyledForm>
-        <FormName>Log in</FormName>
-        <InputsHolder>
-          <GenericInput
-            placeholder="Email"
-            input_label="Email"
-            required={true}
-            type="text"
-            value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setEmail(e.target.value)
-            }
-          />
-          <GenericInput
-            placeholder="Password"
-            input_label="Password"
-            required={true}
-            type={typePassword ? "password" : "text"}
-            onClickIcon={changeIcon}
-            isPassword={true}
-            passwordIcon={
-              typePassword ? <VisibilityOffIcon /> : <VisibilityIcon />
-            }
-            value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
-          />
-        </InputsHolder>
-
-        <GenericButton name="Submit" onClick={handleLoginClick} />
-        <DontHaveAccountHold>
-          <Paragraph>Dont't have an account?</Paragraph>
-          <LinkTo to="/register">
-            <Paragraph>Click here!</Paragraph>
-          </LinkTo>
-        </DontHaveAccountHold>
-        <DontHaveAccountHold>
+    <LoginContainer>
+      <LoginFormContainer>
+        <Arrow>
+          <ImgArrow alt="logo" src={Banner} />
+        </Arrow>
+        <StyledForm>
+          <FormName>Log in</FormName>
+          <InputsHolder>
+            <GenericInput
+              placeholder="E-mail"
+              input_label="E-mail"
+              required={true}
+              type="text"
+              value={email}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setEmail(e.target.value)
+              }
+            />
+            <GenericInput
+              placeholder="Password"
+              input_label="Password"
+              required={true}
+              type={typePassword ? "password" : "text"}
+              onClickIcon={changeIcon}
+              isPassword={true}
+              passwordIcon={
+                typePassword ? <VisibilityOffIcon /> : <VisibilityIcon />
+              }
+              value={password}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPassword(e.target.value)
+              }
+            />
+          </InputsHolder>
+          <div style={{ margin: "12px" }}>
+            <GenericButton name="Submit" onClick={handleLoginClick} />
+          </div>
+          <DontHaveAccountHold>
+            <Paragraph>Dont't have an account?</Paragraph>
+            <LinkTo to="/register">
+              <Paragraph>Click here!</Paragraph>
+            </LinkTo>
+          </DontHaveAccountHold>
+          {/* <DontHaveAccountHold>
           <Paragraph>Forgot password?</Paragraph>
           <LinkTo to="/forgotpassword">
             <Paragraph>Click here!</Paragraph>
           </LinkTo>
-        </DontHaveAccountHold>
-      </StyledForm>
-    </>
+        </DontHaveAccountHold> */}
+        </StyledForm>
+      </LoginFormContainer>
+      <ImgContainer>
+        <Logo>
+          <ImgLogo alt="logo" src={Store} />
+        </Logo>
+      </ImgContainer>
+    </LoginContainer>
   );
 };
 

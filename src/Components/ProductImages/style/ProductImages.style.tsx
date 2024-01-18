@@ -51,12 +51,12 @@ export const ImageDeleteIconHolder = styled.div`
   cursor: pointer;
 `;
 export const UploadImageButton = styled.button`
-   display: flex;
+  display: flex;
   align-items: center;
   justify-content: space-evenly;
   border-radius: 10px;
-  background-color: #0e53c5;
-  border: 1px solid #0e53c5;
+  background-color: #006466;
+  border: 1px solid #006466;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 400;

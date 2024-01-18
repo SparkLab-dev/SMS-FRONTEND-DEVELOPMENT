@@ -257,9 +257,9 @@ const ProductImages: FC<{}> = () => {
                       onClick={() => handleDeleteProductImage(image.id)}
                     >
                       <DeleteIcon
-                        color="primary"
                         style={{
                           fontSize: "30px",
+                          color: "#006466",
                         }}
                       />
                     </ImageDeleteIconHolder>

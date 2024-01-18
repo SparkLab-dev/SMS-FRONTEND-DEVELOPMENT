@@ -72,7 +72,7 @@ const ProductsOfOrder: FC<{}> = () => {
   //get order api
   useEffect(() => {
     let isMounted = true;
-  
+
     const fetchDetails = async () => {
       if (orderID && isMounted) {
         try {
@@ -91,15 +91,13 @@ const ProductsOfOrder: FC<{}> = () => {
         }
       }
     };
-  
+
     fetchDetails();
-  
+
     return () => {
       isMounted = false;
     };
-  
   }, [dispatch, orderID]);
-  
 
   //upload button click
   const handleUpload = () => {
@@ -337,9 +335,9 @@ const ProductsOfOrder: FC<{}> = () => {
                       <EditIconMui onClick={() => handleEdit(item, index)} />
                       <DeleteIconInAttributesHold>
                         <DeleteIcon
-                          color="primary"
                           style={{
                             fontSize: "30px",
+                            color: "#006466",
                           }}
                           onClick={() => handleDeleteProductOfOrder(item.id)}
                         />

@@ -126,10 +126,9 @@ const OrdersTable: FC<{}> = () => {
                     <TableCell>${order?.totalAmount}</TableCell>
                     <TableCell>
                       <ForwardIcon
-                        color="primary"
                         fontSize="large"
                         onClick={() => handleGoToOrderLinkClick(order)}
-                        style={{ cursor: "pointer" }}
+                        style={{ cursor: "pointer", color: "#006466" }}
                       />
                     </TableCell>
                   </TableRow>

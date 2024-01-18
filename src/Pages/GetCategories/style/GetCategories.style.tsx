@@ -2,14 +2,14 @@ import styled from "styled-components";
 
 export const CategoriesTableHolder = styled.div`
   width: 100%;
-  height: 700px;
+  height: 650px;
 `;
 export const CategoryTableAndModalHolder = styled.div`
   width: 100%;
 `;
 export const CategoryTableContainer = styled.div`
   width: 100%;
-  height: 700px;
+  height: 650px;
   justify-content: center;
   align-items: center;
   margin: auto;
@@ -25,6 +25,9 @@ export const CategoryTableContainer = styled.div`
   border-radius: 4px;
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  @media screen and (max-width: 758px) {
+    height: 460px;
+  }
 `;
 
 export const CategoryTable = styled.table`
@@ -33,7 +36,7 @@ export const CategoryTable = styled.table`
 `;
 
 export const TableHeadOfCategory = styled.thead`
-  background-color: #cfdeff;
+  background-color: #00646621;
   position: sticky;
   font-family: "Poppins";
   white-space: nowrap;
@@ -97,7 +100,7 @@ export const AddCategoryNameContainerPlusIcon = styled.div`
 export const CategoryButtonName = styled.p`
   margin: 5px;
 `;
-export const InputsOfCategoriesPopup=styled.div``
+export const InputsOfCategoriesPopup = styled.div``;
 export const CategoryInputHolder = styled.div`
   flex: 1;
   margin: 5px;

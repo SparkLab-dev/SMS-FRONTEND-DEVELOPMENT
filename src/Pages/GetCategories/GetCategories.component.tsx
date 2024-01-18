@@ -41,7 +41,6 @@ import UploadPhoto from "Components/UploadPhoto/UploadPhoto.component";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-
 const GetCategories: FC<{}> = (props) => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState<Category[]>([]);
@@ -116,7 +115,7 @@ const GetCategories: FC<{}> = (props) => {
         const updatedItem = { ...selectedItem };
         console.log("updatedItem", updatedItem); // Create a copy of the selected item
         updatedItem.name = photoName; // Update the name
-        
+
         const updatedCategories = categories.map((category) =>
           category.id === selectedItem.id ? updatedItem : category
         );
@@ -197,10 +196,10 @@ const GetCategories: FC<{}> = (props) => {
                     </CategoryEditButton>
                     <div onClick={() => handleDeleteCategory(item.id)}>
                       <DeleteIcon
-                        color="primary"
                         style={{
                           fontSize: "30px",
                           cursor: "pointer",
+                          color: "#006466",
                         }}
                       />
                     </div>

@@ -262,7 +262,7 @@ const ProductDetails: FC<{}> = () => {
                         </EditButtonContainer>
                         <DeleteIcon
                           style={{
-                            color: "#1976d2",
+                            color: "#006466",
                             textAlign: "center",
                             fontSize: "30px",
                             marginTop: "10px",

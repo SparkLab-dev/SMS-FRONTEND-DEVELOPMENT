@@ -25,3 +25,17 @@ export const InputContainer = styled.div`
   flex: 1;
   margin: 5px;
 `;
+export const RegisterFormContainer = styled.div`
+  flex: 1;
+  margin: auto;
+  align-items: center;
+`;
+export const RegisterContainer = styled.div`
+  width: 100%;
+  display: flex;
+  min-height: 800px;
+  @media screen and (max-width: 550px) {
+    flex-direction: column-reverse;
+    min-height: 674px;
+  }
+`;

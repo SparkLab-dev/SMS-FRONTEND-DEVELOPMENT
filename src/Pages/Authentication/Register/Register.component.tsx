@@ -13,7 +13,9 @@ import {
   InputContainer,
   InputsHolder,
   RegParagraph,
+  RegisterContainer,
   RegisterDontHaveAccountHold,
+  RegisterFormContainer,
 } from "./style/Register.style";
 
 //components
@@ -22,12 +24,16 @@ import GenericButton from "Components/GenericButton/GenericButton.component";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "redux/store";
 import { registerUser } from "redux/Authentication/Register/RegisterSlice";
+import { ImgContainer, ImgLogo, Logo } from "../Login/style/Login.style";
 
 interface DropdownItem {
   id: string;
   name?: string;
 }
 const Register: FC<{}> = () => {
+  // const Banner = require("./assets/images/top-left-arrow.png") as string;
+  const Store = require("../Login/assets/images/store.png") as string;
+
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
@@ -56,7 +62,9 @@ const Register: FC<{}> = () => {
   //user role api call
   useEffect(() => {
     axios
-      .get<DropdownItem[]>("http://192.168.10.210:8081/SMS/role")
+      .get<DropdownItem[]>(
+        "https://sms-production-f94f.up.railway.app/SMS/role"
+      )
       .then((res) => {
         setRoles(res.data);
         console.log(res.data);
@@ -91,96 +99,103 @@ const Register: FC<{}> = () => {
     }
   };
   return (
-    <>
-      <StyledForm>
-        <FormName>Register</FormName>
-        <InputsHolder>
-          <InputContainer>
-            <GenericInput
-              placeholder="Firstname"
-              input_label="FirstName"
-              required={true}
-              type="text"
-              value={firstName}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setFirstName(e.target.value)
-              }
-            />
-          </InputContainer>
-          <InputContainer>
-            <GenericInput
-              placeholder="Lastname"
-              input_label="LastName"
-              required={true}
-              type="text"
-              value={lastName}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setLastName(e.target.value)
-              }
-            />
-          </InputContainer>
-        </InputsHolder>
-        <InputsHolder>
-          <InputContainer>
-            <GenericInput
-              placeholder="Email"
-              input_label="Email"
-              required={true}
-              type="text"
-              value={email}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setEmail(e.target.value);
-              }}
-            />
-          </InputContainer>
-          <InputContainer>
-            <GenericInput
-              placeholder="Username"
-              input_label="Username"
-              required={true}
-              type="text"
-              value={username}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setUsername(e.target.value);
-              }}
-            />
-          </InputContainer>
-        </InputsHolder>
+    <RegisterContainer>
+      <RegisterFormContainer>
+        <StyledForm>
+          <FormName>Register</FormName>
+          <InputsHolder>
+            <InputContainer>
+              <GenericInput
+                placeholder="Firstname"
+                input_label="FirstName"
+                required={true}
+                type="text"
+                value={firstName}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setFirstName(e.target.value)
+                }
+              />
+            </InputContainer>
+            <InputContainer>
+              <GenericInput
+                placeholder="Lastname"
+                input_label="LastName"
+                required={true}
+                type="text"
+                value={lastName}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setLastName(e.target.value)
+                }
+              />
+            </InputContainer>
+          </InputsHolder>
+          <InputsHolder>
+            <InputContainer>
+              <GenericInput
+                placeholder="Email"
+                input_label="Email"
+                required={true}
+                type="text"
+                value={email}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setEmail(e.target.value);
+                }}
+              />
+            </InputContainer>
+            <InputContainer>
+              <GenericInput
+                placeholder="Username"
+                input_label="Username"
+                required={true}
+                type="text"
+                value={username}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setUsername(e.target.value);
+                }}
+              />
+            </InputContainer>
+          </InputsHolder>
 
-        <InputContainer>
-          <LabelDescriptionContainer>Role</LabelDescriptionContainer>
-          <StyledSelect
-            value={selectedRole !== null ? selectedRole.toString() : ""}
-            onChange={(e: any) => setSelectedRole(Number(e.target.value))}
-          >
-            <option defaultValue="none">Select an Option</option>
-            {roles.map((role) => (
-              <option key={role.id} value={role.id}>
-                {role.name}
-              </option>
-            ))}
-          </StyledSelect>
-        </InputContainer>
-        <GenericButton
-          name="Submit"
-          onClick={handleRegisterClick}
-          disabled={
-            !(
-              selectedRole !== null &&
-              firstName !== "" &&
-              lastName !== "" &&
-              email !== ""
-            )
-          }
-        />
-        <RegisterDontHaveAccountHold>
-          <RegParagraph>Already have an account?</RegParagraph>
-          <LinkTo to="/login">
-            <RegParagraph>Login!</RegParagraph>
-          </LinkTo>
-        </RegisterDontHaveAccountHold>
-      </StyledForm>
-    </>
+          <InputContainer>
+            <LabelDescriptionContainer>Role</LabelDescriptionContainer>
+            <StyledSelect
+              value={selectedRole !== null ? selectedRole.toString() : ""}
+              onChange={(e: any) => setSelectedRole(Number(e.target.value))}
+            >
+              <option defaultValue="none">Select an Option</option>
+              {roles.map((role) => (
+                <option key={role.id} value={role.id}>
+                  {role.name}
+                </option>
+              ))}
+            </StyledSelect>
+          </InputContainer>
+          <GenericButton
+            name="Submit"
+            onClick={handleRegisterClick}
+            disabled={
+              !(
+                selectedRole !== null &&
+                firstName !== "" &&
+                lastName !== "" &&
+                email !== ""
+              )
+            }
+          />
+          <RegisterDontHaveAccountHold>
+            <RegParagraph>Already have an account?</RegParagraph>
+            <LinkTo to="/login">
+              <RegParagraph>Login!</RegParagraph>
+            </LinkTo>
+          </RegisterDontHaveAccountHold>
+        </StyledForm>
+      </RegisterFormContainer>
+      <ImgContainer>
+        <Logo>
+          <ImgLogo alt="logo" src={Store} />
+        </Logo>
+      </ImgContainer>
+    </RegisterContainer>
   );
 };
 

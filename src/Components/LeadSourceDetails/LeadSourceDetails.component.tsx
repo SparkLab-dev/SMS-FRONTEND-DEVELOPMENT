@@ -375,7 +375,7 @@ const LeadSourceDetails: FC<{}> = () => {
                           <EditIcon
                             onClick={() => handleEdit(leadDetails)}
                             style={{
-                              color: "#1976d2",
+                              color: "#006466",
                               fontSize: "25px",
                               cursor: "pointer",
                             }}
@@ -384,7 +384,7 @@ const LeadSourceDetails: FC<{}> = () => {
                           </EditIcon>
                           <DeleteIcon
                             style={{
-                              color: "#1976d2",
+                              color: "#006466",
                               fontSize: "25px",
                               cursor: "pointer",
                             }}

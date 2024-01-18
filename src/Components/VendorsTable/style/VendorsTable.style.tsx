@@ -33,7 +33,7 @@ export const VendorTable = styled.table`
 `;
 
 export const VendorTableHead = styled.thead`
-  background-color: #cfdeff;
+  background-color: #00646621;
   font-family: "Poppins";
   white-space: nowrap;
   position: sticky;
@@ -43,13 +43,11 @@ export const VendorTableHead = styled.thead`
 
 export const VendorTableRow = styled.tr`
   &:nth-child(even) {
-    background-color: #cfdeffa1;
+    background-color: #00646621;
   }
 `;
 
-export const VendorTH = styled.th`
-
-`;
+export const VendorTH = styled.th``;
 export const VedorTableBody = styled.tbody``;
 export const VendorTableCell = styled.td`
   border: 1px solid #3746673b;
@@ -82,7 +80,7 @@ export const VendorIconLink = styled(Link)`
 export const VendorH2 = styled.h2`
   font-size: 30px;
   font-family: "Poppins";
-  color: #0e53c5;
+  color: #006466;
 `;
 export const AddNewProductVendorButton = styled.div`
   height: fit-content;

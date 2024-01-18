@@ -278,7 +278,7 @@ const OrderDetailsComponent: FC<{}> = () => {
                       onClick={() => handleEdit(order)}
                       style={{
                         cursor: "pointer",
-                        color: "#0e53c5",
+                        color: "#006466",
                         fontSize: "25px",
                       }}
                     />
@@ -286,7 +286,7 @@ const OrderDetailsComponent: FC<{}> = () => {
                       onClick={() => handleDeleteOrder(order.id)}
                       style={{
                         cursor: "pointer",
-                        color: "#0e53c5",
+                        color: "#006466",
                         fontSize: "25px",
                       }}
                     />
